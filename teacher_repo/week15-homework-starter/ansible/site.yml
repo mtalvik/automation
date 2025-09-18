@@ -1,0 +1,41 @@
+---
+# ===========================================
+# WEEK 15 HOMEWORK - ANSIBLE VS PUPPET COMPARISON
+# ===========================================
+#
+# LEARNING OBJECTIVE: 
+# Extend basic infrastructure with SSL, virtual hosts, and database setup
+# Then compare Ansible vs Puppet implementation
+#
+# CURRENT STATUS: Basic installation only
+# YOUR TASK: Add SSL, HTTPS, virtual hosts, database setup
+# ===========================================
+
+- name: "Deploy basic web infrastructure"
+  hosts: localhost
+  connection: local
+  become: yes
+  
+  vars:
+    # Basic variables - YOU need to add more for SSL and DB
+    nginx_user: www-data
+    postgres_version: "14"
+    
+  roles:
+    - nginx        # Basic nginx installation (EXTEND with SSL)
+    - postgresql   # Basic postgresql installation (EXTEND with DB setup)
+    
+  post_tasks:
+    - name: "Show next steps"
+      debug:
+        msg: |
+          ⚠️  BASIC INFRASTRUCTURE DEPLOYED
+          
+          🔧 YOU NEED TO EXTEND WITH:
+          - SSL certificate generation for nginx
+          - HTTPS configuration 
+          - Virtual hosts setup
+          - PostgreSQL database and user creation
+          
+          📖 Check requirements.md for detailed instructions!
+          🎯 Goal: Same result with both Ansible and Puppet

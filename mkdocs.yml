@@ -1,0 +1,161 @@
+site_name: Automatiseerimise Kursus
+site_description: ITS-24 Täiskasvanute klass - Automatiseerimise tööriistad ja praktikad
+site_author: Maria Talvik
+site_url: https://your-username.github.io/automation-course
+
+# Repository
+repo_name: your-username/automation-course
+repo_url: https://github.com/your-username/automation-course
+edit_uri: edit/main/docs/
+
+# Theme
+theme:
+  name: material
+  language: et
+  features:
+  - navigation.tabs
+  - navigation.sections
+  - navigation.expand
+  - navigation.top
+  - search.suggest
+  - search.highlight
+  - content.code.copy
+  - content.code.annotate
+  palette:
+  - scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/toggle-switch
+      name: Vaheta teemat
+  - scheme: slate
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Vaheta teemat
+
+# Plugins
+plugins:
+- search
+- git-revision-date-localized:
+    enable_creation_date: true
+- minify:
+    minify_html: true
+
+# Extra CSS and JS
+extra_css:
+- stylesheets/extra.css
+
+extra_javascript:
+- javascripts/extra.js
+
+# Navigation
+nav:
+- Avaleht: index.md
+- Kursuse Ülevaade: curriculum.md
+- Moodulid:
+  - "Moodul 1: Git Versioonihaldus":
+    - Loeng: git_version_control/lecture.md
+    - Labor: git_version_control/lab.md
+    - Kodutöö: git_version_control/homework.md
+    - Lugemismaterjal: git_version_control/reading_materials.md
+    - Näited: git_version_control/examples/
+    - Viited: git_version_control/reference/
+  - "Moodul 2: Ansible Alused":
+    - Loeng: ansible_basics/lecture.md
+    - Labor: ansible_basics/lab.md
+    - Kodutöö: ansible_basics/homework.md
+    - Lugemismaterjal: ansible_basics/reading_materials.md
+  - "Moodul 3: Docker Alused":
+    - Loeng: docker_fundamentals/lecture.md
+    - Labor: docker_fundamentals/lab.md
+    - Kodutöö: docker_fundamentals/homework.md
+    - Lugemismaterjal: docker_fundamentals/reading_materials.md
+  - "Moodul 4: Docker Orkestratsioon":
+    - Loeng: docker_orchestration/lecture.md
+    - Labor: docker_orchestration/lab.md
+    - Kodutöö: docker_orchestration/homework.md
+    - Seadistamise juhend: docker_orchestration/kodu_masina_ehitus_juhend.md
+  - "Moodul 5: Ansible Edasijõudnud":
+    - Loeng: ansible_advanced/lecture.md
+    - Labor: ansible_advanced/lab.md
+    - Kodutöö: ansible_advanced/homework.md
+  - "Moodul 6: Ansible Rollid":
+    - Loeng: ansible_roles/lecture.md
+    - Labor: ansible_roles/lab.md
+    - Kodutöö: ansible_roles/homework.md
+  - "Moodul 7: Terraform Alused":
+    - Loeng: terraform_basics/lecture.md
+    - Labor: terraform_basics/lab.md
+    - Kodutöö: terraform_basics/homework.md
+    - AWS Ülesanne: terraform_basics/homework_aws_backup.md
+    - Lihtne Ülesanne: terraform_basics/homework_simple.md
+  - "Moodul 8: CI/CD + Kubernetes":
+    - Loeng: ci_cd_advanced/lecture.md
+    - Labor: ci_cd_advanced/lab.md
+    - Kodutöö: ci_cd_advanced/homework.md
+    - Kubernetes Ülevaade: kubernetes_overview/lecture.md
+- Ressursid:
+  - GitHub: https://github.com/your-username/automation-course
+  - Probleemide teate: https://github.com/your-username/automation-course/issues
+
+# Markdown extensions
+markdown_extensions:
+- abbr
+- admonition
+- attr_list
+- def_list
+- footnotes
+- md_in_html
+- toc:
+    permalink: true
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.betterem:
+    smart_enable: all
+- pymdownx.caret
+- pymdownx.details
+- pymdownx.emoji:
+    emoji_generator: material.extensions.emoji.to_svg
+    emoji_index: material.extensions.emoji.twemoji
+- pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.inlinehilite
+- pymdownx.keys
+- pymdownx.magiclink
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.snippets:
+    check_paths: true
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: pymdownx.superfences.fence_code_format
+- pymdownx.tabbed:
+    alternate_style: true
+    combine_header_slug: true
+    slugify: pymdownx.slugs.slugify
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde
+
+# Extra
+extra:
+  version:
+    provider: mike
+  social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/your-username/automation-course
+  - icon: fontawesome/brands/gitlab
+    link: https://gitlab.com/your-username/automation-course
+  analytics:
+    provider: google
+    property: GOOGLE_ANALYTICS_KEY
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well as to measure the effectiveness of our documentation and whether users find what they search for. With your consent, you're helping us to make our documentation better.
