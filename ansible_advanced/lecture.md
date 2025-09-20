@@ -1,11 +1,11 @@
-# 📚 Ansible Advanced: Edasijõudnud Funktsioonid
+# Ansible Advanced: Edasijõudnud Funktsioonid
 
 **Kestus:** 4 tundi  
 **Teemad:** Variables, Templates, Handlers, Vault
 
 ---
 
-## 🎯 Õpiväljundid
+## Õpiväljundid
 
 Pärast seda nädalat oskate:
 - Hallata keerukamaid muutujaid ja nende hierarhiat
@@ -16,7 +16,7 @@ Pärast seda nädalat oskate:
 
 ---
 
-## 📖 Loeng 13.1: Variables ja Variable Precedence (20 min)
+## Variables ja Variable Precedence
 
 ### Muutujate hierarhia
 
@@ -102,7 +102,7 @@ Salvestage käsu tulemusi:
 
 ---
 
-## 📖 Loeng 13.2: Jinja2 Templates (18 min)
+## Jinja2 Templates
 
 ### Template'ite põhitõed
 
@@ -199,7 +199,7 @@ config = {{ app_config | to_nice_json }}
 
 ---
 
-## 📖 Loeng 13.3: Handlers ja Notifications (15 min)
+## Handlers ja Notifications
 
 ### Handler'ite põhitõed
 
@@ -275,7 +275,7 @@ handlers:
 
 ---
 
-## 📖 Loeng 13.4: Ansible Vault Secrets (25 min)
+## Ansible Vault Secrets
 
 ### Vault'i põhitõed
 
@@ -411,7 +411,7 @@ ansible-vault rekey --new-vault-password-file new_password production-secrets.ym
 
 ---
 
-## 🧪 Lab: Template-based Configuration
+## Lab: Template-based Configuration
 
 Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
@@ -425,11 +425,11 @@ Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
 ---
 
-## Kokkuvõte: Week 13 Advanced Ansible
+## Kokkuvõte
 
 Selles nädalas õppisime:
 
-### 🎯 **Peamised teemad:**
+### Peamised teemad
 
 1. **Variables ja Precedence**
    - Muutujate hierarhia ja prioriteedid
@@ -455,7 +455,7 @@ Selles nädalas õppisime:
    - Multiple vault passwords
    - CI/CD integration strategies
 
-### 🔧 **Praktilised oskused:**
+### Praktilised oskused
 
 - Advanced playbook architecture
 - Production-ready template'ite loomine
@@ -463,7 +463,7 @@ Selles nädalas õppisime:
 - Multi-environment deployments
 - Professional project structure
 
-### 📚 **Järgmiseks nädalaks:**
+### Järgmiseks nädalaks
 
 Enne järgmist loengut (Ansible Roles ja Puppet):
 1. Lõpetage kodutöö - lihtne vault ja template'id projekt
@@ -471,6 +471,6 @@ Enne järgmist loengut (Ansible Roles ja Puppet):
 3. Tutvuge Puppet vs Ansible comparison'iga
 4. Mõelge, kuidas teete oma infrastruktuuri korduvkasutatavaks
 
-🎯 **Väljakutse:** Proovige rakendada siin õpitud template'e ja vault'i oma kodutöös!
+**Väljakutse:** Proovige rakendada siin õpitud template'e ja vault'i oma kodutöös!
 
 **Küsimused?** Küsige julgelt järgmisel loengul või kursuse chat'is!

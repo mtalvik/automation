@@ -1,4 +1,4 @@
-# 🚀 Automatiseerimise Kursus
+# Automatiseerimise Kursus
 
 **ITS-24 Täiskasvanute klass - 34 tundi, 8 moodulit**
 
@@ -7,11 +7,11 @@
 
 ---
 
-## 📚 Kursuse Ülevaade
+## Kursuse Ülevaade
 
 See kursus tutvustab kaasaegseid automatiseerimise tööriistu ja DevOps praktikaid. Õpite kasutama tööstuse standardeid ja parimaid praktikaid automatiseerimiseks.
 
-### 🎯 Mida õpite?
+### Mida õpite?
 
 - **Git** - Versioonihaldus ja meeskonnatöö
 - **Ansible** - Konfiguratsiooni haldamine
@@ -22,13 +22,13 @@ See kursus tutvustab kaasaegseid automatiseerimise tööriistu ja DevOps praktik
 
 ---
 
-## 🌐 Veebileht
+## Veebileht
 
 Kursuse materjalid on saadaval veebilehel: **[https://your-username.github.io/automation-course](https://your-username.github.io/automation-course)**
 
 ---
 
-## 📁 Struktuur
+## Struktuur
 
 ```
 automation-course/
@@ -49,7 +49,7 @@ automation-course/
 
 ---
 
-## 🛠️ Kohalik Seadistamine
+## Kohalik Seadistamine
 
 ### Eeltingimused
 
@@ -79,7 +79,7 @@ automation-course/
 
 ---
 
-## 📚 Moodulid
+## Moodulid
 
 | Moodul | Teema | Kontaktaeg | Link |
 |--------|-------|------------|------|
@@ -94,7 +94,7 @@ automation-course/
 
 ---
 
-## 🔧 Arendamine
+## Arendamine
 
 ### MkDocs Konfiguratsioon
 
@@ -121,7 +121,7 @@ mkdocs gh-deploy
 
 ---
 
-## 🚀 Juurutamine
+## Juurutamine
 
 Kursuse veebileht juurutatakse automaatselt GitHub Actions abil:
 
@@ -137,7 +137,7 @@ mkdocs gh-deploy
 
 ---
 
-## 📝 Kaastöö
+## Kaastöö
 
 1. **Fork** repositoorium
 2. **Loo** feature branch (`git checkout -b feature/amazing-feature`)
@@ -147,7 +147,7 @@ mkdocs gh-deploy
 
 ---
 
-## 📞 Kontakt
+## Kontakt
 
 - **Õppejõud:** Maria Talvik
 - **Email:** [your-email@example.com]
@@ -155,13 +155,13 @@ mkdocs gh-deploy
 
 ---
 
-## 📄 Litsents
+## Litsents
 
 See projekt on litsentseeritud MIT litsentsi all - vaata [LICENSE](LICENSE) faili detaile.
 
 ---
 
-## 🙏 Tänud
+## Tänud
 
 - [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) - Dokumentatsiooni teema
 - [GitHub Pages](https://pages.github.com/) - Veebilehe hostimine
@@ -169,5 +169,5 @@ See projekt on litsentseeritud MIT litsentsi all - vaata [LICENSE](LICENSE) fail
 
 ---
 
-**Edu õppimisel! 🎓**
+**Edu õppimisel!**
 # automation

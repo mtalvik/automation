@@ -1,6 +1,6 @@
-# 📚 Ansible Basics: Alused
+# Ansible Basics: Alused
 
-# 2.1 Ansible Arhitektuur ja Põhimõtted
+## Ansible Arhitektuur ja Põhimõtted
 
 ## Sissejuhatus automatiseerimisse
 
@@ -177,7 +177,7 @@ target_host | SUCCESS => {
 
 Ansible pakub tõhusat lahendust infrastruktuuri automatiseerimiseks. Agentless arhitektuur, lihtne YAML süntaks ja idempotentsed operatsioonid muudavad selle sobivaks nii väikestele kui suurtele keskkondadele. Järgnevates peatükkides käsitletakse SSH konfiguratsiooni, inventory haldamist ja playbook'ide arendamist.
 
-# 2.2 SSH ja Inventory konfigureerimine
+## SSH ja Inventory konfigureerimine
 
 ## SSH autentimise alused
 
@@ -543,7 +543,7 @@ ansible-playbook --ask-vault-pass site.yml
 
 SSH võtme-põhine autentimine ja korrektselt struktureeritud inventory on Ansible automatiseerimise nurgakivid. Proper konfigureerimine tagab turvalisuse, skaleeritavuse ja hallatavuse. Järgmises peatükis käsitletakse ad-hoc käskude kasutamist operatiivsete ülesannete lahendamiseks.
 
-# 2.3 Ad-hoc käskude kasutamine
+## Ad-hoc käskude kasutamine
 
 ## Ad-hoc käskude olemus ja rakendusala
 
@@ -925,7 +925,7 @@ ansible all -m shell -a "systemctl list-units --type=service --state=running --n
 
 Ad-hoc käsud pakuvad võimsat tööriista operatiivsete ülesannete lahendamiseks Ansible infrastruktuuris. Kuigi need sobivad hästi diagnostikaks ja lihtsateks operatsioonideks, keerulisema automatiseerimise jaoks tuleks kasutada playbook'e. Järgmises peatükis käsitletakse YAML süntaksit ja playbook'ide struktuuri.
 
-# 2.4 YAML süntaks ja Playbook'ide alused
+## YAML süntaks ja Playbook'ide alused
 
 ## YAML konfiguratsioonikeel
 

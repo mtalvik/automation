@@ -1,4 +1,4 @@
-# 📝 Nädal 21 Kodutöö: Docker Compose ja Kubernetes Praktika
+# Nädal 21 Kodutöö: Docker Compose ja Kubernetes Praktika
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Docker Compose ja Kubernetes praktiline kasutamine  
@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 **Projekt: Multi-Container Rakendus Docker Compose'iga ja Kubernetes'il**
+## Projekt: Multi-Container Rakendus Docker Compose'iga ja Kubernetes'il
 
 **Docker Compose** võimaldab hallata mitut container'it kui ühte rakendust. **Kubernetes** võimaldab hallata mitut container'it mitmel masinal. Selles kodutöös õpite mõlemat lähenemist.
 

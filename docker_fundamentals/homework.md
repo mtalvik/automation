@@ -1,4 +1,4 @@
-# 📝 Nädal 19 Kodutöö: Süsteemi Oleku Dashboard Deployment
+# Nädal 19 Kodutöö: Süsteemi Oleku Dashboard Deployment
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Docker ja Podman container'ite kasutamist praktikas  
@@ -8,7 +8,7 @@
 
 ---
 
-## 🖥️ **Projekt: Süsteemi Oleku Dashboard**
+## Projekt: Süsteemi Oleku Dashboard
 
 **Mida see teeb:**
 - Näitab container informatsiooni
@@ -24,7 +24,7 @@
 
 ---
 
-## 📁 **Samm 1: Kloonige starter repository**
+## Samm 1: Kloonige starter repository
 
 ### 1.1 Kloonige kodutöö starter repository
 
@@ -88,7 +88,7 @@ open index.html
 
 ---
 
-## 🔧 **Samm 2: Docker container loomine**
+## Samm 2: Docker container loomine
 
 ### 2.1 Tutvuge Dockerfile'iga
 
@@ -145,7 +145,7 @@ git push origin homework-TEIE-NIMI
 
 ---
 
-## 🐳 **Samm 3: Container'ite käivitamine**
+## Samm 3: Container'ite käivitamine
 
 ### 3.1 Docker'iga deploy
 
@@ -228,7 +228,7 @@ git commit -m "Docker ja Podman deployment töötab - mõlemad testitud"
 
 ---
 
-## 📊 **Samm 4: Container'ite haldamine**
+## Samm 4: Container'ite haldamine
 
 ### 4.1 Container'ite info vaatamine
 
@@ -304,7 +304,7 @@ git commit -m "Õppisin container'ite haldamist - start, stop, logs, cleanup"
 
 ---
 
-## 📋 **Samm 5: Lõplik dokumentatsioon (10 min)**
+## Samm 5: Lõplik dokumentatsioon (10 min)
 
 ### 5.1 Muutke README.md faili
 
@@ -397,7 +397,7 @@ git push origin homework-TEIE-NIMI
 
 ---
 
-## 📋 **Esitamise nõuded**
+## Esitamise nõuded
 
 ### **Repository peab sisaldama:**
 

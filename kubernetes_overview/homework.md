@@ -1,6 +1,6 @@
 # Kubernetes Overview Kodutöö: Kohalik Container Orchestration
 
-## 🎯 Ülesande Kirjeldus
+## Ülesande Kirjeldus
 
 **Projekt:** "TechShop" E-commerce Kubernetes Deployment
 

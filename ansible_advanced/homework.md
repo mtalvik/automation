@@ -1,4 +1,4 @@
-# 📝 Nädal 13 Kodutöö: Deploy Web Server with Vault & Templates
+# 📝 Ansible Advanced Kodutöö: Deploy Web Server with Vault & Templates
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Apache serveri juurutamine Ansible Vault salajaste andmete ja Jinja2 mallide abil  
@@ -25,7 +25,7 @@
 
 ---
 
-## 📁 **Samm 1: Setup Project (10 min)**
+## 📁 Setup Project
 
 ### 1.1 Veebi varade hankimine ja automatiseerimisfailide loomine
 
@@ -79,7 +79,7 @@ git commit -m "Loodud Ansible konfiguratsioon + lisatud veebi varad"
 
 ---
 
-## 🔐 **Samm 2: Create Vault File (15 min)**
+## 🔐 Create Vault File
 
 ### 2.1 Vault'i loomise õppimine
 

@@ -1,9 +1,9 @@
-# 🧪 Terraform Basics Lab: Infrastructure Automation
+# Terraform Basics Lab: Infrastructure Automation
 
 **Kestus:** 2 tundi  
 **Eesmärk:** Õppida Terraform'i praktilist kasutamist ja luua lihtsa infrastruktuuri
 
-## 🎯 Samm 1: Õpiväljundid
+## Samm 1: Õpiväljundid
 
 Pärast laborit oskate:
 - **Kirjutada lihtsaid Terraform faile** - HCL süntaks ja põhilised ressursid

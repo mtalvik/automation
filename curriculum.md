@@ -1,16 +1,16 @@
-# 📚 Automatiseerimise Kursuse Õppekava
+# Automatiseerimise Kursuse Õppekava
 
 **ITS-24 - Täiskasvanute klass (34 tundi, 8 moodulit)**
 
 ---
 
-## 📋 Kursuse Ülevaade
+## Kursuse Ülevaade
 
 See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsetes DevOps töövoogudes. Iga moodul sisaldab 4 tundi kontaktõpet ning struktureeritud kodutöid.
 
 ---
 
-## 📊 Kursuse Struktuur
+## Kursuse Struktuur
 
 | Moodul | Teema | Kontaktaeg | Kodutöö Ülesanne 1 | Kodutöö Ülesanne 2 |
 |--------|-------|------------|-------------------|-------------------|
@@ -25,7 +25,7 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 
 ---
 
-## 🎯 Moodulite Detailid
+## Moodulite Detailid
 
 ### **Moodul 1: Git Versioonihaldus (4h)**
 
@@ -192,7 +192,7 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 
 ---
 
-## 📁 Failide Struktuur
+## Failide Struktuur
 
 ### Iga Moodul Sisaldab:
 ```
@@ -212,7 +212,7 @@ modul_nimi/
 
 ---
 
-## 🎯 Õpieesmärgid
+## Õpieesmärgid
 
 - **Praktiline kogemus** kõigi automatiseerimise tööriistadega
 - **Projektipõhise õppimise** lähenemine
@@ -222,7 +222,7 @@ modul_nimi/
 
 ---
 
-## 📝 Hindamisstrateegia
+## Hindamisstrateegia
 
 - **Ülesanne 1:** Praktiline töö (hinnatakse funktsionaalsuse järgi)
 - **Ülesanne 2:** Lugemise refleksioon (hinnatakse mõistmise järgi)
@@ -231,7 +231,7 @@ modul_nimi/
 
 ---
 
-## 🔧 Seadistamise Juhendid
+## Seadistamise Juhendid
 
 ### **Enne kursuse alustamist:**
 - **Windows kasutajad:** [Windows Seadistamise Juhend](WINDOWS_SETUP_GUIDE.md)

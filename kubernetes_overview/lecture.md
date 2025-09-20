@@ -1,7 +1,7 @@
 # Kubernetes Overview: Container Orchestration
 *ITS-24 DevOps Automatiseerimine | 2 tundi (ülevaade)*
 
-## 🎯 Õpiväljundid
+## Õpiväljundid
 
 Pärast loengut oskate:
 - Mõista Kubernetes'i põhilisi kontseptsioone
@@ -11,7 +11,7 @@ Pärast loengut oskate:
 
 ---
 
-## 📖 Loeng 26.1: Mis on Kubernetes? (30 min)
+## Mis on Kubernetes?
 
 ### Miks vajame Container Orchestration?
 

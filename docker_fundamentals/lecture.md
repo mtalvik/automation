@@ -1,4 +1,4 @@
-# 📚 Nädal 19: Docker Fundamentals
+# Nädal 19: Docker Fundamentals
 ## Teemad: Container technology overview, Docker installation ja basic commands, Dockerfile creation, Docker networking ja volumes, Podman introduction ja comparison
 
 Eelmisel nädalal õppisime Ansible role'e. Täna astume järgmisesse dimensiooni - **konteinerite maailm**.
@@ -7,8 +7,8 @@ Mõtle konteineritele kui **LEGO klotside** süsteemile - iga konteiner on üks 
 
 ---
 
-# Osa 0: Docker Installatsioon ja Põhilised Mõisted
-## Loeng 19.0: Getting Started with Docker (15 min)
+## Osa 0: Docker Installatsioon ja Põhilised Mõisted
+### Getting Started with Docker
 
 ### Mis on Docker?
 
@@ -230,8 +230,8 @@ Pärast installatsiooni ja põhiliste käskude õppimist:
 
 ---
 
-# Osa 1: Containers vs VMs
-## Loeng 19.1: Container Technology Overview (12 min)
+## Osa 1: Containers vs VMs
+### Container Technology Overview
 
 ### Lühike evolutsioon
 
@@ -362,8 +362,8 @@ Konteinerid ei asenda VM'e - nad lahendavad erinevaid probleeme:
 
 ---
 
-# Osa 2: Docker Commands
-## Loeng 19.2: Docker CLI Basics (15 min)
+## Osa 2: Docker Commands
+### Docker CLI Basics
 
 ### Docker CLI põhialused
 
@@ -561,8 +561,8 @@ docker logs container_name
 
 ---
 
-# Osa 3: Podman Introduction
-## Loeng 19.3: Podman vs Docker (8 min)
+## Osa 3: Podman Introduction
+### Podman vs Docker
 
 ### Mis on Podman?
 
@@ -766,8 +766,8 @@ podman exec -it web bash
 
 ---
 
-# Osa 4: Dockerfile Best Practices
-## Loeng 19.4: Container Build Optimization (20 min)
+## Osa 4: Dockerfile Best Practices
+### Container Build Optimization
 
 ### Mis on Dockerfile?
 
@@ -1091,8 +1091,8 @@ docker run --rm -it myapp:v1.0 whoami  # Should NOT be root
 
 ---
 
-# Osa 5: Networks ja Volumes
-## Loeng 19.5: Container Connectivity & Data Persistence (10 min)
+## Osa 5: Networks ja Volumes
+### Container Connectivity & Data Persistence
 
 ### Docker Networking
 

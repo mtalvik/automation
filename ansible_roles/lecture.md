@@ -1,12 +1,12 @@
-# 📚 Ansible Roles: Roles ja Puppet
+# Ansible Roles: Roles ja Puppet
 ## Teemad: Vagrant basics, Ansible roles structure, Role variables ja dependencies, Ansible Galaxy, Puppet fundamentals, Puppet vs Ansible võrdlus
 
 Tere tulemast tagasi! Eelmisel nädalal õppisime Ansible'i variables, templates ja vault'i kasutamist. Täna astume järgmise suure sammu - õpime kirjutama **professionaalset infrastruktuuri koodi** ja võrdleme erinevaid tööriistu.
 
 ---
 
-# Osa 1: Vagrant Testing Environment
-## Loeng 1: Vagrant Basics for Testing (15 min)
+## Osa 1: Vagrant Testing Environment
+### Vagrant Basics for Testing
 
 ## Miks me vajame testikeskkonda?
 
@@ -167,8 +167,8 @@ vagrant destroy -f
 
 ---
 
-# Osa 2: Ansible Roles tutvustus  
-## Loeng 2: Ansible Roles Architecture (18 min)
+## Osa 2: Ansible Roles tutvustus  
+### Ansible Roles Architecture
 
 ## Miks vajame role'e? Spagettikood probleem
 
@@ -477,8 +477,8 @@ ansible-playbook site.yml -e nginx_port=3000
 
 ---
 
-# Osa 2: Role Creation Best Practices
-## Loeng 2: Professionaalsed standardid (15 min)
+## Osa 2: Role Creation Best Practices
+### Professionaalsed standardid
 
 Nüüd kui teate, mis on role, õpime, kuidas teha neid **õigesti**. Ma olen näinud tuhandeid halbu role'e - aga hea uudis on see, et on lihtsad reeglid, mis muudavad teie role'id professionaalseteks!
 
@@ -847,8 +847,8 @@ dependencies:
 
 ---
 
-# Osa 3: Ansible Galaxy
-## Loeng 3: Galaxy ecosystem (12 min)
+## Osa 3: Ansible Galaxy
+### Galaxy ecosystem
 
 Nüüd kui oskate role'e luua, õpime, kuidas kasutada **maailma suurimat Ansible role'ide repositooriumi**. Miks teha kõike ise, kui saate kasutada teiste head tööd?
 
@@ -1023,8 +1023,8 @@ Kui teie role on valmis, saate selle Galaxy'sse panna:
 
 ---
 
-# Osa 4: Puppet vs Ansible
-## Loeng 4: Configuration Management võrdlus (20 min)
+## Osa 4: Puppet vs Ansible
+### Configuration Management võrdlus
 
 **Configuration Management** tööriistade maailmas on kaks suurt mängijat. Peate teadma mõlemat, et osata valida õiget tööriista õigeks tööks.
 

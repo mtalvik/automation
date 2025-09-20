@@ -1,4 +1,4 @@
-# 📝 Nädal 11 Kodutöö: LAMP Stack Playbook
+# Nädal 11 Kodutöö: LAMP Stack Playbook
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Ansible playbook'i loomist praktiliselt ja iseseisvalt  
@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Ülesande kirjeldus
+## Ülesande kirjeldus
 
 See kodutöö ei anna valmis koodi - see annab probleemid lahendamiseks! Kasutage lab'is õpitud oskusi ja Ansible dokumentatsiooni, et ehitada LAMP stack samm-sammult.
 
@@ -14,7 +14,7 @@ See kodutöö ei anna valmis koodi - see annab probleemid lahendamiseks! Kasutag
 
 ---
 
-## 📋 Projekti seadistamine (enne alustamist)
+## Projekti seadistamine (enne alustamist)
 
 ### Ülesanne 1: Looge projekti struktuur
 
@@ -40,7 +40,7 @@ ansible-lamp/
 
 ---
 
-## 📝 Probleem 1: Inventory seadistamine
+## Probleem 1: Inventory seadistamine
 
 ### Ülesanne 1.1: Inventory fail
 
@@ -80,7 +80,7 @@ ansible-lamp/
 
 ---
 
-## 📝 Probleem 2: Vigane playbook parandamine
+## Probleem 2: Vigane playbook parandamine
 
 ### Ülesanne 2.1: Parandage see vigane playbook
 
@@ -127,7 +127,7 @@ ansible-lamp/
 
 ---
 
-## 📝 Probleem 3: MySQL seadistamine
+## Probleem 3: MySQL seadistamine
 
 ### Ülesanne 3.1: MySQL installimine ja turvamine
 
@@ -162,7 +162,7 @@ mysql -u [teie_kasutaja] -p [teie_andmebaas] -e "SELECT 'Success!' as test;"
 
 ---
 
-## 📝 Probleem 4: Template'ide loomine
+## Probleem 4: Template'ide loomine
 
 ### Ülesanne 4.1: Puudulik PHP template
 
@@ -232,7 +232,7 @@ try {
 
 ---
 
-## 📝 Probleem 5: Playbook lõpetamine
+## Probleem 5: Playbook lõpetamine
 
 ### Ülesanne 5.1: Tasks'ide implementeerimine
 
@@ -290,7 +290,7 @@ try {
 
 ---
 
-## 📝 Probleem 6: Testimine ja debugimine
+## Probleem 6: Testimine ja debugimine
 
 ### Ülesanne 6.1: Systematic testimine
 
@@ -343,7 +343,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 
 ---
 
-## 📝 Probleem 7: Dokumenteerimine
+## Probleem 7: Dokumenteerimine
 
 ### Ülesanne 7.1: README.md loomine
 
@@ -389,7 +389,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 
 ---
 
-## 📤 Esitamine
+## Esitamine
 
 ### Repository link
 Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
@@ -415,7 +415,7 @@ Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
 
 ---
 
-## 🚀 Õnnestumise nipid
+## Õnnestumise nipid
 
 ### Alustamise strateegia
 1. **Alustage väikselt** - tehke esmalt Apache töötama

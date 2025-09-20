@@ -5,7 +5,7 @@ Täna loome oma esimese professionaalse Ansible role'i!
 
 ---
 
-## 🎯 Samm 1: Lab'i eesmärgid
+## Samm 1: Lab'i eesmärgid
 
 - **Nginx role** Galaxy standardites
 - **Multi-OS tugi** (Ubuntu/Debian)
@@ -14,7 +14,7 @@ Täna loome oma esimese professionaalse Ansible role'i!
 
 ---
 
-## 🚀 Lab 1: Role struktuuri loomine (30 min)
+## Lab 1: Role struktuuri loomine (30 min)
 
 ### Töökeskkonna ettevalmistamine
 
@@ -81,7 +81,7 @@ dependencies: []
 
 ---
 
-## 🔧 Samm 1: Variables ja defaults (25 min)
+## Samm 1: Variables ja defaults (25 min)
 
 ### Vaikimisi seaded - algajasõbralik
 
@@ -135,7 +135,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📝 Lab 3: Tasks loomine (20 min)
+## Lab 3: Tasks loomine (20 min)
 
 ### Peamine tasks fail - sisukord
 
@@ -288,7 +288,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📝 Lab 4: SSL ja Virtual Hosts (25 min)
+## Lab 4: SSL ja Virtual Hosts (25 min)
 
 ### SSL tasks
 
@@ -444,7 +444,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📄 Lab 5: Templates (25 min)
+## Lab 5: Templates (25 min)
 
 ### Main nginx configuration
 
@@ -643,7 +643,7 @@ server {
 
 ---
 
-## 🧪 Lab 6: Role'i testimine (10 min)
+## Lab 6: Role'i testimine (10 min)
 
 ### Test playbook loomine
 
@@ -708,7 +708,7 @@ sudo systemctl status nginx
 
 ---
 
-## 📚 Samm 7: README dokumentatsioon
+## Samm 7: README dokumentatsioon
 
 **Looge/muutke `README.md`:**
 ```markdown
@@ -764,7 +764,7 @@ ITS-24 DevOps Automation Course
 
 ---
 
-## 🎯 Samm 2: Kokkuvõte
+## Samm 2: Kokkuvõte
 
 Palju õnne! Teil on nüüd:
 

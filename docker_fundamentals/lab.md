@@ -5,7 +5,7 @@ Täna õpite konteinerite alused **praktikas**. Fookus on **mõistmisel**, mitte
 
 ---
 
-## 🎯 **Lab'i eesmärgid**
+## Lab'i eesmärgid
 
 **Pärast seda lab'i teate:**
 - **Miks konteinerid on kiired** (kogesite ise)
@@ -15,7 +15,7 @@ Täna õpite konteinerite alused **praktikas**. Fookus on **mõistmisel**, mitte
 
 ---
 
-## 📋 **Samm 1: Container Speed Experience (30 min)**
+## Samm 1: Container Speed Experience (30 min)
 
 ### Ülesanne 1.1: "Feel the Speed" (10 min)
 
@@ -84,7 +84,7 @@ docker system df
 
 ---
 
-## 📦 **Samm 2: Build Your First App (45 min)**
+## Samm 2: Build Your First App (45 min)
 
 ### 2.1: Prepare Simple Web App (10 min)
 
@@ -198,7 +198,7 @@ docker stop my-app-v2 && docker rm my-app-v2
 
 ---
 
-## 🔧 **Samm 3: Docker vs Podman Side-by-Side (30 min)**
+## Samm 3: Docker vs Podman Side-by-Side (30 min)
 
 ### 3.1: Install Podman (if needed) (5 min)
 
@@ -281,7 +281,7 @@ podman stop web-podman && podman rm web-podman
 
 ---
 
-## 🐛 **Samm 4: Troubleshooting & Networks (15 min)**
+## Samm 4: Troubleshooting & Networks (15 min)
 
 ### 4.1: Fix Broken Container (10 min)
 
@@ -340,7 +340,7 @@ docker network rm test-network
 
 ---
 
-## 🎯 **Samm 3: Volume Persistence Test (20 min)**
+## Samm 3: Volume Persistence Test (20 min)
 
 ### Ülesanne 5.1: Data Persistence Challenge (15 min)
 
@@ -402,7 +402,7 @@ rm test.txt
 
 ---
 
-## 🎓 **Samm 5: Lab Summary & Reflection**
+## Samm 5: Lab Summary & Reflection
 
 ### Mida te kogesite:
 
@@ -425,14 +425,14 @@ rm test.txt
 
  
 
-### 🚀 **Järgmised sammud:**
+### Järgmised sammud:
 
 **Kodutöö:** Süvauurige Docker vs Podman võrdlust  
 **Järgmine lab:** Docker Compose multi-container applications
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (Docker'i oskajatele)
+## BOONUSÜLESANDED (Docker'i oskajatele)
 
 ### B1: Multi-stage Docker Builds (20 min)
 

@@ -1,9 +1,9 @@
-# 🧪 Ansible Basics Lab: Setup ja Esimene Playbook
+# Ansible Basics Lab: Setup ja Esimene Playbook
 
 **Kestus:** 2 tundi  
 **Eesmärk:** Õppida Ansible'i alused ja luua esimesed automatiseerimise skriptid
 
-## 🎯 Samm 1: Õpiväljundid
+## Samm 1: Õpiväljundid
 
 Pärast laborit oskate:
 - Installida ja konfigureerida Ansible'i
@@ -16,7 +16,7 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 1: Ansible'i installimine ja seadistamine (30 min)
+## Samm 1: Ansible'i installimine ja seadistamine (30 min)
 
 ### 1.1: Ansible'i installimine
 
@@ -145,7 +145,7 @@ ansible -i inventory.ini test -m ping
 
 ---
 
-## 📋 Samm 2: Esimesed Ad-hoc käsud (20 min)
+## Samm 2: Esimesed Ad-hoc käsud (20 min)
 
 ### Ad-hoc käskude harjutused
 
@@ -187,7 +187,7 @@ ansible -i inventory.ini all -m command -a "which htop"
 
 ---
 
-## 📋 Samm 3: YAML ja esimene playbook (40 min)
+## Samm 3: YAML ja esimene playbook (40 min)
 
 ### YAML süntaksi harjutus - Õpime "inimese keelt"
 
@@ -455,7 +455,7 @@ ansible-playbook --syntax-check test.yml
 
 ---
 
-## 📋 Samm 4: Veebiserveri seadistamine (30 min)
+## Samm 4: Veebiserveri seadistamine (30 min)
 
 ### Nginx playbook - Automatiseeritud veebiserver
 
@@ -644,7 +644,7 @@ ansible-playbook --syntax-check test.yml
 
 ---
 
-## 📋 Samm 5: Ansible konfiguratsiooni optimeerimine (20 min)
+## Samm 5: Ansible konfiguratsiooni optimeerimine (20 min)
 
 ### ansible.cfg seadistamine - Mugavuse suurendamine
 
@@ -722,7 +722,7 @@ tail -f ansible.log
 
 ---
 
-## 📋 Samm 6: Veatuvastus ja probleemide lahendamine (20 min)
+## Samm 6: Veatuvastus ja probleemide lahendamine (20 min)
 
 ### Levinud probleemid ja lahendused
 
@@ -836,7 +836,7 @@ ansible-playbook debug-playbook.yml -v
 
 ---
 
-## 🎯 Samm 2: Labi hindamine ja reflektsioon
+## Samm 2: Labi hindamine ja reflektsioon
 
 ### Tehnilised saavutused
 
@@ -898,7 +898,7 @@ Kontrollige, et järgmised asjad toimivad:
 - Mõistate playbook'ide struktuuri
 - Saate tõrkeid diagnoosida ja lahendada
 
-## 🚀 Järgmised sammud
+## Järgmised sammud
 
 **Valmis kodutööks:**
 - Kasutage siin õpitud oskusi LAMP stack playbook'i loomiseks
@@ -913,7 +913,7 @@ Kontrollige, et järgmised asjad toimivad:
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (juba Ansible'i oskajatele)
+## BOONUSÜLESANDED (juba Ansible'i oskajatele)
 
 ### B1: Advanced Playbook Patterns (30 min)
 

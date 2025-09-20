@@ -1,13 +1,13 @@
 # Nädal 25: Kodutöö - Projekti Lõpetamine
 *ITS-24 DevOps Automatiseerimine | 1 tund*
 
-## 🎯 **Kodutöö eesmärk**
+## Kodutöö eesmärk
 
 Lõpeta oma automatiseerimise projekt ja dokumenteeri see.
 
 ---
 
-## 📋 **Ülesanded**
+## Ülesanded
 
 ### 1. Projekti dokumenteerimine (30 min)
 

@@ -1,4 +1,4 @@
-# 📝 Ansible Roles Homework: Ehita sama infrastruktuur nii Ansible kui Puppet'iga
+# Ansible Roles Homework: Ehita sama infrastruktuur nii Ansible kui Puppet'iga
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Deploy sama infrastruktuuri mõlema tööriistaga ja võrdle praktikas  
@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 **Projekt: Veebserveri + Andmebaasi seadistamine**
+## Projekt: Veebserveri + Andmebaasi seadistamine
 
 **Mida te ehitate:**
 - 🌐 **Nginx veebiserver** kohandatud konfiguratsiooniga
@@ -23,7 +23,7 @@
 - Infrastruktuuri deployment strateegiad
 - Tööriistaspetsiifilised debug ja probleemilahendus
 
-## 🔍 **Ansible vs Puppet - Miks võrdleme?**
+## Ansible vs Puppet - Miks võrdleme?
 
 **Miks on oluline mõista erinevaid tööriistu?**
 
@@ -45,7 +45,7 @@
 - Õpite debug'ima mõlemat tööriista
 - Saate praktilise kogemuse
 
-## 📁 **Samm 1: Repository seadistamine (15 min)**
+## Samm 1: Repository seadistamine (15 min)
 
 ### 1.1 Klooni starter repository
 
@@ -102,7 +102,7 @@ ls -la
 
 ---
 
-## 🔧 **Samm 2: Ehita Ansible deployment (60 min)**
+## Samm 2: Ehita Ansible deployment (60 min)
 
 ### 2.1 Käivita test keskkond
 
@@ -243,7 +243,7 @@ git commit -m "Lisasin SSL ja virtual hosts Ansible'ile - töötab"
 
 ---
 
-## 🐕 **Samm 3: Ehita Puppet deployment (60 min)**
+## Samm 3: Ehita Puppet deployment (60 min)
 
 ### 3.1 Lülitu Puppet VM'ile
 
@@ -381,7 +381,7 @@ git commit -m "Lisasin samad asjad Puppet'iga - sama tulemus"
 
 ---
 
-## 🔍 **Samm 4: Võrdle ja analüüsi (30 min)**
+## Samm 4: Võrdle ja analüüsi (30 min)
 
 ### 4.1 Mõtle läbi, mis oli erinev
 
@@ -407,7 +407,7 @@ git push origin homework-[your-name]
 
 ---
 
-## 📋 **Samm 5: Lõpeta ja esita (15 min)**
+## Samm 5: Lõpeta ja esita (15 min)
 
 ### 5.1 Kirjuta põhjalik README.md
 
@@ -467,7 +467,7 @@ echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
 
  
 
-## 💡 **Näpunäited**
+## Näpunäited
 
 ### Ansible näpunäited
 - **Alusta lihtsalt:** Ära proovi kõike korraga
@@ -489,7 +489,7 @@ echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
 
 ---
 
-## ❓ **KKK**
+## KKK
 
 **Q: Kas pean mõlemad deploymentid tegema?**  
 A: Jah, see on kodutöö eesmärk - võrrelda mõlemat lähenemist.
@@ -505,7 +505,7 @@ A: Järgmise nädala alguseks. Hilinemine = punktide kaotus.
 
 ---
 
-## 🎉 **Õnnitlused!**
+## Õnnitlused!
 
 Kui jõuate siia, olete:
 - Ehitanud sama infrastruktuuri kahe erineva tööriistaga

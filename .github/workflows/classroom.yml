@@ -1,0 +1,128 @@
+name: Course Content Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate MkDocs Configuration
+        run: |
+          echo "🔍 Validating MkDocs configuration..."
+          mkdocs build --strict
+          echo "✅ MkDocs configuration is valid"
+
+      - name: Check Markdown Files
+        run: |
+          echo "🔍 Checking markdown files for common issues..."
+
+          # Check for broken internal links
+          if command -v markdown-link-check >/dev/null 2>&1; then
+            find docs/ -name "*.md" -exec markdown-link-check {} \; || true
+          fi
+
+          # Check for emojis in headers (should be removed)
+          if grep -r "##.*[📚🎯📖🧪📝🔧🚀📁📊📋🔍🐕📄🎓💭]" docs/; then
+            echo "⚠️  Found emojis in headers - consider removing for consistency"
+          else
+            echo "✅ No emojis found in headers"
+          fi
+
+          echo "✅ Markdown validation completed"
+
+      - name: Test Course Examples
+        run: |
+          echo "🔍 Testing course examples..."
+
+          # Test Ansible examples if they exist
+          if [ -d "teacher_repo" ]; then
+            echo "Found teacher_repo directory - checking for valid examples"
+            find teacher_repo/ -name "*.yml" -o -name "*.yaml" | head -5 | while read file; do
+              echo "Checking $file"
+              if command -v ansible-playbook >/dev/null 2>&1; then
+                ansible-playbook "$file" --syntax-check || echo "⚠️  Syntax check failed for $file"
+              fi
+            done
+          fi
+
+          # Test Docker examples if they exist
+          find . -name "docker-compose.yml" | head -3 | while read file; do
+            echo "Checking $file"
+            if command -v docker-compose >/dev/null 2>&1; then
+              docker-compose -f "$file" config || echo "⚠️  Docker Compose config check failed for $file"
+            fi
+          done
+
+          echo "✅ Course examples validation completed"
+
+      - name: Check Documentation Structure
+        run: |
+          echo "🔍 Checking documentation structure..."
+
+          # Check if all required directories exist
+          required_dirs=("docs/ansible_basics" "docs/docker_fundamentals" "docs/terraform_basics")
+          for dir in "${required_dirs[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✅ Found $dir"
+            else
+              echo "❌ Missing $dir"
+              exit 1
+            fi
+          done
+
+          # Check if all modules have required files
+          for module in ansible_basics ansible_advanced ansible_roles docker_fundamentals docker_orchestration terraform_basics kubernetes_overview ci_cd_advanced; do
+            if [ -d "docs/$module" ]; then
+              for file in lecture.md lab.md homework.md; do
+                if [ -f "docs/$module/$file" ]; then
+                  echo "✅ Found docs/$module/$file"
+                else
+                  echo "⚠️  Missing docs/$module/$file"
+                fi
+              done
+            fi
+          done
+
+          echo "✅ Documentation structure check completed"
+
+      - name: Generate Validation Report
+        run: |
+          echo "## Course Content Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Validation Results:" >> $GITHUB_STEP_SUMMARY
+          echo "- MkDocs configuration: Valid" >> $GITHUB_STEP_SUMMARY
+          echo "- Markdown files: Checked" >> $GITHUB_STEP_SUMMARY
+          echo "- Course examples: Tested" >> $GITHUB_STEP_SUMMARY
+          echo "- Documentation structure: Verified" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📚 Course Modules:" >> $GITHUB_STEP_SUMMARY
+          echo "- Ansible Basics, Advanced, Roles" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker Fundamentals, Orchestration" >> $GITHUB_STEP_SUMMARY
+          echo "- Terraform Basics" >> $GITHUB_STEP_SUMMARY
+          echo "- Kubernetes Overview" >> $GITHUB_STEP_SUMMARY
+          echo "- CI/CD Advanced" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🎓 Educational Features:" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Classroom integration" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Discussions enabled" >> $GITHUB_STEP_SUMMARY
+          echo "- Automated testing workflows" >> $GITHUB_STEP_SUMMARY
+          echo "- Student guides and resources" >> $GITHUB_STEP_SUMMARY

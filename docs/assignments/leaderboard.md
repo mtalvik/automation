@@ -1,8 +1,8 @@
-# 🏆 Leaderboard
+# Leaderboard
 
 <div id="leaderboard-container">
   <div class="leaderboard-header">
-    <h2>🥇 Top Performers</h2>
+    <h2>Top Performers</h2>
     <p>Automaatselt uueneb iga 5 minuti tagant</p>
   </div>
   
@@ -124,7 +124,7 @@ loadLeaderboard();
 setInterval(loadLeaderboard, 300000);
 </script>
 
-## 🎯 Kuidas punkte teenida?
+## Kuidas punkte teenida?
 
 | Tegevus | Punkte |
 |---------|--------|
@@ -135,7 +135,7 @@ setInterval(loadLeaderboard, 300000);
 | Dokumentatsioon | +10 |
 | Peer review | +5 |
 
-## 🏅 Badges
+## Badges
 
 - **🚀 Speed Demon** - Lahendas ülesande < 1 tunni jooksul
 - **✨ Perfect Score** - 100% testid läbitud esimesel katsel
@@ -145,7 +145,7 @@ setInterval(loadLeaderboard, 300000);
 - **💡 Helper** - Aitas teisi Discussions'is
 - **🐛 Bug Hunter** - Leidis vea ülesandes
 
-## 📊 Statistika
+## Statistika
 
 <div id="stats-container">
   <!-- Stats will be loaded here -->

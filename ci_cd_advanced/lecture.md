@@ -1,6 +1,6 @@
-# 📚 Nädal 25: Ettevõtte Infrastruktuuri Automatiseerimine ja Projekti Lõpetamine
+# Nädal 25: Ettevõtte Infrastruktuuri Automatiseerimine ja Projekti Lõpetamine
 
-## 📖 Loeng 25.1: Kuidas läheneda uuele DevOps projektile (20 min)
+## Kuidas läheneda uuele DevOps projektile
 
 ### Tere tagasi, kallid tudengid!
 

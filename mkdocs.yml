@@ -14,45 +14,45 @@ theme:
   name: material
   language: et
   features:
-    - announce.dismiss
-    - content.action.edit
-    - content.action.view
-    - content.code.annotate
-    - content.code.copy
-    - content.code.select
-    - content.tabs.link
-    - content.tooltips
-    - navigation.footer
-    - navigation.indexes
-    - navigation.instant
-    - navigation.instant.progress
-    - navigation.sections
-    - navigation.tabs
-    - navigation.top
-    - navigation.tracking
-    - search.highlight
-    - search.share
-    - search.suggest
-    - toc.follow
+  - announce.dismiss
+  - content.action.edit
+  - content.action.view
+  - content.code.annotate
+  - content.code.copy
+  - content.code.select
+  - content.tabs.link
+  - content.tooltips
+  - navigation.footer
+  - navigation.indexes
+  - navigation.instant
+  - navigation.instant.progress
+  - navigation.sections
+  - navigation.tabs
+  - navigation.top
+  - navigation.tracking
+  - search.highlight
+  - search.share
+  - search.suggest
+  - toc.follow
   palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: Vaheta tumele režiimile
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: Vaheta tumele režiimile
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: Vaheta heledasse režiimi
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: material/brightness-auto
+      name: Vaheta tumele režiimile
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/brightness-7
+      name: Vaheta tumele režiimile
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    accent: indigo
+    toggle:
+      icon: material/brightness-4
+      name: Vaheta heledasse režiimi
   font:
     text: Roboto
     code: Roboto Mono
@@ -63,104 +63,120 @@ theme:
 
 # Plugins
 plugins:
-  - search:
-      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-      lang: et
-  - minify:
-      minify_html: true
-  # GitHub integrations
-  - git-revision-date-localized:
-      enable_creation_date: true
-      type: date
-      fallback_to_build_date: false
+- search:
+    separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+    lang: et
+- minify:
+    minify_html: true
+# GitHub integrations
+- git-revision-date-localized:
+    enable_creation_date: true
+    type: date
+    fallback_to_build_date: false
 
 # Navigation
 nav:
-  - Avaleht: index.md
-  - Õppekava: curriculum.md
-  - Git:
-    - Praktikum: git_version_control/lab.md
-    - Kodutöö: git_version_control/homework.md
-    - Materjalid: git_version_control/reading_materials.md
-  - Docker:
-    - Docker alused: docker_fundamentals/lecture.md
-    - Docker praktikum: docker_fundamentals/lab.md
-    - Docker kodutöö: docker_fundamentals/homework.md
-    - Orkestreerimine: docker_orchestration/lecture.md
-    - Orkestreerimise praktikum: docker_orchestration/lab.md
-    - Orkestreerimise kodutöö: docker_orchestration/homework.md
-  - Ansible:
-    - Ansible alused: ansible_basics/lecture.md
-    - Ansible praktikum: ansible_basics/lab.md
-    - Ansible kodutöö: ansible_basics/homework.md
-    - Ansible materjalid: ansible_basics/reading_materials.md
-    - Advanced: ansible_advanced/lecture.md
-    - Rollid: ansible_roles/lecture.md
-  - CI/CD:
-    - Teooria: ci_cd_advanced/lecture.md
-    - Praktikum: ci_cd_advanced/lab.md
-    - Kodutöö: ci_cd_advanced/homework.md
-  - Kubernetes:
-    - Teooria: kubernetes_overview/lecture.md
-    - Praktikum: kubernetes_overview/lab.md
-    - Kodutöö: kubernetes_overview/homework.md
-  - Terraform:
-    - Teooria: terraform_basics/lecture.md
-    - Praktikum: terraform_basics/lab.md
-    - Kodutöö: terraform_basics/homework.md
-  - Ülesanded:
-    - assignments/index.md
-    - GitHub Classroom: assignments/classroom.md
-    - Leaderboard: assignments/leaderboard.md
-  # - 💭 Foorum: https://github.com/mtalvik/automation/discussions  # Lülita GitHub Settings -> Features -> Discussions sisse
+- Avaleht: index.md
+- Õppekava: curriculum.md
+- Git:
+  - Praktikum: git_version_control/lab.md
+  - Kodutöö: git_version_control/homework.md
+  - Materjalid: git_version_control/reading_materials.md
+  - Näited:
+    - Git Diff: git_version_control/examples/git_diff_examples.md
+    - Muudatuste rakendamine: git_version_control/examples/git_apply_changes.md
+  - Spikker:
+    - Käsud: git_version_control/reference/git_commands_reference.md
+    - VS Code: git_version_control/reference/vscode.md
+    - WTC Guide: git_version_control/reference/whatthecommit_guide.md
+- Docker:
+  - Docker alused: docker_fundamentals/lecture.md
+  - Docker praktikum: docker_fundamentals/lab.md
+  - Docker kodutöö: docker_fundamentals/homework.md
+  - Orkestreerimine: docker_orchestration/lecture.md
+  - Orkestreerimise praktikum: docker_orchestration/lab.md
+  - Orkestreerimise kodutöö: docker_orchestration/homework.md
+  - Kodulabor: docker_orchestration/kodu_masina_ehitus_juhend.md
+- Ansible:
+  - Ansible alused: ansible_basics/lecture.md
+  - Ansible praktikum: ansible_basics/lab.md
+  - Ansible kodutöö: ansible_basics/homework.md
+  - Ansible materjalid: ansible_basics/reading_materials.md
+  - Advanced teooria: ansible_advanced/lecture.md
+  - Advanced praktikum: ansible_advanced/lab.md
+  - Advanced kodutöö: ansible_advanced/homework.md
+  - Rollide teooria: ansible_roles/lecture.md
+  - Rollide praktikum: ansible_roles/lab.md
+  - Rollide kodutöö: ansible_roles/homework.md
+- CI/CD:
+  - Teooria: ci_cd_advanced/lecture.md
+  - Praktikum: ci_cd_advanced/lab.md
+  - Kodutöö: ci_cd_advanced/homework.md
+- Kubernetes:
+  - Teooria: kubernetes_overview/lecture.md
+  - Praktikum: kubernetes_overview/lab.md
+  - Kodutöö: kubernetes_overview/homework.md
+- Terraform:
+  - Teooria: terraform_basics/lecture.md
+  - Praktikum: terraform_basics/lab.md
+  - Kodutöö: terraform_basics/homework.md
+- Ülesanded:
+  - assignments/index.md
+  - GitHub Classroom: assignments/classroom.md
+  - Leaderboard: assignments/leaderboard.md
+  - Google Classroom Setup: assignments/google-classroom-setup.md
+  - GitHub Education Setup: assignments/github-education-setup.md
+  - GitHub Discussions Setup: assignments/github-discussions-setup.md
+  - Student Guide: assignments/student-guide.md
+- Foorum: https://github.com/mtalvik/automation/discussions
 
 # Markdown extensions
 markdown_extensions:
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - toc:
-      permalink: true
-      title: Sisukord
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.caret
-  - pymdownx.details
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.magiclink:
-      normalize_issue_symbols: true
-      repo_url_shorthand: true
-      user: mtalvik
-      repo: automation
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.snippets:
-      check_paths: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.tabbed:
-      alternate_style: true
-      combine_header_slug: true
-      slugify: !!python/name:pymdownx.slugs.slugify
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+- abbr
+- admonition
+- attr_list
+- def_list
+- footnotes
+- md_in_html
+- toc:
+    permalink: true
+    title: Sisukord
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.betterem:
+    smart_enable: all
+- pymdownx.caret
+- pymdownx.details
+- pymdownx.emoji:
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg ""
+    emoji_index: !!python/name:material.extensions.emoji.twemoji ""
+- pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.inlinehilite
+- pymdownx.keys
+- pymdownx.magiclink:
+    normalize_issue_symbols: true
+    repo_url_shorthand: true
+    user: mtalvik
+    repo: automation
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.snippets:
+    check_paths: true
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ""
+- pymdownx.tabbed:
+    alternate_style: true
+    combine_header_slug: true
+    slugify: !!python/name:pymdownx.slugs.slugify ""
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde
 
 # Extra
 extra:
@@ -169,40 +185,39 @@ extra:
     provider: mike
     default: stable
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/mtalvik
-      name: GitHub
-    - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/maria-talvik
-      name: LinkedIn
-    - icon: fontawesome/solid/blog
-      link: https://mariatalvik.ee
-      name: Blogi
+  - icon: fontawesome/brands/github
+    link: https://github.com/mtalvik
+    name: GitHub
+  - icon: fontawesome/brands/linkedin
+    link: https://linkedin.com/in/maria-talvik
+    name: LinkedIn
+  - icon: fontawesome/solid/blog
+    link: https://mariatalvik.ee
+    name: Blogi
   analytics:
     provider: google
     property: G-XXXXXXXXXX
     feedback:
       title: Kas see leht oli kasulik?
       ratings:
-        - icon: material/emoticon-happy-outline
-          name: See leht oli kasulik
-          data: 1
-          note: >-
-            Aitäh tagasiside eest!
-        - icon: material/emoticon-sad-outline
-          name: See leht vajab täiendamist
-          data: 0
-          note: >- 
-            Aitäh tagasiside eest! Kasuta <a href="https://github.com/mtalvik/automation/issues/new/?title=[Feedback]+{title}" target="_blank" rel="noopener">GitHub issues</a> täpsema tagasiside andmiseks.
+      - icon: material/emoticon-happy-outline
+        name: See leht oli kasulik
+        data: 1
+        note: >-
+          Aitäh tagasiside eest!
+      - icon: material/emoticon-sad-outline
+        name: See leht vajab täiendamist
+        data: 0
+        note: >-
+          Aitäh tagasiside eest! Kasuta <a href="https://github.com/mtalvik/automation/issues/new/?title=[Feedback]+{title}" target="_blank" rel="noopener">GitHub issues</a> täpsema tagasiside andmiseks.
   consent:
     title: Küpsiste nõusolek
-    description: >- 
-      Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust.
-      Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.
+    description: >-
+      Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust. Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.
     actions:
-      - accept
-      - reject
-      - manage
+    - accept
+    - reject
+    - manage
   tags:
     Git: git
     Docker: docker

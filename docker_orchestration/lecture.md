@@ -1,11 +1,11 @@
-# 📚 Nädal 21: Docker Compose ja Orchestration
+# Nädal 21: Docker Compose ja Orchestration
 
 **Kestus:** 4 tundi  
 **Teemad:** Docker Compose põhialused, Lihtsad multi-container rakendused, Keskkondade haldamine, Alternatiivide tutvustus
 
 ---
 
-## 🎯 Õpiväljundid
+## Õpiväljundid
 
 Pärast seda nädalat oskate:
 - **Kirjutada lihtsaid Docker Compose faile** - põhilised teenused ja nende seosed
@@ -16,7 +16,7 @@ Pärast seda nädalat oskate:
 
 ---
 
-## 📖 Loeng 21.1: Docker Compose Overview (12 min)
+## Docker Compose Overview
 
 ### Tere tulemast orkestreerimise maailma!
 

@@ -1,10 +1,10 @@
-# 🎓 GitHub Classroom
+# GitHub Classroom
 
 ## Automatiseeritud ülesanded infrastruktuuri halduseks
 
 GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hindamist. Iga ülesanne on oma repositoorium koos automaatsete testidega.
 
-## 📝 Aktiivsed ülesanded
+## Aktiivsed ülesanded
 
 ### Nädal 9: Git & Versioonihaldus
 [![Start Assignment](https://classroom.github.com/assets/badges/start-assignment.svg)](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
@@ -88,7 +88,7 @@ GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hinda
 
 **Tähtaeg:** 1 nädal
 
-## 🔄 Töövoog
+## Töövoog
 
 ```mermaid
 graph LR
@@ -102,7 +102,7 @@ graph LR
     G -->|Ei| D
 ```
 
-## 🎯 Hindamine
+## Hindamine
 
 Iga ülesanne testib:
 - **Funktsionaalsus:** 60% - Kas infrastruktuur töötab?
@@ -110,14 +110,14 @@ Iga ülesanne testib:
 - **Dokumentatsioon:** 10% - README, kommentaarid
 - **Idempotency:** 10% - Kas korduvkäivitus on turvaline?
 
-## 🏠 Kodulabor
+## Kodulabor
 
 Soovituslik setup:
 - Vagrant + VirtualBox
 - Või Docker Desktop
 - Või cloud (AWS Free Tier, Azure Student)
 
-## ❓ KKK
+## KKK
 
 ??? question "Kas ma pean kasutama Vagrantit?"
     Ei, võid kasutada Docker'it, cloud'i või isegi füüsilisi masinaid.

@@ -1,11 +1,11 @@
-# 📚 Week 9: Git Reading Materials (Homework Task 2)
+# Week 9: Git Reading Materials (Homework Task 2)
 
 **Estimated Reading Time:** 2-3 hours  
 **Due:** Before next class session
 
 ---
 
-## 📖 Required Reading (1.5 hours)
+## Required Reading (1.5 hours)
 
 ### 1. Git History and Evolution (30 min)
 **Source:** Git Documentation & History

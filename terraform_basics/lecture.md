@@ -1,11 +1,11 @@
-# 📚 Terraform Basics: Infrastructure as Code
+# Terraform Basics: Infrastructure as Code
 
 **Kestus:** 2 tundi (ülevaade)  
 **Teemad:** Terraform fundamentals, HCL language, Local providers, State management
 
 ---
 
-## 🎯 Õpiväljundid
+## Õpiväljundid
 
 Pärast seda tundi oskate:
 - **Mõista Infrastructure as Code mõistet** - miks ja kuidas kasutada
@@ -16,7 +16,7 @@ Pärast seda tundi oskate:
 
 ---
 
-## 📖 Loeng 23.1: Infrastructure as Code Concepts (15 min)
+## Infrastructure as Code Concepts
 
 ### Tere tulemast Infrastructure as Code maailma!
 
