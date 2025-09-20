@@ -41,5 +41,4 @@ Tere tulemast infrastruktuuri automatiseerimise kursusele! See kursus õpetab ka
 
 ---
 
-**Õppejõud:** Maria Talvik  
-**Tallinna Ülikool**
+**Õppejõud:** Maria Talvik

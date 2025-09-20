@@ -17,16 +17,16 @@ Ansible kasutab agentless arhitektuuri, mis eristab seda paljudest konkureerivte
 ```mermaid
 graph TB
     subgraph "Control Node"
-        Ansible[🔧 Ansible Engine]
-        Inventory[📋 Inventory]
-        Playbooks[📚 Playbooks]
+        Ansible[Ansible Engine]
+        Inventory[Inventory]
+        Playbooks[Playbooks]
     end
     
     subgraph "Managed Nodes"
-        Web1[🌐 Web Server 1]
-        Web2[🌐 Web Server 2]
-        DB1[🗄️ Database 1]
-        DB2[🗄️ Database 2]
+        Web1[Web Server 1]
+        Web2[Web Server 2]
+        DB1[Database 1]
+        DB2[Database 2]
     end
     
     Ansible -->|SSH| Web1
@@ -88,11 +88,11 @@ Ansible'i täitmistsükkel koosneb järgmistest sammudest:
 
 ```mermaid
 flowchart TD
-    A[📋 Inventory lugemine] --> B[🔗 SSH ühendused]
-    B --> C[📦 Mooduli koodi edastamine]
-    C --> D[⚡ Operatsioonide täitmine]
-    D --> E[📊 Tulemuste kogumine]
-    E --> F[🧹 Ajutiste failide eemaldamine]
+    A[Inventory lugemine] --> B[SSH ühendused]
+    B --> C[Mooduli koodi edastamine]
+    C --> D[Operatsioonide täitmine]
+    D --> E[Tulemuste kogumine]
+    E --> F[Ajutiste failide eemaldamine]
     
     style A fill:#99ccff
     style B fill:#ffcc99

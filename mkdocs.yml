@@ -1,8 +1,8 @@
-site_name: Automatiseerimine - TLÜ
+site_name: Infrastruktuuri Automatiseerimine
 site_description: Infrastruktuuri automatiseerimine ja haldus - praktilised oskused
 site_author: Maria Talvik
 site_url: https://mtalvik.github.io/automation
-copyright: Copyright &copy; 2025 Maria Talvik - TLÜ
+copyright: Copyright &copy; 2025 Maria Talvik
 
 # Repository
 repo_name: mtalvik/automation
