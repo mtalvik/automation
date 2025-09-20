@@ -79,7 +79,6 @@ nav:
   - Avaleht: index.md
   - Õppekava: curriculum.md
   - Git:
-    - Teooria: git_version_control/lecture.md
     - Praktikum: git_version_control/lab.md
     - Kodutöö: git_version_control/homework.md
     - Materjalid: git_version_control/reading_materials.md
