@@ -76,63 +76,43 @@ plugins:
 
 # Navigation
 nav:
-  - 🏠 Avaleht: index.md
-  - 📚 Õppekava: curriculum.md
-  - 💻 Praktikumid:
-    - 🔧 Git & Versioonihaldus:
-      - 📖 Teooria: git_version_control/lecture.md
-      - 🔬 Praktikum: git_version_control/lab.md
-      - 📝 Kodutöö: git_version_control/homework.md
-      - 📚 Materjalid: git_version_control/reading_materials.md
-      - 💡 Näited:
-        - Git Diff: git_version_control/examples/git_diff_examples.md
-        - Muudatuste rakendamine: git_version_control/examples/git_apply_changes.md
-      - 📌 Spikker:
-        - Käsud: git_version_control/reference/git_commands_reference.md
-        - VS Code: git_version_control/reference/vscode.md
-        - WTC Guide: git_version_control/reference/whatthecommit_guide.md
-    - 🐳 Docker:
-      - Alused:
-        - 📖 Teooria: docker_fundamentals/lecture.md
-        - 🔬 Praktikum: docker_fundamentals/lab.md
-        - 📝 Kodutöö: docker_fundamentals/homework.md
-      - Orkestreerimine:
-        - 📖 Teooria: docker_orchestration/lecture.md
-        - 🔬 Praktikum: docker_orchestration/lab.md
-        - 📝 Kodutöö: docker_orchestration/homework.md
-        - 🏠 Kodulabor: docker_orchestration/kodu_masina_ehitus_juhend.md
-    - ⚙️ Ansible:
-      - Alused:
-        - 📖 Teooria: ansible_basics/lecture.md
-        - 🔬 Praktikum: ansible_basics/lab.md
-        - 📝 Kodutöö: ansible_basics/homework.md
-        - 📚 Materjalid: ansible_basics/reading_materials.md
-      - Edasijõudnutele:
-        - 📖 Teooria: ansible_advanced/lecture.md
-        - 🔬 Praktikum: ansible_advanced/lab.md
-        - 📝 Kodutöö: ansible_advanced/homework.md
-      - Rollid:
-        - 📖 Teooria: ansible_roles/lecture.md
-        - 🔬 Praktikum: ansible_roles/lab.md
-        - 📝 Kodutöö: ansible_roles/homework.md
-    - 🔄 CI/CD:
-      - 📖 Teooria: ci_cd_advanced/lecture.md
-      - 🔬 Praktikum: ci_cd_advanced/lab.md
-      - 📝 Kodutöö: ci_cd_advanced/homework.md
-    - ☸️ Kubernetes:
-      - 📖 Teooria: kubernetes_overview/lecture.md
-      - 🔬 Praktikum: kubernetes_overview/lab.md
-      - 📝 Kodutöö: kubernetes_overview/homework.md
-    - 🏗️ Terraform:
-      - 📖 Teooria: terraform_basics/lecture.md
-      - 🔬 Praktikum: terraform_basics/lab.md
-      - 📝 Kodutöö: terraform_basics/homework.md
-      - 💡 Näited: terraform_basics/homework_simple.md
-      - ☁️ AWS: terraform_basics/homework_aws_backup.md
-  - 🎯 Ülesanded:
+  - Avaleht: index.md
+  - Õppekava: curriculum.md
+  - Git:
+    - Teooria: git_version_control/lecture.md
+    - Praktikum: git_version_control/lab.md
+    - Kodutöö: git_version_control/homework.md
+    - Materjalid: git_version_control/reading_materials.md
+  - Docker:
+    - Docker alused: docker_fundamentals/lecture.md
+    - Docker praktikum: docker_fundamentals/lab.md
+    - Docker kodutöö: docker_fundamentals/homework.md
+    - Orkestreerimine: docker_orchestration/lecture.md
+    - Orkestreerimise praktikum: docker_orchestration/lab.md
+    - Orkestreerimise kodutöö: docker_orchestration/homework.md
+  - Ansible:
+    - Ansible alused: ansible_basics/lecture.md
+    - Ansible praktikum: ansible_basics/lab.md
+    - Ansible kodutöö: ansible_basics/homework.md
+    - Ansible materjalid: ansible_basics/reading_materials.md
+    - Advanced: ansible_advanced/lecture.md
+    - Rollid: ansible_roles/lecture.md
+  - CI/CD:
+    - Teooria: ci_cd_advanced/lecture.md
+    - Praktikum: ci_cd_advanced/lab.md
+    - Kodutöö: ci_cd_advanced/homework.md
+  - Kubernetes:
+    - Teooria: kubernetes_overview/lecture.md
+    - Praktikum: kubernetes_overview/lab.md
+    - Kodutöö: kubernetes_overview/homework.md
+  - Terraform:
+    - Teooria: terraform_basics/lecture.md
+    - Praktikum: terraform_basics/lab.md
+    - Kodutöö: terraform_basics/homework.md
+  - Ülesanded:
     - assignments/index.md
-    - 🎓 GitHub Classroom: assignments/classroom.md
-    - 🏆 Leaderboard: assignments/leaderboard.md
+    - GitHub Classroom: assignments/classroom.md
+    - Leaderboard: assignments/leaderboard.md
   # - 💭 Foorum: https://github.com/mtalvik/automation/discussions  # Lülita GitHub Settings -> Features -> Discussions sisse
 
 # Markdown extensions
