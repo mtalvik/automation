@@ -214,8 +214,7 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 ## 🔧 Seadistamise Juhendid
 
 ### **Enne kursuse alustamist:**
-- **Windows kasutajad:** [Windows Seadistamise Juhend](WINDOWS_SETUP_GUIDE.md)
-- **Linux/macOS kasutajad:** [Kodu Masina Ehitus Juhend](../docker_orchestration/kodu_masina_ehitus_juhend.md)
+- **Linux/macOS kasutajad:** [Kodu Masina Ehitus Juhend](docker_orchestration/kodu_masina_ehitus_juhend.md)
 
 ### **Vajalikud tööriistad:**
 - Git (versioonihaldus)
