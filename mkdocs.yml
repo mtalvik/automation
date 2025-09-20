@@ -7,7 +7,7 @@ copyright: Copyright &copy; 2025 Maria Talvik - TLÜ
 # Repository
 repo_name: mtalvik/automation
 repo_url: https://github.com/mtalvik/automation
-edit_uri: edit/main/docs/
+edit_uri: edit/main/
 
 # Theme
 theme:
@@ -133,9 +133,7 @@ nav:
     - assignments/index.md
     - 🎓 GitHub Classroom: assignments/classroom.md
     - 🏆 Leaderboard: assignments/leaderboard.md
-  - 💭 Foorum: https://github.com/mtalvik/automation/discussions
-  - 👩‍🏫 Õpetajale:
-    - Nädal 9 lahendus: teacher_guide/week9_homework_solution.md
+  # - 💭 Foorum: https://github.com/mtalvik/automation/discussions  # Lülita GitHub Settings -> Features -> Discussions sisse
 
 # Markdown extensions
 markdown_extensions:
