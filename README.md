@@ -1,6 +1,3 @@
-This README has the same AI-generated problems we fixed in your homepage. Let me clean it up:Perfect! Here's your cleaned-up README:
-
-```markdown
 # IT automatiseerimise kursus
 
 Serverite ja rakenduste automatiseerimine - Git'ist Kubernetes'eni.
