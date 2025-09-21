@@ -1,6 +1,6 @@
 # IT Automatiseerimise Kursuse Õppekava
 
-** 8 Moodulit • 24 Kontakttundi**
+**8 Moodulit**
 
 ---
 
@@ -28,8 +28,6 @@ Kaasaegse DevOps automatiseerimise praktikad ja tööriistad. Kursus katab versi
 | **6** | **Ansible Rollid** | *Iseseisvad laborid* | Multi-tier infrastruktuur | Ansible vs Puppet võrdlus |
 | **7** | **Terraform Alused** | 2h | Kohalik infrastruktuur | Moodulid ja korduvkasutus |
 | **8** | **CI/CD + Kubernetes** | 2h | Projekti lõpetamine | - |
-
-**Kokku:** 20h kontaktõpet + iseseisvad laborid + kodutööd
 
 ---
 
