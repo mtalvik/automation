@@ -31,7 +31,7 @@
 - **Remote-first** - loodud serveritega töötamiseks
 - **Git-centered** - versioonihaldus on süvuti integreeritud
 
-## 1. VS Code Installimine
+### VS Code Installimine
 
 ### Windows
 ```powershell
@@ -49,7 +49,7 @@ brew install --cask visual-studio-code
 sudo snap install code --classic
 ```
 
-## 2. Vajalikud Laiendused
+### Vajalikud Laiendused
 
 ### Laienduste Allikad
 - **VS Code sisene**: `Ctrl+Shift+X` - põhiline viis
@@ -92,7 +92,7 @@ Ava VS Code → Vajuta `Ctrl+Shift+X` → Paigalda järgmised:
 3. **Install** → avaneb VS Code automaatselt
 4. Või kopeeri **Marketplace ID** → käsurea install
 
-## 7. SSH Seadistamine
+### SSH Seadistamine
 
 ### SSH võtme loomine:
 ```bash
@@ -111,7 +111,7 @@ Host serverinimi
     IdentityFile ~/.ssh/id_rsa
 ```
 
-## 8. Põhiseadistused
+### Põhiseadistused
 
 Ava Settings (`Ctrl+,`) ja lisa:
 
@@ -126,7 +126,7 @@ Ava Settings (`Ctrl+,`) ja lisa:
 }
 ```
 
-## 4. Virtuaalmasinad ja Ühendused
+### Virtuaalmasinad ja Ühendused
 
 ### Võimalikud Keskkonnad
 
@@ -166,7 +166,7 @@ Host multipass-dev
 3. Ubuntu-s: `sudo apt install openssh-server`
 4. Lisa VS Code SSH config-i
 
-## 5. Remote Explorer Kasutamine
+### Remote Explorer Kasutamine
 
 ### Ühenduste Vaatamine
 1. **Külgriba** → Remote Explorer ikoon
@@ -182,7 +182,7 @@ Remote masinas on **eraldi extension store**:
 **Soovitatud remote extensions**:
 - Python, Docker, YAML - kui vaja remote masinas
 
-## 6. Mitme Terminali Kasutamine
+### Mitme Terminali Kasutamine
 
 ### Terminal Loomine
 ```
@@ -203,7 +203,7 @@ Ctrl+` - Terminali näitamine/peitmine
 - **Kill Terminal**: Terminal paremklõps → "Kill Terminal"
 - **Switch**: `Ctrl+PageUp/PageDown` või dropdown menüü
 
-## 9. Kiire Test
+### Kiire Test
 
 1. Loo uus kaust ja ava VS Code-s
 2. Loo fail `test.yaml`:
@@ -216,4 +216,3 @@ server:
     timeout: 30
 ```
 3. Salvesta (`Ctrl+S`) - Prettier peaks formateerima
-4. Vaata indent-rainbow värve

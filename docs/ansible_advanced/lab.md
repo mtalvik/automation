@@ -1,9 +1,9 @@
-# 🧪 Ansible Advanced Lab: Template-based Configuration
+# Ansible Advanced Lab: Template-based Configuration
 
-**Kestus:** 2 tundi  
+**Kestus:**   
 **Eesmärk:** Õppida Ansible'i täpsemaid funktsioone ja luua dünaamilisi konfiguratsioone
 
-## 🎯 Samm 1: Õpiväljundid
+## Task 1: Õpiväljundid
 
 Pärast laborit oskate:
 - Dünaamilised konfiguratsioonid Jinja2 template'itega
@@ -14,9 +14,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 1: Advanced Variables Setup (30 min)
+## Task 2: Advanced Variables Setup ()
 
-### 1.1: Projekti struktuuri loomine - Organiseeritud struktuur
+### Ülesanne 1.1: Projekti struktuuri loomine - Organiseeritud struktuur
 
 **Miks struktureeritud projekt:**
 - Suuremad projektid vajavad selget organisatsiooni
@@ -66,7 +66,7 @@ Pärast laborit oskate:
 └── templates/
 ```
 
-### 1.2: Inventory seadistamine - Serverite hierarhia
+### Ülesanne 1.2: Inventory seadistamine - Serverite hierarhia
 
 **Mõistame inventory struktuuri:**
 - **Groups** - serverite grupid (webservers, dbservers)
@@ -142,9 +142,9 @@ Pärast laborit oskate:
            ssl_enabled: true
    ```
 
-**❓ Mõelge:** Miks on kasulik grupeerida servereid nii rolli kui keskkonna järgi?
+** Mõelge:** Miks on kasulik grupeerida servereid nii rolli kui keskkonna järgi?
 
-### Samm 3: Variables hierarchy loomine
+### Ülesanne 3.1: Variables hierarchy loomine
 
 **Loome muutujate hierarhia sammhaaval:**
 
@@ -225,16 +225,16 @@ Pärast laborit oskate:
        # Parool tuleb vault'ist
    ```
 
-**💡 Märkused:**
+** Märkused:**
 - Kasutame Jinja2 loogikat dünaamilisteks väärtusteks
 - Serverite võimsus mõjutab konfiguratsiooni
 - Keskkond määrab turvalisuse taseme
 
 ---
 
-## 📋 Samm 2: Jinja2 Template'ite loomine (45 min)
+## Task 3: Jinja2 Template'ite loomine ()
 
-### 2.1: Apache virtual host template - Dünaamiline konfiguratsioon
+### Ülesanne 2.1: Apache virtual host template - Dünaamiline konfiguratsioon
 
 **Miks template'id on olulised:**
 - Üks template, mitu erinevat konfiguratsiooni
@@ -311,7 +311,7 @@ Pärast laborit oskate:
 
 **🤔 Analüüs:** Kuidas template aitab hallata erinevaid keskkondi (dev vs prod)?
 
-### 2.2: MySQL konfiguratsioon template
+### Ülesanne 2.2: MySQL konfiguratsioon template
 
 **Loome MySQL template'i sammhaaval:**
 
@@ -357,7 +357,7 @@ Pärast laborit oskate:
    {% endif %}
    ```
 
-### 2.3: PHP konfiguratsioon template
+### Ülesanne 2.3: PHP konfiguratsioon template
 
 **Looge PHP-FPM template:**
 
@@ -407,9 +407,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 3: Handlers ja Advanced Playbook (30 min)
+## Task 4: Handlers ja Advanced Playbook ()
 
-### 3.1: Playbook handlers'itega
+### Ülesanne 3.1: Playbook handlers'itega
 
 **Loome täiustatud playbook'i sammhaaval:**
 
@@ -498,7 +498,7 @@ Pärast laborit oskate:
 
 **💭 Mõelge:** Miks kasutame `reload` mitte `restart`? Mis vahe on?
 
-### 3.2: Testimine
+### Ülesanne 3.2: Testimine
 
 **Testida konfiguratsiooni:**
 
@@ -519,9 +519,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 4: Ansible Vault rakendamine (35 min)
+## Task 5: Ansible Vault rakendamine ()
 
-### 4.1: Vault failide loomine
+### Ülesanne 4.1: Vault failide loomine
 
 **Loome turvalist vault struktuuri:**
 
@@ -570,7 +570,7 @@ Pärast laborit oskate:
    vault_production_db_password: "ProdDbPass123!"
    ```
 
-### 4.2: Vault muutujate kasutamine
+### Ülesanne 4.2: Vault muutujate kasutamine
 
 **Ühendame vault muutujad tavaliste muutujatega:**
 
@@ -603,7 +603,7 @@ Pärast laborit oskate:
    {% endif %}
    ```
 
-### 4.3: Vault käsitsikasutatavus
+### Ülesanne 4.3: Vault käsitsikasutatavus
 
 **Vault operatsioonid:**
 
@@ -633,7 +633,7 @@ Pärast laborit oskate:
 
 ---
 
-## 🎯 Samm 2: Labi kontrollnimekiri
+## Task 6: Labi kontrollnimekiri
 
 Veenduge, et olete lõpetanud:
 
@@ -662,7 +662,7 @@ Veenduge, et olete lõpetanud:
 - [ ] **Dry run** - --check mode töötab
 - [ ] **Template testing** - konfiguratsioonid genereeruvad õigesti
 
-## 🚀 Järgmised sammud
+## Task 7: Järgmised sammud
 
 **Valmis kodutööks:**
 - Kasutage siin õpitud advanced pattern'e
@@ -674,4 +674,4 @@ Veenduge, et olete lõpetanud:
 - Automated testing strategies
 - Enterprise deployment patterns
 
-**Hästi tehtud! 🎉** Te oskate nüüd luua production-ready Ansible projekte!
+**Hästi tehtud! ** Te oskate nüüd luua production-ready Ansible projekte!

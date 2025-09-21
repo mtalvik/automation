@@ -6,32 +6,32 @@ This guide will help you get started with the course platforms and tools.
 
 ## Course Platforms
 
-### 1. Google Classroom
+#### Google Classroom
 - **Purpose:** Assignment distribution and grading
 - **Access:** Use the class code provided by your instructor
 - **Features:** 
-  - Assignment submissions
-  - Grade tracking
-  - Course announcements
-  - Class discussions
+ - Assignment submissions
+ - Grade tracking
+ - Course announcements
+ - Class discussions
 
-### 2. GitHub Education
+#### GitHub Education
 - **Purpose:** Code repositories and collaboration
 - **Access:** Create GitHub account and join classroom
 - **Features:**
-  - Private repositories for assignments
-  - Automated testing
-  - Version control
-  - Collaboration tools
+ - Private repositories for assignments
+ - Automated testing
+ - Version control
+ - Collaboration tools
 
-### 3. GitHub Discussions
+#### GitHub Discussions
 - **Purpose:** Q&A and community support
 - **Access:** Available in the course repository
 - **Features:**
-  - Ask questions
-  - Share resources
-  - Get help from peers
-  - Showcase your work
+ - Ask questions
+ - Share resources
+ - Get help from peers
+ - Showcase your work
 
 ## Getting Started
 
@@ -79,7 +79,7 @@ This guide will help you get started with the course platforms and tools.
 
 ## Assignment Workflow
 
-### 1. Starting an Assignment
+#### Starting an Assignment
 
 #### From Google Classroom
 1. Open the assignment
@@ -93,7 +93,7 @@ This guide will help you get started with the course platforms and tools.
 3. Clone the repository to your computer
 4. Follow the README instructions
 
-### 2. Working on Assignments
+#### Working on Assignments
 
 #### Development Process
 1. **Read the requirements** - Understand what needs to be done
@@ -108,7 +108,7 @@ This guide will help you get started with the course platforms and tools.
 - **Test before submitting** - Make sure everything works
 - **Ask for help** - Use Discussions if you're stuck
 
-### 3. Submitting Assignments
+#### Submitting Assignments
 
 #### GitHub Submission
 1. **Push your changes** - `git push origin main`
@@ -124,19 +124,19 @@ This guide will help you get started with the course platforms and tools.
 
 ## Getting Help
 
-### 1. GitHub Discussions
+#### GitHub Discussions
 - **Search first** - Your question might already be answered
 - **Ask in Q&A category** - Use the help template
 - **Provide details** - Include error messages and environment info
 - **Help others** - Answer questions when you can
 
-### 2. Office Hours
+#### Office Hours
 - **Check schedule** - Posted in Google Classroom
 - **Prepare questions** - Have specific issues ready
 - **Share your screen** - Show the problem directly
 - **Take notes** - Document solutions for future reference
 
-### 3. Peer Support
+#### Peer Support
 - **Form study groups** - Work together on assignments
 - **Share resources** - Helpful links and tutorials
 - **Review each other's work** - Learn from different approaches
@@ -144,19 +144,19 @@ This guide will help you get started with the course platforms and tools.
 
 ## Course Resources
 
-### 1. Documentation
+#### Documentation
 - **Course website** - [https://mtalvik.github.io/automation](https://mtalvik.github.io/automation)
 - **Assignment instructions** - Detailed step-by-step guides
 - **Reading materials** - Background theory and concepts
 - **Reference guides** - Quick command references
 
-### 2. Tools and Services
+#### Tools and Services
 - **Student Developer Pack** - Premium tools and services
 - **Cloud credits** - AWS, Azure, DigitalOcean credits
 - **Free software** - JetBrains IDEs, GitHub Desktop
 - **Learning resources** - GitHub Learning Lab courses
 
-### 3. Community
+#### Community
 - **GitHub Discussions** - Course Q&A and discussions
 - **Study groups** - Peer learning and collaboration
 - **Showcase** - Share your projects and achievements
@@ -164,19 +164,19 @@ This guide will help you get started with the course platforms and tools.
 
 ## Grading and Assessment
 
-### 1. Assignment Types
+#### Assignment Types
 - **Lab assignments** - Hands-on practical work
 - **Homework** - Theory and practice combination
 - **Reading assignments** - Documentation and research
 - **Projects** - Larger integrated assignments
 
-### 2. Grading Criteria
+#### Grading Criteria
 - **Functionality** - Does the code work correctly?
 - **Best practices** - Following industry standards
 - **Documentation** - Clear README and comments
 - **Timeliness** - Submitted by deadline
 
-### 3. Feedback
+#### Feedback
 - **Automated testing** - Immediate feedback on functionality
 - **Peer review** - Learn from other students
 - **Instructor feedback** - Detailed comments and suggestions
@@ -184,19 +184,19 @@ This guide will help you get started with the course platforms and tools.
 
 ## Tips for Success
 
-### 1. Time Management
-- **Start early** - Don't wait until the last minute
+#### Time Management
+- **Start early** - Don't wait until the lastute
 - **Break down tasks** - Work on assignments in smaller chunks
 - **Set deadlines** - Create your own milestones
 - **Ask for help** - Don't struggle alone
 
-### 2. Learning Strategies
+#### Learning Strategies
 - **Practice regularly** - Hands-on experience is key
 - **Read documentation** - Understand the tools you're using
 - **Experiment** - Try different approaches
 - **Reflect** - Think about what you've learned
 
-### 3. Collaboration
+#### Collaboration
 - **Help others** - Teaching reinforces your own learning
 - **Ask questions** - There are no stupid questions
 - **Share resources** - Contribute to the community
@@ -206,28 +206,28 @@ This guide will help you get started with the course platforms and tools.
 
 ### Common Issues
 1. **Can't access GitHub Classroom**
-   - Check your GitHub account
-   - Verify the invitation link
-   - Contact your instructor
+ - Check your GitHub account
+ - Verify the invitation link
+ - Contact your instructor
 
 2. **Assignment repository not created**
-   - Wait a few minutes
-   - Refresh the page
-   - Check your GitHub notifications
+ - Wait a fewutes
+ - Refresh the page
+ - Check your GitHub notifications
 
 3. **Tools not working**
-   - Check installation guides
-   - Verify system requirements
-   - Ask for help in Discussions
+ - Check installation guides
+ - Verify system requirements
+ - Ask for help in Discussions
 
 4. **Assignment submission issues**
-   - Check deadline
-   - Verify repository permissions
-   - Contact your instructor
+ - Check deadline
+ - Verify repository permissions
+ - Contact your instructor
 
 ### Getting Support
 - **GitHub Discussions** - Course-specific help
-- **Office hours** - Direct instructor support
+- **Office** - Direct instructor support
 - **Peer support** - Study groups and collaboration
 - **Documentation** - Self-help resources
 
@@ -250,7 +250,7 @@ This guide will help you get started with the course platforms and tools.
 ### Instructor
 - **Name:** Maria Talvik
 - **Email:** [your-email@example.com]
-- **Office hours:** [Schedule]
+- **Office:** [Schedule]
 - **GitHub:** [@mtalvik](https://github.com/mtalvik)
 
 ### Course Resources

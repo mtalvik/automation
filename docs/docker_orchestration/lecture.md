@@ -1,11 +1,11 @@
-# 📚 Nädal 21: Docker Compose ja Orchestration
+# Docker Compose ja Orchestration
 
-**Kestus:** 4 tundi  
+**Kestus:**   
 **Teemad:** Docker Compose põhialused, Lihtsad multi-container rakendused, Keskkondade haldamine, Alternatiivide tutvustus
 
 ---
 
-## 🎯 Õpiväljundid
+## Task 1: Õpiväljundid
 
 Pärast seda nädalat oskate:
 - **Kirjutada lihtsaid Docker Compose faile** - põhilised teenused ja nende seosed
@@ -16,7 +16,7 @@ Pärast seda nädalat oskate:
 
 ---
 
-## 📖 Loeng 21.1: Docker Compose Overview (12 min)
+## Docker Compose Overview
 
 ### Tere tulemast orkestreerimise maailma!
 
@@ -68,9 +68,9 @@ graph TB
         User[👤 Kasutaja]
         
         subgraph "Frontend Layer"
-            React[⚛️ React App<br/>Kasutajaliides]
+            React[⚛ React App<br/>Kasutajaliides]
             Vue[💚 Vue App<br/>Kasutajaliides]
-            Angular[🅰️ Angular App<br/>Kasutajaliides]
+            Angular[🅰 Angular App<br/>Kasutajaliides]
         end
         
         subgraph "Backend Layer"
@@ -123,7 +123,7 @@ graph TB
 ```bash
 # Ilma Compose'ita peate käivitama:
 
-# 1. Database - andmete salvestamine
+## Database - andmete salvestamine
 docker run -d \
   --name myapp-db \
   -e POSTGRES_PASSWORD=secret \
@@ -131,13 +131,13 @@ docker run -d \
   -v myapp_db_data:/var/lib/postgresql/data \
   postgres:13
 
-# 2. Redis cache - kiire andmete juurdepääs
+## Task 2: Redis cache - kiire andmete juurdepääs
 docker run -d \
   --name myapp-redis \
   -v myapp_redis_data:/data \
   redis:alpine
 
-# 3. Backend API - äriloogika ja andmete töötlemine
+## Backend API - äriloogika ja andmete töötlemine
 docker run -d \
   --name myapp-api \
   --link myapp-db:db \
@@ -146,7 +146,7 @@ docker run -d \
   -e REDIS_URL=redis://redis:6379 \
   myapp/api:latest
 
-# 4. Frontend - kasutajaliides
+## Task 3: Frontend - kasutajaliides
 docker run -d \
   --name myapp-web \
   --link myapp-api:api \
@@ -154,7 +154,7 @@ docker run -d \
   -e API_URL=http://api:3000 \
   myapp/web:latest
 
-# 5. Nginx reverse proxy - koormuse jaotus ja SSL
+## Task 4: Nginx reverse proxy - koormuse jaotus ja SSL
 docker run -d \
   --name myapp-nginx \
   --link myapp-web:web \
@@ -194,7 +194,7 @@ graph LR
         P2[🚫 Raske peatada<br/>5 eraldi käsku]
         P3[📝 Ei reprodutseeritav<br/>Erinevad keskkonnad]
         P4[🔧 Raske debug<br/>Hajutatud logid]
-        P5[⏰ Aega nõudev<br/>Iga kord sama]
+        P5[ Aega nõudev<br/>Iga kord sama]
         P6[👥 Raske jagada<br/>Kolleegid ei tea]
     end
     
@@ -216,7 +216,7 @@ graph LR
 🚫 **Raske peatada** - peate peatama 5 eraldi container'it käsitsi  
 📝 **Ei ole reprodutseeritav** - erinevad keskkonnad, erinevad seaded  
 🔧 **Raske debuggida** - logid on hajutatud erinevatesse container'itesse  
-⏰ **Aega nõudev** - iga kord sama protsess uuesti  
+ **Aega nõudev** - iga kord sama protsess uuesti  
 👥 **Raske jagada** - teie kolleegid ei tea, milliseid käske kasutada
 
 ### Docker Compose lahendus
@@ -241,11 +241,11 @@ graph TB
     end
     
     subgraph "🔧 Teenused"
-        DB[🗄️ db<br/>PostgreSQL]
+        DB[🗄 db<br/>PostgreSQL]
         Redis[🔴 redis<br/>Cache]
         API[🔧 api<br/>Backend]
         Web[🌐 web<br/>Frontend]
-        Nginx[⚖️ nginx<br/>Load Balancer]
+        Nginx[⚖ nginx<br/>Load Balancer]
     end
     
     Services --> DB
@@ -330,7 +330,7 @@ graph LR
     subgraph "📋 Docker Compose faili osad"
         Version[📋 version<br/>Compose versioon<br/>3.8+]
         Services[📦 services<br/>Kõik teenused<br/>container'id]
-        Image[🐳 image<br/>Docker image<br/>postgres:13]
+        Image[ image<br/>Docker image<br/>postgres:13]
         Env[🌍 environment<br/>Keskkonnamuutujad<br/>POSTGRES_PASSWORD]
         Vol[💾 volumes<br/>Püsivad andmed<br/>db_data]
         Depends[🔗 depends_on<br/>Sõltuvused<br/>db, redis]
@@ -367,8 +367,8 @@ graph LR
     subgraph "✅ Docker Compose lahendus"
         ComposeFile[📄 docker-compose.yml<br/>Üks fail]
         OneCommand[🚀 docker-compose up<br/>Üks käsk]
-        AutoOrder[🔄 Automaatne järjekord<br/>depends_on]
-        EasyStop[⏹️ docker-compose down<br/>Lihtne peatamine]
+        AutoOrder[ Automaatne järjekord<br/>depends_on]
+        EasyStop[⏹ docker-compose down<br/>Lihtne peatamine]
     end
     
     subgraph "✅ Eelised"
@@ -376,7 +376,7 @@ graph LR
         E2[📊 Keskendatud logid<br/>docker-compose logs]
         E3[🔧 Lihtne debug<br/>logs -f reaalajas]
         E4[⚡ Kiire iteratsioon<br/>restart teenuseid]
-        E5[📚 Version control<br/>Git'i lisada]
+        E5[ Version control<br/>Git'i lisada]
     end
     
     ComposeFile --> OneCommand
@@ -405,20 +405,20 @@ graph LR
 
 ### Docker Compose põhimõtted
 
-#### 1. Deklaratiivne konfiguratsioon
+##### Deklaratiivne konfiguratsioon
 Sa kirjeldad, **mida** tahad, mitte **kuidas** seda saavutada. See on nagu restorani menüü - sa ütled, mida tahad süüa, mitte kuidas seda valmistada.
 
 ```mermaid
 graph LR
-    subgraph "🍽️ Restorani analoogia"
+    subgraph "🍽 Restorani analoogia"
         Menu[📋 Menüü<br/>"Tahan pitsa"]
         Kitchen[👨‍🍳 Köök<br/>Teab kuidas valmistada]
         Food[🍕 Pitsa<br/>Valmis toit]
     end
     
-    subgraph "🐳 Docker Compose"
+    subgraph " Docker Compose"
         YAML[📄 docker-compose.yml<br/>"Tahan PostgreSQL"]
-        Compose[⚙️ Compose<br/>Teab kuidas käivitada]
+        Compose[⚙ Compose<br/>Teab kuidas käivitada]
         Container[🐘 PostgreSQL<br/>Käivitatud andmebaas]
     end
     
@@ -446,7 +446,7 @@ db:
 ```
 **Compose teeb:** Käivitab PostgreSQL container'i, seadistab parooli, loob andmebaasi
 
-#### 2. Teenused (Services)
+##### Teenused (Services)
 Iga konteiner on "teenus" - tal on nimi ja roll. Teenused on nagu restorani osakonnad - köök, teenindus, kassa.
 
 ```mermaid
@@ -457,8 +457,8 @@ graph TB
         Cashier[💰 Kassa<br/>Maksab arve]
     end
     
-    subgraph "🐳 Docker teenused"
-        DB[🗄️ db<br/>Andmebaas]
+    subgraph " Docker teenused"
+        DB[🗄 db<br/>Andmebaas]
         API[🔧 api<br/>API server]
         Web[🌐 web<br/>Veebileht]
     end
@@ -485,7 +485,7 @@ services:
   web:     # Teenuse nimi - veebileht
 ```
 
-#### 3. Võrgud ja andmete jagamine
+##### Võrgud ja andmete jagamine
 Compose loob automaatselt võrgu, kus kõik teenused saavad omavahel suhelda. See on nagu restorani sisevõrk - köök saab suhelda teenindusega.
 
 ```mermaid
@@ -496,10 +496,10 @@ graph TB
         Cashier[💰 Kassa<br/>192.168.1.12]
     end
     
-    subgraph "🐳 Docker võrk"
+    subgraph " Docker võrk"
         Web[🌐 web<br/>web:3000]
         API[🔧 api<br/>api:5000]
-        DB[🗄️ db<br/>db:5432]
+        DB[🗄 db<br/>db:5432]
     end
     
     Kitchen -.->|"Suhtleb"| Service
@@ -521,19 +521,19 @@ graph TB
 - Teenused saavad üksteist leida nime järgi
 - Näiteks: `db:5432` ühendub andmebaasi teenusega
 
-## 🔍 **Põhilised mõisted ja protsessid**
+## Task 5: **Põhilised mõisted ja protsessid**
 
 ### Kust tulevad Docker image'id?
 
 ```mermaid
 graph LR
     subgraph "📦 Image allikad"
-        DockerHub[🐳 Docker Hub<br/>docker.io]
+        DockerHub[ Docker Hub<br/>docker.io]
         Private[🏢 Private Registry<br/>company.com/registry]
         Local[💻 Kohalikud image'id<br/>docker build]
     end
     
-    subgraph "⬇️ Allalaadimine"
+    subgraph "⬇ Allalaadimine"
         Pull[📥 docker pull<br/>Allalaadimine]
         Build[🔨 docker build<br/>Ehitus]
     end
@@ -574,7 +574,7 @@ graph TB
         Copy[📋 COPY<br/>Failide kopeerimine]
         Install[📦 RUN<br/>Paketite installimine]
         Expose[🌐 EXPOSE<br/>Pordi avamine]
-        CMD[▶️ CMD<br/>Käivitamiskäsk]
+        CMD[▶ CMD<br/>Käivitamiskäsk]
     end
     
     Dockerfile --> Build
@@ -648,12 +648,12 @@ graph TB
 
 ```mermaid
 graph LR
-    subgraph "🐳 Container elutsükkel"
+    subgraph " Container elutsükkel"
         Image[📦 Image<br/>Staatiline fail]
         Container[📦 Container<br/>Käivitatud protsess]
-        Running[▶️ Running<br/>Töötav rakendus]
-        Stopped[⏹️ Stopped<br/>Peatatud]
-        Removed[🗑️ Removed<br/>Kustutatud]
+        Running[▶ Running<br/>Töötav rakendus]
+        Stopped[⏹ Stopped<br/>Peatatud]
+        Removed[🗑 Removed<br/>Kustutatud]
     end
     
     Image --> Container
@@ -689,9 +689,9 @@ graph LR
         BuildUp[🔨 docker-compose up --build<br/>Ehita ja käivita]
     end
     
-    subgraph "⏹️ Peatamine"
+    subgraph "⏹ Peatamine"
         Down[📉 docker-compose down<br/>Peata kõik]
-        Restart[🔄 docker-compose restart<br/>Taaskäivita]
+        Restart[ docker-compose restart<br/>Taaskäivita]
     end
     
     subgraph "📊 Info"
@@ -747,22 +747,22 @@ docker-compose up --build
 
 **Praktiline näide:**
 ```bash
-# 1. Käivita rakendus
+## Task 6: Käivita rakendus
 docker-compose up -d
 
-# 2. Vaata, kas kõik töötab
+## Vaata, kas kõik töötab
 docker-compose ps
 
-# 3. Vaata logisid, kui midagi ei tööta
+## Vaata logisid, kui midagi ei tööta
 docker-compose logs -f
 
-# 4. Peata rakendus
+## Task 7: Peata rakendus
 docker-compose down
 ```
 
 ---
 
-## 📖 Loeng 21.2: Multi-service Applications (15 min)
+## Task 8: Multi-service Applications
 
 ### Teenuste tüübid ja rollid
 
@@ -889,7 +889,7 @@ networks:
 
 ---
 
-## 📖 Loeng 21.3: Lihtne orkestreerimine (5 min)
+## Task 9: Lihtne orkestreerimine
 
 ### Miks Docker Compose on piisav?
 
@@ -914,8 +914,8 @@ networks:
 ```mermaid
 graph LR
     subgraph "🎯 Alusta siit"
-        Simple[🐳 Docker Compose<br/>Lihtne ja piisav]
-        Complex[☸️ Kubernetes<br/>Keeruline, aga võimas]
+        Simple[ Docker Compose<br/>Lihtne ja piisav]
+        Complex[☸ Kubernetes<br/>Keeruline, aga võimas]
     end
     
     Simple -->|"Kui vajad rohkem"| Complex
@@ -933,7 +933,7 @@ graph LR
 
 ---
 
-## 📖 Loeng 21.4: Environment Management (10 min)
+## Task 10: Environment Management
 
 ### Environment-specific configurations
 
@@ -1036,7 +1036,7 @@ docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d
 
 ---
 
-## 📖 Loeng 21.5: Kubernetes Introduction (15 min)
+## Task 11: Kubernetes Introduction
 
 ### Miks Kubernetes?
 
@@ -1112,7 +1112,7 @@ spec:
 ```bash
 # Install Minikube
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+sudo installikube-linux-amd64 /usr/local/bin/minikube
 
 # Start cluster
 minikube start
@@ -1128,12 +1128,12 @@ minikube service web-service
 
 ```mermaid
 graph LR
-    subgraph "🐳 Docker Compose"
-        Compose[🐳 Docker Compose<br/>• Lihtne<br/>• Üks host<br/>• Käsitsi skaleerimine<br/>• Madal õppimiskõver<br/>• Arendus]
+    subgraph " Docker Compose"
+        Compose[ Docker Compose<br/>• Lihtne<br/>• Üks host<br/>• Käsitsi skaleerimine<br/>• Madal õppimiskõver<br/>• Arendus]
     end
     
-    subgraph "☸️ Kubernetes"
-        K8s[☸️ Kubernetes<br/>• Keeruline<br/>• Mitmed hostid<br/>• Automaatne skaleerimine<br/>• Kõrge õppimiskõver<br/>• Tootmine]
+    subgraph "☸ Kubernetes"
+        K8s[☸ Kubernetes<br/>• Keeruline<br/>• Mitmed hostid<br/>• Automaatne skaleerimine<br/>• Kõrge õppimiskõver<br/>• Tootmine]
     end
     
     Compose -.->|"Järgmine samm"| K8s
@@ -1152,7 +1152,7 @@ graph LR
 
 ---
 
-## 🎯 Kokkuvõte
+## Kokkuvõte
 
 Pärast seda nädalat oskate:
 
@@ -1162,7 +1162,7 @@ Pärast seda nädalat oskate:
 ✅ **Kubernetes basics** - production-ready orkestreerimise alused  
 ✅ **Best practices** - turvaline ja skaleeritav arhitektuur  
 
-### 🎯 **Praktiline soovitus:**
+### **Praktiline soovitus:**
 
 **Alusta lihtsast:**
 1. **Docker Compose** - lihtsate rakenduste jaoks
@@ -1170,7 +1170,7 @@ Pärast seda nädalat oskate:
 3. **Alternatiivid** - kui K8s on liiga keeruline
 
 **Õppimise järjekord:**
-- **Nädal 21:** Docker Compose põhialused
+- **Docker Compose põhialused**
 - **Järgmised nädalad:** Kubernetes sügavamalt
 - **Tulevikus:** Alternatiivide tutvustus
 
@@ -1178,7 +1178,7 @@ Pärast seda nädalat oskate:
 
 ---
 
-## 🤔 **Lihtne mõte: Ära järgi hüpe**
+## Task 12: 🤔 **Lihtne mõte: Ära järgi hüpe**
 
 ### Miks see oluline on?
 
@@ -1188,15 +1188,15 @@ Oleme õppinud Docker Compose'i ja orkestreerimist, aga on oluline mõista: **li
 
 ```mermaid
 graph LR
-    subgraph "🏗️ Keeruline"
+    subgraph "🏗 Keeruline"
         Micro[🔧 Mikroteenused<br/>Palju väikseid osi]
-        K8s[☸️ Kubernetes<br/>Keeruline setup]
+        K8s[☸ Kubernetes<br/>Keeruline setup]
         Complex[🤯 Raske debugida<br/>Palju asju hallata]
     end
     
     subgraph "🗿 Lihtne"
         Mono[🏢 Üks rakendus<br/>Kõik koos]
-        Compose[🐳 Docker Compose<br/>Lihtne setup]
+        Compose[ Docker Compose<br/>Lihtne setup]
         Simple[😌 Lihtne debugida<br/>Vähe asju hallata]
     end
     
@@ -1231,14 +1231,14 @@ graph LR
 
 ---
 
-## 📚 Lisaressursid ja dokumentatsioon
+## Lisaressursid ja dokumentatsioon
 
-### 🎓 **Õppimiseks:**
+### **Õppimiseks:**
 - [Docker Compose Documentation](https://docs.docker.com/compose/) - ametlik dokumentatsioon
 - [Docker Compose Quickstart](https://docs.docker.com/compose/gettingstarted/) - kiire algus
 - [Docker Compose Examples](https://github.com/docker/awesome-compose) - palju näiteid
 
-### 🔧 **Praktikaks:**
+### **Praktikaks:**
 - [Docker Compose Reference](https://docs.docker.com/compose/compose-file/) - kõik võimalikud seaded
 - [Docker Compose Best Practices](https://docs.docker.com/compose/production/) - tootmiskeskkonna nõuded
 - [Docker Compose Networking](https://docs.docker.com/compose/networking/) - võrgu konfiguratsioon
@@ -1248,7 +1248,7 @@ graph LR
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/docker-compose) - küsimused ja vastused
 - [Docker Hub](https://hub.docker.com/) - valmis image'id
 
-### 📖 **Alternatiivide kohta:**
+### **Alternatiivide kohta:**
 - [Podman Compose](https://github.com/containers/podman-compose) - rootless alternatiiv
 - [Kubernetes Documentation](https://kubernetes.io/docs/) - kui vajate rohkem
 - [Minikube](https://minikube.sigs.k8s.io/docs/) - kohalik Kubernetes
@@ -1257,5 +1257,5 @@ graph LR
 - [Start Simple](https://martinfowler.com/bliki/MonolithFirst.html) - Alusta lihtsast
 - [Docker Compose Best Practices](https://docs.docker.com/compose/production/) - Tootmiskeskkonna nõuded
 
-### 📚 **Rohkem lugemist orkestreerimise kohta:**
+### **Rohkem lugemist orkestreerimise kohta:**
 - [16 Most Useful Container Orchestration Tools in 2025](https://spacelift.io/blog/container-orchestration-tools) - Ülevaade erinevatest orkestreerimise tööriistadest

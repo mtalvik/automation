@@ -1,6 +1,6 @@
-# 📚 Nädal 25: Ettevõtte Infrastruktuuri Automatiseerimine ja Projekti Lõpetamine
+# Ettevõtte Infrastruktuuri Automatiseerimine ja Projekti Lõpetamine
 
-## 📖 Loeng 25.1: Kuidas läheneda uuele DevOps projektile (20 min)
+## Task 1: Kuidas läheneda uuele DevOps projektile
 
 ### Tere tagasi, kallid tudengid!
 
@@ -12,7 +12,7 @@ Eelmisel nädalal õppisime Terraform'iga infrastruktuuri koodina. Täna näitam
 
 **Praegune olukord:**
 ```bash
-# Käsitsi deployment protsess (2-3 tundi)
+# Käsitsi deployment protsess (2-)
 1. SSH serverisse
 2. Git pull latest code
 3. Install dependencies
@@ -23,18 +23,18 @@ Eelmisel nädalal õppisime Terraform'iga infrastruktuuri koodina. Täna näitam
 
 **Probleem:** Arendajad deploy'ivad käsitsi, tihti vigu, aeglane protsess
 
-### 🎯 **Meie lahendus: Täielik automatiseerimine**
+### **Meie lahendus: Täielik automatiseerimine**
 
 **Kõik oskused, mida me õppisime, ühes projektis:**
 
-#### 1. Git ja Version Control (Nädal 9)
+##### Git ja Version Control (Nädal 9)
 ```bash
 # Struktureeritud Git workflow
 main branch → development → feature branches
 Pull request → code review → merge
 ```
 
-#### 2. Ansible Configuration Management (Nädal 11-15)
+##### Ansible Configuration Management (Nädal 11-15)
 ```yaml
 # server-setup.yml
 - name: Setup web server
@@ -51,7 +51,7 @@ Pull request → code review → merge
         dest: /etc/nginx/nginx.conf
 ```
 
-#### 3. Docker Containerization (Nädal 19-21)
+##### Docker Containerization (Nädal 19-21)
 ```dockerfile
 # Dockerfile
 FROM python:3.9-slim
@@ -63,7 +63,7 @@ EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 ```
 
-#### 4. Infrastructure as Code (Nädal 23)
+##### Infrastructure as Code (Nädal 23)
 ```hcl
 # main.tf
 resource "local_file" "web_server_config" {
@@ -76,7 +76,7 @@ resource "local_file" "web_server_config" {
 }
 ```
 
-#### 5. CI/CD Pipeline (Nädal 25)
+##### CI/CD Pipeline (Nädal 25)
 
 ```mermaid
 flowchart LR
@@ -128,11 +128,11 @@ deploy:
     - ansible-playbook deploy.yml
 ```
 
-### 🛠️ **Täielik automatiseerimise workflow**
+### 🛠 **Täielik automatiseerimise workflow**
 
 #### Samm 1: Infrastructure Setup (Terraform)
 ```bash
-# 1. Create infrastructure
+## Task 2: Create infrastructure
 terraform init
 terraform plan
 terraform apply
@@ -142,7 +142,7 @@ terraform apply
 
 #### Samm 2: Server Configuration (Ansible)
 ```bash
-# 2. Configure servers
+## Task 3: Configure servers
 ansible-playbook -i inventory server-setup.yml
 
 # Tulemus: Nginx, Python, dependencies installed
@@ -150,7 +150,7 @@ ansible-playbook -i inventory server-setup.yml
 
 #### Samm 3: Application Deployment (Docker + CI/CD)
 ```bash
-# 3. Deploy application
+## Task 4: Deploy application
 git push origin main
 # → Triggers CI/CD pipeline
 # → Builds Docker image
@@ -159,7 +159,7 @@ git push origin main
 
 #### Samm 4: Monitoring (Prometheus + Grafana)
 ```yaml
-# 4. Monitor everything
+## Task 5: Monitor everything
 - name: Setup monitoring
   hosts: monitoring
   tasks:
@@ -169,27 +169,27 @@ git push origin main
         image: prom/prometheus
 ```
 
-### 📊 **Enne vs Pärast Automatiseerimist**
+### **Enne vs Pärast Automatiseerimist**
 
 | Aspekt | Enne | Pärast |
 |--------|------|--------|
-| **Deployment aeg** | 2-3 tundi | 5 minutit |
+| **Deployment aeg** | 2- |utit |
 | **Vigade arv** | 30% | 2% |
-| **Rollback aeg** | 1 tund | 2 minutit |
+| **Rollback aeg** | 1 tund |utit |
 | **Arendaja stress** | Kõrge | Madal |
 | **Deployment sagedus** | 1x nädalas | 5x päevas |
 
 ---
 
-## 📖 Loeng 25.2: Kuidas valida tehnoloogiaid (18 min)
+## Task 6: Kuidas valida tehnoloogiaid
 
-### 🎯 **Real-world tehnoloogia valik meie projektis**
+### **Real-world tehnoloogia valik meie projektis**
 
 **Probleem:** TechShop vajab automatiseerimist
 
 **Meie valikud ja põhjendused:**
 
-#### 1. CI/CD Platform: GitLab CI
+##### CI/CD Platform: GitLab CI
 ```yaml
 # Miks GitLab CI?
 Lihtne setup (GitLab + CI samas kohas)
@@ -200,7 +200,7 @@ Ansible integration
 ❌ Jenkins (keeruline)
 ```
 
-#### 2. Containerization: Docker
+##### Containerization: Docker
 ```bash
 # Miks Docker?
 Consistent environment
@@ -211,7 +211,7 @@ Industry standard
 ❌ Direct install (inconsistent)
 ```
 
-#### 3. Configuration Management: Ansible
+##### Configuration Management: Ansible
 ```yaml
 # Miks Ansible?
 Agentless (no installation on servers)
@@ -222,7 +222,7 @@ Terraform integration
 ❌ Chef (expensive)
 ```
 
-#### 4. Infrastructure: Terraform
+##### Infrastructure: Terraform
 ```hcl
 # Miks Terraform?
 Multi-cloud support
@@ -233,7 +233,7 @@ Ansible integration
 ❌ Manual setup (error-prone)
 ```
 
-### 🛠️ **Praktiline näide: Tehnoloogia valik**
+### 🛠 **Praktiline näide: Tehnoloogia valik**
 
 **Ülesanne:** Vali monitoring lahendus TechShop'ile
 
@@ -263,26 +263,26 @@ CloudWatch: 4/5 + 3/5 + 3/5 + 4/5 = 14/20
 
 ---
 
-## 📖 Loeng 25.3: Kuidas troubleshoot'ida production issues (15 min)
+## Task 7: Kuidas troubleshoot'ida production issues
 
 ### 🚨 **Real scenario: TechShop on maas**
 
 **Probleem:** Website tagastab 502 Bad Gateway
 
-### 🔍 **Systematic troubleshooting meie automatiseeritud süsteemis**
+### **Systematic troubleshooting meie automatiseeritud süsteemis**
 
 #### Samm 1: Information gathering
 
 ```bash
-# 1. Check CI/CD pipeline status
+## Task 8: Check CI/CD pipeline status
 gitlab-ci-lint .gitlab-ci.yml
 # Tulemus: Pipeline OK
 
-# 2. Check Docker containers
+## Task 9: Check Docker containers
 docker ps
 # Tulemus: Container stopped
 
-# 3. Check application logs
+## Task 10: Check application logs
 docker logs techshop-app
 # Tulemus: Database connection failed
 ```
@@ -319,7 +319,7 @@ terraform show
 # Probleem: Security group blocking database access
 # Lahendus: Update Terraform configuration
 
-# 1. Update security group
+## Task 11: Update security group
 resource "local_file" "db_config" {
   ingress {
     from_port = 3306
@@ -329,15 +329,15 @@ resource "local_file" "db_config" {
   }
 }
 
-# 2. Apply changes
+## Task 12: Apply changes
 terraform plan
 terraform apply
 
-# 3. Restart application
+## Restart application
 ansible-playbook restart-app.yml
 ```
 
-### 🛠️ **Praktiline harjutus: Troubleshooting**
+### 🛠 **Praktiline harjutus: Troubleshooting**
 
 **Ülesanne:** TechShop API response time > 30s
 
@@ -348,11 +348,11 @@ ansible-playbook restart-app.yml
 
 ---
 
-## 📖 Loeng 25.4: Järgmised sammud karjääris (12 min)
+## Task 13: Järgmised sammud karjääris
 
-### 🎓 **Kuidas kasutada oma TechShop projekti karjääris**
+### **Kuidas kasutada oma TechShop projekti karjääris**
 
-#### 1. Portfolio projekt
+##### Portfolio projekt
 
 **GitHub repository:**
 ```bash
@@ -365,7 +365,7 @@ techshop-automation/
 └── README.md          # Project documentation
 ```
 
-#### 2. CV ja LinkedIn
+##### CV ja LinkedIn
 
 **Skills demonstrated:**
 - Git workflow management
@@ -376,7 +376,7 @@ techshop-automation/
 - Monitoring setup
 - Production troubleshooting
 
-#### 3. Interview examples
+##### Interview examples
 
 **"Tell me about a project you automated":**
 ```
@@ -385,10 +385,10 @@ techshop-automation/
 - Ansible'it serverite konfigureerimiseks
 - Docker'it rakenduse pakkimiseks
 - GitLab CI/CD pipeline'i automatiseerimiseks
-- Tulemus: deployment aeg vähenes 2 tunnilt 5 minutile"
+- Tulemus: deployment aeg vähenes 2 tunniltutile"
 ```
 
-### 🛠️ **Praktiline harjutus: Karjääri planeerimine**
+### 🛠 **Praktiline harjutus: Karjääri planeerimine**
 
 **Ülesanne:** Tee oma TechShop projekti paremaks
 
@@ -403,7 +403,7 @@ JÄRGMISED SAMMUD:
 
 ---
 
-## 🎯 **Nädala Kokkuvõte**
+## Task 14: **Nädala Kokkuvõte**
 
 ### **Mida me õppisime rakendama:**
 - **Git + CI/CD**: Automated deployment pipeline
@@ -413,15 +413,15 @@ JÄRGMISED SAMMUD:
 - **Monitoring**: Production visibility
 - **Troubleshooting**: Systematic problem solving
 
-### 🚀 **Real-world projekt:**
+### **Real-world projekt:**
 - **TechShop e-commerce** - täielik automatiseerimine
 - **Kõik oskused kokku** - ühes projektis
 - **Production-ready** - päris kasutuses
 
-### 📚 **Järgmised sammud:**
+### **Järgmised sammud:**
 - Jätka õppimist cloud tehnoloogiateid
 - Ehita oma portfolio projektid
 - Osale DevOps kogukondades
 - Praktiseeri real projektides
 
-**🎉 Õnnitleme! Oled nüüd valmis automatiseerimise projektideks!**
+** Õnnitleme! Oled nüüd valmis automatiseerimise projektideks!**

@@ -3,7 +3,7 @@
 <div id="leaderboard-container">
   <div class="leaderboard-header">
     <h2>Top Performers</h2>
-    <p>Automaatselt uueneb iga 5 minuti tagant</p>
+    <p>Automaatselt uueneb igauti tagant</p>
   </div>
   
   <div id="loading">Laadin andmeid...</div>
@@ -84,9 +84,9 @@ async function loadLeaderboard() {
 function getDemoData() {
   return [
     { name: "Alice", points: 980, completed: 12, badges: ["🚀 Speed Demon", "✨ Perfect Score", "🔥 Streak"] },
-    { name: "Bob", points: 875, completed: 11, badges: ["✨ Perfect Score", "📚 Documenter"] },
+    { name: "Bob", points: 875, completed: 11, badges: ["✨ Perfect Score", " Documenter"] },
     { name: "Charlie", points: 820, completed: 10, badges: ["🔥 Streak", "🎯 First Try"] },
-    { name: "Diana", points: 750, completed: 9, badges: ["📚 Documenter"] },
+    { name: "Diana", points: 750, completed: 9, badges: [" Documenter"] },
     { name: "Eve", points: 720, completed: 8, badges: ["🎯 First Try"] }
   ];
 }
@@ -120,7 +120,7 @@ function displayLeaderboard(data) {
 // Load on page load
 loadLeaderboard();
 
-// Refresh every 5 minutes
+// Refresh everyutes
 setInterval(loadLeaderboard, 300000);
 </script>
 
@@ -140,9 +140,9 @@ setInterval(loadLeaderboard, 300000);
 - **🚀 Speed Demon** - Lahendas ülesande < 1 tunni jooksul
 - **✨ Perfect Score** - 100% testid läbitud esimesel katsel
 - **🔥 Streak** - 5 ülesannet järjest õigel ajal
-- **📚 Documenter** - Suurepärane dokumentatsioon
+- ** Documenter** - Suurepärane dokumentatsioon
 - **🎯 First Try** - Kõik testid läbitud esimesel pushil
-- **💡 Helper** - Aitas teisi Discussions'is
+- ** Helper** - Aitas teisi Discussions'is
 - **🐛 Bug Hunter** - Leidis vea ülesandes
 
 ## Statistika

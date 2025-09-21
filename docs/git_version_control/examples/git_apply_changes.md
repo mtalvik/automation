@@ -1,11 +1,11 @@
 # Git Apply - Lihtne Juhend
 
-**Kestus:** 15 minutit  
+**Kestus:**utit  
 **Eesmärk:** Õppida rakendama lihtsaid muudatusi patch failidest
 
 ---
 
-## 📖 Mis on Patch?
+## Mis on Patch?
 
 Patch on fail, mis sisaldab muudatuste kirjeldust. Seda saab kasutada, et rakendada muudatusi olemasolevatele failidele.
 
@@ -16,7 +16,7 @@ Patch on fail, mis sisaldab muudatuste kirjeldust. Seda saab kasutada, et rakend
 
 ---
 
-## 📖 Patch'id ja Versioonihaldus
+## Patch'id ja Versioonihaldus
 
 ### Miks kasutame patch'e?
 
@@ -41,17 +41,17 @@ Patch on fail, mis sisaldab muudatuste kirjeldust. Seda saab kasutada, et rakend
 
 ---
 
-## 📖 Kuidas Rakendada Patch'i?
+## Kuidas Rakendada Patch'i?
 
 ### Kaks Lihtsat Viisi
 
-#### 1. Kasuta `patch` käsku (lihtsam)
+##### Kasuta `patch` käsku (lihtsam)
 
 ```bash
 patch failinimi.py < muudatused.diff
 ```
 
-#### 2. Kasuta `git apply` käsku (Git projektides)
+##### Kasuta `git apply` käsku (Git projektides)
 
 ```bash
 git apply muudatused.patch
@@ -59,9 +59,9 @@ git apply muudatused.patch
 
 ---
 
-## 📖 Praktiline Näide
+## Praktiline Näide
 
-### Samm 1: Sul on fail `cpu_usage.py`
+### Ülesanne 1.1: Sul on fail `cpu_usage.py`
 
 ```python
 #!/usr/bin/env python3
@@ -78,7 +78,7 @@ else:
     print("Everything ok")
 ```
 
-### Samm 2: Saad patch faili `cpu_usage.diff`
+### Ülesanne 2.1: Saad patch faili `cpu_usage.diff`
 
 ```
 --- cpu_usage.py	2019-06-23 08:16:04.666457429 -0700
@@ -95,7 +95,7 @@ else:
  if not check_cpu_usage(75):
 ```
 
-### Samm 3: Rakenda patch
+### Ülesanne 3.1: Rakenda patch
 
 ```bash
 patch cpu_usage.py < cpu_usage.diff
@@ -103,7 +103,7 @@ patch cpu_usage.py < cpu_usage.diff
 
 Vastus: `patching file cpu_usage.py`
 
-### Samm 4: Kontrolli tulemust
+### Ülesanne 4.1: Kontrolli tulemust
 
 ```bash
 cat cpu_usage.py
@@ -133,7 +133,7 @@ else:
 
 ---
 
-## 📖 Lihtne Harjutus
+## Lihtne Harjutus
 
 ### Proovi Ise!
 
@@ -166,7 +166,7 @@ cat hello.py
 
 ---
 
-## 📖 Kasulikud Käsud
+## Kasulikud Käsud
 
 ```bash
 # Lihtne patch rakendamine
@@ -181,7 +181,7 @@ git apply --check muudatused.patch
 
 ---
 
-## 📖 Kokkuvõte
+## Kokkuvõte
 
 ### Mida õppisid?
 

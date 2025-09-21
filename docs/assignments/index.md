@@ -2,7 +2,7 @@
 
 Tere tulemast infrastruktuuri automatiseerimise kursuse ülesannete lehele! Siin leiad kõik praktilised ülesanded DevOps tööriistade kohta.
 
-## 📚 Kursuse ülesehitus
+## Kursuse ülesehitus
 
 Kursus koosneb 6 peamisest moodulist:
 
@@ -13,7 +13,7 @@ Kursus koosneb 6 peamisest moodulist:
 5. **Kubernetes** - Konteinerite orkestreerimine
 6. **Terraform** - Infrastructure as Code
 
-## 🚀 Aktiivsed ülesanded
+## Aktiivsed ülesanded
 
 ### 📦 Moodul 1: Git & Versioonihaldus
 **[Rain Pickles Website](../git_version_control/homework.md)**
@@ -21,37 +21,37 @@ Kursus koosneb 6 peamisest moodulist:
 - Branching, merging, konfliktide lahendamine
 - **Tähtaeg:** Nädal 9
 
-### 🐳 Moodul 2: Docker
+### Moodul 2: Docker
 **[Multi-Container Application](../docker_fundamentals/homework.md)**
 - Dockerize veebirakendus
 - Docker Compose kasutamine
 - **Tähtaeg:** Nädal 12
 
-### ⚙️ Moodul 3: Ansible
+### ⚙ Moodul 3: Ansible
 **[NGINX + SSL + PostgreSQL](classroom/#nadal-13-15-ansible-automation)**
 - Automatiseeri LAMP stack
 - SSL sertifikaadid, andmebaas
 - **Tähtaeg:** Nädal 15
 
-### 🔄 Moodul 4: CI/CD
+### Moodul 4: CI/CD
 **[GitHub Actions Pipeline](../ci_cd_advanced/homework.md)**
 - Automated testing
 - Docker build & push
 - **Tähtaeg:** Nädal 19
 
-### ☸️ Moodul 5: Kubernetes
+### ☸ Moodul 5: Kubernetes
 **[3-Tier App Deploy](../kubernetes_overview/homework.md)**
 - Deploy frontend, backend, database
 - Services, ConfigMaps, Secrets
 - **Tähtaeg:** Nädal 21
 
-### 🏗️ Moodul 6: Terraform
+### 🏗 Moodul 6: Terraform
 **[AWS Infrastructure](../terraform_basics/homework.md)**
 - VPC, EC2, RDS provisioning
 - State management
 - **Tähtaeg:** Nädal 23
 
-## 📊 Hindamissüsteem
+## Hindamissüsteem
 
 ### Ülesannete kaalud
 - **Git:** 10%
@@ -85,7 +85,7 @@ vagrant ssh
 - Azure Student Account
 - Google Cloud Free Credits
 
-## 🛠️ Vajalikud tööriistad
+## 🛠 Vajalikud tööriistad
 
 ```bash
 # Paigalda kõik korraga (Ubuntu/Debian)
@@ -123,9 +123,9 @@ Teeni badge'e:
 - 🚀 **Speed Demon** - Esita ülesanne 24h jooksul
 - 🔒 **Security First** - Implementeeri SSL/TLS õigesti
 - 📦 **Container Master** - Docker multi-stage build < 100MB
-- 🔄 **CI/CD Hero** - 0 failed pipeline runs
-- ☸️ **K8s Navigator** - Deploy ilma kubectl edit'ita
-- 🏗️ **Terraform Architect** - 0 drift detected
+-  **CI/CD Hero** - 0 failed pipeline runs
+- ☸ **K8s Navigator** - Deploy ilma kubectl edit'ita
+- 🏗 **Terraform Architect** - 0 drift detected
 
 ---
 

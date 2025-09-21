@@ -1,11 +1,11 @@
 # Git Diff ja Diff Väljundi Lugemine
 
-**Kestus:** 30 minutit  
+**Kestus:**utit  
 **Eesmärk:** Õppida lugema diff väljundit ja mõistma, mida iga sümbol tähendab
 
 ---
 
-## 📖 Sissejuhatus Diff'i Lugemisse
+## Sissejuhatus Diff'i Lugemisse
 
 Diff on tööriist, mis näitab failide vahelisi erinevusi. Git kasutab sama formaati, mis Unix/Linux `diff` käsk.
 
@@ -18,7 +18,7 @@ Diff on tööriist, mis näitab failide vahelisi erinevusi. Git kasutab sama for
 
 ---
 
-## 📖 Diff Väljundi Formaat
+## Diff Väljundi Formaat
 
 ### Põhiline Struktuur
 
@@ -40,7 +40,7 @@ Diff on tööriist, mis näitab failide vahelisi erinevusi. Git kasutab sama for
 
 ---
 
-## 📖 Praktilised Näited
+## Praktilised Näited
 
 ### Näide 1: Lihtne Rida Muutmine
 
@@ -91,12 +91,12 @@ $ diff rearrange1.py rearrange2.py
 
 **Fail 1 (validations1.py):**
 ```python
-def validate_user(username, minlen):
+def validate_user(username,len):
     assert type(username) == str, "username must be a string"
-    if minlen < 1:
+    iflen < 1:
         raise ValueError("minlen must be at least 1")
     
-    if len(username) < minlen:
+    if len(username) <len:
         return False
     if not username.isalnum():
         return False
@@ -105,13 +105,13 @@ def validate_user(username, minlen):
 
 **Fail 2 (validations2.py):**
 ```python
-def validate_user(username, minlen):
+def validate_user(username,len):
     if type(username) != str:
         raise TypeError("username must be a string")
-    if minlen < 1:
+    iflen < 1:
         raise ValueError("minlen must be at least 1")
     
-    if len(username) < minlen:
+    if len(username) <len:
         return False
     if not username.isalnum():
         return False
@@ -157,11 +157,11 @@ $ diff -u validations1.py validations2.py
 +++ validations2.py	2019-06-06 14:30:48.019360890 +0200
 @@ -2,7 +2,8 @@
  
- def validate_user(username, minlen):
+ def validate_user(username,len):
 -    assert type(username) == str, "username must be a string"
 +    if type(username) != str:
 +        raise TypeError("username must be a string")
-     if minlen < 1:
+     iflen < 1:
          raise ValueError("minlen must be at least 1")
      
 @@ -10,5 +11,8 @@
@@ -182,7 +182,7 @@ $ diff -u validations1.py validations2.py
 
 ---
 
-## 📖 Git Diff Näited
+## Git Diff Näited
 
 ### Git Diff Töökausta vs Staging
 
@@ -266,32 +266,32 @@ index x1y2z3a..b4c5d6e 100644
 
 ---
 
-## 📖 Diff'i Lugemise Sammud
+## Diff'i Lugemise Sammud
 
-### 1. Vaata Konteksti
+#### Vaata Konteksti
 ```
 @@ -5,3 +5,4 @@
 ```
 - Mitu rida on muudetud?
 - Millised read on kontekstis?
 
-### 2. Tuvasta Muudatuste Tüübid
+#### Tuvasta Muudatuste Tüübid
 - **Eemaldamine** (`-`): vana kood
 - **Lisamine** (`+`): uus kood
 - **Kontekst** (tühi): muutmata read
 
-### 3. Mõista Loogikat
+#### Mõista Loogikat
 - Miks tehti muudatus?
 - Kas on breaking change?
 - Kas on bug fix või feature?
 
-### 4. Kontrolli Järgnevust
+#### Kontrolli Järgnevust
 - Kas kõik muudatused on seotud?
 - Kas on puuduvaid muudatusi?
 
 ---
 
-## 📖 Harjutused
+## Harjutused
 
 ### Harjutus 1: Loe Diff'i
 
@@ -354,7 +354,7 @@ index x1y2z3a..b4c5d6e 100644
 
 ---
 
-## 📖 Kasulikud Diff Käsud
+## Kasulikud Diff Käsud
 
 ### Git Diff Variandid
 
@@ -405,7 +405,7 @@ diff -r kaust1/ kaust2/
 
 ---
 
-## 📖 Kokkuvõte
+## Kokkuvõte
 
 ### Olulised Punktid
 

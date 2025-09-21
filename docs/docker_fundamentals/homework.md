@@ -1,14 +1,14 @@
-# 📝 Nädal 19 Kodutöö: Süsteemi Oleku Dashboard Deployment
+# Süsteemi Oleku Dashboard Deployment
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Docker ja Podman container'ite kasutamist praktikas  
-**Aeg:** 2-3 tundi (võib olla keeruline, aga jõukohane)
+(võib olla keeruline, aga jõukohane)
 
 **Te saate valmis veebisaidi - keskenduge container tehnoloogiate õppimisele!**
 
 ---
 
-## 🖥️ **Projekt: Süsteemi Oleku Dashboard**
+## Task 1: Projekt: Süsteemi Oleku Dashboard
 
 **Mida see teeb:**
 - Näitab container informatsiooni
@@ -24,9 +24,9 @@
 
 ---
 
-## 📁 **Samm 1: Kloonige starter repository**
+## Task 2: Kloonige starter repository
 
-### 1.1 Kloonige kodutöö starter repository
+### Ülesanne 2.1: Kloonige kodutöö starter repository
 
 ```bash
 # Clone valmis starter repository
@@ -48,7 +48,7 @@ git checkout -b homework-TEIE-NIMI
 
 **Ei pea ise kirjutama - fookus container'itel!**
 
-### 1.2 Tutvuge starter failidega
+#### Tutvuge starter failidega
 
 **Kontrollige, mis failid on olemas:**
 ```bash
@@ -67,7 +67,7 @@ ls -la
 - Interaktiivsed nupud testimiseks
 - Responsive disain
 
-### 1.3 Testage starter rakendust brauseris
+#### Testage starter rakendust brauseris
 
 ```bash
 # Avage index.html otse brauseris (ilma container'ita)
@@ -88,9 +88,9 @@ open index.html
 
 ---
 
-## 🔧 **Samm 2: Docker container loomine**
+## Docker container loomine**
 
-### 2.1 Tutvuge Dockerfile'iga
+#### Tutvuge Dockerfile'iga
 
 **Vaadake olemas olevat `Dockerfile` faili:**
 ```bash
@@ -111,7 +111,7 @@ EXPOSE 80                      # Container port 80
 - Lisab custom nginx konfiguratsiooni
 - Avab port 80 HTTP liikluseks
 
-### 2.2 Testige Docker build
+#### Testige Docker build
 
 ```bash
 # Ehitage container image
@@ -127,7 +127,7 @@ docker build -t my-dashboard .
 docker images | grep my-dashboard
 ```
 
-### 2.3 Esimene commit oma branch'iga
+#### Esimene commit oma branch'iga
 
 ```bash
 # Commit esialgsed muudatused (kui tegite mõnda)
@@ -140,14 +140,14 @@ git push origin homework-TEIE-NIMI
 # Miks me commit'ime?
 # - Salvestame oma töö progressi
 # - Näitame, et alustasime tööd
-# - Saame tagasi minna kui midagi läheb valesti
+# - Saame tagasina kui midagi läheb valesti
 ```
 
 ---
 
-## 🐳 **Samm 3: Container'ite käivitamine**
+## Task 3: **Samm 3: Container'ite käivitamine**
 
-### 3.1 Docker'iga deploy
+#### Docker'iga deploy
 
 ```bash
 # Käivitage container
@@ -166,7 +166,7 @@ docker ps
 echo "Avage brauser: http://localhost:8080"
 ```
 
-### 3.2 Podman'iga deploy
+#### Podman'iga deploy
 
 ```bash
 # Ehitage image Podman'iga
@@ -188,7 +188,7 @@ echo "Avage brauser: http://localhost:8081"
 - Käsud on peaaegu identilised
 - Mõlemad kasutavad sama container format
 
-### 3.3 Docker-compose kasutamine
+#### Docker-compose kasutamine
 
 **Looge `docker-compose.yml` fail:**
 ```yaml
@@ -219,7 +219,7 @@ docker-compose ps
 # Testidige: http://localhost:8080
 ```
 
-### 3.4 Commit oma edu
+#### Commit oma edu
 
 ```bash
 git add docker-compose.yml
@@ -228,9 +228,9 @@ git commit -m "Docker ja Podman deployment töötab - mõlemad testitud"
 
 ---
 
-## 📊 **Samm 4: Container'ite haldamine**
+## Task 4: Container'ite haldamine**
 
-### 4.1 Container'ite info vaatamine
+#### Container'ite info vaatamine
 
 ```bash
 # Vaadake kõiki töötavaid container'eid
@@ -251,7 +251,7 @@ exit
 - `docker logs` - näitab container'i väljundit
 - `docker exec -it` - lubab container'isse siseneda
 
-### 4.2 Container'ite peatamine ja kustutamine
+#### Container'ite peatamine ja kustutamine
 
 ```bash
 # Peatage container
@@ -267,7 +267,7 @@ docker rm -f my-docker-app
 docker rmi my-dashboard
 ```
 
-### 4.3 Docker-compose haldamine
+#### Docker-compose haldamine
 
 ```bash
 # Vaadake docker-compose staatust
@@ -283,7 +283,7 @@ docker-compose down
 docker-compose up -d
 ```
 
-### 4.4 Ressursside kasutus
+#### Ressursside kasutus
 
 ```bash
 # Vaadake container'ite ressursside kasutust
@@ -304,9 +304,9 @@ git commit -m "Õppisin container'ite haldamist - start, stop, logs, cleanup"
 
 ---
 
-## 📋 **Samm 5: Lõplik dokumentatsioon (10 min)**
+## Task 5: Lõplik dokumentatsioon ()**
 
-### 5.1 Muutke README.md faili
+#### Muutke README.md faili
 
 **Fail: `README.md`** (kopeerige ja täitke oma andmed):
 ```markdown
@@ -316,7 +316,7 @@ git commit -m "Õppisin container'ite haldamist - start, stop, logs, cleanup"
 System Status Dashboard on veebirakendus, mis näitab container informatsiooni,
 süsteemi olekut ja võimaldab testida erinevaid operations.
 
-## Kuidas käivitada?
+## Task 6: Kuidas käivitada?
 
 ### Docker'iga:
 ```bash
@@ -356,20 +356,20 @@ docker-compose up -d
 ## Tervise kontroll
 Külastage `/health` endpoint'i container'i tervise staatuse kontrollimiseks.
 
-## Ekraanipildid
+## Task 7: Ekraanipildid
 [Lisage oma screenshot'id siia]
 
-## Mida ma õppisin
+## Task 8: Mida ma õppisin
 - [Teie kogemus 1]
 - [Teie kogemus 2] 
 - [Teie kogemus 3]
 
-## Probleemid ja lahendused
+## Task 9: Probleemid ja lahendused
 **Probleem:** [Kirjeldage probleem mis teil tekkis]  
 **Lahendus:** [Kuidas te selle lahendasite]
 ```
 
-### 5.2 Tehke screenshot'id
+#### Tehke screenshot'id
 
 **Vajalikud screenshot'id:**
 1. Dashboard töötab Docker'is: `http://localhost:8080?type=Docker`
@@ -381,7 +381,7 @@ Külastage `/health` endpoint'i container'i tervise staatuse kontrollimiseks.
 
 ---
 
-### 5.2 Lõplik push oma branch'iga
+#### Lõplik push oma branch'iga
 
 ```bash
 # Veenduge, et kõik on commit'itud
@@ -397,7 +397,7 @@ git push origin homework-TEIE-NIMI
 
 ---
 
-## 📋 **Esitamise nõuded**
+## Task 10: **Esitamise nõuded**
 
 ### **Repository peab sisaldama:**
 
@@ -422,4 +422,3 @@ docker-fundamentals-homework/
 - **Selge dokumentatsioon README.md's**
 - **Git commit history näitab progressi**
 
- 

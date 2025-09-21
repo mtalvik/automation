@@ -1,7 +1,7 @@
 # CI/CD Advanced Lab: Täielik Automatiseerimine
-*ITS-24 DevOps Automatiseerimine | 3 tundi praktiline töö*
+*ITS-24 DevOps Automatiseerimine |  praktiline töö*
 
-## 🎯 **Samm 1: Lab'i eesmärk**
+## Lab'i eesmärk**
 
 **Täna teeme LÕPPPROJEKTI!** Kasutame KÕIKI oskusi, mida õppisime:
 
@@ -12,21 +12,21 @@
 - **CI/CD** (Nädal 25) → Automated deployment
 - **Monitoring** → Production visibility
 
-## 🏢 **PROJEKT: "TechShop" E-commerce Automatiseerimine**
+## Task 1: 🏢 **PROJEKT: "TechShop" E-commerce Automatiseerimine**
 
 **Klient:** Väike e-commerce startup "TechShop"
 
 **Probleem:** 
-- Käsitsi deployment (2-3 tundi)
+- Käsitsi deployment
 - Tihti vigu (30% failure rate)
-- Aeglane rollback (1 tund)
+- Aeglane rollback
 - Arendajad stressis
 
 **Lahendus:** Täielik automatiseerimine kõigi oskustega!
 
 ---
 
-## 🛠️ **Vajalikud tööriistad**
+## Task 2: 🛠 **Vajalikud tööriistad**
 
 **Kontrollige, et teil on:**
 - Git
@@ -39,27 +39,27 @@
 
 ---
 
-## 🚀 **Samm 2: Infrastructure as Code (Terraform) - 30 min**
+## Task 3: Infrastructure as Code (Terraform)**
 
-### 2.1: Loo Terraform projekt
+### Ülesanne 2.1: Loo Terraform projekt
 
 ```bash
-# 1. Loo projekt struktuur
+## Task 4: Loo projekt struktuur
 mkdir techshop-automation
 cd techshop-automation
 
-# 2. Loo Terraform kaust
+## Task 5: Loo Terraform kaust
 mkdir terraform
 cd terraform
 
-# 3. Loo Terraform failid
+## Task 6: Loo Terraform failid
 touch main.tf
 touch variables.tf
 touch outputs.tf
 touch terraform.tfvars
 ```
 
-### 2.2: Loo infrastruktuur
+### Ülesanne 2.2: Loo infrastruktuur
 
 **`variables.tf`:**
 ```hcl
@@ -148,37 +148,37 @@ output "app_directory_path" {
 }
 ```
 
-### 2.3: Deploy'i infrastruktuur
+### Ülesanne 2.3: Deploy'i infrastruktuur
 
 ```bash
-# 1. Initsialiseeri Terraform
+## Task 7: Initsialiseeri Terraform
 terraform init
 
-# 2. Vaata planeeritud muudatusi
+## Vaata planeeritud muudatusi
 terraform plan
 
-# 3. Deploy'i infrastruktuur
+## Task 8: Deploy'i infrastruktuur
 terraform apply -auto-approve
 
-# 4. Salvesta väljundid
+## Salvesta väljundid
 terraform output > outputs.txt
 ```
 
 ---
 
-## 🔧 **Samm 3: Server Configuration (Ansible) - 30 min**
+## Task 9: Server Configuration (Ansible)**
 
-### 3.1: Loo Ansible projekt
+### Ülesanne 3.1: Loo Ansible projekt
 
 ```bash
-# 1. Mine tagasi projekti juurkausta
+## Task 10: Mine tagasi projekti juurkausta
 cd ..
 
-# 2. Loo Ansible kaust
+## Task 11: Loo Ansible kaust
 mkdir ansible
 cd ansible
 
-# 3. Loo Ansible failid
+## Task 12: Loo Ansible failid
 touch inventory.yml
 touch playbook.yml
 touch group_vars/all.yml
@@ -191,7 +191,7 @@ touch roles/webserver/tasks/main.yml
 touch roles/webserver/handlers/main.yml
 ```
 
-### 3.2: Seadista inventory
+### Ülesanne 3.2: Seadista inventory
 
 **`inventory.yml`:**
 ```yaml
@@ -206,7 +206,7 @@ all:
         app_port: 5000
 ```
 
-### 3.3: Loo webserver role
+### Ülesanne 3.3: Loo webserver role
 
 **`roles/webserver/tasks/main.yml`:**
 ```yaml
@@ -299,7 +299,7 @@ server {
 }
 ```
 
-### 3.4: Loo playbook
+### Ülesanne 3.4: Loo playbook
 
 **`playbook.yml`:**
 ```yaml
@@ -311,41 +311,41 @@ server {
     - webserver
 ```
 
-### 3.5: Käivita Ansible
+### Ülesanne 3.5: Käivita Ansible
 
 ```bash
-# 1. Seadista keskkonna muutuja
+## Task 13: Seadista keskkonna muutuja
 export WEB_SERVER_IP=$(terraform -chdir=../terraform output -raw web_server_public_ip)
 
-# 2. Käivita Ansible playbook
+## Task 14: Käivita Ansible playbook
 ansible-playbook -i inventory.yml playbook.yml
 
-# 3. Kontrolli tulemus
+## Task 15: Kontrolli tulemus
 ansible webservers -i inventory.yml -m ping
 ```
 
 ---
 
-## 🐳 **Samm 4: Application Development (Docker) - 30 min**
+## Task 16: **Samm 4: Application Development (Docker)**
 
-### 4.1: Loo rakendus
+### Ülesanne 4.1: Loo rakendus
 
 ```bash
-# 1. Mine tagasi projekti juurkausta
+## Task 17: Mine tagasi projekti juurkausta
 cd ..
 
-# 2. Loo rakenduse kaust
+## Task 18: Loo rakenduse kaust
 mkdir app
 cd app
 
-# 3. Loo rakenduse failid
+## Task 19: Loo rakenduse failid
 touch app.py
 touch requirements.txt
 touch Dockerfile
 touch docker-compose.yml
 ```
 
-### 4.2: Loo Flask rakendus
+### Ülesanne 4.2: Loo Flask rakendus
 
 **`app.py`:**
 ```python
@@ -409,7 +409,7 @@ psutil==5.9.5
 requests==2.31.0
 ```
 
-### 4.3: Loo Dockerfile
+### Ülesanne 4.3: Loo Dockerfile
 
 **`Dockerfile`:**
 ```dockerfile
@@ -438,7 +438,7 @@ EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:app"]
 ```
 
-### 4.4: Loo docker-compose
+### Ülesanne 4.4: Loo docker-compose
 
 **`docker-compose.yml`:**
 ```yaml
@@ -460,35 +460,35 @@ services:
       start_period: 40s
 ```
 
-### 4.5: Testi kohalikult
+### Ülesanne 4.5: Testi kohalikult
 
 ```bash
-# 1. Ehita ja käivita
+## Task 20: Ehita ja käivita
 docker-compose up --build -d
 
-# 2. Testi rakendust
+## Testi rakendust
 curl http://localhost:5000/
 curl http://localhost:5000/health
 curl http://localhost:5000/products
 
-# 3. Peata
+## Task 21: Peata
 docker-compose down
 ```
 
 ---
 
-## 🚀 **HARJUTUS 4: CI/CD Pipeline (GitLab CI) - 45 min**
+## Task 22: **HARJUTUS 4: CI/CD Pipeline (GitLab CI)**
 
-### Samm 1: Loo Git repository
+### Ülesanne 1.1: Loo Git repository
 
 ```bash
-# 1. Mine tagasi projekti juurkausta
+## Task 23: Mine tagasi projekti juurkausta
 cd ..
 
-# 2. Initsialiseeri Git
+## Task 24: Initsialiseeri Git
 git init
 
-# 3. Lisa .gitignore
+## Lisa .gitignore
 echo "*.tfstate" > .gitignore
 echo "*.tfstate.backup" >> .gitignore
 echo "*.tfvars" >> .gitignore
@@ -497,20 +497,20 @@ echo "__pycache__/" >> .gitignore
 echo "*.pyc" >> .gitignore
 echo ".env" >> .gitignore
 
-# 4. Lisa failid
+## Lisa failid
 git add .
 
-# 5. Esimene commit
+## Task 25: Esimene commit
 git commit -m "Initial commit - TechShop automation project"
 
-# 6. Lisa remote (asenda oma GitLab URL'iga)
+## Lisa remote (asenda oma GitLab URL'iga)
 git remote add origin https://gitlab.com/teie-kasutajanimi/techshop-automation.git
 
-# 7. Push'i kood
+## Push'i kood
 git push -u origin main
 ```
 
-### Samm 2: Loo CI/CD pipeline
+### Ülesanne 2.1: Loo CI/CD pipeline
 
 **`.gitlab-ci.yml`:**
 ```yaml
@@ -631,7 +631,7 @@ deploy-application:
   when: manual
 ```
 
-### Samm 3: Seadista GitLab CI/CD
+### Ülesanne 3.1: Seadista GitLab CI/CD
 
 1. **Mine GitLab'i** → oma projekt
 2. **Settings** → **CI/CD** → **Variables**
@@ -642,9 +642,9 @@ deploy-application:
 
 ---
 
-## 📊 **HARJUTUS 5: Monitoring ja Troubleshooting - 30 min**
+## Task 26: **HARJUTUS 5: Monitoring ja Troubleshooting**
 
-### Samm 1: Lisa monitoring
+### Ülesanne 1.1: Lisa monitoring
 
 **Lisa `app.py` faili:**
 ```python
@@ -685,7 +685,7 @@ def status():
     })
 ```
 
-### Samm 2: Lisa health check CI/CD pipeline'i
+### Ülesanne 2.1: Lisa health check CI/CD pipeline'i
 
 **Lisa `.gitlab-ci.yml` faili:**
 ```yaml
@@ -708,7 +708,7 @@ health-check:
     - main
 ```
 
-### Samm 3: Troubleshooting harjutused
+### Ülesanne 3.1: Troubleshooting harjutused
 
 **Probleem 1: Application ei käivitu**
 ```bash
@@ -745,60 +745,60 @@ ansible webservers -i inventory.yml -m ping -vvv
 
 ---
 
-## 📝 **HARJUTUS 6: Dokumenteerimine ja Demo - 15 min**
+## Task 27: **HARJUTUS 6: Dokumenteerimine ja Demo**
 
-### Samm 1: Loo README.md
+### Ülesanne 1.1: Loo README.md
 
 ```markdown
 # TechShop E-commerce Automation Project
 
-## Projekt kirjeldus
+## Task 28: Projekt kirjeldus
 Täielik automatiseeritud e-commerce lahendus, mis kasutab kõiki DevOps oskusi.
 
-## Arhitektuur
+## Task 29: Arhitektuur
 - **Infrastructure**: Local (Terraform)
 - **Configuration**: Ansible
 - **Application**: Python Flask (Docker)
 - **CI/CD**: GitLab CI
 - **Monitoring**: Custom metrics
 
-## Komponendid
+## Task 30: Komponendid
 
-### 1. Infrastructure (Terraform)
+#### Infrastructure (Terraform)
 - Kohalikud seaded
 - Konfiguratsioonifailid
 - Security groups
 - Elastic IP
 
-### 2. Server Configuration (Ansible)
+#### Server Configuration (Ansible)
 - Nginx reverse proxy
 - Docker installation
 - Application directory setup
 
-### 3. Application (Docker)
+#### Application (Docker)
 - Flask REST API
 - Health checks
 - Metrics endpoint
 - Product catalog
 
-### 4. CI/CD Pipeline (GitLab CI)
+#### CI/CD Pipeline (GitLab CI)
 - Infrastructure deployment
 - Server configuration
 - Application deployment
 - Health monitoring
 
-## Kuidas kasutada
+## Task 31: Kuidas kasutada
 
 ### Kohalik arendus
 ```bash
-# 1. Klooni projekt
+## Task 32: Klooni projekt
 git clone https://gitlab.com/teie-kasutajanimi/techshop-automation.git
 
-# 2. Käivita kohalikult
+## Task 33: Käivita kohalikult
 cd app
 docker-compose up --build
 
-# 3. Testi
+## Testi
 curl http://localhost:5000/
 ```
 
@@ -808,7 +808,7 @@ curl http://localhost:5000/
 3. Käivita "configure-servers" job
 4. Käivita "deploy-application" job
 
-## API Endpoints
+## Task 34: API Endpoints
 - `GET /` - Home page
 - `GET /health` - Health check
 - `GET /metrics` - System metrics
@@ -816,7 +816,7 @@ curl http://localhost:5000/
 - `GET /products` - Product catalog
 - `POST /orders` - Create order
 
-## Monitoring
+## Task 35: Monitoring
 - Health checks: `/health`
 - System metrics: `/metrics`
 - Service status: `/status`
@@ -835,7 +835,7 @@ curl http://localhost:5000/
 - **Application**: Python Flask
 - **Web Server**: Nginx
 
-## Järgmised sammud
+## Task 36: Järgmised sammud
 - [ ] Lisa PostgreSQL andmebaas
 - [ ] Lisa Redis cache
 - [ ] Lisa Prometheus monitoring
@@ -843,7 +843,7 @@ curl http://localhost:5000/
 - [ ] Lisa backup automatiseerimine
 ```
 
-### Samm 2: Demo ettevalmistus
+### Ülesanne 2.1: Demo ettevalmistus
 
 **Valmista ette demo:**
 1. **Infrastructure**: Näita Terraform koodi ja kohalikke ressursse
@@ -854,7 +854,7 @@ curl http://localhost:5000/
 
 ---
 
-## 🎯 **Samm 2: Lab Kokkuvõte**
+## Lab Kokkuvõte**
 
 ### **Kõik oskused kasutatud:**
 1. **Git** → Version control ja collaboration
@@ -865,22 +865,22 @@ curl http://localhost:5000/
 6. **Monitoring** → Production visibility
 7. **Troubleshooting** → Probleemide lahendamine
 
-### 🚀 **Real-world projekt:**
+### **Real-world projekt:**
 - **Production-ready** e-commerce lahendus
 - **Täielik automatiseerimine** - nullist kuni deployment'ini
 - **Kõik DevOps praktikad** ühes projektis
 
-### 📊 **Tulemused:**
-- **Deployment aeg**: 2-3 tundi → 5 minutit
+### **Tulemused:**
+- **Deployment aeg**: 2- →utit
 - **Vigade arv**: 30% → 2%
-- **Rollback aeg**: 1 tund → 2 minutit
+- **Rollback aeg**: 1 tund →utit
 - **Arendaja stress**: Kõrge → Madal
 
-### 📚 **Järgmised sammud:**
+### **Järgmised sammud:**
 - Lisa andmebaas automatiseerimine
 - Lisa monitoring ja alerting
 - Lisa security scanning
 - Lisa backup ja disaster recovery
 
-**🎉 Palju õnne! Oled nüüd valmis automatiseerimise projektideks!**
+** Palju õnne! Oled nüüd valmis automatiseerimise projektideks!**
 

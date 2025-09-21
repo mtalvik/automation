@@ -1,13 +1,13 @@
-# 📚 Terraform Basics: Infrastructure as Code
+# Terraform Basics: Infrastructure as Code
 
-**Kestus:** 2 tundi (ülevaade)  
+**Kestus:**  (ülevaade)  
 **Teemad:** Terraform fundamentals, HCL language, Local providers, State management
 
 ---
 
-## 🎯 Õpiväljundid
+## Task 1: Õpiväljundid
 
-Pärast seda tundi oskate:
+Pärast seda oskate:
 - **Mõista Infrastructure as Code mõistet** - miks ja kuidas kasutada
 - **Kirjutada lihtsaid Terraform faile** - HCL süntaks ja põhilised ressursid
 - **Kasutada local provider'eid** - failisüsteemi ja kohalike ressursside haldamine
@@ -16,7 +16,7 @@ Pärast seda tundi oskate:
 
 ---
 
-## 📖 Loeng 23.1: Infrastructure as Code Concepts (15 min)
+## Task 2: Infrastructure as Code Concepts
 
 ### Tere tulemast Infrastructure as Code maailma!
 
@@ -39,16 +39,16 @@ Tere tagasi! Eelmisel nädalal õppisime Docker Compose'i ja orkestreerimist. T�
 
 ```mermaid
 graph TB
-    subgraph "🏗️ Traditsiooniline lähenemine"
+    subgraph "🏗 Traditsiooniline lähenemine"
         Manual[👤 Käsitsi konfiguratsioon]
         Error[❌ Inimeste vead]
         Slow[🐌 Aeglane]
-        Inconsistent[🔄 Ebakindel]
+        Inconsistent[ Ebakindel]
     end
     
     subgraph "💻 Infrastructure as Code"
         Code[📝 Kood]
-        Version[📚 Versioneerimine]
+        Version[ Versioneerimine]
         Test[🧪 Testimine]
         Automate[⚡ Automatiseerimine]
     end
@@ -80,8 +80,8 @@ graph TB
 graph TB
     subgraph "🌐 Lihtne Web Rakendus"
         User[👤 Kasutaja]
-        Web[🖥️ Web Server<br/>HTML, CSS, JavaScript]
-        DB[🗄️ Andmebaas<br/>PostgreSQL]
+        Web[ Web Server<br/>HTML, CSS, JavaScript]
+        DB[🗄 Andmebaas<br/>PostgreSQL]
     end
     
     User --> Web
@@ -117,7 +117,7 @@ graph TB
 
 ---
 
-## 📖 Loeng 23.2: HCL Syntax ja Providers (20 min)
+## Task 3: HCL Syntax ja Providers
 
 ### HashiCorp Configuration Language (HCL)
 
@@ -133,7 +133,7 @@ graph TB
 
 HCL koosneb neljast põhilistest ploki tüübist, mis on nagu laused looduses. Iga plokk kirjeldab midagi konkreetset ja on oma süntaksiga.
 
-#### 1. Resource Block - ressursi loomine
+##### Resource Block - ressursi loomine
 
 **Resource** on Terraform'i põhiline üksus - see kirjeldab, mida soovid luua. Kujutage ette seda kui "tellimust" - sa ütled Terraform'ile: "loo mulle see ja see".
 
@@ -162,7 +162,7 @@ resource "local_file" "web_config" {
 - `filename` - faili nimi ja asukoht
 - `tags` - siltid, mis aitavad identifitseerida ja organiseerida
 
-#### 2. Data Source - olemasoleva info lugemine
+##### Data Source - olemasoleva info lugemine
 
 **Data source** ei loo midagi uut, vaid loeb olemasolevat infot. See on nagu "küsimus" - sa küsid: "anna mulle see ja see info".
 
@@ -179,7 +179,7 @@ data "local_file" "config" {
 - `filename` - faili asukoht
 - Saad kasutada `data.local_file.config.content` muutujana
 
-#### 3. Variable - dünaamiline väärtus
+##### Variable - dünaamiline väärtus
 
 **Variable** võimaldab muuta väärtusi ilma koodi muutmata. See on nagu "seadistus" - sama kood, aga erinevad väärtused.
 
@@ -204,7 +204,7 @@ variable "file_name" {
 - `default` - vaikeväärtus
 - `validation` - kontrollib, et väärtus oleks korrektne
 
-#### 4. Output - tagastatav väärtus
+##### Output - tagastatav väärtus
 
 **Output** võimaldab näha loodud ressursside infot. See on nagu "vastus" - mida Terraform tagastab pärast töö lõpetamist.
 
@@ -221,7 +221,7 @@ output "public_ip" {
 - `description` - kirjeldus, mida väljund tagastab
 - `value` - väärtus, mida tagastada (serveri avalik IP)
 
-#### 2. Data types - andmetüübid
+##### Data types - andmetüübid
 
 Terraform toetab erinevaid andmetüüpe, nagu ka teised programmeerimiskeeled. Iga tüüp on mõeldud teatud kindlatele andmetele ja kasutamise juhtumitele.
 
@@ -279,7 +279,7 @@ variable "tags" {
 }
 ```
 
-#### 3. Functions ja expressions - funktsioonid ja avaldised
+##### Functions ja expressions - funktsioonid ja avaldised
 
 Terraform toetab funktsioone ja avaldisi, mis võimaldavad teha loogilisi operatsioone ja andmete töötlemist. Need on nagu valemid Excelis - võimaldavad teha arvutusi ja loogilisi otsuseid.
 
@@ -650,7 +650,7 @@ provider "local" {
 
 ---
 
-## 📖 Loeng 23.3: Resources ja Data Sources (18 min)
+## Resources ja Data Sources
 
 ### Terraform Resources
 
@@ -847,7 +847,7 @@ resource "local_file" "web_config" {
 
 ---
 
-## 📖 Loeng 23.4: State Management (12 min)
+## Task 4: State Management
 
 ### Mis on Terraform State?
 
@@ -859,8 +859,8 @@ resource "local_file" "web_config" {
 graph TB
     subgraph "Terraform Workflow"
         Code[📝 Terraform Code]
-        State[🗄️ State File]
-        Cloud[☁️ Cloud Infrastructure]
+        State[🗄 State File]
+        Cloud[☁ Cloud Infrastructure]
     end
     
     Code -->|terraform plan| State
@@ -1089,7 +1089,7 @@ terraform state mv local_file.old_name local_file.new_name
 
 ---
 
-## 🎯 Kokkuvõte
+## Kokkuvõte
 
 Täna õppisime:
 
@@ -1107,7 +1107,7 @@ Täna õppisime:
 
 ---
 
-## 📚 Lisaressursid
+## Lisaressursid
 
 - **Terraform Documentation:** https://www.terraform.io/docs
 - **HCL Language:** https://www.terraform.io/docs/language

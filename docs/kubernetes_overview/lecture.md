@@ -1,7 +1,7 @@
 # Kubernetes Overview: Container Orchestration
-*ITS-24 DevOps Automatiseerimine | 2 tundi (ülevaade)*
+*ITS-24 DevOps Automatiseerimine |  (ülevaade)*
 
-## 🎯 Õpiväljundid
+## Task 1: Õpiväljundid
 
 Pärast loengut oskate:
 - Mõista Kubernetes'i põhilisi kontseptsioone
@@ -11,27 +11,27 @@ Pärast loengut oskate:
 
 ---
 
-## 📖 Loeng 26.1: Mis on Kubernetes? (30 min)
+## Mis on Kubernetes?
 
 ### Miks vajame Container Orchestration?
 
 **Docker probleemid suurel skaalal:**
 ```bash
-# 1. Käsitsi container management
+## Käsitsi container management
 docker run -d --name web1 nginx:latest
 docker run -d --name web2 nginx:latest
 docker run -d --name web3 nginx:latest
 
-# 2. Käsitsi networking
+## Käsitsi networking
 docker network create web-network
 docker network connect web-network web1
 docker network connect web-network web2
 
-# 3. Käsitsi scaling
+## Käsitsi scaling
 docker stop web1  # Kui üks container kukub
 docker run -d --name web1-new nginx:latest
 
-# 4. Käsitsi load balancing
+## Käsitsi load balancing
 # Peate ise seadistama reverse proxy
 ```
 
@@ -44,7 +44,7 @@ docker run -d --name web1-new nginx:latest
 
 ---
 
-## 🏗️ Kubernetes Arhitektuur
+## Task 2: 🏗 Kubernetes Arhitektuur
 
 ### Control Plane (Master Node)
 
@@ -71,9 +71,9 @@ docker run -d --name web1-new nginx:latest
 
 ---
 
-## 📋 Loeng 26.2: Kubernetes Põhikontseptsioonid (40 min)
+## Task 3: Kubernetes Põhikontseptsioonid
 
-### 1. Pod - Väikseim üksus
+#### Pod - Väikseim üksus
 
 **Pod on nagu "logistiline üksus" - võib sisaldada ühte või mitut container'it:**
 
@@ -106,7 +106,7 @@ kubectl describe pod nginx-pod
 kubectl delete pod nginx-pod
 ```
 
-### 2. Deployment - Rakenduse juhtimine
+#### Deployment - Rakenduse juhtimine
 
 **Deployment haldab Pod'e - scaling, updates, rollbacks:**
 
@@ -154,7 +154,7 @@ kubectl rollout history deployment/nginx
 kubectl rollout undo deployment/nginx
 ```
 
-### 3. Service - Networking
+#### Service - Networking
 
 **Service pakub stabiilset IP ja DNS nime Pod'idele:**
 
@@ -191,7 +191,7 @@ kubectl get services
 kubectl run test-pod --image=busybox --rm -it --restart=Never -- wget -O- nginx-service
 ```
 
-### 4. ConfigMap ja Secret - Konfiguratsioon
+#### ConfigMap ja Secret - Konfiguratsioon
 
 **ConfigMap - mittekrüpteeritud konfiguratsioon:**
 
@@ -246,7 +246,7 @@ spec:
 
 ---
 
-## 🛠️ Loeng 26.3: Praktiline Kubernetes (30 min)
+## Praktiline Kubernetes
 
 ### Kohalik Kubernetes Setup
 
@@ -255,7 +255,7 @@ spec:
 ```bash
 # Install Minikube
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+sudo installikube-linux-amd64 /usr/local/bin/minikube
 
 # Käivita Minikube
 minikube start
@@ -337,7 +337,7 @@ kubectl describe pod <pod-name>
 kubectl logs <pod-name>
 kubectl logs -f <pod-name>  # järgi reaalajas
 
-# Container'i sisse minemine
+# Container'i sisseemine
 kubectl exec -it <pod-name> -- /bin/bash
 
 # Ressursside kasutamine
@@ -350,7 +350,7 @@ kubectl get events
 
 ---
 
-## 📊 Loeng 26.4: Kubernetes vs Docker (20 min)
+## Task 4: Kubernetes vs Docker
 
 ### Võrdlus
 
@@ -381,7 +381,7 @@ kubectl get events
 
 ---
 
-## 🎯 Kokkuvõte
+## Kokkuvõte
 
 ### Kubernetes'i eelised:
 ✅ **Automaatne scaling** - vastavalt koormusele  

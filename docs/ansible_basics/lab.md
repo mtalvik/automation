@@ -1,9 +1,9 @@
-# 🧪 Ansible Basics Lab: Setup ja Esimene Playbook
+# Ansible Basics Lab: Setup ja Esimene Playbook
 
-**Kestus:** 2 tundi  
+**Kestus:**   
 **Eesmärk:** Õppida Ansible'i alused ja luua esimesed automatiseerimise skriptid
 
-## 🎯 Samm 1: Õpiväljundid
+## Õpiväljundid
 
 Pärast laborit oskate:
 - Installida ja konfigureerida Ansible'i
@@ -16,9 +16,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 1: Ansible'i installimine ja seadistamine (30 min)
+## Task 1: Ansible'i installimine ja seadistamine
 
-### 1.1: Ansible'i installimine
+### Ülesanne 1.1: Ansible'i installimine
 
 **Ubuntu/Debian:**
 ```bash
@@ -50,7 +50,7 @@ ansible --version
 # Seejärel järgige Ubuntu juhendeid
 ```
 
-### 1.2: SSH võtmete seadistamine
+### Ülesanne 1.2: SSH võtmete seadistamine
 
 **Miks SSH võtmed on vajalikud:**
 - Ansible kasutab SSH'd serveritega ühendumiseks
@@ -81,7 +81,7 @@ cat ~/.ssh/id_rsa.pub | ssh kasutaja@test-server.local "mkdir -p ~/.ssh && cat >
 ssh kasutaja@test-server.local
 ```
 
-### 1.3: Esimene inventory fail - Serverite "telefoniraamat"
+### Ülesanne 1.3: Esimene inventory fail - Serverite "telefoniraamat"
 
 **Esmalt mõistame, mis on inventory:**
 - Inventory on fail, kus kirjas kõik serverid, mida Ansible haldab
@@ -141,11 +141,11 @@ ansible -i inventory.ini --list-hosts all
 ansible -i inventory.ini test -m ping
 ```
 
-**❓ Mõtelge:** Miks kasutame `test` mitte `localhost`? (Vastus: test on grupi nimi!)
+** Mõtelge:** Miks kasutame `test` mitte `localhost`? (Vastus: test on grupi nimi!)
 
 ---
 
-## 📋 Samm 2: Esimesed Ad-hoc käsud (20 min)
+## Task 2: Esimesed Ad-hoc käsud ()
 
 ### Ad-hoc käskude harjutused
 
@@ -187,7 +187,7 @@ ansible -i inventory.ini all -m command -a "which htop"
 
 ---
 
-## 📋 Samm 3: YAML ja esimene playbook (40 min)
+## Task 3: YAML ja esimene playbook ()
 
 ### YAML süntaksi harjutus - Õpime "inimese keelt"
 
@@ -252,7 +252,7 @@ python3 -c "import yaml; print(yaml.safe_load(open('test.yml')))"
 ansible-playbook --syntax-check test.yml
 ```
 
-**❓ Harjutus:** Muutke `debug: true` väärtuseks `false` ja kontrollige uuesti!
+** Harjutus:** Muutke `debug: true` väärtuseks `false` ja kontrollige uuesti!
 
 ### Esimene lihtne playbook - Sammhaaval ehitamine
 
@@ -265,8 +265,8 @@ ansible-playbook --syntax-check test.yml
 
 1. **Looge uus fail:**
    ```bash
-   touch minu-esimene-playbook.yml
-   nano minu-esimene-playbook.yml
+   touchu-esimene-playbook.yml
+   nanou-esimene-playbook.yml
    ```
 
 2. **Alustage YAML ja Play definitsiooniga:**
@@ -354,20 +354,20 @@ ansible-playbook --syntax-check test.yml
 
 1. **Esmalt kuiv käivitus (dry run):**
    ```bash
-   ansible-playbook -i inventory.ini --check minu-esimene-playbook.yml
+   ansible-playbook -i inventory.ini --checku-esimene-playbook.yml
    ```
    **Mis juhtub:** Ansible näitab, mida ta teeks, aga ei muuda midagi
 
 2. **Kui kuiv käivitus õnnestus, siis tegelik käivitus:**
    ```bash
-   ansible-playbook -i inventory.ini minu-esimene-playbook.yml
+   ansible-playbook -i inventory.iniu-esimene-playbook.yml
    ```
 
 3. **Vaadake tulemust:**
    - Kas kõik taskid õnnestusid (roheline)?
    - Kontrollige, kas fail tekkis: `ls -la /tmp/ansible-praktikum/`
 
-**❓ Debugimise küsimused:**
+** Debugimise küsimused:**
 - Mida tähendab "changed" vs "ok"?
 - Miks mõned taskid on "changed" ja teised "ok"?
 - Käivitage playbook uuesti - mis muutub?
@@ -446,16 +446,16 @@ ansible-playbook --syntax-check test.yml
    ansible-playbook playbook-muutujatega.yml
    ```
 
-**❓ Harjutus:**
+** Harjutus:**
 1. Muutke `rakenduse_nimi` muutujat
 2. Käivitage playbook uuesti
 3. Vaadake, kuidas tulemus muutub
 
-**💡 Lisaharjutus:** Lisage uus muutuja `kirjeldus` ja kasutage seda config failis!
+** Lisaharjutus:** Lisage uus muutuja `kirjeldus` ja kasutage seda config failis!
 
 ---
 
-## 📋 Samm 4: Veebiserveri seadistamine (30 min)
+## Task 4: Veebiserveri seadistamine ()
 
 ### Nginx playbook - Automatiseeritud veebiserver
 
@@ -545,7 +545,7 @@ ansible-playbook --syntax-check test.yml
              </head>
              <body>
                  <div class="container">
-                     <h1 class="success">🎉 {{ site_name }}</h1>
+                     <h1 class="success"> {{ site_name }}</h1>
                      <p>Nginx on edukalt paigaldatud Ansible'iga!</p>
                      <div class="info">
                          <h3>Serveri info:</h3>
@@ -633,7 +633,7 @@ ansible-playbook --syntax-check test.yml
    - Avage http://localhost
    - Peaks näitama ilusat HTML lehte
 
-**❓ Analüüsige:**
+** Analüüsige:**
 - Mitu "changed" oli esimesel käivitusel?
 - Käivitage playbook uuesti - mitu "changed" nüüd?
 - Miks see nii on? (Hint: idempotency!)
@@ -644,7 +644,7 @@ ansible-playbook --syntax-check test.yml
 
 ---
 
-## 📋 Samm 5: Ansible konfiguratsiooni optimeerimine (20 min)
+## Task 5: Ansible konfiguratsiooni optimeerimine ()
 
 ### ansible.cfg seadistamine - Mugavuse suurendamine
 
@@ -722,7 +722,7 @@ tail -f ansible.log
 
 ---
 
-## 📋 Samm 6: Veatuvastus ja probleemide lahendamine (20 min)
+## Task 6: Veatuvastus ja probleemide lahendamine ()
 
 ### Levinud probleemid ja lahendused
 
@@ -836,7 +836,7 @@ ansible-playbook debug-playbook.yml -v
 
 ---
 
-## 🎯 Samm 2: Labi hindamine ja reflektsioon
+## Task 7: Labi hindamine ja reflektsioon
 
 ### Tehnilised saavutused
 
@@ -854,7 +854,7 @@ Kontrollige, et järgmised asjad toimivad:
 
 ### Kontseptuaalne mõistmine
 
-**❓ Kontrollige oma mõistmist:**
+** Kontrollige oma mõistmist:**
 
 1. **Ansible arhitektuur:**
    - Selgitage oma sõnadega, miks Ansible on "agentless"
@@ -898,7 +898,7 @@ Kontrollige, et järgmised asjad toimivad:
 - Mõistate playbook'ide struktuuri
 - Saate tõrkeid diagnoosida ja lahendada
 
-## 🚀 Järgmised sammud
+## Task 8: Järgmised sammud
 
 **Valmis kodutööks:**
 - Kasutage siin õpitud oskusi LAMP stack playbook'i loomiseks
@@ -913,9 +913,9 @@ Kontrollige, et järgmised asjad toimivad:
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (juba Ansible'i oskajatele)
+## Task 9: **BOONUSÜLESANDED** (juba Ansible'i oskajatele)
 
-### B1: Advanced Playbook Patterns (30 min)
+### B1: Advanced Playbook Patterns ()
 
 ```yaml
 # Advanced inventory and variables
@@ -945,7 +945,7 @@ Kontrollige, et järgmised asjad toimivad:
       when: deployment_enabled | default(false)
 ```
 
-### B2: Error Handling ja Performance (25 min)
+### B2: Error Handling ja Performance ()
 
 ```yaml
 ---
@@ -980,7 +980,7 @@ Kontrollige, et järgmised asjad toimivad:
             state: absent
 ```
 
-### B3: Custom Modules ja Advanced Features (20 min)
+### B3: Custom Modules ja Advanced Features ()
 
 ```bash
 # Custom filter plugin
@@ -999,7 +999,7 @@ EOF
 ansible-playbook -i inventory advanced.yml
 ```
 
-### B4: Ansible Vault ja Security (15 min)
+### B4: Ansible Vault ja Security ()
 
 ```bash
 # Create encrypted variables
@@ -1014,4 +1014,4 @@ echo "vault_password" > .vault_pass
 ansible-playbook site.yml --vault-password-file .vault_pass
 ```
 
-**Hästi tehtud! 🎉** Te olete nüüd võimelised automatiseerima nii põhilisi kui ka keerukamaid serverihalduse ülesandeid Ansible'iga!
+**Hästi tehtud! ** Te olete nüüd võimelised automatiseerima nii põhilisi kui ka keerukamaid serverihalduse ülesandeid Ansible'iga!

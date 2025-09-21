@@ -5,7 +5,7 @@ Täna loome oma esimese professionaalse Ansible role'i!
 
 ---
 
-## 🎯 Samm 1: Lab'i eesmärgid
+## Task 1: Lab'i eesmärgid
 
 - **Nginx role** Galaxy standardites
 - **Multi-OS tugi** (Ubuntu/Debian)
@@ -14,7 +14,7 @@ Täna loome oma esimese professionaalse Ansible role'i!
 
 ---
 
-## 🚀 Lab 1: Role struktuuri loomine (30 min)
+## Task 2: Role struktuuri loomine ()
 
 ### Töökeskkonna ettevalmistamine
 
@@ -62,7 +62,7 @@ galaxy_info:
   description: "Professional Nginx with SSL and virtual hosts"
   company: "ITS-24 DevOps Course"
   license: "MIT"
-  min_ansible_version: "2.9"
+_ansible_version: "2.9"
   
   platforms:
     - name: Ubuntu
@@ -81,7 +81,7 @@ dependencies: []
 
 ---
 
-## 🔧 Samm 1: Variables ja defaults (25 min)
+## Task 3: Variables ja defaults ()
 
 ### Vaikimisi seaded - algajasõbralik
 
@@ -135,7 +135,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📝 Lab 3: Tasks loomine (20 min)
+## Task 4: Tasks loomine ()
 
 ### Peamine tasks fail - sisukord
 
@@ -202,7 +202,7 @@ nginx_service_name: "nginx"
     fail_msg: "SSL certificate paths required when SSL enabled"
   when: nginx_ssl_enabled
 
-- name: "Check minimum RAM"
+- name: "Checkimum RAM"
   assert:
     that:
       - ansible_memtotal_mb >= 256
@@ -288,7 +288,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📝 Lab 4: SSL ja Virtual Hosts (25 min)
+## Task 5: SSL ja Virtual Hosts ()
 
 ### SSL tasks
 
@@ -444,7 +444,7 @@ nginx_service_name: "nginx"
 
 ---
 
-## 📄 Lab 5: Templates (25 min)
+## Task 6: Templates ()
 
 ### Main nginx configuration
 
@@ -643,7 +643,7 @@ server {
 
 ---
 
-## 🧪 Lab 6: Role'i testimine (10 min)
+## Task 7: Role'i testimine ()
 
 ### Test playbook loomine
 
@@ -708,7 +708,7 @@ sudo systemctl status nginx
 
 ---
 
-## 📚 Samm 7: README dokumentatsioon
+## Task 8: README dokumentatsioon
 
 **Looge/muutke `README.md`:**
 ```markdown
@@ -716,7 +716,7 @@ sudo systemctl status nginx
 
 Professional Nginx role with SSL support and virtual hosts management.
 
-## Features
+## Task 9: Features
 
 - **Nginx installation and configuration**
 - **SSL/TLS support with self-signed certificates**
@@ -724,7 +724,7 @@ Professional Nginx role with SSL support and virtual hosts management.
 - **Security headers and optimization**
 - **Multi-OS support (Ubuntu/Debian)**
 
-## Quick Start
+## Task 10: Quick Start
 
 ```yaml
 - hosts: webservers
@@ -742,7 +742,7 @@ Professional Nginx role with SSL support and virtual hosts management.
 | `nginx_https_port` | `443` | HTTPS port |
 | `nginx_vhosts` | `[]` | Virtual hosts list |
 
-## Example with SSL
+## Task 11: Example with SSL
 
 ```yaml
 - hosts: webservers
@@ -757,14 +757,14 @@ Professional Nginx role with SSL support and virtual hosts management.
     - nginx-webserver
 ```
 
-## Author
+## Task 12: Author
 
 ITS-24 DevOps Automation Course
 ```
 
 ---
 
-## 🎯 Samm 2: Kokkuvõte
+## Task 13: Kokkuvõte
 
 Palju õnne! Teil on nüüd:
 

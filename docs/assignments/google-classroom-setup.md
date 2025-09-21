@@ -6,7 +6,7 @@ This guide helps you integrate your automation course with Google Classroom for 
 
 ## Setup Steps
 
-### 1. Google Classroom Configuration
+#### Google Classroom Configuration
 
 #### Create Your Class
 1. Go to [Google Classroom](https://classroom.google.com)
@@ -22,7 +22,7 @@ This guide helps you integrate your automation course with Google Classroom for 
 - **Stream settings:** Allow students to post and comment
 - **Classwork settings:** Enable assignment creation
 
-### 2. Assignment Templates
+#### Assignment Templates
 
 #### Weekly Assignment Structure
 Each week follows this pattern:
@@ -39,7 +39,7 @@ Each week follows this pattern:
 3. **Reading Assignment** - Documentation and research
 4. **Project** - Larger integrated assignments
 
-### 3. Integration with GitHub
+#### Integration with GitHub
 
 #### Linking GitHub Repositories
 1. In each assignment, include:
@@ -51,23 +51,23 @@ Each week follows this pattern:
 ```markdown
 ## Ülesanne: Docker Fundamentals Lab
 
-### Samm 1: GitHub Repository
+### Ülesanne 1.1: GitHub Repository
 1. Kliki [Start Assignment](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
 2. Klooni oma repository: `git clone [YOUR_REPO_URL]`
 3. Järgi juhiseid `README.md` failis
 
-### Samm 2: Lab Töö
+### Ülesanne 2.1: Lab Töö
 1. Loo Dockerfile
 2. Käivita container
 3. Testi rakendust
 
-### Samm 3: Esitamine
+### Ülesanne 3.1: Esitamine
 1. Push kõik muudatused GitHub'i
 2. Lisa link Google Classroom'i
 3. Lisa screenshot töötavast rakendusest
 ```
 
-### 4. Grading Integration
+#### Grading Integration
 
 #### Rubric Setup
 Create consistent rubrics for each assignment type:
@@ -89,7 +89,7 @@ Create consistent rubrics for each assignment type:
 - Link test results to Google Classroom
 - Provide detailed feedback
 
-### 5. Student Management
+#### Student Management
 
 #### Class Roster
 - Import students from your institution's system
@@ -101,7 +101,7 @@ Create consistent rubrics for each assignment type:
 - Enable private comments for individual help
 - Use the stream for general discussions
 
-### 6. Assignment Templates
+#### Assignment Templates
 
 #### Template 1: Lab Assignment
 ```markdown
@@ -155,7 +155,7 @@ Create consistent rubrics for each assignment type:
 - Viited materjalile: 20%
 ```
 
-### 7. Progress Tracking
+#### Progress Tracking
 
 #### Gradebook Setup
 - Create categories for different assignment types
@@ -167,11 +167,11 @@ Create consistent rubrics for each assignment type:
 - Monitor student engagement
 - Identify struggling students early
 
-### 8. Best Practices
+#### Best Practices
 
 #### Communication
 - Post weekly announcements
-- Respond to student questions within 24 hours
+- Respond to student questions within 
 - Use private comments for individual feedback
 
 #### Assignment Management

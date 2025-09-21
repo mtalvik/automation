@@ -5,7 +5,7 @@ Täna õpite konteinerite alused **praktikas**. Fookus on **mõistmisel**, mitte
 
 ---
 
-## 🎯 **Lab'i eesmärgid**
+## Lab'i eesmärgid
 
 **Pärast seda lab'i teate:**
 - **Miks konteinerid on kiired** (kogesite ise)
@@ -15,45 +15,45 @@ Täna õpite konteinerite alused **praktikas**. Fookus on **mõistmisel**, mitte
 
 ---
 
-## 📋 **Samm 1: Container Speed Experience (30 min)**
+## Task 1: Container Speed Experience
 
-### Ülesanne 1.1: "Feel the Speed" (10 min)
+### Ülesanne 1.1: "Feel the Speed"
 
 **Võrdle VM vs Container startup aegu:**
 
 ```bash
-# 1. Testi container kiirus
+## Testi container kiirus
 time docker run hello-world
 # Märkige aeg: _____ sekundit
 
-# 2. Testi teist container'it  
+## Testi teist container'it  
 time docker run alpine echo "Hello from container"
 # Märkige aeg: _____ sekundit
 
-# 3. Võrdle VM'iga (kui teil on access)
-# Käivitage VM - märkige aeg: _____ minutit
+## Task 2: Võrdle VM'iga (kui teil on access)
+# Käivitage VM - märkige aeg: _____utit
 ```
 
-**🔍 Mida märkasite?**
+** Mida märkasite?**
 - Container startup: ___ sekundit
-- VM startup: ___ minutit  
+- VM startup: ___utit  
 - Erinevus: ___x kiirem
 
-### Ülesanne 1.2: Resource Usage Comparison (10 min)
+### Ülesanne 1.2: Resource Usage Comparison
 
 ```bash
-# 1. Vaadake Docker daemon resource kasutust
+## Vaadake Docker daemon resource kasutust
 ps aux | grep docker
 # Märkige RAM kasutus: _____ MB
 
-# 2. Käivitage lihtne web server
+## Task 3: Käivitage lihtne web server
 docker run -d --name test-web -p 8080:80 nginx
 
-# 3. Kontrollige container'i resource kasutust
+## Task 4: Kontrollige container'i resource kasutust
 docker stats test-web --no-stream
 # Märkige CPU ja RAM: CPU: ___% RAM: ___MB
 
-# 4. Testiga ühendust
+## Testiga ühendust
 curl http://localhost:8080
 # Kas töötab? ✅/❌
 ```
@@ -63,7 +63,7 @@ curl http://localhost:8080
 docker stop test-web && docker rm test-web
 ```
 
-### Ülesanne 1.3: Basic Commands Discovery (10 min)
+### Ülesanne 1.3: Basic Commands Discovery ()
 
 **Avastage käske ja vaadake, mis juhtub:**
 
@@ -84,9 +84,9 @@ docker system df
 
 ---
 
-## 📦 **Samm 2: Build Your First App (45 min)**
+## Task 5: 📦 **Samm 2: Build Your First App ()**
 
-### 2.1: Prepare Simple Web App (10 min)
+### Ülesanne 2.1: Prepare Simple Web App ()
 
 **Looge töökaust:**
 ```bash
@@ -107,7 +107,7 @@ mkdir ~/docker-fundamentals-lab && cd ~/docker-fundamentals-lab
 </head>
 <body>
     <div class="container">
-        <h1>🐳 My First Container App!</h1>
+        <h1> My First Container App!</h1>
         <p>Server: <span id="hostname">Loading...</span></p>
         <p>Time: <span id="time"></span></p>
         <script>
@@ -123,7 +123,7 @@ mkdir ~/docker-fundamentals-lab && cd ~/docker-fundamentals-lab
 </html>
 ```
 
-### 2.2: Write Your First Dockerfile (15 min)
+### Ülesanne 2.2: Write Your First Dockerfile ()
 
 **Template (täitke lüngad):**
 ```dockerfile
@@ -147,26 +147,26 @@ COPY index.html /usr/share/nginx/html/
 EXPOSE 80
 ```
 
-### 2.3: Build and Test (10 min)
+### Ülesanne 2.3: Build and Test ()
 
 ```bash
-# 1. Build image
+## Task 6: Build image
 docker build -t my-web-app .
 
 # Kas build õnnestus? ✅/❌
 # Kui ei, siis vaadake error message'i ja parandage
 
-# 2. Run container
+## Task 7: Run container
 docker run -d --name my-app -p 8080:80 my-web-app
 
-# 3. Test
+## Test
 curl http://localhost:8080
 # Või avage brauseris: http://localhost:8080
 
 # Kas näete oma HTML'i? ✅/❌
 ```
 
-### 2.4: Modify and Rebuild (10 min)
+### Ülesanne 2.4: Modify and Rebuild ()
 
 **Muutke HTML faili:**
 ```html
@@ -198,9 +198,9 @@ docker stop my-app-v2 && docker rm my-app-v2
 
 ---
 
-## 🔧 **Samm 3: Docker vs Podman Side-by-Side (30 min)**
+## Docker vs Podman Side-by-Side ()**
 
-### 3.1: Install Podman (if needed) (5 min)
+### Ülesanne 3.1: Install Podman (if needed) ()
 
 ```bash
 # Ubuntu/Debian
@@ -210,7 +210,7 @@ sudo apt update && sudo apt install -y podman
 podman --version
 ```
 
-### 3.2: Same Commands, Different Tools (15 min)
+### Ülesanne 3.2: Same Commands, Different Tools ()
 
 **Käivitage SAMA rakendus mõlemas süsteemis:**
 
@@ -237,7 +237,7 @@ curl http://localhost:8082
 # Mõlemad töötavad? ✅/❌
 ```
 
-### 3.3: Observe the Differences (10 min)
+### Ülesanne 3.3: Observe the Differences ()
 
 **Resource usage:**
 ```bash
@@ -281,9 +281,9 @@ podman stop web-podman && podman rm web-podman
 
 ---
 
-## 🐛 **Samm 4: Troubleshooting & Networks (15 min)**
+## Task 8: 🐛 **Samm 4: Troubleshooting & Networks ()**
 
-### 4.1: Fix Broken Container (10 min)
+### Ülesanne 4.1: Fix Broken Container ()
 
 **Antakse teile "broken" Dockerfile:**
 ```dockerfile
@@ -310,7 +310,7 @@ ls /usr/share/nginx/html/  # Kas index.html on siin?
 exit
 ```
 
-**🔍 Küsimus:** Miks ei tööta?  
+** Küsimus:** Miks ei tööta?  
 **Vastus:** ________________
 
 **Parandage ja teste uuesti:**
@@ -320,7 +320,7 @@ COPY index.html /usr/share/nginx/html/
 EXPOSE 80
 ```
 
-### Ülesanne 4.2: Simple Network Test (5 min)
+### Ülesanne 4.2: Simple Network Test ()
 
 ```bash
 # Käivitage 2 container'it custom network'is
@@ -340,46 +340,46 @@ docker network rm test-network
 
 ---
 
-## 🎯 **Samm 3: Volume Persistence Test (20 min)**
+## Task 9: Volume Persistence Test ()**
 
-### Ülesanne 5.1: Data Persistence Challenge (15 min)
+### Ülesanne 5.1: Data Persistence Challenge ()
 
 **Create persistent web content:**
 ```bash
-# 1. Create volume
+## Task 10: Create volume
 docker volume create web-content
 
-# 2. Run container with volume
+## Task 11: Run container with volume
 docker run -d --name web-persistent \
     -p 8084:80 \
     -v web-content:/usr/share/nginx/html \
     nginx:alpine
 
-# 3. Add custom content
+## Task 12: Add custom content
 docker exec web-persistent sh -c 'echo "<h1>Persistent Data!</h1>" > /usr/share/nginx/html/index.html'
 
-# 4. Test
+## Test
 curl http://localhost:8084
 # Kas näete custom content'i? ✅/❌
 
-# 5. Destroy container (but keep volume!)
+## Destroy container (but keep volume!)
 docker stop web-persistent && docker rm web-persistent
 
-# 6. Create NEW container with SAME volume
+## Task 13: Create NEW container with SAME volume
 docker run -d --name web-new \
     -p 8084:80 \
     -v web-content:/usr/share/nginx/html \
     nginx:alpine
 
-# 7. Test again
+## Test again
 curl http://localhost:8084
 # Kas andmed on alles? ✅/❌
 ```
 
-**🔍 Küsimus:** Miks andmed jäid alles?  
+** Küsimus:** Miks andmed jäid alles?  
 **Vastus:** ________________
 
-### Ülesanne 5.2: Development Workflow (5 min)
+### Ülesanne 5.2: Development Workflow ()
 
 ```bash
 # Mount current directory
@@ -402,12 +402,12 @@ rm test.txt
 
 ---
 
-## 🎓 **Samm 5: Lab Summary & Reflection**
+## Lab Summary & Reflection**
 
 ### Mida te kogesite:
 
 **Container Speed:**
-- Container startup: ___ sekundit vs VM: ___ minutit
+- Container startup: ___ sekundit vs VM: ___utit
 - Resource efficiency: Vähem overhead
 
 **Building Apps:**
@@ -425,16 +425,16 @@ rm test.txt
 
  
 
-### 🚀 **Järgmised sammud:**
+### **Järgmised sammud:**
 
 **Kodutöö:** Süvauurige Docker vs Podman võrdlust  
 **Järgmine lab:** Docker Compose multi-container applications
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (Docker'i oskajatele)
+## Task 14: **BOONUSÜLESANDED** (Docker'i oskajatele)
 
-### B1: Multi-stage Docker Builds (20 min)
+### B1: Multi-stage Docker Builds ()
 
 ```dockerfile
 # Optimized Node.js build
@@ -453,7 +453,7 @@ CMD ["npm", "start"]
 # Build: docker build -t optimized-app .
 ```
 
-### B2: Docker Security ja Best Practices (25 min)
+### B2: Docker Security ja Best Practices ()
 
 ```bash
 # Non-root user
@@ -473,7 +473,7 @@ docker run --read-only --tmpfs /tmp myapp:latest
 docker run --memory=512m --cpus=1.5 myapp:latest
 ```
 
-### B3: Advanced Networking ja Storage (20 min)
+### B3: Advanced Networking ja Storage ()
 
 ```bash
 # Custom networks
@@ -494,7 +494,7 @@ docker exec container-name netstat -tulpn
 docker exec container-name ss -tulpn
 ```
 
-### B4: Docker Performance Monitoring (15 min)
+### B4: Docker Performance Monitoring ()
 
 ```bash
 # Container stats
@@ -514,7 +514,7 @@ docker run --health-cmd='curl -f http://localhost:3000/health' \
            myapp:latest
 ```
 
-### B5: Docker Compose Advanced (25 min)
+### B5: Docker Compose Advanced ()
 
 ```yaml
 # docker-compose.advanced.yml
@@ -551,4 +551,4 @@ configs:
     file: ./configs/app.conf
 ```
 
-**Hästi tehtud!** Teil on nüüd nii põhi- kui ka ekspert-tasemel container kogemused! 🐳
+**Hästi tehtud!** Teil on nüüd nii põhi- kui ka ekspert-tasemel container kogemused! 

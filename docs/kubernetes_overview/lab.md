@@ -1,7 +1,7 @@
 # Kubernetes Overview Lab: Container Orchestration
-*ITS-24 DevOps Automatiseerimine | 2 tundi praktiline töö*
+*ITS-24 DevOps Automatiseerimine |  praktiline töö*
 
-## 🎯 Samm 1: Lab'i eesmärgid
+## Task 1: Lab'i eesmärgid
 
 Pärast laborit oskate:
 - Seadistada kohaliku Kubernetes keskkonna
@@ -11,9 +11,9 @@ Pärast laborit oskate:
 
 ---
 
-## 🛠️ Samm 2: Kohaliku Kubernetes Seadistamine (30 min)
+## Task 2: 🛠 Samm 2: Kohaliku Kubernetes Seadistamine ()
 
-### 2.1: Minikube Install
+### Ülesanne 2.1: Minikube Install
 
 **Kontrollige, et teil on:**
 - Docker (juba installitud)
@@ -23,17 +23,17 @@ Pärast laborit oskate:
 **Install Minikube:**
 ```bash
 # macOS
-brew install minikube
+brew installikube
 
 # Linux
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+sudo installikube-linux-amd64 /usr/local/bin/minikube
 
 # Windows (PowerShell)
-choco install minikube
+choco installikube
 ```
 
-### 2.2: Käivita Minikube
+### Ülesanne 2.2: Käivita Minikube
 
 ```bash
 # Käivita Minikube
@@ -49,7 +49,7 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
-### 2.3: Install kubectl (kui vajalik)
+### Ülesanne 2.3: Install kubectl (kui vajalik)
 
 ```bash
 # macOS
@@ -65,9 +65,9 @@ kubectl version --client
 
 ---
 
-## 🚀 Samm 3: Esimene Kubernetes Rakendus (45 min)
+## Task 3: Esimene Kubernetes Rakendus ()
 
-### 3.1: Lihtne Nginx Pod
+### Ülesanne 3.1: Lihtne Nginx Pod
 
 **Loo esimene Pod:**
 ```bash
@@ -98,7 +98,7 @@ kubectl port-forward nginx-pod 8080:80
 # Avage brauser: http://localhost:8080
 ```
 
-### 3.2: Nginx Deployment
+### Ülesanne 3.2: Nginx Deployment
 
 **Loo Deployment fail:**
 ```yaml
@@ -148,7 +148,7 @@ kubectl get pods
 kubectl get replicasets
 ```
 
-### 3.3: Nginx Service
+### Ülesanne 3.3: Nginx Service
 
 **Loo Service fail:**
 ```yaml
@@ -183,9 +183,9 @@ minikube service nginx-service
 
 ---
 
-## 🔧 Samm 4: Scaling ja Updates (30 min)
+## Task 4: Scaling ja Updates ()
 
-### 4.1: Scaling
+### Ülesanne 4.1: Scaling
 
 ```bash
 # Skaleeri üles
@@ -201,7 +201,7 @@ kubectl scale deployment nginx-deployment --replicas=2
 kubectl get pods
 ```
 
-### 4.2: Rolling Update
+### Ülesanne 4.2: Rolling Update
 
 ```bash
 # Uuenda image'i
@@ -220,7 +220,7 @@ kubectl rollout undo deployment/nginx-deployment
 kubectl rollout status deployment/nginx-deployment
 ```
 
-### 4.3: Pod'i kustutamine ja taaskäivitumine
+### Ülesanne 4.3: Pod'i kustutamine ja taaskäivitumine
 
 ```bash
 # Vaata Pod'e
@@ -235,9 +235,9 @@ kubectl get pods -w
 
 ---
 
-## 📊 Samm 5: Monitoring ja Debugging (30 min)
+## Task 5: Monitoring ja Debugging ()
 
-### 5.1: Põhilised kubectl käsud
+### Ülesanne 5.1: Põhilised kubectl käsud
 
 ```bash
 # Vaata kõiki ressursse
@@ -259,7 +259,7 @@ kubectl describe pod <pod-name>
 kubectl describe service nginx-service
 ```
 
-### 5.2: Log'ide vaatamine
+### Ülesanne 5.2: Log'ide vaatamine
 
 ```bash
 # Vaata Pod'i log'e
@@ -275,7 +275,7 @@ kubectl logs -l app=nginx
 kubectl logs <pod-name> --previous
 ```
 
-### 5.3: Container'i sisse minemine
+### Ülesanne 5.3: Container'i sisseemine
 
 ```bash
 # Mine Pod'i sisse
@@ -292,7 +292,7 @@ kubectl exec <pod-name> -- ls -la
 kubectl exec <pod-name> -- env
 ```
 
-### 5.4: Event'ide vaatamine
+### Ülesanne 5.4: Event'ide vaatamine
 
 ```bash
 # Vaata kõiki event'e
@@ -307,9 +307,9 @@ kubectl get events --field-selector involvedObject.name=nginx-deployment
 
 ---
 
-## 🎯 Samm 6: Konfiguratsioon ja Secret'id (15 min)
+## Task 6: Konfiguratsioon ja Secret'id ()
 
-### 6.1: ConfigMap
+### Ülesanne 6.1: ConfigMap
 
 **Loo ConfigMap:**
 ```yaml
@@ -359,7 +359,7 @@ kubectl apply -f app-pod.yaml
 kubectl logs config-pod
 ```
 
-### 6.2: Secret
+### Ülesanne 6.2: Secret
 
 **Loo Secret:**
 ```bash
@@ -375,7 +375,7 @@ kubectl describe secret app-secret
 
 ---
 
-## 🧹 Samm 7: Cleanup (10 min)
+## Task 7: 🧹 Samm 7: Cleanup ()
 
 **Kustuta kõik ressursid:**
 ```bash
@@ -402,9 +402,9 @@ minikube stop
 
 ---
 
-## 📝 HARJUTUS 8: Bonus Ülesanded (15 min)
+## Task 8: HARJUTUS 8: Bonus Ülesanded ()
 
-### 8.1: Multi-container Pod
+### Ülesanne 8.1: Multi-container Pod
 
 **Loo Pod kahe container'iga:**
 ```yaml
@@ -424,7 +424,7 @@ spec:
     command: ["sh", "-c", "while true; do echo 'Sidecar running'; sleep 30; done"]
 ```
 
-### 8.2: Resource Limits
+### Ülesanne 8.2: Resource Limits
 
 **Lisa resource piirangud:**
 ```yaml
@@ -446,7 +446,7 @@ spec:
         cpu: "500m"
 ```
 
-### 8.3: Health Checks
+### Ülesanne 8.3: Health Checks
 
 **Lisa health check:**
 ```yaml
@@ -475,7 +475,7 @@ spec:
 
 ---
 
-## 🎯 Lab Kokkuvõte
+## Lab Kokkuvõte
 
 ### **Õpitud kontseptsioonid:**
 1. **Pod** - väikseim Kubernetes üksus
@@ -488,7 +488,7 @@ spec:
 - `kubectl get` - ressurside vaatamine
 - `kubectl describe` - detailide vaatamine
 - `kubectl logs` - log'ide vaatamine
-- `kubectl exec` - container'i sisse minemine
+- `kubectl exec` - container'i sisseemine
 - `kubectl scale` - scaling
 - `kubectl rollout` - update'id ja rollback'id
 
@@ -499,4 +499,4 @@ spec:
 - Uurige Kubernetes Dashboard
 - Õppige monitoring (Prometheus/Grafana)
 
-**🎉 Palju õnne! Oled nüüd valmis Kubernetes'i kasutamiseks!**
+** Palju õnne! Oled nüüd valmis Kubernetes'i kasutamiseks!**

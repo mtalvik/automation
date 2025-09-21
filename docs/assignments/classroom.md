@@ -6,7 +6,7 @@ GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hinda
 
 ## Aktiivsed ülesanded
 
-### Nädal 9: Git & Versioonihaldus
+### Git & Versioonihaldus
 [![Start Assignment](https://classroom.github.com/assets/badges/start-assignment.svg)](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
 
 **Eesmärk:** Rain Pickles veebilehe versioonihaldus
@@ -48,7 +48,7 @@ GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hinda
 
 ---
 
-### Nädal 19: CI/CD Pipeline
+### CI/CD Pipeline
 [![Start Assignment](https://classroom.github.com/assets/badges/start-assignment.svg)](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
 
 **Eesmärk:** GitHub Actions CI/CD pipeline
@@ -62,7 +62,7 @@ GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hinda
 
 ---
 
-### Nädal 21: Kubernetes Deploy
+### Kubernetes Deploy
 [![Start Assignment](https://classroom.github.com/assets/badges/start-assignment.svg)](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
 
 **Eesmärk:** Deploy 3-tier app Kubernetes'isse
@@ -76,7 +76,7 @@ GitHub Classroom võimaldab automatiseerida DevOps ülesannete jagamist ja hinda
 
 ---
 
-### Nädal 23: Terraform Infrastructure
+### Terraform Infrastructure
 [![Start Assignment](https://classroom.github.com/assets/badges/start-assignment.svg)](https://classroom.github.com/a/YOUR_ASSIGNMENT_ID)
 
 **Eesmärk:** Infrastructure as Code

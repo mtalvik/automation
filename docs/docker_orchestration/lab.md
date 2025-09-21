@@ -1,9 +1,9 @@
-# 🧪 Nädal 21 Lab: Docker Compose Praktika
+# Lab: Docker Compose Praktika
 
-**Kestus:** 2 tundi  
+**Kestus:**   
 **Eesmärk:** Õppida Docker Compose'i praktilist kasutamist ja luua lihtsa multi-container rakenduse
 
-## 🎯 Samm 1: Õpiväljundid
+## Õpiväljundid
 
 Pärast laborit oskate:
 - **Kirjutada lihtsa Docker Compose faili** - põhilised teenused
@@ -14,9 +14,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 1: Lihtsa rakenduse loomine (45 min)
+## Task 1: Lihtsa rakenduse loomine
 
-### 1.1: Projekti struktuuri loomine
+### Ülesanne 1.1: Projekti struktuuri loomine
 
 **Loome lihtsa web rakenduse, mis koosneb kahest osast:**
 - **Web server** - kuvab veebilehte
@@ -31,7 +31,7 @@ cd ~/docker-orchestration-lab
 mkdir app
 ```
 
-### 1.2: Lihtsa web rakenduse loomine
+### Ülesanne 1.2: Lihtsa web rakenduse loomine
 
 **Kopeerime valmis HTML faili teacher_repo'st:**
 
@@ -48,7 +48,7 @@ cp teacher_repo/docker-orchestration-starter/templates/app/frontend/index.html.e
 **Miks me ei kirjuta HTML koodi?**
 See on automation kursus, mitte veebiarenduse kursus. Me keskendume Docker Compose'i õppimisele, mitte HTML kirjutamisele.
 
-### 1.3: Docker Compose faili loomine
+### Ülesanne 1.3: Docker Compose faili loomine
 
 **Kopeerime valmis Docker Compose faili teacher_repo'st:**
 
@@ -101,7 +101,7 @@ psycopg2-binary==2.9.7
 redis==4.6.0
 ```
 
-### 1.4: Docker Compose konfiguratsioon
+### Ülesanne 1.4: Docker Compose konfiguratsioon
 
 **Base configuration (docker-compose.yml):**
 ```yaml
@@ -200,7 +200,7 @@ EXPOSE 5000
 CMD ["python", "app.py"]
 ```
 
-### 1.5: Rakenduse käivitamine
+### Ülesanne 1.5: Rakenduse käivitamine
 
 **Käivitage rakendus:**
 ```bash
@@ -215,7 +215,7 @@ docker-compose logs web
 ```
 
 **Testige rakendust:**
-- Avage brauser ja minge aadressile: `http://localhost:8080`
+- Avage brauser jage aadressile: `http://localhost:8080`
 - Peaksite nägema veebilehte "🚀 Week 21 Lab"
 
 **Peatage rakendus:**
@@ -226,9 +226,9 @@ docker-compose down
 
 ---
 
-## 📋 Samm 2: Probleemide lahendamine (30 min)
+## Task 2: Probleemide lahendamine
 
-### 2.1: Levinud probleemid ja lahendused
+### Ülesanne 2.1: Levinud probleemid ja lahendused
 
 **Probleem: Port on juba kasutusel**
 ```bash
@@ -256,7 +256,7 @@ ls -la app/index.html
 chmod 644 app/index.html
 ```
 
-### 2.2: Debugimise käsud
+### Ülesanne 2.2: Debugimise käsud
 
 ```bash
 # Vaata kõiki container'eid
@@ -269,7 +269,7 @@ docker exec -it docker-orchestration-lab_web_1 sh
 docker exec docker-orchestration-lab_web_1 cat /usr/share/nginx/html/index.html
 ```
 
-### 2.3: Podman Compose konfiguratsioon
+### Ülesanne 2.3: Podman Compose konfiguratsioon
 
 **Podman-specific docker-compose.yml:**
 ```yaml
@@ -352,7 +352,7 @@ networks:
     internal: true
 ```
 
-### Samm 3: Podman Compose käivitamine
+### Ülesanne 2.4: Podman Compose käivitamine
 
 ```bash
 # Peatage Docker Compose teenused
@@ -373,9 +373,9 @@ curl http://localhost:8080/api/status
 
 ---
 
-## 📋 Samm 3: Võrdlus ja Analüüs (30 min)
+## Task 3: Võrdlus ja Analüüs
 
-### Samm 1: Performance võrdlus
+### Ülesanne 3.1: Performance võrdlus
 
 ```bash
 # Docker Compose resource usage
@@ -387,7 +387,7 @@ podman stats
 # Võrdle mälu ja CPU kasutust
 ```
 
-### Samm 2: Security võrdlus
+### Ülesanne 3.2: Security võrdlus
 
 ```bash
 # Docker process info
@@ -401,7 +401,7 @@ docker ps
 podman ps
 ```
 
-### Samm 3: Logide ja monitoring
+### Ülesanne 3.3: Logide ja monitoring
 
 ```bash
 # Docker Compose logid
@@ -415,7 +415,7 @@ podman-compose logs --tail=50
 
 ---
 
-## 🎯 Samm 2: Labori Kokkuvõte
+## Labori Kokkuvõte
 
 ### Õpitud kontseptsioonid:
 
@@ -434,7 +434,7 @@ podman-compose logs --tail=50
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Levinud probleemid:
 
@@ -464,9 +464,9 @@ services:
 
 ---
 
-## 📚 Lisaressursid ja abi
+## Lisaressursid ja abi
 
-### 🎓 **Õppimiseks:**
+### **Õppimiseks:**
 - [Docker Compose Quickstart](https://docs.docker.com/compose/gettingstarted/) - kiire algus
 - [Docker Compose Examples](https://github.com/docker/awesome-compose) - palju näiteid
 - [Docker Compose Reference](https://docs.docker.com/compose/compose-file/) - kõik võimalikud seaded
@@ -476,7 +476,7 @@ services:
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/docker-compose) - küsimused ja vastused
 - [Docker Documentation](https://docs.docker.com/) - ametlik dokumentatsioon
 
-### 🔧 **Praktikaks:**
+### **Praktikaks:**
 - [Docker Compose Best Practices](https://docs.docker.com/compose/production/) - tootmiskeskkonna nõuded
 - [Docker Compose Networking](https://docs.docker.com/compose/networking/) - võrgu konfiguratsioon
 - [Docker Compose Environment Variables](https://docs.docker.com/compose/environment-variables/) - keskkonnamuutujad

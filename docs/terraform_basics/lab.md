@@ -1,9 +1,9 @@
-# 🧪 Terraform Basics Lab: Infrastructure Automation
+# Terraform Basics Lab: Infrastructure Automation
 
-**Kestus:** 2 tundi  
+**Kestus:**   
 **Eesmärk:** Õppida Terraform'i praktilist kasutamist ja luua lihtsa infrastruktuuri
 
-## 🎯 Samm 1: Õpiväljundid
+## Task 1: Õpiväljundid
 
 Pärast laborit oskate:
 - **Kirjutada lihtsaid Terraform faile** - HCL süntaks ja põhilised ressursid
@@ -14,9 +14,9 @@ Pärast laborit oskate:
 
 ---
 
-## 📋 Samm 1: Terraform'i installimine ja seadistamine (15 min)
+## Task 2: Terraform'i installimine ja seadistamine ()
 
-### 1.1: Terraform'i installimine
+### Ülesanne 1.1: Terraform'i installimine
 
 **Valige oma operatsioonisüsteem ja järgige juhiseid:**
 
@@ -40,7 +40,7 @@ choco install terraform
 terraform --version
 ```
 
-### 1.2: Projekti struktuuri loomine
+### Ülesanne 1.2: Projekti struktuuri loomine
 
 ```bash
 # Projekti kataloogi loomine
@@ -51,7 +51,7 @@ cd ~/terraform-basics-lab
 mkdir -p configs scripts
 ```
 
-### 1.3: Terraform'i seadistamine
+### Ülesanne 1.3: Terraform'i seadistamine
 
 **Kontrollige, et Terraform töötab:**
 ```bash
@@ -64,9 +64,9 @@ terraform --help
 
 ---
 
-## 📋 Samm 2: Lihtsa Terraform projekti loomine (45 min)
+## Task 3: Lihtsa Terraform projekti loomine ()
 
-### 2.1: Põhilise Terraform faili loomine
+### Ülesanne 2.1: Põhilise Terraform faili loomine
 
 **Kasutage valmis näidet teacher_repo'st:**
 
@@ -106,7 +106,7 @@ resource "local_directory" "example" {
 - `filename` - faili nimi
 - `path` - kataloogi tee
 
-### 2.2: Terraform'i käivitamine
+### Ülesanne 2.2: Terraform'i käivitamine
 
 Terraform'i kasutamine koosneb kolmest põhilises sammust: **init**, **plan**, ja **apply**. Kujutage ette neid kui "valmistamine", "kontrollimine" ja "tegemine".
 
@@ -162,7 +162,7 @@ terraform apply
 - **Idempotent** - sama käsk teeb sama tulemuse
 ```
 
-### 2.3: Tulemuste kontrollimine
+### Ülesanne 2.3: Tulemuste kontrollimine
 
 **Kontrollige loodud faile:**
 ```bash
@@ -190,9 +190,9 @@ terraform state list
 
 ---
 
-## 📋 Samm 3: Muudatuste tegemine ja haldamine (30 min)
+## Task 4: Muudatuste tegemine ja haldamine ()
 
-### 3.1: Konfiguratsiooni muutmine
+### Ülesanne 3.1: Konfiguratsiooni muutmine
 
 **Muutke `main.tf` faili:**
 
@@ -242,7 +242,7 @@ resource "local_file" "script" {
 }
 ```
 
-### Samm 2: Muudatuste rakendamine
+### Ülesanne 2.1: Muudatuste rakendamine
 
 ```bash
 # Plan the changes
@@ -257,7 +257,7 @@ terraform apply
 - Ainult muudetud ressursid uuendatakse
 - Uus ressurss lisatakse
 
-### Samm 3: Ressursside kustutamine
+### Ülesanne 3.1: Ressursside kustutamine
 
 ```bash
 # Destroy all resources
@@ -270,9 +270,9 @@ terraform destroy
 
 ---
 
-## 📋 Samm 4: Variables ja Outputs (30 min)
+## Task 5: Variables ja Outputs ()
 
-### 4.1: Variables faili loomine
+### Ülesanne 4.1: Variables faili loomine
 
 **Looge fail `variables.tf`:**
 
@@ -351,7 +351,7 @@ variable "enable_backup" {
 }
 ```
 
-### 4.2: Outputs faili loomine
+### Ülesanne 4.2: Outputs faili loomine
 
 **Looge fail `outputs.tf`:**
 
@@ -422,7 +422,7 @@ output "project_summary" {
 }
 ```
 
-### 4.3: Main faili uuendamine
+### Ülesanne 4.3: Main faili uuendamine
 
 **Uuendage `main.tf` faili:**
 
@@ -457,7 +457,7 @@ resource "local_file" "config" {
 }
 ```
 
-### 4.4: Muudatuste rakendamine
+### Ülesanne 4.4: Muudatuste rakendamine
 
 ```bash
 # Plan the changes
@@ -472,9 +472,9 @@ terraform output
 
 ---
 
-## 📋 Samm 5: Advanced Features (30 min)
+## Task 6: Advanced Features ()
 
-### 5.1: Data sources kasutamine
+### Ülesanne 5.1: Data sources kasutamine
 
 **Lisage `main.tf` faili:**
 
@@ -498,7 +498,7 @@ resource "local_file" "summary" {
 }
 ```
 
-### 5.2: Local values kasutamine
+### Ülesanne 5.2: Local values kasutamine
 
 **Lisage `locals.tf` faili:**
 
@@ -516,7 +516,7 @@ locals {
 }
 ```
 
-### 5.3: Conditional logic
+### Ülesanne 5.3: Conditional logic
 
 **Uuendage `main.tf` faili:**
 
@@ -537,7 +537,7 @@ resource "local_file" "backup" {
 }
 ```
 
-### 5.4: Final test
+### Ülesanne 5.4: Final test
 
 ```bash
 # Plan and apply
@@ -556,7 +556,7 @@ cat summary.txt
 
 ---
 
-## 🎯 Samm 2: Kokkuvõte
+## Task 7: Kokkuvõte
 
 Täna õppisime:
 
@@ -573,9 +573,9 @@ Täna õppisime:
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (Terraform'i oskajatele)
+## Task 8: **BOONUSÜLESANDED** (Terraform'i oskajatele)
 
-### B1: Advanced Local Infrastructure (30 min)
+### B1: Advanced Local Infrastructure ()
 
 ```hcl
 # locals.tf - Advanced local values
@@ -623,7 +623,7 @@ resource "local_file" "service_configs" {
 }
 ```
 
-### B2: Template Files ja Functions (25 min)
+### B2: Template Files ja Functions ()
 
 ```hcl
 # templates/nginx.conf.tpl
@@ -664,7 +664,7 @@ resource "local_file" "nginx_config" {
 }
 ```
 
-### B3: Modules ja Code Organization (35 min)
+### B3: Modules ja Code Organization ()
 
 ```hcl
 # modules/webapp/main.tf
@@ -752,7 +752,7 @@ module "backend" {
 }
 ```
 
-### B4: Terraform Workspaces ja State Management (20 min)
+### B4: Terraform Workspaces ja State Management ()
 
 ```bash
 # Create workspaces for different environments
@@ -805,7 +805,7 @@ locals {
 }
 ```
 
-### B5: Advanced Data Sources ja External Integration (25 min)
+### B5: Advanced Data Sources ja External Integration ()
 
 ```hcl
 # External data source
@@ -867,7 +867,7 @@ resource "local_file" "monitoring_config" {
 
 ---
 
-## 📚 Lisaressursid
+## Lisaressursid
 
 - **Terraform CLI Commands:** https://www.terraform.io/docs/cli
 - **Local Provider:** https://registry.terraform.io/providers/hashicorp/local/latest/docs
@@ -876,7 +876,7 @@ resource "local_file" "monitoring_config" {
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Levinumad probleemid ja lahendused:
 

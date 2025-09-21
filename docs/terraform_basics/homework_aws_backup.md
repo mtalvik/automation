@@ -1,14 +1,14 @@
-# 📝 Terraform Basics Kodutöö: Kohalik Infrastruktuur
+# Terraform Basics Kodutöö: Kohalik Infrastruktuur
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Terraform'i praktiline kasutamine ja Infrastructure as Code mõistmine  
-**Aeg:** 2-3 tundi praktilist tööd
+praktilist tööd
 
 **Fookus on Terraform'i ja Infrastructure as Code'i õppimisel kohalikus keskkonnas!**
 
 ---
 
-## 🎯 **Projekt: Kohalik Infrastruktuur Terraform'iga**
+## Projekt: Kohalik Infrastruktuur Terraform'iga**
 
 ### Mis on see projekt?
 
@@ -43,7 +43,7 @@ Kohalik Infrastruktuur:
 └── Skriptid ja dokumentatsioon
 ```
 
-**📚 Mida õpite:**
+** Mida õpite:**
 - Kuidas kirjutada Terraform koodi
 - Kuidas kasutada variable'id ja outputs
 - Kuidas seadistada kohalikke ressursse
@@ -56,7 +56,7 @@ graph TB
     subgraph "💻 Kohalik Infrastruktuur"
         User[👤 Kasutaja]
         Files[📁 Failid<br/>Local Files]
-        Config[⚙️ Konfiguratsioonid<br/>JSON/YAML]
+        Config[⚙ Konfiguratsioonid<br/>JSON/YAML]
         Scripts[📜 Skriptid<br/>Bash/Python]
     end
     
@@ -66,7 +66,7 @@ graph TB
     
     subgraph "🔧 Terraform"
         Code[📝 Terraform Kood]
-        State[🗄️ State Fail]
+        State[🗄 State Fail]
     end
     
     Code --> Files
@@ -76,9 +76,9 @@ graph TB
 
 ---
 
-## 📋 **Ülesanne 1: Projekti struktuuri loomine (15 min)**
+## **Ülesanne 1: Projekti struktuuri loomine ()**
 
-### Samm 1: Projekti kataloogi struktuur
+### Ülesanne 1.1: Projekti kataloogi struktuur
 
 **Looge lihtne kataloogi struktuur:**
 
@@ -98,7 +98,7 @@ terraform-basics-homework/
 cp -r teacher_repo/terraform-basics-starter/templates/* .
 ```
 
-### Samm 2: Providers konfiguratsioon
+### Ülesanne 2.1: Providers konfiguratsioon
 
 **Looge `providers.tf`:**
 
@@ -120,7 +120,7 @@ terraform {
 }
 
 # Local provider - töötab kohalikus failisüsteemis
-# Ei vaja mingeid lisaseadeid
+# Ei vajageid lisaseadeid
 ```
 
 **Märkus state haldamise kohta:**
@@ -129,9 +129,9 @@ Kohalikus keskkonnas kasutame `terraform.tfstate` faili, mis luuakse automaatsel
 
 ---
 
-## 📋 **Ülesanne 2: Lihtne Terraform projekt (45 min)**
+## **Ülesanne 2: Lihtne Terraform projekt ()**
 
-### Samm 1: Provider konfiguratsioon
+### Ülesanne 1.1: Provider konfiguratsioon
 
 **Alustame `main.tf` faili loomisega. See fail ütleb Terraform'ile, milliseid teenuseid kasutame:**
 
@@ -163,7 +163,7 @@ terraform {
 - Kõik failid luuakse kohalikus arvutis
 - Ei vaja internetti ega pilve
 
-### Samm 2: Kataloogi loomine
+### Ülesanne 2.1: Kataloogi loomine
 
 **Nüüd loome projekti kataloogi. Mõtle seda nagu "maja" failisüsteemis:**
 
@@ -193,7 +193,7 @@ resource "local_directory" "scripts" {
 - Loob alamkaustad konfiguratsioonide ja skriptide jaoks
 - Kõik järgmised failid saab organiseeritult paigutada
 
-### Samm 3: Konfiguratsioonifailide loomine
+### Ülesanne 3.1: Konfiguratsioonifailide loomine
 
 **Nüüd loome konfiguratsioonifaile. Mõtle seda nagu seadete failid:**
 
@@ -221,7 +221,7 @@ resource "local_file" "project_config" {
 - Sisaldab projekti nime, versiooni ja loomise aega
 - Fail salvestatakse config/ kausta
 
-### Samm 4: Skriptifailide loomine
+### Ülesanne 4.1: Skriptifailide loomine
 
 **Nüüd loome skriptifaile. Mõtle seda nagu automatiseerimise tööriistad:**
 
@@ -251,7 +251,7 @@ resource "local_file" "startup_script" {
 - Annab skriptile täitmisõigused
 - Kasutab muutujaid projekti nime ja keskkonna jaoks
 
-### Samm 5: Route Table
+### Ülesanne 5.1: Route Table
 
 **Nüüd loome marsruutimistabeli. See ütleb, kuidas liiklus liigub:**
 
@@ -287,7 +287,7 @@ resource "aws_route_table_association" "public" {
 - `association` ütleb: "See reegel kehtib kõigile serveritele selles subnet'is"
 - Nüüd saavad serverid internetti pääseda
 
-### Samm 6: Security Group
+### Ülesanne 6.1: Security Group
 
 **Nüüd loome Security Group. Mõtle seda nagu tulemüür:**
 
@@ -338,11 +338,11 @@ resource "aws_security_group" "web" {
 
 **Mida see teeb?**
 - `ingress` = sissetulev liiklus (kellele lubame pääseda)
-- `egress` = väljuv liiklus (kuhu lubame minna)
+- `egress` = väljuv liiklus (kuhu lubamena)
 - Port 80 = lubame kõigile vaadata veebilehte
 - Port 22 = lubame kõigile ühenduda serveriga (SSH)
 
-### Samm 7: EC2 Instance
+### Ülesanne 7.1: EC2 Instance
 
 **Nüüd loome web serveri. See on nagu arvuti pilves:**
 
@@ -382,7 +382,7 @@ resource "aws_instance" "web" {
 - `user_data` = skript, mis installib nginx'i serveri käivitamisel
 - `associate_public_ip_address = true` = annab avaliku IP, et saaksime serverile pääseda
 
-### Samm 8: Data Source
+### Ülesanne 8.1: Data Source
 
 **Viimane samm - leiame Ubuntu AMI:**
 
@@ -410,7 +410,7 @@ data "aws_ami" "ubuntu" {
 - `filter` = otsib ainult Ubuntu 20.04 AMI'sid
 - `owners` = ainult Canonical (Ubuntu looja) AMI'd
 
-### Samm 2: VPC loomine
+### Ülesanne 2.1: VPC loomine
 
 **Lisa VPC (Virtual Private Cloud) - see on nagu privaatne võrk AWS's:**
 
@@ -430,7 +430,7 @@ resource "aws_vpc" "main" {
 - `cidr_block` määrab võrgu suuruse (10.0.0.0/16 = 65,536 IP aadressi)
 - `tags` aitab identifitseerida ressurssi
 
-### Samm 3: Subnet loomine
+### Ülesanne 3.1: Subnet loomine
 
 **Lisa subnet - see on nagu alamvõrk VPC sees:**
 
@@ -453,7 +453,7 @@ resource "aws_subnet" "public" {
 - `map_public_ip_on_launch = true` annab serveritele avaliku IP
 - `availability_zone` määrab, millises AWS tsoonis asub
 
-### Samm 4: Internet Gateway
+### Ülesanne 4.1: Internet Gateway
 
 **Lisa Internet Gateway - see ühendab võrgu internetti:**
 
@@ -472,7 +472,7 @@ resource "aws_internet_gateway" "main" {
 - Loob "värava" internetti
 - Ilma selleta ei saa serverid internetti pääseda
 
-### Samm 5: Route Table
+### Ülesanne 5.1: Route Table
 
 **Lisa marsruutimistabel - see ütleb, kuidas liiklus liigub:**
 
@@ -502,7 +502,7 @@ resource "aws_route_table_association" "public" {
 - `route` ütleb: "kõik liiklus (0.0.0.0/0) läheb internetti"
 - `association` seob selle reegli subnet'iga
 
-### Samm 6: Security Group
+### Ülesanne 6.1: Security Group
 
 **Lisa Security Group - see on nagu tulemüür:**
 
@@ -547,11 +547,11 @@ resource "aws_security_group" "web" {
 
 **Mida see teeb?**
 - `ingress` = sissetulev liiklus (kellele lubame pääseda)
-- `egress` = väljuv liiklus (kuhu lubame minna)
+- `egress` = väljuv liiklus (kuhu lubamena)
 - Port 80 = HTTP (veebilehed)
 - Port 22 = SSH (serveri haldamine)
 
-### Samm 7: EC2 Instance
+### Ülesanne 7.1: EC2 Instance
 
 **Lisa web server:**
 
@@ -586,7 +586,7 @@ resource "aws_instance" "web" {
 - `user_data` = skript, mis installib nginx'i
 - `associate_public_ip_address = true` = annab avaliku IP
 
-### Samm 8: Data Source
+### Ülesanne 8.1: Data Source
 
 **Lisa data source Ubuntu AMI jaoks:**
 
@@ -610,9 +610,9 @@ data "aws_ami" "ubuntu" {
 
 ---
 
-## 📋 **Ülesanne 3: Variables ja outputs failid (15 min)**
+## **Ülesanne 3: Variables ja outputs failid ()**
 
-### Samm 1: Variables fail
+### Ülesanne 1.1: Variables fail
 
 **Nüüd loome `variables.tf` faili. See fail määrab muutujad, mida saame muuta:**
 
@@ -656,7 +656,7 @@ variable "file_count" {
 - `environment` = keskkonna nimi (development, staging, production)
 - `file_count` = kui palju näidisfaile luua (1-20 vahel)
 
-### Samm 2: Outputs fail
+### Ülesanne 2.1: Outputs fail
 
 **Nüüd loome `outputs.tf` faili. See fail näitab meile olulisi infosid pärast käivitamist:**
 
@@ -697,7 +697,7 @@ output "project_summary" {
 - `script_files` = Kõik loodud skriptifailid
 - `project_summary` = Projekti kokkuvõtte string
 
-### Samm 3: Terraform.tfvars fail
+### Ülesanne 3.1: Terraform.tfvars fail
 
 **Nüüd loome `terraform.tfvars` faili. See fail määrab muutujate väärtused:**
 
@@ -717,7 +717,7 @@ instance_type = "t3.micro"
 - `project_name = "terraform-basics-homework"` = projekti nimi
 - `instance_type = "t3.micro"` = kasutame väikest ja odavat serverit
 
-### Samm 4: Projekti käivitamine
+### Ülesanne 4.1: Projekti käivitamine
 
 **Nüüd käivitame projekti. Järgige samme täpselt:**
 
@@ -747,10 +747,10 @@ terraform apply
 
 **Mida see teeb?**
 - Loob kõik ressursid AWS's
-- Võtab umbes 2-3 minutit
+- Võtab umbes 2-utit
 - Kui küsib kinnitust, kirjutage "yes"
 
-### Samm 5: Testige web serverit
+### Ülesanne 5.1: Testige web serverit
 
 **Pärast `terraform apply` lõppemist näete outputs:**
 
@@ -759,7 +759,7 @@ web_server_public_ip = "3.123.45.67"
 web_server_url = "http://3.123.45.67"
 ```
 
-**Avage brauser ja minge aadressile:**
+**Avage brauser jage aadressile:**
 ```
 http://[web_server_public_ip]
 ```
@@ -787,7 +787,7 @@ http://[web_server_public_ip]
 }
 ```
 
-### Samm 3: Database module outputs
+### Ülesanne 3.1: Database module outputs
 
 **Looge `modules/database/outputs.tf`:**
 
@@ -810,9 +810,9 @@ output "db_port" {
 
 ---
 
-## 📋 **Ülesanne 4: AWS konsooli uurimine (30 min)**
+## **Ülesanne 4: AWS konsooli uurimine ()**
 
-### Samm 1: AWS konsooli avamine
+### Ülesanne 1.1: AWS konsooli avamine
 
 **Avage AWS konsool ja vaadake, mida Terraform on loonud:**
 
@@ -825,7 +825,7 @@ output "db_port" {
 - Instance state peaks olema "running"
 - Public IP peaks olema sama, mis Terraform outputs'is
 
-### Samm 2: VPC uurimine
+### Ülesanne 2.1: VPC uurimine
 
 **Minge VPC teenusse ja vaadake võrku:**
 
@@ -838,7 +838,7 @@ output "db_port" {
 - Subnet CIDR: 10.0.1.0/24
 - Subnet on "public" (map public IP = yes)
 
-### Samm 3: Security Groups uurimine
+### Ülesanne 3.1: Security Groups uurimine
 
 **Minge Security Groups ja vaadake tulemüüri reegleid:**
 
@@ -854,9 +854,9 @@ output "db_port" {
 - Need kontrollivad, kes pääseb serverisse
 - Ilma nendeta ei saaks veebilehte vaadata
 
-## 📋 **Ülesanne 5: Eksperimenteerimine ja muutmine (45 min)**
+## **Ülesanne 5: Eksperimenteerimine ja muutmine ()**
 
-### Samm 1: Regiooni muutmine
+### Ülesanne 1.1: Regiooni muutmine
 
 **Muutke AWS regiooni ja vaadake, mis juhtub:**
 
@@ -883,7 +883,7 @@ terraform apply
 - Ressursid ei saa liikuda regioonide vahel
 - Terraform kustutab vanad ja loob uued
 
-### Samm 2: Instance tüübi muutmine
+### Ülesanne 2.1: Instance tüübi muutmine
 
 **Muutke serveri tüüpi ja vaadake erinevust:**
 
@@ -910,7 +910,7 @@ terraform apply
 - `t3.small` on võimsam kui `t3.micro`
 - Server peab taaskäivituma, et muutused jõuaksid kohale
 
-### Samm 3: HTTPS lisamine
+### Ülesanne 3.1: HTTPS lisamine
 
 **Lisage HTTPS tugi (port 443):**
 
@@ -941,7 +941,7 @@ terraform apply
 - Server ei pea taaskäivituma
 - Muutused on kohe aktiivsed
 
-### Samm 4: Custom veebileht
+### Ülesanne 4.1: Custom veebileht
 
 **Lisage oma veebileht serverile:**
 
@@ -962,7 +962,7 @@ cat > /var/www/html/index.html << 'HTML'
     <title>Minu Terraform Projekt</title>
 </head>
 <body>
-    <h1>Tere! See on minu Terraform projekt</h1>
+    <h1>Tere! See onu Terraform projekt</h1>
     <p>Server: $(hostname)</p>
     <p>Kuupäev: $(date)</p>
     <p>Regioon: eu-west-1</p>
@@ -987,9 +987,9 @@ terraform apply
 - `user_data` muutub ainult serveri taaskäivitamisel
 - Terraform kustutab vana serveri ja loob uue
 
-## 📋 **Ülesanne 6: Probleemide lahendamine (30 min)**
+## **Ülesanne 6: Probleemide lahendamine ()**
 
-### Samm 1: Vale regioon
+### Ülesanne 1.1: Vale regioon
 
 **Proovige kasutada vale regiooni ja vaadake, mis juhtub:**
 
@@ -1013,7 +1013,7 @@ terraform plan
 - Muutke regioon tagasi õigeks (nt eu-west-1)
 - Käivitage `terraform plan` uuesti
 
-### Samm 2: Vale instance tüüp
+### Ülesanne 2.1: Vale instance tüüp
 
 **Proovige kasutada vale instance tüüpi:**
 
@@ -1037,7 +1037,7 @@ terraform plan
 - Muutke tüüp tagasi õigeks (nt t3.micro)
 - Käivitage `terraform plan` uuesti
 
-### Samm 3: Vale CIDR blokk
+### Ülesanne 3.1: Vale CIDR blokk
 
 **Proovige kasutada vale VPC CIDR blokki:**
 
@@ -1059,13 +1059,13 @@ terraform plan
 - Muutke CIDR tagasi õigeks (10.0.0.0/16)
 - Käivitage `terraform plan` uuesti
 
-## 📋 **Ülesanne 7: Projekti testimine ja puhastamine (15 min)**
+## **Ülesanne 7: Projekti testimine ja puhastamine ()**
 
-### Samm 1: Testige kõiki muudatusi
+### Ülesanne 1.1: Testige kõiki muudatusi
 
 **Testige, et kõik töötab:**
 
-1. **Avage brauser ja minge aadressile:**
+1. **Avage brauser jage aadressile:**
 ```
 http://[web_server_public_ip]
 ```
@@ -1074,7 +1074,7 @@ http://[web_server_public_ip]
 
 3. **Kontrollige AWS konsoolis, et kõik ressursid on olemas**
 
-### Samm 2: Puhastage ressursid
+### Ülesanne 2.1: Puhastage ressursid
 
 **Kustutage kõik ressursid:**
 
@@ -1108,7 +1108,7 @@ terraform destroy
 }
 ```
 
-### Samm 3: Storage module outputs
+### Ülesanne 3.1: Storage module outputs
 
 **Looge `modules/storage/outputs.tf`:**
 
@@ -1131,9 +1131,9 @@ output "bucket_name" {
 
 ---
 
-## 📋 **Ülesanne 6: Environment konfiguratsioonid (45 min)**
+## **Ülesanne 6: Environment konfiguratsioonid ()**
 
-### Samm 1: Development environment
+### Ülesanne 1.1: Development environment
 
 **Looge `environments/dev/main.tf`:**
 
@@ -1234,7 +1234,7 @@ project_name = "terraform-basics-homework"
 db_password  = "dev_password_123"
 ```
 
-### Samm 2: Staging environment
+### Ülesanne 2.1: Staging environment
 
 **Looge `environments/staging/main.tf`:**
 
@@ -1307,7 +1307,7 @@ project_name = "terraform-basics-homework"
 db_password  = "staging_password_456"
 ```
 
-### Samm 3: Production environment
+### Ülesanne 3.1: Production environment
 
 **Looge `environments/prod/main.tf`:**
 
@@ -1339,7 +1339,7 @@ module "compute" {
   instance_type      = "t2.medium"
   instance_count     = 2
   enable_autoscaling = true
-  min_size           = 2
+_size           = 2
   max_size           = 5
   desired_capacity   = 2
 }
@@ -1385,9 +1385,9 @@ db_password  = "prod_password_789"
 
 ---
 
-## 📋 **Ülesanne 7: Juurutamine ja testimine (60 min)**
+## **Ülesanne 7: Juurutamine ja testimine ()**
 
-### Samm 1: Development keskkonna juurutamine
+### Ülesanne 1.1: Development keskkonna juurutamine
 
 ```bash
 # Navigate to development environment
@@ -1403,7 +1403,7 @@ terraform plan
 terraform apply
 ```
 
-### Samm 2: Staging keskkonna juurutamine
+### Ülesanne 2.1: Staging keskkonna juurutamine
 
 ```bash
 # Navigate to staging environment
@@ -1419,7 +1419,7 @@ terraform plan
 terraform apply
 ```
 
-### Samm 3: Production keskkonna juurutamine
+### Ülesanne 3.1: Production keskkonna juurutamine
 
 ```bash
 # Navigate to production environment
@@ -1435,7 +1435,7 @@ terraform plan
 terraform apply
 ```
 
-### Samm 4: Tulemuste kontrollimine
+### Ülesanne 4.1: Tulemuste kontrollimine
 
 **Kontrollige loodud ressursse:**
 
@@ -1465,14 +1465,14 @@ curl http://<public-ip>
 
 ---
 
-## 📋 **Ülesanne 8: Dokumentatsioon ja cleanup (30 min)**
+## **Ülesanne 8: Dokumentatsioon ja cleanup ()**
 
-### Samm 1: README faili loomine
+### Ülesanne 1.1: README faili loomine
 
 **Looge `README.md`:**
 
 ```markdown
-# Nädal 23 Kodutöö: Multi-Environment Terraform Infrastructure
+# Kodutöö: Multi-Environment Terraform Infrastructure
 
 ## Ülevaade
 
@@ -1488,7 +1488,7 @@ Infrastruktuur sisaldab:
 
 ## Keskkonnad
 
-- **Development**: Üks instance, minimaalsed ressursid
+- **Development**: Üks instance,imaalsed ressursid
 - **Staging**: Üks instance, keskmised ressursid
 - **Production**: Auto Scaling Group, kõrge kättesaadavus
 
@@ -1557,7 +1557,7 @@ terraform-basics-homework/
 - S3 lifecycle policies on seadistatud kulude optimeerimiseks
 ```
 
-### Samm 2: Ressursside kustutamine
+### Ülesanne 2.1: Ressursside kustutamine
 
 ```bash
 # Destroy production environment
@@ -1577,7 +1577,7 @@ terraform destroy
 
  
 
-## 📚 **Lisaressursid**
+## **Lisaressursid**
 
 - **Terraform AWS Provider:** https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 - **Terraform Modules:** https://www.terraform.io/docs/language/modules

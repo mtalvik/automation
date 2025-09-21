@@ -1,16 +1,16 @@
-# Nädal 9 Kodutöö: Git Projekti Portfolio
+# Git Projekti Portfolio
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Demonstreerida Git'i ja GitHub'i oskusi  
-**Aeg:** 2 tundi praktilist tööd
+praktilist tööd
 
 ---
 
-## 🎯 Ülesande Kirjeldus
+## Task 1: Ülesande Kirjeldus
 
 Looge lihtne projekt, mis demonstreerib kõiki Git'i ja GitHub'i peamisi oskusi. **Fookus on Git workflow'l, mitte koodi keerukusel.**
 
-## 🔄 OLULINE: Õige Git Flow
+## Task 2: OLULINE: Õige Git Flow
 
 ```
 main (toodang)        ●─────────●─────────●
@@ -26,9 +26,9 @@ feature branch'id        ●─────●─────●
 
 ---
 
-## 🚀 Juhend
+## Task 3: Juhend
 
-### Samm 1: Repository Loomine (20 min)
+### Ülesanne 1.1: Repository Loomine ()
 
 1. **GitHub'is looge uus repository**
    - Nimi: `its-git-demo` (või sarnane)
@@ -51,7 +51,7 @@ feature branch'id        ●─────●─────●
    git push origin main
    ```
 
-### Samm 2: Lihtne Script (25 min)
+### Ülesanne 2.1: Lihtne Script ()
 
 1. **Looge develop branch**
    - Minge main branch'ilt develop branch'ile
@@ -132,14 +132,14 @@ feature branch'id        ●─────●─────●
 6. **Commit ja push kõik muudatused**
    - **Staging area selgitus:** Git'is on 3 ala:
      - Working Directory (teie failid)
-     - Staging Area (failid valmis commit'iks) ⬅️ SIIN
+     - Staging Area (failid valmis commit'iks) ⬅ SIIN
      - Repository (commit'itud failid)
    - Lisage kõik failid staging area'le: `git add .`
    - Vaadake olekut: `git status` (rohelised failid on staging area's)
    - Tehke commit selge sõnumiga: `git commit -m "feat: add system info script and docs"`
    - Push'ige feature branch GitHub'i: `git push origin feature/system-info`
 
-### Samm 3: GitHub Features (35 min)
+### Ülesanne 3.1: GitHub Features ()
 
 1. **Looge Issues GitHub'is**
    - Issue #1: "Add system info script" - märgistage label'iga "enhancement"
@@ -147,7 +147,7 @@ feature branch'id        ●─────●─────●
 
 2. **Tehke Pull Request**
    - GitHub'is looge PR: feature/system-info → develop
-   - **OLULINE:** PR PEAB minema develop branch'i, MITTE main'i
+   - **OLULINE:** PR PEABema develop branch'i, MITTE main'i
    - Kirjutage hea pealkiri ja kirjeldus
    - Mainige, et see lahendab Issue #1 ("Closes #1")
    - Merge'ige PR (ise endale)
@@ -163,7 +163,7 @@ feature branch'id        ●─────●─────●
    - Veenduge, et workflow töötab
    - Kui ei tööta, parandage vead
 
-### Samm 4: Git Advanced Features (25 min)
+### Ülesanne 4.1: Git Advanced Features ()
 
 1. **Looge tahtlikult merge conflict**
    - Minge develop branch'ile: `git checkout develop`
@@ -208,7 +208,7 @@ feature branch'id        ●─────●─────●
    - Push'ige tag'id GitHub'i: `git push origin v1.0.0`
    - GitHub'is looge Release v1.0.0 tag'i põhjal
 
-### Samm 5: Finalize (15 min)
+### Ülesanne 5.1: Finalize ()
 
 1. **Uuendage README.md**
    - **Kopeerige see sisu README.md faili:**
@@ -261,4 +261,3 @@ feature branch'id        ●─────●─────●
 
 ---
 
- 

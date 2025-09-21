@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Sisukord
+## Sisukord
 
 1. [Virtuaalse masina loomine](#virtuaalse-masina-loomine)
 2. [VSCode seadistamine](#vscode-seadistamine)
@@ -14,7 +14,7 @@
 
 ---
 
-## 🖥️ Virtuaalse masina loomine
+## Virtuaalse masina loomine
 
 ### **Süsteemi nõuded:**
 - **RAM:** Vähemalt 8GB (soovituslik 16GB)
@@ -26,9 +26,9 @@
 
 **Windows:**
 ```bash
-# 1. Laadige alla: https://multipass.run/download/windows
-# 2. Installige ja taaskäivitage arvuti
-# 3. Avage PowerShell ja käivitage:
+## Laadige alla: https://multipass.run/download/windows
+## Installige ja taaskäivitage arvuti
+## Avage PowerShell ja käivitage:
 
 # Looge virtuaalne masin
 multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
@@ -70,13 +70,13 @@ multipass shell dev-lab
 **3. Virtuaalse masina loomine:**
 ```bash
 # VirtualBox'is:
-# 1. "New" → "Expert mode"
-# 2. Nimi: "Dev-Lab"
-# 3. OS: Ubuntu 64-bit
-# 4. RAM: 8192 MB (8GB)
-# 5. CPU: 4 tuuma
-# 6. Ketas: 50GB
-# 7. Käivitage ja installige Ubuntu Server
+## "New" → "Expert mode"
+## Nimi: "Dev-Lab"
+## OS: Ubuntu 64-bit
+## RAM: 8192 MB (8GB)
+## CPU: 4 tuuma
+## Ketas: 50GB
+## Käivitage ja installige Ubuntu Server
 ```
 
 ### **3. WSL2 (Windows 10/11)**
@@ -104,20 +104,20 @@ wsl --install -d Ubuntu
 **Kubernetes ja Docker:**
 ```bash
 # Installige järgmised laiendused:
-# 1. "Docker" - Microsoft
-# 2. "Kubernetes" - Microsoft
-# 3. "YAML" - Red Hat
-# 4. "Remote - SSH" - Microsoft
-# 5. "Remote - WSL" - Microsoft (Windows)
+## "Docker" - Microsoft
+## "Kubernetes" - Microsoft
+## "YAML" - Red Hat
+## "Remote - SSH" - Microsoft
+## "Remote - WSL" - Microsoft (Windows)
 ```
 
 **Arenduskeskkond:**
 ```bash
-# 6. "GitLens" - Git integreerimine
-# 7. "Auto Rename Tag" - HTML/XML
-# 8. "Bracket Pair Colorizer" - koodi lugemine
-# 9. "Material Icon Theme" - failide ikoonid
-# 10. "One Dark Pro" - tumm teema
+## "GitLens" - Git integreerimine
+## "Auto Rename Tag" - HTML/XML
+## "Bracket Pair Colorizer" - koodi lugemine
+## "Material Icon Theme" - failide ikoonid
+## "One Dark Pro" - tumm teema
 ```
 
 ### **3. VSCode seaded**
@@ -196,7 +196,7 @@ Host dev-lab
 
 ---
 
-## 🐳 Docker ja Kubernetes installimine
+## Docker ja Kubernetes installimine
 
 ### **1. Docker installimine VM's**
 
@@ -228,7 +228,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Minikube installimine
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+sudo installikube-linux-amd64 /usr/local/bin/minikube
 
 # Minikube käivitamine
 minikube start --driver=docker --memory=4096 --cpus=2
@@ -251,7 +251,7 @@ kubectl proxy --address='0.0.0.0' --port=8001 --accept-hosts='.*'
 
 ---
 
-## 🔧 Probleemide lahendamine
+## Probleemide lahendamine
 
 ### **1. SSH ühenduse probleemid**
 
@@ -331,7 +331,7 @@ sudo chown -R $USER:$USER /path/to/project
 
 ---
 
-## 📚 Lisaressursid
+## Lisaressursid
 
 ### **Dokumentatsioon:**
 - [Multipass Documentation](https://multipass.run/docs)

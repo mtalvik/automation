@@ -1,14 +1,14 @@
-# 📝 Terraform Basics Kodutöö: Kohalik Infrastruktuur
+# Terraform Basics Kodutöö: Kohalik Infrastruktuur
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Terraform'i praktiline kasutamine ja Infrastructure as Code mõistmine  
-**Aeg:** 2-3 tundi praktilist tööd
+praktilist tööd
 
 **Fookus on Terraform'i ja Infrastructure as Code'i õppimisel kohalikus keskkonnas!**
 
 ---
 
-## 🎯 **Projekt: Kohalik Infrastruktuur Terraform'iga**
+## Task 1: Projekt: Kohalik Infrastruktuur Terraform'iga**
 
 ### Mis on see projekt?
 
@@ -30,9 +30,9 @@ Looge kohalik infrastruktuur Terraform'i abil. See on nagu "digitaalse maja ehit
 
 ---
 
-## 📋 **Ülesanne 1: Projekti struktuuri loomine (20 min)**
+## Task 2: **Ülesanne 1: Projekti struktuuri loomine ()**
 
-### Samm 1: Põhifailid
+### Ülesanne 1.1: Põhifailid
 
 **Looge järgmine failide struktuur:**
 
@@ -45,7 +45,7 @@ terraform-basics-homework/
 └── README.md        # Projekti kirjeldus
 ```
 
-### Samm 2: main.tf fail
+### Ülesanne 2.1: main.tf fail
 
 ```hcl
 terraform {
@@ -221,7 +221,7 @@ resource "local_file" "readme" {
 }
 ```
 
-### Samm 3: variables.tf fail
+### Ülesanne 3.1: variables.tf fail
 
 ```hcl
 variable "project_name" {
@@ -258,7 +258,7 @@ variable "file_count" {
 }
 ```
 
-### Samm 4: outputs.tf fail
+### Ülesanne 4.1: outputs.tf fail
 
 ```hcl
 output "project_directory" {
@@ -318,7 +318,7 @@ output "next_steps" {
 }
 ```
 
-### Samm 5: terraform.tfvars fail
+### Ülesanne 5.1: terraform.tfvars fail
 
 ```hcl
 project_name = "minu-terraform-projekt"
@@ -328,9 +328,9 @@ file_count   = 3
 
 ---
 
-## 📋 **Ülesanne 2: Projekti käivitamine (15 min)**
+## Task 3: **Ülesanne 2: Projekti käivitamine ()**
 
-### Samm 1: Terraform'i initsialiseerimine
+### Ülesanne 1.1: Terraform'i initsialiseerimine
 
 ```bash
 # Navigate to project directory
@@ -340,36 +340,36 @@ cd terraform-basics-homework
 terraform init
 ```
 
-### Samm 2: Planeerimine
+### Ülesanne 2.1: Planeerimine
 
 ```bash
 # See what will be created
 terraform plan
 ```
 
-### Samm 3: Projekti loomine
+### Ülesanne 3.1: Projekti loomine
 
 ```bash
 # Create the infrastructure
 terraform apply
 ```
 
-### Samm 4: Tulemuste vaatamine
+### Ülesanne 4.1: Tulemuste vaatamine
 
 ```bash
 # Check outputs
 terraform output
 
 # Check created files
-ls -la minu-terraform-projekt/
-tree minu-terraform-projekt/  # kui tree on installitud
+ls -lau-terraform-projekt/
+treeu-terraform-projekt/  # kui tree on installitud
 ```
 
 ---
 
-## 📋 **Ülesanne 3: Eksperimenteerimine (30 min)**
+## Task 4: **Ülesanne 3: Eksperimenteerimine ()**
 
-### Samm 1: Muutujate muutmine
+### Ülesanne 1.1: Muutujate muutmine
 
 **Muutke `terraform.tfvars` faili:**
 
@@ -386,7 +386,7 @@ terraform plan
 terraform apply
 ```
 
-### Samm 2: Uue ressursi lisamine
+### Ülesanne 2.1: Uue ressursi lisamine
 
 **Lisage `main.tf` faili:**
 
@@ -409,7 +409,7 @@ resource "local_file" "env_config" {
 }
 ```
 
-### Samm 3: Output'ide uuendamine
+### Ülesanne 3.1: Output'ide uuendamine
 
 **Lisage `outputs.tf` faili:**
 
@@ -420,25 +420,25 @@ output "environment_config" {
 }
 ```
 
-### Samm 4: Testimine
+### Ülesanne 4.1: Testimine
 
 ```bash
 terraform apply
 ./minu-uus-projekt/scripts/startup.sh
-cat minu-uus-projekt/config/environment.json
+catu-uus-projekt/config/environment.json
 ```
 
 ---
 
-## 📋 **Ülesanne 4: Puhastamine ja dokumenteerimine (10 min)**
+## Task 5: **Ülesanne 4: Puhastamine ja dokumenteerimine ()**
 
-### Samm 1: Infrastruktuuri kustutamine
+### Ülesanne 1.1: Infrastruktuuri kustutamine
 
 ```bash
 terraform destroy
 ```
 
-### Samm 2: Kokkuvõtte kirjutamine
+### Ülesanne 2.1: Kokkuvõtte kirjutamine
 
 **Vastake küsimustele:**
 
@@ -449,9 +449,9 @@ terraform destroy
 
 ---
 
-## 🎯 **Boonusülesanded (valikuline)**
+## Task 6: **Boonusülesanded (valikuline)**
 
-### 1. Tingimused ja tsüklid
+#### Tingimused ja tsüklid
 
 ```hcl
 # Loo backup failid ainult production keskkonnas
@@ -476,7 +476,7 @@ resource "local_file" "app_configs" {
 }
 ```
 
-### 2. Locals ja funktsioonid
+#### Locals ja funktsioonid
 
 ```hcl
 locals {
@@ -497,7 +497,7 @@ resource "local_file" "metadata" {
 }
 ```
 
-### 3. Moodulite struktuuri ettevalmistamine
+#### Moodulite struktuuri ettevalmistamine
 
 ```bash
 mkdir -p modules/file-generator
@@ -506,7 +506,7 @@ mkdir -p modules/file-generator
 
 ---
 
-## 📚 **Kokkuvõte**
+## Task 7: **Kokkuvõte**
 
 Täna õppisite:
 - **Terraform'i põhitõdesid** - kuidas kirjutada HCL koodi
@@ -524,7 +524,7 @@ Täna õppisite:
 
 ---
 
-## 📋 **Failide näited**
+## Task 8: **Failide näited**
 
 ### Oodatav terraform output:
 
@@ -538,7 +538,7 @@ project_structure = {
 }
 project_summary = <<EOT
 ═══════════════════════════════════════
-Terraform Projekt: minu-terraform-projekt
+Terraform Projekt:u-terraform-projekt
 ═══════════════════════════════════════
 Keskkond: development
 Failide arv: 7

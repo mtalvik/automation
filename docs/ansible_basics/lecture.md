@@ -1,14 +1,14 @@
-# 📚 Ansible Basics: Alused
+# Ansible Basics: Alused
 
-# 2.1 Ansible Arhitektuur ja Põhimõtted
+## Task 1: Ansible Arhitektuur ja Põhimõtted
 
-## Sissejuhatus automatiseerimisse
+### Ülesanne 1.1: Sissejuhatus automatiseerimisse
 
 Süsteemiadministreerimine traditsioonilistel meetoditel tekitab skaleerumisel märkimisväärseid väljakutseid. Suurtes infrastruktuurides, kus hallatakse kümneid või sadu servereid, muutub käsitsi konfiguratsioonide haldamine aeganõudvaks ja vigadele vastuvõtlikuks.
 
 Ansible on open-source automatiseerimisplatvorm, mis lahendab süsteemihalduse, rakenduste juurutamise ja konfiguratsioonide haldamise ülesandeid. Ansible'i peamised eelised on agentless arhitektuur, deklaratiivne süntaks ja idempotentsed operatsioonid.
 
-## Ansible arhitektuur
+### Ülesanne 1.2: Ansible arhitektuur
 
 ### Agentless lähenemine
 
@@ -109,7 +109,7 @@ flowchart TD
 5. **Tulemuste kogumine** - väljundi ja staatuse tagastamine
 6. **Ajutiste failide eemaldamine** - puhastusoperatsioonid
 
-## Idempotency printsiip
+## Task 2: Idempotency printsiip
 
 Idempotency on Ansible'i põhiprintsiip, mis tagab, et sama operatsiooni korduvkäivitamine ei muuda süsteemi olekut, kui soovitud olek on juba saavutatud.
 
@@ -126,7 +126,7 @@ Idempotency eelised:
 - **Etteennustatavus** - süsteemi lõppolek on alati sama
 - **Usaldusväärsus** - automatiseerimise skriptid on stabiilsed
 
-## Võrdlus konkurentidega
+## Task 3: Võrdlus konkurentidega
 
 ### Ansible vs Puppet
 
@@ -177,9 +177,9 @@ target_host | SUCCESS => {
 
 Ansible pakub tõhusat lahendust infrastruktuuri automatiseerimiseks. Agentless arhitektuur, lihtne YAML süntaks ja idempotentsed operatsioonid muudavad selle sobivaks nii väikestele kui suurtele keskkondadele. Järgnevates peatükkides käsitletakse SSH konfiguratsiooni, inventory haldamist ja playbook'ide arendamist.
 
-# 2.2 SSH ja Inventory konfigureerimine
+## Task 4: SSH ja Inventory konfigureerimine
 
-## SSH autentimise alused
+## Task 5: SSH autentimise alused
 
 Ansible tugineb SSH protokollile kommunikatsiooniks hallatavate süsteemidega. Tõhusa automatiseerimise saavutamiseks on vajalik seadistada võtme-põhine autentimine, mis elimineerib interaktiivse parooli sisestamise vajaduse.
 
@@ -244,7 +244,7 @@ for server in server1 server2 server3; do
 done
 ```
 
-## Inventory struktuur ja formaat
+## Task 6: Inventory struktuur ja formaat
 
 ### INI formaat
 
@@ -443,7 +443,7 @@ ansible ~web.* -m ping
 ansible web[1:3] -m ping
 ```
 
-## Ühenduse diagnostika
+## Task 7: Ühenduse diagnostika
 
 ### Põhilised testid
 
@@ -488,7 +488,7 @@ ansible all -m command -a "sudo whoami"
 ansible all -m shell -a "sudo -l"
 ```
 
-## Inventory best practices
+## Task 8: Inventory best practices
 
 ### Suurte projektide struktuur
 
@@ -543,9 +543,9 @@ ansible-playbook --ask-vault-pass site.yml
 
 SSH võtme-põhine autentimine ja korrektselt struktureeritud inventory on Ansible automatiseerimise nurgakivid. Proper konfigureerimine tagab turvalisuse, skaleeritavuse ja hallatavuse. Järgmises peatükis käsitletakse ad-hoc käskude kasutamist operatiivsete ülesannete lahendamiseks.
 
-# 2.3 Ad-hoc käskude kasutamine
+## Task 9: Ad-hoc käskude kasutamine
 
-## Ad-hoc käskude olemus ja rakendusala
+## Task 10: Ad-hoc käskude olemus ja rakendusala
 
 Ad-hoc käsud on Ansible'i funktsioon, mis võimaldab käivitada ühekordse operatsioone otse käsurealt, ilma playbook'ide loomise vajaduseta. Need sobivad kiireteks uuringulisteks või diagnostilisteks toiminguteks.
 
@@ -578,7 +578,7 @@ ansible <target> -m <module> -a "<arguments>" [options]
 - `<arguments>` - mooduli parameetrid
 - `[options]` - täiendavad käsulipud
 
-## Põhilised moodulid
+## Task 11: Põhilised moodulid
 
 ### ping - Ühenduvuse testimine
 
@@ -925,9 +925,9 @@ ansible all -m shell -a "systemctl list-units --type=service --state=running --n
 
 Ad-hoc käsud pakuvad võimsat tööriista operatiivsete ülesannete lahendamiseks Ansible infrastruktuuris. Kuigi need sobivad hästi diagnostikaks ja lihtsateks operatsioonideks, keerulisema automatiseerimise jaoks tuleks kasutada playbook'e. Järgmises peatükis käsitletakse YAML süntaksit ja playbook'ide struktuuri.
 
-# 2.4 YAML süntaks ja Playbook'ide alused
+## Task 12: YAML süntaks ja Playbook'ide alused
 
-## YAML konfiguratsioonikeel
+## Task 13: YAML konfiguratsioonikeel
 
 YAML (YAML Ain't Markup Language) on inimloetav andmete serialiseerimise standard, mida Ansible kasutab konfiguratsioonifailide ja playbook'ide kirjutamiseks. YAML-i eesmärk on pakkuda lihtsat ja intuitiivset süntaksit keeruliste andmestruktuuride kirjeldamiseks.
 
@@ -977,7 +977,7 @@ application:
 </application>
 ```
 
-## YAML süntaksi reeglid
+## Task 14: YAML süntaksi reeglid
 
 ### Taandrimise nõuded
 
@@ -1059,7 +1059,7 @@ summary: >
   on üks pikk rida.
 ```
 
-## Playbook'ide struktuur
+## Task 15: Playbook'ide struktuur
 
 ### Playbook'i anatoomia
 
@@ -1133,7 +1133,7 @@ tasks:
     tags: [tag1, tag2]
 ```
 
-## Muutujate kasutamine
+## Task 16: Muutujate kasutamine
 
 ### Muutujate interpoleerimine
 
@@ -1365,7 +1365,7 @@ Kompleksne playbook veebiserveri infrastruktuuri seadistamiseks:
         status_code: 200
 ```
 
-## Playbook'i käivitamine ja debugimine
+## Task 17: Playbook'i käivitamine ja debugimine
 
 ### Põhilised käivitamise võimalused
 
@@ -1492,4 +1492,3 @@ tasks:
 
 ## Kokkuvõte
 
-YAML süntaks ja playbook'ide struktuur moodustavad Ansible automatiseerimise aluse. Korrektselt struktureeritud playbook'id on loetavad, hallatavad ja usaldusväärsed. Järgmises peatükis käsitletakse advanced Ansible funktsionaalsusi nagu roles, templates ja error handling.

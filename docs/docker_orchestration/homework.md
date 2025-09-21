@@ -1,12 +1,12 @@
-# 📝 Nädal 21 Kodutöö: Docker Compose ja Kubernetes Praktika
+# Kodutöö: Docker Compose ja Kubernetes Praktika
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Docker Compose ja Kubernetes praktiline kasutamine  
-**Aeg:** 2-3 tundi praktilist tööd
+praktilist tööd
 
 ---
 
-## 🎯 **Projekt: Multi-Container Rakendus Docker Compose'iga ja Kubernetes'il**
+## Task 1: Projekt: Multi-Container Rakendus Docker Compose'iga ja Kubernetes'il**
 
 **Docker Compose** võimaldab hallata mitut container'it kui ühte rakendust. **Kubernetes** võimaldab hallata mitut container'it mitmel masinal. Selles kodutöös õpite mõlemat lähenemist.
 
@@ -14,7 +14,7 @@
 
 **🌐 Frontend** - Lihtne web rakendus (HTML/CSS/JS) kasutajaliidese jaoks
 **🔧 Backend** - Flask API äriloogika ja andmete töötlemiseks  
-**🗄️ Database** - PostgreSQL andmete salvestamiseks
+**🗄 Database** - PostgreSQL andmete salvestamiseks
 **📊 Monitoring** - Health checks ja logide vaatamine
 
 **🔗 Teenuste suhtlus:**
@@ -34,7 +34,7 @@ graph TB
     
     subgraph "Kubernetes Cluster"
         subgraph "Ingress Layer"
-            Ingress[⚖️ Nginx Ingress<br/>Load Balancer]
+            Ingress[⚖ Nginx Ingress<br/>Load Balancer]
         end
         
         subgraph "Application Layer"
@@ -45,8 +45,8 @@ graph TB
         end
         
         subgraph "Data Layer"
-            Redis[🔄 Redis Cache<br/>Session/Data Cache]
-            Postgres[🗄️ PostgreSQL<br/>Persistent Data]
+            Redis[ Redis Cache<br/>Session/Data Cache]
+            Postgres[🗄 PostgreSQL<br/>Persistent Data]
         end
         
         subgraph "Monitoring"
@@ -84,7 +84,7 @@ graph TB
     style Health fill:#ffff99
 ```
 
-## 📁 **Samm 1: Keskkonna seadistamine**
+## Keskkonna seadistamine**
 
 ### Kontrollige keskkonda:
 ```bash
@@ -105,7 +105,7 @@ echo "node_modules/\n.env\n*.log" > .gitignore
 
 ---
 
-## 🔧 **Samm 2: Rakenduse komponentide loomine (60 min)**
+## Rakenduse komponentide loomine ()**
 
 Nüüd hakkame tegelikult midagi tegema. Siin näeme, kuidas kõik töötab.
 
@@ -117,7 +117,7 @@ Mida me täpselt teeme? No, kõigepealt loome lihtsa veebilehe. Siis teeme API, 
 
 Ja mida te õpite? No, kõigepealt õpite, kuidas veebirakendused töötavad. Siis õpite, kuidas erinevad osad omavahel suhtlevad. Ja lõpuks õpite, kuidas kõike koos hoida ja probleeme lahendada.
 
-### 2.1 Lihtne Frontend
+#### Lihtne Frontend
 
 Nüüd kopeerime frontend'i failid. See on automation kursus, seega me ei kirjuta HTML koodi - me lihtsalt kopeerime valmis failid.
 
@@ -130,20 +130,20 @@ Kuidas me seda teeme? No, kõigepealt kopeerime failid teacher_repo'st. See on n
 cp teacher_repo/docker-orchestration-starter/templates/docker-compose.yml.example docker-compose.yml
 ```
 
-Mida te täpselt teete? No, kõigepealt minge teacher_repo kausta ja kopeerige frontend failid oma projekti kausta. See on lihtne - ainult kopeerige failid õigesse kohta.
+Mida te täpselt teete? No, kõigepealtge teacher_repo kausta ja kopeerige frontend failid oma projekti kausta. See on lihtne - ainult kopeerige failid õigesse kohta.
 
 ```bash
 # Kopeerige frontend failid
 cp teacher_repo/docker-orchestration-starter/templates/app/frontend/* app/frontend/
 ```
 
-Kuidas testida? Kui failid on kopeeritud, avage brauser, minge `http://localhost:8080` ja vajutage nuppe. Vaadake, kas midagi juhtub.
+Kuidas testida? Kui failid on kopeeritud, avage brauser,ge `http://localhost:8080` ja vajutage nuppe. Vaadake, kas midagi juhtub.
 
 Mida te õpite? Kuidas kasutada valmis komponente, kuidas suhelda backend API-ga ja kuidas testida rakenduse tööd.
 
 Ja kui midagi ei tööta? Kontrollige, et failid on õiges kaustas ja veenduge, et backend töötab.
 
-### 2.2 Lihtne Backend
+#### Lihtne Backend
 
 Nüüd kopeerime backend'i failid. See on automation kursus, seega me ei kirjuta Python koodi - me lihtsalt kopeerime valmis failid.
 
@@ -151,14 +151,14 @@ Backend on nagu restorani köök - kasutajad ei näe seda, aga kõik töö toimu
 
 Kuidas me seda teeme? No, kõigepealt kopeerime Python failid teacher_repo'st. See on nagu valmis köögi retsept - me ei kirjuta seda, me lihtsalt kasutame seda.
 
-Mida te täpselt teete? No, kõigepealt minge teacher_repo kausta ja kopeerige backend failid oma projekti kausta. See on lihtne - ainult kopeerige failid õigesse kohta.
+Mida te täpselt teete? No, kõigepealtge teacher_repo kausta ja kopeerige backend failid oma projekti kausta. See on lihtne - ainult kopeerige failid õigesse kohta.
 
 ```bash
 # Kopeerige backend failid
 cp teacher_repo/docker-orchestration-starter/templates/app/backend/* app/backend/
 ```
 
-Kuidas testida? Kui failid on kopeeritud, käivitage `python app.py`, avage brauser ja minge `http://localhost:5000/api/status`. Peaksite nägema JSON vastust.
+Kuidas testida? Kui failid on kopeeritud, käivitage `python app.py`, avage brauser jage `http://localhost:5000/api/status`. Peaksite nägema JSON vastust.
 
 Mida te õpite? Kuidas kasutada valmis API-d, kuidas ühenduda andmebaasiga ja kuidas testida backend'i tööd.
 
@@ -166,7 +166,7 @@ Ja kui midagi ei tööta? Kontrollige, et failid on õiges kaustas, kontrollige,
 
 ---
 
-## 🚀 **Samm 3: Kubernetes Praktika (60 min)**
+## Task 2: Kubernetes Praktika ()**
 
 **Nüüd hakkame õppima Kubernetes'i - see on nagu õppima, kuidas hallata mitut restorani korraga!**
 
@@ -179,7 +179,7 @@ Kubernetes on nagu restoraniketi juht - see võimaldab hallata mitut rakendust m
 3. **Juurutame rakenduse** - nagu restorani avamine
 4. **Testime tööd** - nagu kvaliteedi kontroll
 
-### 3.1 Kubernetes Keskkonna Seadistamine
+#### Kubernetes Keskkonna Seadistamine
 
 **Enne kui hakkame restorani avama, peame veenduma, et kõik tööriistad on kohal.**
 
@@ -197,7 +197,7 @@ Kubernetes vajab erilist keskkonda - nagu restoran vajab kööki, laudasid ja pe
 kubectl config current-context
 
 # Minikube konteksti seadistamine - valige õige restoran
-kubectl config use-context minikube
+kubectl config use-contextikube
 
 # Testige ühendust - veenduge, et restoran on avatud
 kubectl cluster-info
@@ -208,7 +208,7 @@ kubectl cluster-info
 - Cluster info koos URL'iga
 - Mitte ühtegi veateadet
 
-### 3.2 Kubernetes Manifests Loomine
+#### Kubernetes Manifests Loomine
 
 **Nüüd loome restorani tööjuhendid - need on nagu retseptid, mis ütlevad, kuidas iga teenus töötab.**
 
@@ -273,7 +273,7 @@ Manifestid on nagu restorani tööjuhendid - need ütlevad Kubernetes'ile, mida 
 - Veenduge, et failid on õiges kaustas
 - Kontrollige, et Minikube töötab
 
-### 3.3 Kubernetes Juurutamine
+#### Kubernetes Juurutamine
 
 **Nüüd avame restorani - see on nagu kõigi tööjuhendite rakendamine ja restorani avamine külastajatele.**
 
@@ -333,7 +333,7 @@ kubectl logs -f deployment/backend-deployment -n docker-orchestration-app
 
 ---
 
-## 🔧 **Samm 4: Docker Compose ja Kubernetes Võrdlus (60 min)**
+## Docker Compose ja Kubernetes Võrdlus ()**
 
 **Tere! Nüüd võrdleme kahte lähenemist - see on nagu võrdlema ühe restorani juhtimist vs kogu restoraniketi juhtimist.**
 
@@ -346,7 +346,7 @@ Võrdlus aitab mõista, millal kasutada Docker Compose'i ja millal Kubernetes'i.
 3. **Võrdleme tööd** - nagu kvaliteedi võrdlus
 4. **Analüüsime erinevusi** - nagu juhtimise võrdlus
 
-### 4.1 Docker Compose Juurutamine
+#### Docker Compose Juurutamine
 
 **Tere! Nüüd avame ühe restorani - see on lihtne ja kiire.**
 
@@ -413,11 +413,11 @@ docker-compose ps
 - Mitte ühtegi `Exit` või `Error` staatust
 
 **Kuidas testida?**
-1. Avage brauser ja minge `http://localhost:8080`
+1. Avage brauser jage `http://localhost:8080`
 2. Peaksite nägema frontend'i
 3. Vajutage nuppe ja testige funktsionaalsust
 
-### 4.2 Kubernetes Juurutamine
+#### Kubernetes Juurutamine
 
 **Juuruta sama rakendus Kubernetes'il:**
 ```bash
@@ -436,7 +436,7 @@ kubectl apply -f k8s/frontend/
 kubectl get all -n docker-orchestration-app
 ```
 
-### 4.3 Võrdlus ja Testimine
+#### Võrdlus ja Testimine
 
 **Testi mõlemat rakendust:**
 ```bash
@@ -466,9 +466,9 @@ curl http://localhost:5001/api/status
 
 ---
 
-## 📊 **Samm 5: Scaling and Monitoring (30 min)**
+## Task 3: Scaling and Monitoring ()**
 
-### 5.1 Application Scaling
+#### Application Scaling
 
 ```bash
 # Skaleerige backend teenust
@@ -481,7 +481,7 @@ kubectl scale deployment frontend-deployment --replicas=3 -n docker-orchestratio
 kubectl get pods -n docker-orchestration-app
 ```
 
-### 5.2 Basic Monitoring
+#### Basic Monitoring
 
 ```bash
 # Podide ressursside kasutus
@@ -494,7 +494,7 @@ kubectl top nodes
 kubectl logs -l app=backend -n docker-orchestration-app --tail=50
 ```
 
-### 5.3 Health Checks
+#### Health Checks
 
 ```bash
 # Testige health endpoint'i
@@ -507,9 +507,9 @@ curl http://localhost:5000/api/status
 
 ---
 
-## 🎯 **Samm 6: Advanced Features (Optional - 30 min)**
+## Task 4: Advanced Features (Optional)**
 
-### 6.1 ConfigMap ja Secrets
+#### ConfigMap ja Secrets
 
 **k8s/config/configmap.yaml:**
 ```yaml
@@ -537,7 +537,7 @@ data:
   DB_USER: cG9zdGdyZXM=  # base64 encoded "postgres"
 ```
 
-### 6.2 Horizontal Pod Autoscaler
+#### Horizontal Pod Autoscaler
 
 **k8s/scaling/hpa.yaml:**
 ```yaml
@@ -551,7 +551,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: backend-deployment
-  minReplicas: 2
+Replicas: 2
   maxReplicas: 10
   metrics:
   - type: Resource
@@ -564,24 +564,24 @@ spec:
 
 ---
 
-## 📝 **Samm 7: Documentation ja Submission (30 min)**
+## Task 5: Documentation ja Submission ()**
 
-### 7.1 README.md loomine
+#### README.md loomine
 
 ```markdown
 # Docker Orchestration Kubernetes Homework
 
-## Projekt kirjeldus
+## Task 6: Projekt kirjeldus
 Multi-tier web application Kubernetes'il koos frontend, backend, database ja cache teenustega.
 
-## Komponendid
+## Task 7: Komponendid
 - Frontend: React application
 - Backend: Python Flask API
 - Database: PostgreSQL
 - Cache: Redis
 - Ingress: Nginx
 
-## Juurutamine
+## Task 8: Juurutamine
 ```bash
 kubectl apply -f k8s/
 ```
@@ -591,13 +591,13 @@ kubectl apply -f k8s/
 kubectl port-forward service/frontend-service 8080:3000 -n docker-orchestration-app
 ```
 
-## Skaleerimine
+## Task 9: Skaleerimine
 ```bash
 kubectl scale deployment backend-deployment --replicas=3 -n docker-orchestration-app
 ```
 ```
 
-### 7.2 Git commit ja push
+#### Git commit ja push
 
 ```bash
 # Lisa kõik failid
@@ -612,7 +612,7 @@ git push -u origin main
 
 ---
 
-## 🔧 **Troubleshooting**
+## Task 10: **Troubleshooting**
 
 ### Levinud probleemid:
 
@@ -648,7 +648,7 @@ minikube image load docker-orchestration-backend:latest
 
 ---
 
-## 📚 **Lisaressursid**
+## Task 11: **Lisaressursid**
 
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
 - [Minikube Getting Started](https://minikube.sigs.k8s.io/docs/start/)
@@ -666,4 +666,3 @@ minikube image load docker-orchestration-backend:latest
 ### 🏠 **Kodu masina seadistamine:**
 - [Kodu Masina Ehitus Juhend](./kodu_masina_ehitus_juhend.md) - Täielik juhend VM, VSCode ja SSH seadistamiseks
 
----

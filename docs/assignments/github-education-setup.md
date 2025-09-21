@@ -9,20 +9,20 @@ This guide helps you set up GitHub Education features for your automation course
 ### For Educators
 - **GitHub Classroom** - Automated assignment distribution and grading
 - **Private repositories** - Unlimited private repos for educational use
-- **GitHub Actions** - 2,000 minutes/month for CI/CD
+- **GitHub Actions** - 2,utes/month for CI/CD
 - **GitHub Packages** - 500MB storage for container images
 - **Priority support** - Educational support team
 
 ### For Students
 - **Student Developer Pack** - Access to premium developer tools
 - **Private repositories** - Unlimited private repos
-- **GitHub Actions** - 2,000 minutes/month
+- **GitHub Actions** - 2,utes/month
 - **GitHub Packages** - 500MB storage
 - **Learning resources** - GitHub Learning Lab courses
 
 ## Setup Process
 
-### 1. Apply for GitHub Education
+#### Apply for GitHub Education
 
 #### Educator Application
 1. Go to [GitHub Education](https://education.github.com)
@@ -39,7 +39,7 @@ This guide helps you set up GitHub Education features for your automation course
 - Expected number of students
 - Duration of the course
 
-### 2. GitHub Classroom Setup
+#### GitHub Classroom Setup
 
 #### Create Classroom
 1. Go to [GitHub Classroom](https://classroom.github.com)
@@ -57,7 +57,7 @@ Visibility: Private
 Members: Students and teaching assistants
 ```
 
-### 3. Assignment Creation
+#### Assignment Creation
 
 #### Assignment Template Structure
 ```yaml
@@ -86,7 +86,7 @@ Use the `.github/classroom/autograding.json` file in your repository:
 }
 ```
 
-### 4. Student Onboarding
+#### Student Onboarding
 
 #### Student Registration Process
 1. **Share classroom link** with students
@@ -98,28 +98,28 @@ Use the `.github/classroom/autograding.json` file in your repository:
 ```markdown
 # Student Setup Guide
 
-## 1. GitHub Account
+### GitHub Account
 - Create GitHub account if you don't have one
 - Use your school email address
 - Complete your profile
 
-## 2. Join Classroom
+### Join Classroom
 - Click the classroom invitation link
 - Accept the invitation
 - Link your GitHub account
 
-## 3. Student Developer Pack
+### Student Developer Pack
 - Apply for Student Developer Pack
 - Access premium tools and services
 - Use for course projects
 
-## 4. First Assignment
+### First Assignment
 - Click "Start assignment" in classroom
 - Clone your repository
 - Follow assignment instructions
 ```
 
-### 5. Assignment Management
+#### Assignment Management
 
 #### Creating Assignments
 1. **Go to classroom dashboard**
@@ -135,7 +135,7 @@ Use the `.github/classroom/autograding.json` file in your repository:
 - **Group assignments** - Teams share repository
 - **Template repositories** - Pre-populated with starter code
 
-### 6. Grading and Feedback
+#### Grading and Feedback
 
 #### Automated Grading
 - **GitHub Actions** run tests automatically
@@ -147,7 +147,7 @@ Use the `.github/classroom/autograding.json` file in your repository:
 - **Provide feedback** through issues or comments
 - **Grade assignments** in classroom interface
 
-### 7. Student Benefits
+#### Student Benefits
 
 #### Student Developer Pack
 Students get access to:
@@ -162,7 +162,7 @@ Students get access to:
 - **GitHub Skills** - Step-by-step tutorials
 - **Documentation** - Comprehensive guides
 
-### 8. Best Practices
+#### Best Practices
 
 #### For Educators
 - **Set clear deadlines** and communicate them
@@ -178,7 +178,7 @@ Students get access to:
 - **Use version control** effectively
 - **Document your work** thoroughly
 
-### 9. Troubleshooting
+#### Troubleshooting
 
 #### Common Issues
 1. **Students can't access classroom**
@@ -201,7 +201,7 @@ Students get access to:
 - [GitHub Classroom Help](https://classroom.github.com/help)
 - [GitHub Community Forum](https://github.community/)
 
-### 10. Integration with Course Materials
+#### Integration with Course Materials
 
 #### Linking to Course Website
 - **Include classroom links** in course materials

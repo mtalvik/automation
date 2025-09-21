@@ -1,11 +1,11 @@
-# 📚 Ansible Advanced: Edasijõudnud Funktsioonid
+# Ansible Advanced: Edasijõudnud Funktsioonid
 
-**Kestus:** 4 tundi  
+**Kestus:**   
 **Teemad:** Variables, Templates, Handlers, Vault
 
 ---
 
-## 🎯 Õpiväljundid
+## Task 1: Õpiväljundid
 
 Pärast seda nädalat oskate:
 - Hallata keerukamaid muutujaid ja nende hierarhiat
@@ -16,7 +16,7 @@ Pärast seda nädalat oskate:
 
 ---
 
-## 📖 Loeng 13.1: Variables ja Variable Precedence (20 min)
+## Variables ja Variable Precedence
 
 ### Muutujate hierarhia
 
@@ -102,7 +102,7 @@ Salvestage käsu tulemusi:
 
 ---
 
-## 📖 Loeng 13.2: Jinja2 Templates (18 min)
+## Task 2: Jinja2 Templates
 
 ### Template'ite põhitõed
 
@@ -133,7 +133,7 @@ cache_enabled = false
     {% endif %}
 ```
 
-❓ **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
+ **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
 
 ### Conditionals template'ites
 
@@ -174,7 +174,7 @@ GRANT {{ user.privileges | join(', ') }} ON {{ user.database }}.* TO '{{ user.na
 {% endfor %}
 ```
 
-❓ **Võrdlus:** Võrrelge template'i kasutamist staatilise konfiguratsiooniga. Millised on eelised ja puudused?
+ **Võrdlus:** Võrrelge template'i kasutamist staatilise konfiguratsiooniga. Millised on eelised ja puudused?
 
 ### Filters
 
@@ -195,11 +195,11 @@ first_server = {{ groups['webservers'] | first }}
 config = {{ app_config | to_nice_json }}
 ```
 
-💡 **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
+ **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
 
 ---
 
-## 📖 Loeng 13.3: Handlers ja Notifications (15 min)
+## Handlers ja Notifications
 
 ### Handler'ite põhitõed
 
@@ -269,13 +269,13 @@ handlers:
     listen: "restart web services"
 ```
 
-❓ **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
+ **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
 
 🎯 **Praktikaasoovitus:** Kasutage `meta: flush_handlers` kriitiliste kontrollidel, kui peate veenduma, et teenus on taaskäivitatud enne järgmisi task'e.
 
 ---
 
-## 📖 Loeng 13.4: Ansible Vault Secrets (25 min)
+## Ansible Vault Secrets
 
 ### Vault'i põhitõed
 
@@ -309,7 +309,7 @@ vault_ssl_private_key: |
   -----END PRIVATE KEY-----
 ```
 
-💡 **Turvanipp:** Vault'i parool peaks olema vähemalt 12 tähemärki ja sisaldama erinevaid sümboleid.
+ **Turvanipp:** Vault'i parool peaks olema vähemalt 12 tähemärki ja sisaldama erinevaid sümboleid.
 
 ### Vault'i kasutamine playbook'ides
 
@@ -365,7 +365,7 @@ chmod +x vault_pass.sh
 ansible-playbook site.yml --vault-password-file vault_pass.sh
 ```
 
-❓ **Küsimus:** Mis probleeme võib tekkida vault paroolide haldamisel meeskonnatöös?
+ **Küsimus:** Mis probleeme võib tekkida vault paroolide haldamisel meeskonnatöös?
 
 ### Vault'i rekey
 
@@ -377,7 +377,7 @@ ansible-vault rekey secrets.yml
 ansible-vault rekey --vault-id old@prompt --new-vault-id new@prompt secrets.yml
 ```
 
-💡 **Praktiline nipp:** Regulaarselt muutge vault paroole ja dokumenteerige rotatsiooni protseduuri.
+ **Praktiline nipp:** Regulaarselt muutge vault paroole ja dokumenteerige rotatsiooni protseduuri.
 
 ### Best practices
 
@@ -401,17 +401,17 @@ group_vars/
 
 ```bash
 # Regulaarne parooli vahetamine (näiteks kvartaalselt)
-# 1. Loo uus vault parool
+## Task 3: Loo uus vault parool
 ansible-vault rekey --new-vault-password-file new_password production-secrets.yml
 
-# 2. Uuenda CI/CD süsteemid uue parooliga
-# 3. Teavita meeskonda muudatusest
-# 4. Eemalda vana parool kõigist süsteemidest
+## Task 4: Uuenda CI/CD süsteemid uue parooliga
+## Teavita meeskonda muudatusest
+## Task 5: Eemalda vana parool kõigist süsteemidest
 ```
 
 ---
 
-## 🧪 Lab: Template-based Configuration
+## Lab: Template-based Configuration
 
 Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
@@ -429,7 +429,7 @@ Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
 Selles nädalas õppisime:
 
-### 🎯 **Peamised teemad:**
+### **Peamised teemad:**
 
 1. **Variables ja Precedence**
    - Muutujate hierarhia ja prioriteedid
@@ -455,7 +455,7 @@ Selles nädalas õppisime:
    - Multiple vault passwords
    - CI/CD integration strategies
 
-### 🔧 **Praktilised oskused:**
+### **Praktilised oskused:**
 
 - Advanced playbook architecture
 - Production-ready template'ite loomine
@@ -463,7 +463,7 @@ Selles nädalas õppisime:
 - Multi-environment deployments
 - Professional project structure
 
-### 📚 **Järgmiseks nädalaks:**
+### **Järgmiseks nädalaks:**
 
 Enne järgmist loengut (Ansible Roles ja Puppet):
 1. Lõpetage kodutöö - lihtne vault ja template'id projekt

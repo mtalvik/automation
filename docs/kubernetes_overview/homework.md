@@ -1,18 +1,18 @@
 # Kubernetes Overview Kodutöö: Kohalik Container Orchestration
 
-## 🎯 Ülesande Kirjeldus
+## Task 1: Ülesande Kirjeldus
 
 **Projekt:** "TechShop" E-commerce Kubernetes Deployment
 
 **Eesmärk:** Deploy'ida lihtne e-commerce rakendus Kubernetes'i kasutades kohalikku Minikube keskkonda.
 
-**Aeg:** 2-3 tundi
+**Aeg:** 2-
 
 ---
 
-## 📋 Ülesande Nõuded
+## Task 2: Ülesande Nõuded
 
-### 1. Rakenduse Arhitektuur
+#### Rakenduse Arhitektuur
 
 **TechShop koosneb kolmest komponendist:**
 
@@ -23,7 +23,7 @@ Frontend (React) → Backend (Node.js) → Database (PostgreSQL)
   nginx:alpine      node:16-alpine      postgres:13
 ```
 
-### 2. Vajalikud Ressursid
+#### Vajalikud Ressursid
 
 **Kubernetes ressursid:**
 - **3 Deployment'i** - frontend, backend, database
@@ -34,9 +34,9 @@ Frontend (React) → Backend (Node.js) → Database (PostgreSQL)
 
 ---
 
-## 🚀 Samm 1: Projekti Struktuuri Loomine (30 min)
+## Task 3: Projekti Struktuuri Loomine ()
 
-### 1.1: Loo projekt struktuur
+### Ülesanne 1.1: Loo projekt struktuur
 
 ```bash
 # Loo projekt kaust
@@ -48,20 +48,20 @@ mkdir -p {frontend,backend,database,config}
 touch README.md
 ```
 
-### 1.2: Loo README.md
+### Ülesanne 1.2: Loo README.md
 
 ```markdown
 # TechShop Kubernetes Deployment
 
-## Projekt kirjeldus
+## Task 4: Projekt kirjeldus
 Lihtne e-commerce rakendus Kubernetes'i kasutades.
 
-## Komponendid
+## Task 5: Komponendid
 - Frontend: React (nginx:alpine)
 - Backend: Node.js API
 - Database: PostgreSQL
 
-## Kuidas kasutada
+## Task 6: Kuidas kasutada
 1. `kubectl apply -f config/`
 2. `kubectl get all`
 3. `minikube service frontend-service`
@@ -69,9 +69,9 @@ Lihtne e-commerce rakendus Kubernetes'i kasutades.
 
 ---
 
-## 🔧 Samm 2: Database Setup (30 min)
+## Task 7: Database Setup ()
 
-### 2.1: Loo PostgreSQL Secret
+### Ülesanne 2.1: Loo PostgreSQL Secret
 
 **`database/postgres-secret.yaml`:**
 ```yaml
@@ -86,7 +86,7 @@ data:
   database: dGVjaHNob3BkYg==  # techshopdb (base64)
 ```
 
-### 2.2: Loo PostgreSQL ConfigMap
+### Ülesanne 2.2: Loo PostgreSQL ConfigMap
 
 **`database/postgres-config.yaml`:**
 ```yaml
@@ -100,7 +100,7 @@ data:
   POSTGRES_PASSWORD: password123
 ```
 
-### 2.3: Loo PostgreSQL PersistentVolumeClaim
+### Ülesanne 2.3: Loo PostgreSQL PersistentVolumeClaim
 
 **`database/postgres-pvc.yaml`:**
 ```yaml
@@ -116,7 +116,7 @@ spec:
       storage: 1Gi
 ```
 
-### 2.4: Loo PostgreSQL Deployment
+### Ülesanne 2.4: Loo PostgreSQL Deployment
 
 **`database/postgres-deployment.yaml`:**
 ```yaml
@@ -166,7 +166,7 @@ spec:
           claimName: postgres-pvc
 ```
 
-### 2.5: Loo PostgreSQL Service
+### Ülesanne 2.5: Loo PostgreSQL Service
 
 **`database/postgres-service.yaml`:**
 ```yaml
@@ -185,9 +185,9 @@ spec:
 
 ---
 
-## 🔧 Samm 3: Backend Setup (45 min)
+## Task 8: Backend Setup ()
 
-### 3.1: Loo Backend ConfigMap
+### Ülesanne 3.1: Loo Backend ConfigMap
 
 **`backend/backend-config.yaml`:**
 ```yaml
@@ -202,7 +202,7 @@ data:
   JWT_SECRET: "development-secret"
 ```
 
-### 3.2: Loo Backend Deployment
+### Ülesanne 3.2: Loo Backend Deployment
 
 **`backend/backend-deployment.yaml`:**
 ```yaml
@@ -277,7 +277,7 @@ spec:
           periodSeconds: 5
 ```
 
-### 3.3: Loo Backend Service
+### Ülesanne 3.3: Loo Backend Service
 
 **`backend/backend-service.yaml`:**
 ```yaml
@@ -296,9 +296,9 @@ spec:
 
 ---
 
-## 🎨 Samm 4: Frontend Setup (30 min)
+## Task 9: 🎨 Samm 4: Frontend Setup ()
 
-### 4.1: Loo Frontend ConfigMap
+### Ülesanne 4.1: Loo Frontend ConfigMap
 
 **`frontend/frontend-config.yaml`:**
 ```yaml
@@ -311,7 +311,7 @@ data:
   REACT_APP_ENVIRONMENT: "development"
 ```
 
-### 4.2: Loo Frontend Deployment
+### Ülesanne 4.2: Loo Frontend Deployment
 
 **`frontend/frontend-deployment.yaml`:**
 ```yaml
@@ -376,7 +376,7 @@ spec:
           periodSeconds: 5
 ```
 
-### 4.3: Loo Frontend Service
+### Ülesanne 4.3: Loo Frontend Service
 
 **`frontend/frontend-service.yaml`:**
 ```yaml
@@ -395,9 +395,9 @@ spec:
 
 ---
 
-## 🚀 Samm 5: Deployment ja Testimine (30 min)
+## Task 10: Deployment ja Testimine ()
 
-### 5.1: Deploy'i kõik ressursid
+### Ülesanne 5.1: Deploy'i kõik ressursid
 
 ```bash
 # Deploy'i database
@@ -413,7 +413,7 @@ kubectl apply -f frontend/
 kubectl get all
 ```
 
-### 5.2: Kontrolli deployment'i
+### Ülesanne 5.2: Kontrolli deployment'i
 
 ```bash
 # Vaata Pod'ide staatust
@@ -432,7 +432,7 @@ kubectl get secrets
 kubectl get pvc
 ```
 
-### 5.3: Testi rakendust
+### Ülesanne 5.3: Testi rakendust
 
 ```bash
 # Testi frontend'i
@@ -447,9 +447,9 @@ kubectl exec -it $(kubectl get pods -l app=postgres -o jsonpath='{.items[0].meta
 
 ---
 
-## 📊 Samm 6: Monitoring ja Scaling (15 min)
+## Task 11: Monitoring ja Scaling ()
 
-### 6.1: Scaling
+### Ülesanne 6.1: Scaling
 
 ```bash
 # Skaleeri frontend'i üles
@@ -462,7 +462,7 @@ kubectl scale deployment backend-deployment --replicas=3
 kubectl get pods
 ```
 
-### 6.2: Monitoring
+### Ülesanne 6.2: Monitoring
 
 ```bash
 # Vaata Pod'ide log'e
@@ -479,7 +479,7 @@ kubectl get events
 
 ---
 
-## 🧹 Samm 7: Cleanup (10 min)
+## Task 12: 🧹 Samm 7: Cleanup ()
 
 ```bash
 # Kustuta kõik ressursid
@@ -496,9 +496,9 @@ kubectl get secrets
 
 ---
 
-## 📝 HARJUTUS 8: Bonus Ülesanded (15 min)
+## Task 13: HARJUTUS 8: Bonus Ülesanded ()
 
-### 8.1: Ingress Setup
+### Ülesanne 8.1: Ingress Setup
 
 **Loo Ingress controller ja Ingress:**
 ```yaml
@@ -523,7 +523,7 @@ spec:
               number: 80
 ```
 
-### 8.2: Horizontal Pod Autoscaler
+### Ülesanne 8.2: Horizontal Pod Autoscaler
 
 **Loo HPA backend'ile:**
 ```yaml
@@ -537,7 +537,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: backend-deployment
-  minReplicas: 2
+Replicas: 2
   maxReplicas: 10
   metrics:
   - type: Resource
@@ -548,7 +548,7 @@ spec:
         averageUtilization: 70
 ```
 
-### 8.3: Job ja CronJob
+### Ülesanne 8.3: Job ja CronJob
 
 **Loo backup Job:**
 ```yaml
@@ -577,7 +577,7 @@ spec:
 
 ---
 
-## 🎯 Kodutöö Kokkuvõte
+## Task 14: Kodutöö Kokkuvõte
 
 ### **Õpitud kontseptsioonid:**
 1. **Multi-tier application** - frontend, backend, database
@@ -594,4 +594,4 @@ spec:
 - Optimeeri resource kasutust
 - Lisa security policies
 
-**🎉 Palju õnne! Oled nüüd valmis keerukate rakenduste deploy'imiseks Kubernetes'i!**
+** Palju õnne! Oled nüüd valmis keerukate rakenduste deploy'imiseks Kubernetes'i!**

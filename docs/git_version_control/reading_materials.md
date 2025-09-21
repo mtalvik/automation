@@ -1,13 +1,13 @@
-# 📚 Week 9: Git Reading Materials (Homework Task 2)
+# Git Reading Materials (Homework Task 2)
 
-**Estimated Reading Time:** 2-3 hours  
+**Estimated Reading Time:** 2-  
 **Due:** Before next class session
 
 ---
 
-## 📖 Required Reading (1.5 hours)
+## Required Reading (1.)
 
-### 1. Git History and Evolution (30 min)
+#### Git History and Evolution ()
 **Source:** Git Documentation & History
 
 **Key Topics:**
@@ -21,7 +21,7 @@
 - How does Git's distributed nature differ from centralized VCS?
 - Why did Linus Torvalds choose the name "Git"?
 
-### 2. Git Internals Deep Dive (45 min)
+#### Git Internals Deep Dive ()
 **Source:** Git Internals Documentation
 
 **Key Topics:**
@@ -35,7 +35,7 @@
 - How does Git achieve content-addressable storage?
 - What happens when you run `git add` vs `git commit`?
 
-### 3. Advanced Branching Strategies (30 min)
+#### Advanced Branching Strategies ()
 **Source:** Git Flow, GitHub Flow Documentation
 
 **Key Topics:**
@@ -51,9 +51,9 @@
 
 ---
 
-## 📚 Optional Reading (1 hour)
+## Optional Reading (1 hour)
 
-### 4. Git Best Practices (30 min)
+#### Git Best Practices ()
 **Source:** Industry Standards & Git Documentation
 
 **Key Topics:**
@@ -62,7 +62,7 @@
 - When to commit vs when to stash
 - Code review best practices
 
-### 5. Git Tools and Ecosystem (30 min)
+#### Git Tools and Ecosystem ()
 **Source:** Git Tools Documentation
 
 **Key Topics:**
@@ -73,7 +73,7 @@
 
 ---
 
-## 📋 Reference Materials (Keep Handy)
+## Reference Materials (Keep Handy)
 
 ### Git Command Quick Reference
 ```bash
@@ -117,7 +117,7 @@ git remote -v
 
 ---
 
-## 🎯 Reading Reflection Assignment
+## Reading Reflection Assignment
 
 After completing the reading, please submit a brief reflection (200-300 words) covering:
 
@@ -139,7 +139,7 @@ After completing the reading, please submit a brief reflection (200-300 words) c
 
 ---
 
-## 📝 Notes for Next Class
+## Notes for Next Class
 
 Come prepared with:
 - Questions from your reading

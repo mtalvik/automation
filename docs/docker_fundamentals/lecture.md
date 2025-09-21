@@ -1,4 +1,4 @@
-# 📚 Nädal 19: Docker Fundamentals
+# Docker Fundamentals
 ## Teemad: Container technology overview, Docker installation ja basic commands, Dockerfile creation, Docker networking ja volumes, Podman introduction ja comparison
 
 Eelmisel nädalal õppisime Ansible role'e. Täna astume järgmisesse dimensiooni - **konteinerite maailm**.
@@ -7,16 +7,17 @@ Mõtle konteineritele kui **LEGO klotside** süsteemile - iga konteiner on üks 
 
 ---
 
-# Osa 0: Docker Installatsioon ja Põhilised Mõisted
-## Loeng 19.0: Getting Started with Docker (15 min)
+## Task 1: Docker Installatsioon ja Põhilised Mõisted
 
-### Mis on Docker?
+### Ülesanne 1.1: Getting Started with Docker
+
+### Ülesanne 1.2: Mis on Docker?
 
 **Docker** = tööriist konteinerite loomiseks ja haldamiseks.
 
 **Lihtne definitsioon:** Docker võimaldab sul pakkida rakenduse koos kõigi sõltuvustega ühte "kasti" (konteiner), mis töötab igal arvutil.
 
-### Põhilised mõisted
+### Ülesanne 1.3: Põhilised mõisted
 
 **Image** = Mall konteineri jaoks (nagu CD-ROM)
 - Näiteks: `nginx:alpine`, `python:3.9`, `mysql:8.0`
@@ -32,34 +33,34 @@ Mõtle konteineritele kui **LEGO klotside** süsteemile - iga konteiner on üks 
 **Registry** = Pood image'ite jaoks (Docker Hub)
 - Nagu App Store, aga konteinerite jaoks
 
-### Docker installatsioon
+### Ülesanne 1.4: Docker installatsioon
 
 #### Ubuntu/Debian:
 ```bash
-# 1. Update package list
+## Task 2: Update package list
 sudo apt update
 
-# 2. Install prerequisites
+## Install prerequisites
 sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-# 3. Add Docker's official GPG key
+## Task 3: Add Docker's official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-# 4. Add Docker repository
+## Task 4: Add Docker repository
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# 5. Install Docker
+## Install Docker
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-# 6. Start Docker service
+## Task 5: Start Docker service
 sudo systemctl start docker
 sudo systemctl enable docker
 
-# 7. Add user to docker group (vältida sudo kasutamist)
+## Task 6: Add user to docker group (vältida sudo kasutamist)
 sudo usermod -aG docker $USER
 
-# 8. Logout ja login uuesti, või käivita:
+## Task 7: Logout ja login uuesti, või käivita:
 newgrp docker
 ```
 
@@ -85,9 +86,9 @@ docker --version
 docker run hello-world
 
 # Mida see tegi?
-# 1. Laadis hello-world image Docker Hub'ist
-# 2. Käivitas konteineri
-# 3. Konteiner tervitas sind ja väljus
+## Laadis hello-world image Docker Hub'ist
+## Task 8: Käivitas konteineri
+## Task 9: Konteiner tervitas sind ja väljus
 ```
 
 ### Docker arhitektuur
@@ -131,7 +132,7 @@ docker run hello-world
 ### Esimene praktiline näide
 
 ```bash
-# 1. Käivita web server
+## Task 10: Käivita web server
 docker run -d -p 8080:80 nginx
 
 # Mida see teeb?
@@ -139,16 +140,16 @@ docker run -d -p 8080:80 nginx
 # -p 8080:80 = port mapping (host:container)
 # nginx = image nimi
 
-# 2. Testi brauseris
+## Testi brauseris
 # Avage: http://localhost:8080
 
-# 3. Vaata töötavaid konteinereid
+## Vaata töötavaid konteinereid
 docker ps
 
-# 4. Peata konteiner
+## Task 11: Peata konteiner
 docker stop $(docker ps -q)
 
-# 5. Kustuta konteiner
+## Kustuta konteiner
 docker rm $(docker ps -aq)
 ```
 
@@ -203,7 +204,7 @@ docker stop container_name     # Peata see
 
 **Traditsiooniline lähenemine:**
 ```
-"See töötab minu arvutil"
+"See töötabu arvutil"
 - Installeri Python 3.9
 - Installeri nginx
 - Seadista MySQL
@@ -230,20 +231,20 @@ Pärast installatsiooni ja põhiliste käskude õppimist:
 
 ---
 
-# Osa 1: Containers vs VMs
-## Loeng 19.1: Container Technology Overview (12 min)
+## Task 12: Containers vs VMs
+### Container Technology Overview
 
 ### Lühike evolutsioon
 
 ```mermaid
 graph TB
-    subgraph "🏗️ Füüsilised serverid (kuni 2000)"
+    subgraph "🏗 Füüsilised serverid (kuni 2000)"
         Physical1[Apache + Linux<br/>Server 1]
         Physical2[MySQL + Linux<br/>Server 2]
         Physical3[Exchange + Windows<br/>Server 3]
     end
     
-    subgraph "🖥️ Virtuaalne masina (2000-2010)"
+    subgraph " Virtuaalne masina (2000-2010)"
         HostOS[Host OS]
         Hypervisor[Hypervisor]
         VM1[VM1<br/>OS + App]
@@ -308,7 +309,7 @@ graph TB
 
 | Kriteerium | Virtual Machines | Containers |
 |------------|------------------|------------|
-| **Käivitusaeg** | 1-5 minutit | 1-5 sekundit |
+| **Käivitusaeg** | 1-utit | 1-5 sekundit |
 | **Mälu** | 1-8GB per VM | 10-100MB per container |
 | **Mahtuvus** | 10-50 per server | 100-1000 per server |
 | **Disk size** | 10-50GB | 100MB-1GB |
@@ -346,7 +347,7 @@ graph TB
 
 VM lahendus:
 - 3 VM'i: Web (2GB), Database (4GB), Load Balancer (1GB)
-- Kokku: 7GB RAM, 90GB disk, 6 min deployment
+- Kokku: 7GB RAM, 90GB disk, deployment
 
 Container lahendus:
 - 3 konteinerit: Web, DB, LB
@@ -362,8 +363,8 @@ Konteinerid ei asenda VM'e - nad lahendavad erinevaid probleeme:
 
 ---
 
-# Osa 2: Docker Commands
-## Loeng 19.2: Docker CLI Basics (15 min)
+## Docker Commands
+### Docker CLI Basics
 
 ### Docker CLI põhialused
 
@@ -381,17 +382,17 @@ docker images                 # Näita image'e
 ### Image'ide haldamine
 
 ```bash
-# 1. Image'ide allalaadimine
+## Task 13: Image'ide allalaadimine
 docker pull nginx             # Viimane versioon
 docker pull nginx:1.21        # Konkreetne versioon
 docker pull ubuntu:20.04      # Erinevad base image'id
 
-# 2. Image'ide vaatamine
+## Task 14: Image'ide vaatamine
 docker images                 # Kõik lokaalsed image'id
 docker image inspect nginx    # Detailne info
 docker search mysql           # Otsi Docker Hub'ist
 
-# 3. Cleanup
+## Task 15: Cleanup
 docker rmi nginx              # Kustuta image
 docker image prune            # Kustuta kasutamata image'id
 ```
@@ -561,8 +562,8 @@ docker logs container_name
 
 ---
 
-# Osa 3: Podman Introduction
-## Loeng 19.3: Podman vs Docker (8 min)
+## Task 16: Podman Introduction
+### Podman vs Docker
 
 ### Mis on Podman?
 
@@ -655,7 +656,7 @@ whoami  # user ← On host
 
 ### Podman unique features
 
-#### 1. Pods (Kubernetes-like)
+##### Pods (Kubernetes-like)
 ```bash
 # Loo pod (containers group)
 podman pod create --name web-pod -p 8080:80
@@ -670,7 +671,7 @@ podman run -d --pod web-pod --name cache redis
 # - IP address
 ```
 
-#### 2. Systemd integration
+##### Systemd integration
 ```bash
 # Generate systemd service
 podman run -d --name my-app nginx
@@ -682,7 +683,7 @@ mv *.service ~/.config/systemd/user/
 systemctl --user enable container-my-app.service
 ```
 
-#### 3. Kubernetes YAML support
+##### Kubernetes YAML support
 ```bash
 # Generate Kubernetes YAML
 podman generate kube web-pod > pod.yaml
@@ -722,17 +723,17 @@ podman play kube pod.yaml
 ### Lihtne migratsioon
 
 ```bash
-# 1. Install Podman
+## Install Podman
 sudo apt install podman
 
-# 2. Add alias
+## Task 17: Add alias
 echo "alias docker=podman" >> ~/.bashrc
 source ~/.bashrc
 
-# 3. Install podman-compose (if needed)
+## Install podman-compose (if needed)
 pip3 install podman-compose
 
-# 4. Use existing docker-compose.yml
+## Task 18: Use existing docker-compose.yml
 podman-compose up -d
 ```
 
@@ -766,8 +767,8 @@ podman exec -it web bash
 
 ---
 
-# Osa 4: Dockerfile Best Practices
-## Loeng 19.4: Container Build Optimization (20 min)
+## Dockerfile Best Practices
+### Container Build Optimization
 
 ### Mis on Dockerfile?
 
@@ -877,11 +878,11 @@ CMD ["npm", "start"]
 FROM node:16
 WORKDIR /app
 
-# 1. Copy dependency files (muutuvad harva)
+## Task 19: Copy dependency files (muutuvad harva)
 COPY package*.json ./
 RUN npm install
 
-# 2. Copy source code (muutub tihti) 
+## Task 20: Copy source code (muutub tihti) 
 COPY . .
 CMD ["npm", "start"]
 ```
@@ -927,35 +928,35 @@ CMD ["npm", "start"]
 ### Best Practice #3: Security
 
 ```dockerfile
-# 1. Konkreetsed versioonid
+## Konkreetsed versioonid
 FROM node:16.14.2-alpine  # Mitte: FROM node
 
-# 2. Non-root user
+## Task 21: Non-root user
 RUN addgroup -g 1001 -S appuser && \
     adduser -S appuser -u 1001
 
-# 3. Ära jookse root'ina
+## Task 22: Ära jookse root'ina
 USER appuser
 
-# 4. Ownership
+## Task 23: Ownership
 COPY --chown=appuser:appuser . .
 
-# 5. Minimal packages
+## Task 24: Minimal packages
 RUN apk add --no-cache curl
 ```
 
 ### Best Practice #4: Size Optimization
 
 ```dockerfile
-# 1. Alpine images (väiksemad)
+## Task 25: Alpine images (väiksemad)
 FROM python:3.9-alpine  # vs python:3.9
 
-# 2. Clean up same layer'is
+## Task 26: Clean up same layer'is
 RUN apk add --no-cache build-base && \
     pip install -r requirements.txt && \
     apk del build-base
 
-# 3. .dockerignore file
+## Task 27: .dockerignore file
 ```
 
 **.dockerignore näide:**
@@ -1091,8 +1092,8 @@ docker run --rm -it myapp:v1.0 whoami  # Should NOT be root
 
 ---
 
-# Osa 5: Networks ja Volumes
-## Loeng 19.5: Container Connectivity & Data Persistence (10 min)
+## Task 28: Networks ja Volumes
+### Container Connectivity & Data Persistence
 
 ### Docker Networking
 
@@ -1196,7 +1197,7 @@ curl http://localhost:80  # Töötab kohe
 
 ### Volume tüübid
 
-#### 1. Named volumes (SOOVITATUD)
+##### Named volumes (SOOVITATUD)
 
 ```bash
 # Loo named volume
@@ -1213,7 +1214,7 @@ docker volume ls
 docker volume inspect mydata
 ```
 
-#### 2. Bind mounts (host kaustade kinnitamine)
+##### Bind mounts (host kaustade kinnitamine)
 
 ```bash
 # Mount host directory → container
@@ -1227,7 +1228,7 @@ echo "<h1>Hello</h1>" > /home/user/website/index.html
 curl http://localhost  # Uus sisu!
 ```
 
-#### 3. tmpfs mounts (RAM-based)
+##### tmpfs mounts (RAM-based)
 
 ```bash
 # Temporary storage (ainult RAM'is)
@@ -1242,32 +1243,32 @@ docker run -d \
 ### Praktiline näide: Persistent database
 
 ```bash
-# 1. Loo volume
+## Task 29: Loo volume
 docker volume create postgres_data
 
-# 2. Käivita database volume'iga
+## Task 30: Käivita database volume'iga
 docker run -d \
   --name mydb \
   -e POSTGRES_PASSWORD=secret \
   -v postgres_data:/var/lib/postgresql/data \
   postgres:13
 
-# 3. Loo andmeid
+## Task 31: Loo andmeid
 docker exec -it mydb psql -U postgres
 # CREATE TABLE users (id SERIAL, name TEXT);
 # INSERT INTO users (name) VALUES ('Alice'), ('Bob');
 
-# 4. Kustuta container
+## Kustuta container
 docker stop mydb && docker rm mydb
 
-# 5. Käivita uus container SAMA volume'iga
+## Task 32: Käivita uus container SAMA volume'iga
 docker run -d \
   --name newdb \
   -e POSTGRES_PASSWORD=secret \
   -v postgres_data:/var/lib/postgresql/data \
   postgres:13
 
-# 6. Andmed on alles!
+## Task 33: Andmed on alles!
 docker exec -it newdb psql -U postgres -c "SELECT * FROM users;"
 ```
 
@@ -1315,7 +1316,7 @@ docker volume prune
 
 Selles nädalas õppisime:
 
-### 🎯 **Peamised teemad:**
+### **Peamised teemad:**
 
 1. **Containers vs VMs**
    - Container efektiivsus ja kiirus
@@ -1343,7 +1344,7 @@ Selles nädalas õppisime:
    - Volume persistence strategies
    - Development ja production patterns
 
-### 🛠️ **Praktilised oskused:**
+### 🛠 **Praktilised oskused:**
 
 - Container technology mõistmine
 - Docker CLI commands fluently
@@ -1351,7 +1352,7 @@ Selles nädalas õppisime:
 - Network ja volume management
 - Docker vs Podman trade-offs
 
-### 📚 **Järgmine nädal:**
+### **Järgmine nädal:**
 
 **Nädal 21 - Docker Compose ja Orchestration:**
 - Multi-container applications
@@ -1363,4 +1364,4 @@ Selles nädalas õppisime:
 
 ---
 
-**Head containeriseerimist!** 🐳
+**Head containeriseerimist!** 

@@ -1,12 +1,12 @@
-# 📝 Nädal 11 Kodutöö: LAMP Stack Playbook
+# LAMP Stack Playbook
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Ansible playbook'i loomist praktiliselt ja iseseisvalt  
-**Aeg:** 2-3 tundi lahendamist ja uurimist
+lahendamist ja uurimist
 
 ---
 
-## 🎯 Ülesande kirjeldus
+## Ülesande kirjeldus
 
 See kodutöö ei anna valmis koodi - see annab probleemid lahendamiseks! Kasutage lab'is õpitud oskusi ja Ansible dokumentatsiooni, et ehitada LAMP stack samm-sammult.
 
@@ -14,9 +14,9 @@ See kodutöö ei anna valmis koodi - see annab probleemid lahendamiseks! Kasutag
 
 ---
 
-## 📋 Projekti seadistamine (enne alustamist)
+## Task 1: Projekti seadistamine (enne alustamist)
 
-### Ülesanne 1: Looge projekti struktuur
+### Ülesanne 1.1: Looge projekti struktuur
 
 **Mida vaja teha:**
 Looge järgmine kataloogide ja failide struktuur (kasutage `mkdir` ja `touch` käske):
@@ -36,11 +36,11 @@ ansible-lamp/
 
 **Kontroll:** `tree ansible-lamp` peaks näitama õiget struktuuri
 
-**❓ Küsimus:** Miks kasutame group_vars/ kausta? (Vastake README.md'sse)
+** Küsimus:** Miks kasutame group_vars/ kausta? (Vastake README.md'sse)
 
 ---
 
-## 📝 Probleem 1: Inventory seadistamine
+## Task 2: Inventory seadistamine
 
 ### Ülesanne 1.1: Inventory fail
 
@@ -56,7 +56,7 @@ ansible-lamp/
 
 **Kontroll:** `ansible-inventory --list` peaks näitama teie servereid
 
-**🔍 Uurige:** Käivitage `ansible webservers -m ping` - kas töötab?
+** Uurige:** Käivitage `ansible webservers -m ping` - kas töötab?
 
 ---
 
@@ -72,15 +72,15 @@ ansible-lamp/
 - Document root tee
 - Rakenduse nimi ja versioon
 
-**💡 Näpunäide:** Vaadake lab'i näiteid muutujate kohta
+** Näpunäide:** Vaadake lab'i näiteid muutujate kohta
 
-**❓ Mõelge:** Millised muutujad peaksid olema "salajased"? Kuidas neid hiljem kaitsta?
+** Mõelge:** Millised muutujad peaksid olema "salajased"? Kuidas neid hiljem kaitsta?
 
 **Kontroll:** `ansible webservers -m debug -a "var=hostvars[inventory_hostname]"` - kas näete oma muutujaid?
 
 ---
 
-## 📝 Probleem 2: Vigane playbook parandamine
+## Task 3: Vigane playbook parandamine
 
 ### Ülesanne 2.1: Parandage see vigane playbook
 
@@ -123,11 +123,11 @@ ansible-lamp/
 
 **Kontroll:** `ansible-playbook --syntax-check lamp-stack.yml`
 
-**🔍 Uurige:** Mis vahe on `package` ja `apt` moodulil? Kumb on parem?
+** Uurige:** Mis vahe on `package` ja `apt` moodulil? Kumb on parem?
 
 ---
 
-## 📝 Probleem 3: MySQL seadistamine
+## Task 4: MySQL seadistamine
 
 ### Ülesanne 3.1: MySQL installimine ja turvamine
 
@@ -146,23 +146,23 @@ ansible-lamp/
 - `mysql_user`
 - `mysql_db`
 
-**💡 Nõuanded:**
+** Nõuanded:**
 - MySQL root parooli seadistamine on keeruline - uurige `login_unix_socket` parameetrit
 - `mysql_user` moodul vajab `login_user` ja `login_password` parameetrit
 - Kasutage `priv: "database_name.*:ALL"` õigusteks
 
-**🔍 Uurige dokumentatsiooni:** `ansible-doc mysql_user`
+** Uurige dokumentatsiooni:** `ansible-doc mysql_user`
 
 **Kontroll:** 
 ```bash
 mysql -u [teie_kasutaja] -p [teie_andmebaas] -e "SELECT 'Success!' as test;"
 ```
 
-**❓ Debugimise küsimus:** Kui MySQL ühendus ei tööta, kuidas te viga otsite?
+** Debugimise küsimus:** Kui MySQL ühendus ei tööta, kuidas te viga otsite?
 
 ---
 
-## 📝 Probleem 4: Template'ide loomine
+## Task 5: Template'ide loomine
 
 ### Ülesanne 4.1: Puudulik PHP template
 
@@ -204,7 +204,7 @@ try {
 3. Lisage proper error handling
 4. Lisage phpinfo() väljund
 
-**💡 Nõuanded:**
+** Nõuanded:**
 - Vaadake lab'i template näiteid
 - Ansible faktid: `{{ ansible_hostname }}`, `{{ ansible_default_ipv4.address }}`
 - PHP PDO: `new PDO("mysql:host=$host;dbname=$database", $username, $password)`
@@ -224,15 +224,15 @@ try {
 - Kasutage CSS'i, et see oleks ilus
 - Kõik info peab tulema Ansible muutujatest/faktidest
 
-**💡 Inspiratsioon:** Vaadake lab'i HTML näidet, aga ärge kopeerige!
+** Inspiratsioon:** Vaadake lab'i HTML näidet, aga ärge kopeerige!
 
-**❓ Väljakutse:** Kas oskate lisada JavaScripti, mis näitab praegust kellaaega?
+** Väljakutse:** Kas oskate lisada JavaScripti, mis näitab praegust kellaaega?
 
 **Kontroll:** HTML peab valideeruma (saate kontrollida https://validator.w3.org/)
 
 ---
 
-## 📝 Probleem 5: Playbook lõpetamine
+## Task 6: Playbook lõpetamine
 
 ### Ülesanne 5.1: Tasks'ide implementeerimine
 
@@ -247,7 +247,7 @@ try {
 6. **Firewall** - lubage HTTP trafik
 7. **Valideerimised** - kontrollige, et kõik töötab
 
-**💡 Nõuanne:** Iga task vajab:
+** Nõuanne:** Iga task vajab:
 - Selget `name` välja
 - Õiget moodulit
 - Proper parameetreid
@@ -261,7 +261,7 @@ try {
 - `uri` - HTTP testid
 - `ufw` - firewall reeglid
 
-**❓ Küsimus:** Millises järjekorras task'id käivitada? Miks?
+** Küsimus:** Millises järjekorras task'id käivitada? Miks?
 
 ---
 
@@ -275,7 +275,7 @@ try {
 3. **Valideerimised** - kontrollige teenuste olekut ja HTTP vastuseid
 4. **Conditional tasks** - näiteks ainult Debian/Ubuntu süsteemides
 
-**💡 Näited error handling'ust:**
+** Näited error handling'ust:**
 ```yaml
 - name: Test HTTP
   uri:
@@ -286,11 +286,11 @@ try {
   failed_when: http_test.status != 200
 ```
 
-**❓ Mõelge:** Millal kasutada `ignore_errors: yes` ja millal mitte?
+** Mõelge:** Millal kasutada `ignore_errors: yes` ja millal mitte?
 
 ---
 
-## 📝 Probleem 6: Testimine ja debugimine
+## Task 7: Testimine ja debugimine
 
 ### Ülesanne 6.1: Systematic testimine
 
@@ -305,9 +305,9 @@ try {
 
 **Täitke küsimärgid ja tehke iga test!**
 
-**💡 Nõuanne:** Iga testi järel dokumenteerige tulemused
+** Nõuanne:** Iga testi järel dokumenteerige tulemused
 
-**❓ Debugimise küsimused:**
+** Debugimise küsimused:**
 - Kui Apache ei käivitu, kuidas te viga otsite?
 - Kui MySQL ühendus ei tööta, millised logid vaatate?
 - Kui template ei genereeru, kuidas te seda debugite?
@@ -343,7 +343,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 
 ---
 
-## 📝 Probleem 7: Dokumenteerimine
+## Task 8: Dokumenteerimine
 
 ### Ülesanne 7.1: README.md loomine
 
@@ -358,7 +358,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 6. **Troubleshooting** - levinud probleemid ja lahendused
 7. **Projekti struktuur** - failide selgitus
 
-**❓ Test:** Andke README.md kolleegile - kas ta saab projekti käivitada?
+** Test:** Andke README.md kolleegile - kas ta saab projekti käivitada?
 
 ---
 
@@ -375,9 +375,9 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 **Näide heast kommentaarist:**
 ```yaml
 # MySQL root parooli seadistamine on keeruline, sest:
-# 1. Pärast installimist pole parool seatud
-# 2. Kasutame unix_socket autentimist
-# 3. Seejärel määrame parooli ja lülitume password auth'ile
+## Task 9: Pärast installimist pole parool seatud
+## Kasutame unix_socket autentimist
+## Task 10: Seejärel määrame parooli ja lülitume password auth'ile
 - name: "Seadista MySQL root parool (esimene kord)"
   mysql_user:
     # ... resto kood
@@ -389,7 +389,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 
 ---
 
-## 📤 Esitamine
+## Task 11: Esitamine
 
 ### Repository link
 Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
@@ -411,11 +411,11 @@ Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
 - Playbook edukalt käivitada
 - Tulemust valideerida
 
-⏰ **Tähtaeg:** Nädal 13 esimese loengu alguseks
+ **Tähtaeg:** Nädal 13 esimese loengu alguseks
 
 ---
 
-## 🚀 Õnnestumise nipid
+## Task 12: Õnnestumise nipid
 
 ### Alustamise strateegia
 1. **Alustage väikselt** - tehke esmalt Apache töötama
@@ -437,4 +437,3 @@ Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
 - **3. päev:** Template'id ja testimine
 - **4. päev:** Dokumenteerimine ja viimistlus
 
-**Edu! 🎉** See on teie esimene tõsisem Ansible projekt - nautige õppimist!

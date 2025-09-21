@@ -1,13 +1,13 @@
 # Git Version Control Lab: Git & GitHub Actions
 
-**Kestus:** 2 tundi  
+**Kestus:**   
 **Eesmärk:** Praktiliselt harjutada kõiki Git'i peamisi funktsioone
 
 ---
 
-## 🎯 Samm 1: Git Basics ja Kohalik Kasutamine (45 min)
+## Task 1: Git Basics ja Kohalik Kasutamine ()
 
-### Harjutus 1.1: Git Setup ja Esimene Repository (15 min)
+### Harjutus 1.1: Git Setup ja Esimene Repository ()
 
 **Seadistage Git:**
 ```bash
@@ -39,7 +39,7 @@ git status
 
 # Looge esimene fail
 echo "# Git Practice Lab" > README.md
-echo "See on minu Git harjutuste projekt." >> README.md
+echo "See onu Git harjutuste projekt." >> README.md
 
 # Tehke esimene commit
 git add README.md
@@ -53,7 +53,7 @@ git log --oneline
 
 **Kontrollpunkt:** Teil peaks olema Git repository ühe commit'iga.
 
-### Harjutus 1.2: Põhiline Git Workflow (15 min)
+### Harjutus 1.2: Põhiline Git Workflow ()
 
 **Looge ja muutke faile:**
 ```bash
@@ -113,7 +113,7 @@ git commit -m "Lisa hello script ja gitignore"
 
 **Kontrollpunkt:** Teil peaks olema 3-4 commit'i erinevate failidega.
 
-### Harjutus 1.3: Advanced Git Operations (15 min)
+### Harjutus 1.3: Advanced Git Operations ()
 
 **Staging area vahele jätmine:**
 ```bash
@@ -180,9 +180,9 @@ git checkout -- calculator.py
 
 ---
 
-## 🎯 Samm 2: Branching ja Merging (45 min)
+## Task 2: Branching ja Merging ()
 
-### Harjutus 2.1: Harude Loomine ja Haldamine (20 min)
+### Harjutus 2.1: Harude Loomine ja Haldamine ()
 
 **Looge uus branch:**
 ```bash
@@ -258,7 +258,7 @@ git log --oneline --graph --all
 
 **Kontrollpunkt:** Teil on kaks feature branch'i erinevate failidega.
 
-### Harjutus 2.2: Branch'ide Merging (15 min)
+### Harjutus 2.2: Branch'ide Merging ()
 
 **Merge esimene branch main'i:**
 ```bash
@@ -291,7 +291,7 @@ python3 advanced_math.py
 
 **Kontrollpunkt:** Mõlemad feature'id on main'is merge'itud.
 
-### Harjutus 2.3: Merge Conflicts (10 min)
+### Harjutus 2.3: Merge Conflicts ()
 
 **Looge konflikt:**
 ```bash
@@ -358,9 +358,9 @@ git log --oneline --graph
 
 ---
 
-## 🎯 Samm 3: GitHub ja Remote Repositories (45 min)
+## Task 3: GitHub ja Remote Repositories ()
 
-### Harjutus 3.1: GitHub Setup ja SSH (15 min)
+### Harjutus 3.1: GitHub Setup ja SSH ()
 
 **SSH võtmete seadistamine:**
 ```bash
@@ -393,7 +393,7 @@ ssh -T git@github.com
 
 **Kontrollpunkt:** SSH ühendus GitHub'iga töötab.
 
-### Harjutus 3.2: Remote Repository ja Collaboration (20 min)
+### Harjutus 3.2: Remote Repository ja Collaboration ()
 
 **GitHub'is looge uus repository:**
 1. Click "New repository"
@@ -422,9 +422,9 @@ git push origin fix/calculator-output
 ```bash
 # Simuleerige meeskonnatööd
 # GitHub'is tehke muudatus otse veebi kaudu:
-# 1. Avage README.md
-# 2. Lisage rida "Muudatus GitHub'is"
-# 3. Commit directly to main
+## Task 4: Avage README.md
+## Lisage rida "Muudatus GitHub'is"
+## Task 5: Commit directly to main
 
 # Kohalikult pull'ige muudatus
 git pull origin main
@@ -442,7 +442,7 @@ git push origin main
 
 **Kontrollpunkt:** Kohalik ja remote repository on sünkroniseeritud.
 
-### Harjutus 3.3: Pull Requests (10 min)
+### Harjutus 3.3: Pull Requests ()
 
 **Looge uus feature:**
 ```bash
@@ -469,7 +469,7 @@ python3 string_utils.py
 python3 greeting.py
 ```
 
-## Arendamine
+## Task 6: Arendamine
 
 1. Fork'ige repository
 2. Looge feature branch
@@ -504,7 +504,7 @@ git push origin --delete feature/documentation
 
 ---
 
-## 🎯 Samm 4: Advanced Git Features (15 min)
+## Task 7: Advanced Git Features ()
 
 ### Harjutus 4.1: Git Rebase ja History Cleanup
 
@@ -547,7 +547,7 @@ git rebase -i HEAD~4
 # Alustage muudatusi
 echo "Pooleli töö" >> calculator.py
 
-# Aga vajate kiiresti minna teise branch'i
+# Aga vajate kiirestina teise branch'i
 git stash
 
 # Kontrollige olukorda
@@ -585,26 +585,26 @@ git log --oneline -3
 
 ---
 
-## 🎯 Kokkuvõte ja Kontrolljaarati (10 min)
+## Kokkuvõte ja Kontrolljaarati ()
 
 ### Lõplik kontroll
 
 **Kontrollige oma oskusi:**
 ```bash
-# 1. Repository struktuur
+## Task 8: Repository struktuur
 ls -la
 git log --oneline --graph -10
 
-# 2. Remote'id
+## Task 9: Remote'id
 git remote -v
 
-# 3. Branch'id
+## Task 10: Branch'id
 git branch -a
 
-# 4. Viimased commit'id
+## Task 11: Viimased commit'id
 git log --oneline -5
 
-# 5. Git config
+## Task 12: Git config
 git config --list | grep user
 ```
 
@@ -645,13 +645,13 @@ git st
 git lg
 ```
 
-**🎉 Õnnitleme! Olete läbinud Git'i põhilise väljaõppe.**
+** Õnnitleme! Olete läbinud Git'i põhilise väljaõppe.**
 
 ---
 
-## 🚀 **BOONUSÜLESANDED** (juba Git'i oskajatele)
+## Task 13: **BOONUSÜLESANDED** (juba Git'i oskajatele)
 
-### Samm B1: Advanced Git Features (30 min)
+### Samm B1: Advanced Git Features ()
 
 #### Interactive Rebase - Commit'ide Ühendamine
 ```bash
@@ -700,7 +700,7 @@ git diff main..feature-branch
 git log main..feature-branch --oneline
 ```
 
-### Samm B2: Git Hooks ja Workflow Automation (25 min)
+### Samm B2: Git Hooks ja Workflow Automation ()
 
 #### Pre-commit Hook (automaatne kvaliteedikontroll)
 ```bash
@@ -708,7 +708,7 @@ git log main..feature-branch --oneline
 mkdir -p .git/hooks
 cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
-echo "🔍 Kontrollime koodi enne commit'i..."
+echo " Kontrollime koodi enne commit'i..."
 
 # Kontrolli, et ei commitita suuri faile
 find . -size +1M -type f -exec ls -lh {} \; | grep -E '\.(jpg|png|gif|mp4|zip)$' 
@@ -720,7 +720,7 @@ fi
 # Kontrolli, et ei ole debug koodi
 grep -r "console.log\|debugger\|TODO" --include="*.js" .
 if [ $? -eq 0 ]; then
-  echo "⚠️  Debug kood leitud! Kas olete kindel?"
+  echo "⚠  Debug kood leitud! Kas olete kindel?"
   echo "Jätkamiseks vajutage Enter, katkestamiseks Ctrl+C"
   read
 fi
@@ -757,7 +757,7 @@ EOF
 chmod +x .git/hooks/post-merge
 ```
 
-### Samm B3: Git Submodules ja Worktrees (20 min)
+### Samm B3: Git Submodules ja Worktrees ()
 
 #### Submodules - Dependency Management
 ```bash
@@ -791,7 +791,7 @@ cd ../git-practice-lab
 git worktree remove ../feature-payment
 ```
 
-### Samm B4: Advanced Git Performance (15 min)
+### Samm B4: Advanced Git Performance ()
 
 #### Git LFS - Large File Storage
 ```bash
@@ -822,7 +822,7 @@ git clone --depth 1 <repo-url> quick-clone
 git clone --filter=blob:none <repo-url> partial-clone
 ```
 
-### Samm B5: Expert Level Debugging (25 min)
+### Samm B5: Expert Level Debugging ()
 
 #### Git Bisect - Bug Hunt
 ```bash
@@ -867,7 +867,7 @@ echo "====================="
 echo "📍 Current branch: $(git branch --show-current)"
 echo "📈 Total commits: $(git rev-list --count HEAD)"
 echo "👥 Contributors: $(git log --format='%an' | sort -u | wc -l)"
-echo "⏰ Last commit: $(git log -1 --format='%cr')"
+echo " Last commit: $(git log -1 --format='%cr')"
 echo "📝 Lines of code:"
 git ls-files | xargs wc -l | tail -1
 echo "🌿 Branches:"
@@ -896,7 +896,7 @@ git config --global mergetool.keepBackup false
 git mergetool
 ```
 
-### Samm B6: Git Flow ja Release Management (20 min)
+### Samm B6: Git Flow ja Release Management ()
 
 ```bash
 # Git Flow setup (kui installitud)
@@ -921,7 +921,7 @@ git add security.patch && git commit -m "Security fix"
 git flow hotfix finish critical-security-fix
 ```
 
-### Samm B7: Git Best Practices Enforcement (15 min)
+### Samm B7: Git Best Practices Enforcement ()
 
 ```bash
 # Conventional commits hook
@@ -947,7 +947,7 @@ git commit -m "fix: resolve login bug"
 
 ---
 
-## 📝 Lab'i esitamine
+## Lab'i esitamine
 
 **Esitage järgmine GitHub repository link:**
 - Repository nimi: `git-practice-lab`
@@ -963,4 +963,3 @@ git commit -m "fix: resolve login bug"
 
 ---
 
-*Lab koostatud Git tööstuse parimate praktikate põhjal*

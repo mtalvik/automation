@@ -6,13 +6,13 @@ GitHub Discussions provides a forum-like environment for your course, enabling s
 
 ## Enabling Discussions
 
-### 1. Repository Settings
+#### Repository Settings
 1. Go to your repository settings
 2. Scroll to "Features" section
 3. Check "Discussions" to enable
 4. Choose discussion categories
 
-### 2. Discussion Categories
+#### Discussion Categories
 
 #### Recommended Categories
 ```yaml
@@ -23,7 +23,7 @@ Categories:
     
   - name: "Q&A"
     description: "Questions and answers about assignments"
-    emoji: "❓"
+    emoji: ""
     
   - name: "Help"
     description: "Technical help and troubleshooting"
@@ -31,11 +31,11 @@ Categories:
     
   - name: "Showcase"
     description: "Student project showcases and demos"
-    emoji: "🎉"
+    emoji: ""
     
   - name: "Resources"
     description: "Helpful resources and links"
-    emoji: "📚"
+    emoji: ""
     
   - name: "Feedback"
     description: "Course feedback and suggestions"
@@ -44,7 +44,7 @@ Categories:
 
 ## Discussion Guidelines
 
-### 1. Community Guidelines
+#### Community Guidelines
 
 #### For Students
 - **Be respectful** and professional in all interactions
@@ -60,7 +60,7 @@ Categories:
 - **Provide clear answers** and guidance
 - **Recognize helpful contributions**
 
-### 2. Posting Guidelines
+#### Posting Guidelines
 
 #### Question Format
 ```markdown
@@ -104,7 +104,7 @@ Categories:
 
 ## Discussion Templates
 
-### 1. Assignment Help Template
+#### Assignment Help Template
 ```markdown
 # Assignment Help: [Assignment Name]
 
@@ -134,7 +134,7 @@ Categories:
 - Tools: [Relevant tool versions]
 ```
 
-### 2. Technical Issue Template
+#### Technical Issue Template
 ```markdown
 # Technical Issue: [Brief Description]
 
@@ -163,7 +163,7 @@ Categories:
 ```
 ```
 
-### 3. Resource Sharing Template
+#### Resource Sharing Template
 ```markdown
 # Resource: [Resource Name]
 
@@ -187,14 +187,14 @@ Categories:
 
 ## Discussion Management
 
-### 1. Pinning Important Discussions
+#### Pinning Important Discussions
 Pin discussions for:
 - **Course announcements**
 - **Important resources**
 - **Common solutions**
 - **Assignment clarifications**
 
-### 2. Using Labels
+#### Using Labels
 Create labels for:
 - **solved** - Question has been answered
 - **needs-more-info** - Requires additional information
@@ -202,7 +202,7 @@ Create labels for:
 - **help-wanted** - Community help needed
 - **good-first-issue** - Good for beginners
 
-### 3. Moderating Discussions
+#### Moderating Discussions
 - **Monitor for inappropriate content**
 - **Guide students to existing answers**
 - **Encourage detailed questions**
@@ -210,7 +210,7 @@ Create labels for:
 
 ## Integration with Course
 
-### 1. Linking from Course Materials
+#### Linking from Course Materials
 ```markdown
 ## Need Help?
 - [Ask a question in Discussions](https://github.com/mtalvik/automation/discussions)
@@ -218,7 +218,7 @@ Create labels for:
 - [Browse resources](https://github.com/mtalvik/automation/discussions/categories/resources)
 ```
 
-### 2. Assignment Integration
+#### Assignment Integration
 Include in each assignment:
 ```markdown
 ## Getting Help
@@ -228,7 +228,7 @@ Include in each assignment:
 4. **Help others** - Answer questions when you can
 ```
 
-### 3. Weekly Discussion Prompts
+#### Weekly Discussion Prompts
 Create weekly discussion prompts:
 ```markdown
 # Week X Discussion: [Topic]
@@ -253,21 +253,21 @@ Create weekly discussion prompts:
 
 ## Best Practices
 
-### 1. For Students
+#### For Students
 - **Search before posting** - Use the search function
 - **Be specific** - Provide detailed information
 - **Include context** - Mention assignment and environment
 - **Help others** - Answer questions when you can
 - **Use markdown** - Format your posts clearly
 
-### 2. For Instructors
+#### For Instructors
 - **Set expectations** - Clear guidelines for participation
 - **Be responsive** - Answer questions promptly
 - **Encourage peer help** - Students learn by helping others
 - **Recognize contributions** - Highlight helpful posts
 - **Moderate actively** - Keep discussions on track
 
-### 3. Community Building
+#### Community Building
 - **Welcome new students** - Make them feel included
 - **Celebrate successes** - Recognize achievements
 - **Share resources** - Curate helpful content
@@ -276,13 +276,13 @@ Create weekly discussion prompts:
 
 ## Analytics and Monitoring
 
-### 1. Discussion Metrics
+#### Discussion Metrics
 - **Post frequency** - How active is the community
 - **Response time** - How quickly questions get answered
 - **Resolution rate** - Percentage of questions solved
 - **Participation rate** - How many students participate
 
-### 2. Quality Indicators
+#### Quality Indicators
 - **Detailed questions** - Students providing good context
 - **Helpful answers** - Community providing good solutions
 - **Resource sharing** - Students contributing resources

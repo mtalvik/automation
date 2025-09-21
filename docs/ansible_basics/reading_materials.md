@@ -1,13 +1,13 @@
-# 📚 Week 11: Ansible Reading Materials (Homework Task 2)
+# Ansible Reading Materials (Homework Task 2)
 
-**Estimated Reading Time:** 2-3 hours  
+**Estimated Reading Time:** 2-  
 **Due:** Before next class session
 
 ---
 
-## 📖 Required Reading (1.5 hours)
+## Required Reading (1.)
 
-### 1. Ansible Architecture Deep Dive (45 min)
+#### Ansible Architecture Deep Dive ()
 **Source:** Ansible Documentation & Architecture Guide
 
 **Key Topics:**
@@ -23,7 +23,7 @@
 - How does Ansible handle authentication and authorization?
 - What happens during an Ansible playbook execution?
 
-### 2. YAML Syntax and Best Practices (30 min)
+#### YAML Syntax and Best Practices ()
 **Source:** YAML Documentation & Ansible Style Guide
 
 **Key Topics:**
@@ -39,7 +39,7 @@
 - What are some common YAML syntax errors?
 - How can you validate YAML syntax?
 
-### 3. Ansible Module Ecosystem (30 min)
+#### Ansible Module Ecosystem ()
 **Source:** Ansible Module Documentation
 
 **Key Topics:**
@@ -57,9 +57,9 @@
 
 ---
 
-## 📚 Optional Reading (1 hour)
+## Optional Reading (1 hour)
 
-### 4. Ansible Best Practices (30 min)
+#### Ansible Best Practices ()
 **Source:** Ansible Best Practices Guide
 
 **Key Topics:**
@@ -69,7 +69,7 @@
 - Performance optimization techniques
 - Security considerations
 
-### 5. Ansible vs Other Configuration Management Tools (30 min)
+#### Ansible vs Other Configuration Management Tools ()
 **Source:** Industry Comparisons & Documentation
 
 **Key Topics:**
@@ -81,7 +81,7 @@
 
 ---
 
-## 📋 Reference Materials (Keep Handy)
+## Reference Materials (Keep Handy)
 
 ### Ansible Command Quick Reference
 ```bash
@@ -142,21 +142,21 @@ ansible all -m shell -a "uptime"
     app_path: "/opt/{{ app_name }}"
 
 # Variable precedence
-# 1. extra vars (command line)
-# 2. task vars
-# 3. block vars
-# 4. role and include vars
-# 5. play vars
-# 6. host facts
-# 7. host vars
-# 8. group vars
-# 9. inventory vars
-# 10. role defaults
+## extra vars (command line)
+## task vars
+## block vars
+## role and include vars
+## play vars
+## host facts
+## host vars
+## group vars
+## inventory vars
+## role defaults
 ```
 
 ---
 
-## 🎯 Reading Reflection Assignment
+## Reading Reflection Assignment
 
 After completing the reading, please submit a brief reflection (200-300 words) covering:
 
@@ -179,7 +179,7 @@ After completing the reading, please submit a brief reflection (200-300 words) c
 
 ---
 
-## 📝 Notes for Next Class
+## Notes for Next Class
 
 Come prepared with:
 - Questions from your reading
