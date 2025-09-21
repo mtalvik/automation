@@ -234,7 +234,7 @@ modul_nimi/
 ## Seadistamise Juhendid
 
 ### **Enne kursuse alustamist:**
-- **Windows kasutajad:** [Windows Seadistamise Juhend](WINDOWS_SETUP_GUIDE.md)
+- **Windows kasutajad:** [Windows Seadistamise Juhend](docker_orchestration/kodu_masina_ehitus_juhend.md#windows-setup)
 - **Linux/macOS kasutajad:** [Kodu Masina Ehitus Juhend](docker_orchestration/kodu_masina_ehitus_juhend.md)
 
 ### **Vajalikud tööriistad:**

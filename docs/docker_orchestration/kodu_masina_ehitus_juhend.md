@@ -24,7 +24,7 @@
 
 ### **1. Multipass (soovituslik - Ubuntu)**
 
-**Windows:**
+### Windows Setup {#windows-setup}
 ```bash
 ## Laadige alla: https://multipass.run/download/windows
 ## Installige ja taaskäivitage arvuti
@@ -37,7 +37,7 @@ multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
 multipass shell dev-lab
 ```
 
-**macOS:**
+### macOS Setup {#macos-setup}
 ```bash
 # Installige Homebrew'iga
 brew install --cask multipass
@@ -47,7 +47,7 @@ multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
 multipass shell dev-lab
 ```
 
-**Linux:**
+### Linux Setup {#linux-setup}
 ```bash
 # Installige Snap'iga
 sudo snap install multipass
@@ -139,7 +139,7 @@ wsl --install -d Ubuntu
 
 ---
 
-## 🔐 SSH ühenduse seadistamine
+## 🔐 SSH ühenduse seadistamine {#ssh-ühenduse-seadistamine}
 
 ### **1. SSH võtmete loomine (host masinal)**
 

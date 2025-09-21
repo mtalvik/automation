@@ -1036,9 +1036,68 @@ curl http://localhost:5000/health
 
 ## 📚 Documentation
 
-- [API Documentation](docs/api.md)
-- [Deployment Guide](docs/deployment.md)
-- [Troubleshooting](docs/troubleshooting.md)
+- [API Documentation](#api-documentation)
+- [Deployment Guide](#deployment-guide)
+- [Troubleshooting](#troubleshooting)
+
+### API Documentation {#api-documentation}
+
+The TechShop API provides the following endpoints:
+
+- `GET /` - Service information and available endpoints
+- `GET /health` - Health check endpoint
+- `GET /metrics` - System and application metrics
+- `GET /products` - List all products
+- `GET /products/{id}` - Get specific product
+- `GET /orders` - List all orders
+- `POST /orders` - Create new order
+
+### Deployment Guide {#deployment-guide}
+
+#### Local Development
+```bash
+# Clone repository
+git clone https://gitlab.com/username/techshop-automation.git
+cd techshop-automation
+
+# Run locally
+cd app
+docker build -t techshop:latest .
+docker run -p 5000:5000 techshop:latest
+
+# Test
+curl http://localhost:5000/health
+```
+
+#### Production Deployment
+1. Push code to GitLab
+2. Pipeline runs automatically
+3. Manual approval for production
+
+### Troubleshooting {#troubleshooting}
+
+#### Common Issues
+
+**Docker build fails:**
+```bash
+# Check Docker daemon
+sudo systemctl status docker
+# Restart if needed
+sudo systemctl restart docker
+```
+
+**Application won't start:**
+```bash
+# Check logs
+docker logs <container-name>
+# Check port availability
+netstat -tulpn | grep 5000
+```
+
+**Pipeline fails:**
+- Check GitLab CI/CD variables
+- Verify Docker registry credentials
+- Review pipeline logs in GitLab
 
 ## 📈 Metrics
 

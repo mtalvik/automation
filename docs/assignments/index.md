@@ -28,7 +28,7 @@ Kursus koosneb 6 peamisest moodulist:
 - **Tähtaeg:** Nädal 12
 
 ### ⚙ Moodul 3: Ansible
-**[NGINX + SSL + PostgreSQL](classroom/#nadal-13-15-ansible-automation)**
+**[NGINX + SSL + PostgreSQL](classroom.md#nadal-13-15-ansible-automation)**
 - Automatiseeri LAMP stack
 - SSL sertifikaadid, andmebaas
 - **Tähtaeg:** Nädal 15

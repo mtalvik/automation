@@ -73,9 +73,9 @@ See juhend aitab sul alustada kursuse platvormide ja tööriistadega.
 - **VS Code** - Koodiredaktor
 
 #### Paigaldamise Juhendid
-- [Windows Seadistamise Juhend](docs/setup/windows.md)
-- [Mac Seadistamise Juhend](docs/setup/mac.md)
-- [Linux Seadistamise Juhend](docs/setup/linux.md)
+- [Windows Seadistamise Juhend](../docker_orchestration/kodu_masina_ehitus_juhend.md#windows-setup)
+- [Mac Seadistamise Juhend](../docker_orchestration/kodu_masina_ehitus_juhend.md#macos-setup)
+- [Linux Seadistamise Juhend](../docker_orchestration/kodu_masina_ehitus_juhend.md#linux-setup)
 
 ## Ülesannete Töövoog
 

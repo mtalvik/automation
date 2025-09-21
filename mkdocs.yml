@@ -120,6 +120,8 @@ nav:
   - Teooria: terraform_basics/lecture.md
   - Praktikum: terraform_basics/lab.md
   - Kodutöö: terraform_basics/homework.md
+  - AWS Backup: terraform_basics/homework_aws_backup.md
+  - Lihtne kodutöö: terraform_basics/homework_simple.md
 - Ülesanded:
   - assignments/index.md
   - GitHub Classroom: assignments/classroom.md
