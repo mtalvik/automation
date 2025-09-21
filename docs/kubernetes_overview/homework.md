@@ -34,7 +34,7 @@ Frontend (React) → Backend (Node.js) → Database (PostgreSQL)
 
 ---
 
-## Task 3: Projekti Struktuuri Loomine ()
+## Task 3: Projekti Struktuuri Loomine
 
 ### Ülesanne 1.1: Loo projekt struktuur
 
@@ -69,7 +69,7 @@ Lihtne e-commerce rakendus Kubernetes'i kasutades.
 
 ---
 
-## Task 7: Database Setup ()
+## Task 7: Database Setup
 
 ### Ülesanne 2.1: Loo PostgreSQL Secret
 
@@ -185,7 +185,7 @@ spec:
 
 ---
 
-## Task 8: Backend Setup ()
+## Task 8: Backend Setup
 
 ### Ülesanne 3.1: Loo Backend ConfigMap
 
@@ -296,7 +296,7 @@ spec:
 
 ---
 
-## Task 9: 🎨 Samm 4: Frontend Setup ()
+## Task 9: 🎨 Samm 4: Frontend Setup
 
 ### Ülesanne 4.1: Loo Frontend ConfigMap
 
@@ -395,7 +395,7 @@ spec:
 
 ---
 
-## Task 10: Deployment ja Testimine ()
+## Task 10: Deployment ja Testimine
 
 ### Ülesanne 5.1: Deploy'i kõik ressursid
 
@@ -447,7 +447,7 @@ kubectl exec -it $(kubectl get pods -l app=postgres -o jsonpath='{.items[0].meta
 
 ---
 
-## Task 11: Monitoring ja Scaling ()
+## Task 11: Monitoring ja Scaling
 
 ### Ülesanne 6.1: Scaling
 
@@ -479,7 +479,7 @@ kubectl get events
 
 ---
 
-## Task 12: 🧹 Samm 7: Cleanup ()
+## Task 12: 🧹 Samm 7: Cleanup
 
 ```bash
 # Kustuta kõik ressursid
@@ -496,7 +496,7 @@ kubectl get secrets
 
 ---
 
-## Task 13: HARJUTUS 8: Bonus Ülesanded ()
+## Task 13: HARJUTUS 8: Bonus Ülesanded
 
 ### Ülesanne 8.1: Ingress Setup
 

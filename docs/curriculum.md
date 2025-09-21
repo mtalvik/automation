@@ -1,6 +1,6 @@
 # Automatiseerimise Kursuse Õppekava
 
-**ITS-24 - Täiskasvanute klass (, 8 moodulit)**
+**ITS-24 - Täiskasvanute klass (8 moodulit)**
 
 ---
 
@@ -51,8 +51,8 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 ### **Moodul 2: Ansible Alused (4h)**
 
 **Kontaktaja Struktuur:**
-- Ansible arhitektuuri ülevaade ()
-- Kohalik VM seadistus Vagrant'iga ()
+- Ansible arhitektuuri ülevaade
+- Kohalik VM seadistus Vagrant'iga
 - SSH seadistus ja inventory (1h)
 - Ad-hoc käskude praktika (1h)
 - Esimese playbook'i loomine (1h)
@@ -74,7 +74,7 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 ### **Moodul 3: Docker Alused (4h)**
 
 **Kontaktaja Struktuur:**
-- Konteinerite kontseptsioonid vs VM'id ()
+- Konteinerite kontseptsioonid vs VM'id
 - Docker'i installimine ja esimene konteiner (1h)
 - Dockerfile'i loomise töötuba (1.5h)
 - Põhiline võrgustik ja helitugevused (1h)
@@ -95,10 +95,10 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 ### **Moodul 4: Docker Orkestratsioon (4h)**
 
 **Kontaktaja Struktuur:**
-- Mitme-konteineriga kontseptsioonid ()
+- Mitme-konteineriga kontseptsioonid
 - Compose faili loomine (1.5h)
 - Mitme-teenusega rakenduse seadistus (1.5h)
-- Kohalik orkestratsioon näidetega ()
+- Kohalik orkestratsioon näidetega
 
 **Käsitletud Teemad:**
 - Docker Compose süntaks ja kasutamine
@@ -156,9 +156,9 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 ### **Moodul 7: Terraform Alused (2h Kontaktõpe)**
 
 **Kontaktaja Struktuur:**
-- Infrastructure as Code ülevaade ()
+- Infrastructure as Code ülevaade
 - Kohalik Terraform demo (failisüsteemi haldamine) (1h)
-- Praktiline: Loo kohalik infrastruktuur ()
+- Praktiline: Loo kohalik infrastruktuur
 - **Boonus:** Moodulid, tööruumid, edasijõudnud mallid
 
 **Käsitletud Teemad:**
@@ -177,8 +177,8 @@ See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsete
 
 **Kontaktaja Struktuur:**
 - Täieliku automatiseerimise pipeline demo (1h)
-- Kubernetes ülevaade kohalikuikube'iga ()
-- Kõigi tööriistade integratsioon ()
+- Kubernetes ülevaade kohalikuikube'iga
+- Kõigi tööriistade integratsioon
 
 **Käsitletud Teemad:**
 - GitHub Actions eelnevate tööriistadega

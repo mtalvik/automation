@@ -1,16 +1,16 @@
-# Ansible Basics: Alused
+# Ansible Alused
 
-## Task 1: Ansible Arhitektuur ja Põhimõtted
+## 1. Ansible Arhitektuur ja Põhimõtted
 
-### Ülesanne 1.1: Sissejuhatus automatiseerimisse
+### 1.1 Sissejuhatus automatiseerimisse
 
 Süsteemiadministreerimine traditsioonilistel meetoditel tekitab skaleerumisel märkimisväärseid väljakutseid. Suurtes infrastruktuurides, kus hallatakse kümneid või sadu servereid, muutub käsitsi konfiguratsioonide haldamine aeganõudvaks ja vigadele vastuvõtlikuks.
 
 Ansible on open-source automatiseerimisplatvorm, mis lahendab süsteemihalduse, rakenduste juurutamise ja konfiguratsioonide haldamise ülesandeid. Ansible'i peamised eelised on agentless arhitektuur, deklaratiivne süntaks ja idempotentsed operatsioonid.
 
-### Ülesanne 1.2: Ansible arhitektuur
+### 1.2 Ansible arhitektuur
 
-### Agentless lähenemine
+#### 1.2.1 Agentless lähenemine
 
 Ansible kasutab agentless arhitektuuri, mis eristab seda paljudest konkureerivtest lahendustest. See tähendab, et hallatavates süsteemides ei ole vaja installida ja hooldada täiendavat tarkvara.
 
@@ -51,18 +51,18 @@ graph TB
 - Python interpreter (versioon 2.7 või 3.5+)
 - Vajalikud süsteemi õigused operatsioonide sooritamiseks
 
-### Põhikomponendid
+#### 1.2.2 Põhikomponendid
 
-#### Control Node
+**Control Node**
 Control node on süsteem, kus Ansible on installitud ja kust käivitatakse automatiseerimise käsud. Control node nõuded:
 - Unix-laadne operatsioonisüsteem (Linux, macOS)
 - Python 3.8 või uuem versioon
 - SSH klient
 
-#### Managed Nodes
+**Managed Nodes**
 Managed nodes on sihtmärgid, mida Ansible haldab. Need võivad olla füüsilised serverid, virtuaalmasinad või pilveressursid.
 
-#### Inventory
+**Inventory**
 Inventory on struktureeritud fail või andmebaas, mis määratleb hallatavate süsteemide nimekirja ja nende grupeerimise loogika.
 
 ```ini
@@ -79,10 +79,10 @@ webservers
 databases
 ```
 
-#### Modules
+**Modules**
 Moodulid on abstraktsed ühikud, mis kapseldavad konkreetseid funktsionaalsusi. Ansible sisaldab üle 3000 mooduli, mis katavad süsteemihalduse, võrgukonfiguratsiooni, pilveplatformide ja rakenduste haldamise vajadused.
 
-### Töövoog
+### 1.3 Töövoog
 
 Ansible'i täitmistsükkel koosneb järgmistest sammudest:
 
@@ -109,7 +109,7 @@ flowchart TD
 5. **Tulemuste kogumine** - väljundi ja staatuse tagastamine
 6. **Ajutiste failide eemaldamine** - puhastusoperatsioonid
 
-## Task 2: Idempotency printsiip
+## 2. Idempotency printsiip
 
 Idempotency on Ansible'i põhiprintsiip, mis tagab, et sama operatsiooni korduvkäivitamine ei muuda süsteemi olekut, kui soovitud olek on juba saavutatud.
 
@@ -126,9 +126,9 @@ Idempotency eelised:
 - **Etteennustatavus** - süsteemi lõppolek on alati sama
 - **Usaldusväärsus** - automatiseerimise skriptid on stabiilsed
 
-## Task 3: Võrdlus konkurentidega
+## 3. Võrdlus konkurentidega
 
-### Ansible vs Puppet
+### 3.1 Ansible vs Puppet
 
 | Aspekt | Ansible | Puppet |
 |--------|---------|---------|
@@ -137,7 +137,7 @@ Idempotency eelised:
 | Mudel | Push | Pull |
 | Õppimiskõver | Madal | Kõrge |
 
-### Ansible vs Chef
+### 3.2 Ansible vs Chef
 
 | Aspekt | Ansible | Chef |
 |--------|---------|-------|
@@ -146,7 +146,7 @@ Idempotency eelised:
 | Skaleeritavus | Hea | Väga hea |
 | Ökosüsteem | Lai | Lai |
 
-## Praktiline näide
+## 4. Praktiline näide
 
 Lihtne ühenduvuse testimine:
 
@@ -173,17 +173,13 @@ target_host | SUCCESS => {
 }
 ```
 
-## Kokkuvõte
+## 5. SSH ja Inventory konfigureerimine
 
-Ansible pakub tõhusat lahendust infrastruktuuri automatiseerimiseks. Agentless arhitektuur, lihtne YAML süntaks ja idempotentsed operatsioonid muudavad selle sobivaks nii väikestele kui suurtele keskkondadele. Järgnevates peatükkides käsitletakse SSH konfiguratsiooni, inventory haldamist ja playbook'ide arendamist.
-
-## Task 4: SSH ja Inventory konfigureerimine
-
-## Task 5: SSH autentimise alused
+### 5.1 SSH autentimise alused
 
 Ansible tugineb SSH protokollile kommunikatsiooniks hallatavate süsteemidega. Tõhusa automatiseerimise saavutamiseks on vajalik seadistada võtme-põhine autentimine, mis elimineerib interaktiivse parooli sisestamise vajaduse.
 
-### SSH võtmete genereerimine
+#### 5.1.1 SSH võtmete genereerimine
 
 SSH võtmepaaride loomine toimub `ssh-keygen` utiliidiga. Soovitatav on kasutada Ed25519 algoritmi turvalisuse ja jõudluse optimaalse tasakaalu saavutamiseks.
 
@@ -201,7 +197,7 @@ ssh-keygen -t rsa -b 4096 -C "ansible-automation" -f ~/.ssh/ansible_rsa
 - `-C` - kommentaar võtme identifitseerimiseks
 - `-f` - väljundfaili asukoha määramine
 
-### SSH agendi konfigureerimine
+#### 5.1.2 SSH agendi konfigureerimine
 
 SSH agent hõlbustab privaatvõtmete haldamist, lubades autentimist ilma korduvate paroolide sisestamiseta.
 
@@ -226,7 +222,7 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
 fi
 ```
 
-### Avalike võtmete levitamine
+#### 5.1.3 Avalike võtmete levitamine
 
 Avalike võtmete autoriseeritud võtmete nimekirja lisamine:
 
@@ -244,9 +240,9 @@ for server in server1 server2 server3; do
 done
 ```
 
-## Task 6: Inventory struktuur ja formaat
+### 5.2 Inventory struktuur ja formaat
 
-### INI formaat
+#### 5.2.1 INI formaat
 
 Traditsiooniline inventory formaat, sobiv lihtsamatele konfiguratsioonidele:
 
@@ -282,7 +278,7 @@ db_port=3306
 db_user=admin
 ```
 
-### YAML formaat
+#### 5.2.2 YAML formaat
 
 Kaasaegne formaat, mis võimaldab keerulisemat struktureerimist:
 
@@ -319,7 +315,7 @@ all:
         dbservers:
 ```
 
-### Dünaamiline inventory
+#### 5.2.3 Dünaamiline inventory
 
 Suurte või muutuvate infrastruktuuride jaoks võib implementeerida dünaamilise inventory genereerimise:
 
@@ -355,9 +351,9 @@ if __name__ == '__main__':
     print(json.dumps(get_inventory(), indent=2))
 ```
 
-## Ansible konfigureerimine
+## 6. Ansible konfigureerimine
 
-### ansible.cfg faili struktuur
+### 6.1 ansible.cfg faili struktuur
 
 Ansible'i käitumist saab kohandada konfiguratsiooni faili abil. Soovitatav on hoida `ansible.cfg` faili projekti juurkaustas.
 
@@ -397,7 +393,7 @@ become_user = root
 become_ask_pass = False
 ```
 
-### Konfiguratsiooni prioriteet
+### 6.2 Konfiguratsiooni prioriteet
 
 Ansible otsib konfiguratsiooni järgmises järjekorras:
 
@@ -416,7 +412,7 @@ ansible-config view
 ansible-config dump
 ```
 
-## Host patterns ja sihtmärkide valimine
+### 6.3 Host patterns ja sihtmärkide valimine
 
 Ansible võimaldab paindlikku serverite valimist erinevate mustrite abil:
 
@@ -443,9 +439,9 @@ ansible ~web.* -m ping
 ansible web[1:3] -m ping
 ```
 
-## Task 7: Ühenduse diagnostika
+## 7. Ühenduse diagnostika
 
-### Põhilised testid
+### 7.1 Põhilised testid
 
 ```bash
 # Ühenduvuse test
@@ -458,7 +454,7 @@ ansible all -m command -a "whoami" -vvv
 ansible all -m setup --tree /tmp/facts
 ```
 
-### Tüüpilised probleemid ja lahendused
+### 7.2 Tüüpilised probleemid ja lahendused
 
 **SSH võtme probleemid:**
 ```bash
@@ -488,9 +484,9 @@ ansible all -m command -a "sudo whoami"
 ansible all -m shell -a "sudo -l"
 ```
 
-## Task 8: Inventory best practices
+## 8. Inventory best practices
 
-### Suurte projektide struktuur
+### 8.1 Suurte projektide struktuur
 
 ```
 inventory/
@@ -509,7 +505,7 @@ inventory/
 └── development/
 ```
 
-### Muutujate hierarhia
+### 8.2 Muutujate hierarhia
 
 Ansible muutujate prioriteet (kõrgem alistab madalam):
 
@@ -524,7 +520,7 @@ Ansible muutujate prioriteet (kõrgem alistab madalam):
 9. Group vars (all)
 10. Role defaults
 
-### Turvalisuse aspektid
+### 8.3 Turvalisuse aspektid
 
 Tundliku informatsiooni kaitsmine Ansible Vault'iga:
 
@@ -539,17 +535,13 @@ ansible-vault edit group_vars/all/vault.yml
 ansible-playbook --ask-vault-pass site.yml
 ```
 
-## Kokkuvõte
+## 9. Ad-hoc käskude kasutamine
 
-SSH võtme-põhine autentimine ja korrektselt struktureeritud inventory on Ansible automatiseerimise nurgakivid. Proper konfigureerimine tagab turvalisuse, skaleeritavuse ja hallatavuse. Järgmises peatükis käsitletakse ad-hoc käskude kasutamist operatiivsete ülesannete lahendamiseks.
-
-## Task 9: Ad-hoc käskude kasutamine
-
-## Task 10: Ad-hoc käskude olemus ja rakendusala
+### 9.1 Ad-hoc käskude olemus ja rakendusala
 
 Ad-hoc käsud on Ansible'i funktsioon, mis võimaldab käivitada ühekordse operatsioone otse käsurealt, ilma playbook'ide loomise vajaduseta. Need sobivad kiireteks uuringulisteks või diagnostilisteks toiminguteks.
 
-### Kasutamise stsenaariumid
+**Kasutamise stsenaariumid:**
 
 **Sobivad rakendused:**
 - Süsteemi oleku kiire kontroll
@@ -564,7 +556,7 @@ Ad-hoc käsud on Ansible'i funktsioon, mis võimaldab käivitada ühekordse oper
 - Dokumenteerimist nõudvad protseduurid
 - Produktsiooni deployment'id
 
-### Süntaksi struktuur
+**Süntaksi struktuur:**
 
 Ad-hoc käskude põhiline formaat:
 
@@ -578,9 +570,9 @@ ansible <target> -m <module> -a "<arguments>" [options]
 - `<arguments>` - mooduli parameetrid
 - `[options]` - täiendavad käsulipud
 
-## Task 11: Põhilised moodulid
+### 9.2 Põhilised moodulid
 
-### ping - Ühenduvuse testimine
+#### 9.2.1 ping - Ühenduvuse testimine
 
 Ping moodul kontrollib SSH ühenduvust ja Python interpreteri olemasolu:
 
@@ -605,10 +597,9 @@ ansible web1.example.com -m ping
 # }
 ```
 
-### command vs shell moodulid
+#### 9.2.2 command vs shell moodulid
 
-#### command moodul
-Turvalisem variant, mis ei luba shell'i funktsionaalsust:
+**command moodul** - turvalisem variant, mis ei luba shell'i funktsionaalsust:
 
 ```bash
 # Süsteemi aja kuvamine
@@ -624,8 +615,7 @@ ansible all -m command -a "df -h"
 ansible all -m command -a "ps aux | grep nginx"  # EBAÕNNESTUB
 ```
 
-#### shell moodul
-Võimaldab shell'i funktsionaalsust, kuid suurema turvariski hinnaga:
+**shell moodul** - võimaldab shell'i funktsionaalsust, kuid suurema turvariski hinnaga:
 
 ```bash
 # Torudega käsud
@@ -641,7 +631,7 @@ ansible all -m shell -a "kill $(pgrep -f nginx)"
 ansible all -m shell -a "dmesg | tail -20 > /tmp/kernel.log"
 ```
 
-### package - Tarkvarahaldus
+#### 9.2.3 package - Tarkvarahaldus
 
 Universaalne pakettide haldamise moodul:
 
@@ -672,7 +662,7 @@ ansible centos_hosts -m yum -a "name=nginx state=present" --become
 ansible fedora_hosts -m dnf -a "name=nginx state=present" --become
 ```
 
-### service - Teenuste haldamine
+#### 9.2.4 service - Teenuste haldamine
 
 Süsteemi teenuste kontroll:
 
@@ -693,7 +683,7 @@ ansible webservers -m service -a "name=nginx enabled=yes" --become
 ansible webservers -m service -a "name=nginx state=started enabled=yes" --become
 ```
 
-### file - Failisüsteemi operatsioonid
+#### 9.2.5 file - Failisüsteemi operatsioonid
 
 Failide ja kataloogide haldamine:
 
@@ -717,7 +707,7 @@ ansible all -m file -a "path=/tmp/tempfile state=absent"
 ansible all -m file -a "path=/var/www state=directory owner=www-data group=www-data recurse=yes" --become
 ```
 
-### copy - Failide edastamine
+#### 9.2.6 copy - Failide edastamine
 
 Sisu kopeerimine control node'st managed node'idesse:
 
@@ -735,9 +725,9 @@ ansible all -m copy -a "content='server_tokens off;' dest=/etc/nginx/conf.d/secu
 ansible all -m copy -a "src=script.sh dest=/usr/local/bin/script.sh mode=0755 owner=root" --become
 ```
 
-## Süsteemi diagnostika
+### 9.3 Süsteemi diagnostika
 
-### Riistvara ja süsteemi informatsioon
+#### 9.3.1 Riistvara ja süsteemi informatsioon
 
 Setup moodul kogub põhjalikku informatsiooni hallatavate süsteemide kohta:
 
@@ -761,7 +751,7 @@ ansible all -m setup -a "filter=ansible_mounts"
 ansible all -m setup --tree /tmp/facts/
 ```
 
-### Performance monitoring
+#### 9.3.2 Performance monitoring
 
 Süsteemi jõudluse kontroll:
 
@@ -788,7 +778,7 @@ ansible all -m shell -a "iostat -x 1 1"
 ansible all -m shell -a "ss -tuln"
 ```
 
-### Logide analüüs
+#### 9.3.3 Logide analüüs
 
 Süsteemi logide kiire uurimine:
 
@@ -809,9 +799,9 @@ ansible all -m shell -a "dmesg | tail -20"
 ansible webservers -m shell -a "tail -20 /var/log/nginx/error.log"
 ```
 
-## Täpsemad operatsioonid
+### 9.4 Täpsemad operatsioonid
 
-### Kasutajate haldamine
+#### 9.4.1 Kasutajate haldamine
 
 ```bash
 # Kasutaja loomine
@@ -824,7 +814,7 @@ ansible all -m user -a "name=appuser groups=sudo,www-data append=yes" --become
 ansible all -m authorized_key -a "user=appuser key='{{ lookup('file', '~/.ssh/id_rsa.pub') }}'" --become
 ```
 
-### Võrgu diagnostika
+#### 9.4.2 Võrgu diagnostika
 
 ```bash
 # Ühenduvuse test
@@ -840,9 +830,9 @@ ansible all -m shell -a "netstat -tlnp"
 ansible all -m shell -a "ss -tupln"
 ```
 
-## Käsurea lipud ja optioonid
+### 9.5 Käsurea lipud ja optioonid
 
-### Privilege escalation
+#### 9.5.1 Privilege escalation
 
 ```bash
 # Sudo kasutamine
@@ -855,7 +845,7 @@ ansible all -m command -a "whoami" --become-user=postgres --become
 ansible all -m command -a "id" --become-method=su --become
 ```
 
-### Paralleelsuse kontroll
+#### 9.5.2 Paralleelsuse kontroll
 
 ```bash
 # Järjestikune täitmine
@@ -865,7 +855,7 @@ ansible all -m ping --forks=1
 ansible all -m setup --forks=20
 ```
 
-### Sihtmärkide piiramine
+#### 9.5.3 Sihtmärkide piiramine
 
 ```bash
 # Pattern'iga piiramine
@@ -881,7 +871,7 @@ ansible webservers:&production -m service -a "name=nginx state=restarted" --beco
 ansible all --limit web1.example.com,web2.example.com -m ping
 ```
 
-### Kuiva käivitamise režiim
+#### 9.5.4 Kuiva käivitamise režiim
 
 ```bash
 # Kontroll ilma muudatusteta
@@ -891,9 +881,9 @@ ansible all -m package -a "name=nginx state=present" --check
 ansible all -m copy -a "src=test.conf dest=/etc/test.conf" --check --diff
 ```
 
-## Batch operatsioonid
+### 9.6 Batch operatsioonid
 
-### Mitme käsu järjestus
+#### 9.6.1 Mitme käsu järjestus
 
 Keerulisemate ülesannete jaoks võib kombineerida mitu ad-hoc käsku:
 
@@ -906,7 +896,7 @@ ansible webservers -m service -a "name=nginx state=started" --become
 ansible webservers -m shell -a "curl -I http://localhost" 
 ```
 
-### Informatsioon kogumise skript
+#### 9.6.2 Informatsioon kogumise skript
 
 ```bash
 #!/bin/bash
@@ -921,17 +911,13 @@ echo "=== Running Services ===" >> audit.log
 ansible all -m shell -a "systemctl list-units --type=service --state=running --no-pager" >> audit.log
 ```
 
-## Kokkuvõte
+## 10. YAML süntaks ja Playbook'ide alused
 
-Ad-hoc käsud pakuvad võimsat tööriista operatiivsete ülesannete lahendamiseks Ansible infrastruktuuris. Kuigi need sobivad hästi diagnostikaks ja lihtsateks operatsioonideks, keerulisema automatiseerimise jaoks tuleks kasutada playbook'e. Järgmises peatükis käsitletakse YAML süntaksit ja playbook'ide struktuuri.
-
-## Task 12: YAML süntaks ja Playbook'ide alused
-
-## Task 13: YAML konfiguratsioonikeel
+### 10.1 YAML konfiguratsioonikeel
 
 YAML (YAML Ain't Markup Language) on inimloetav andmete serialiseerimise standard, mida Ansible kasutab konfiguratsioonifailide ja playbook'ide kirjutamiseks. YAML-i eesmärk on pakkuda lihtsat ja intuitiivset süntaksit keeruliste andmestruktuuride kirjeldamiseks.
 
-### YAML vs alternatiivsed formaadid
+**YAML vs alternatiivsed formaadid:**
 
 **YAML:**
 ```yaml
@@ -977,9 +963,9 @@ application:
 </application>
 ```
 
-## Task 14: YAML süntaksi reeglid
+### 10.2 YAML süntaksi reeglid
 
-### Taandrimise nõuded
+#### 10.2.1 Taandrimise nõuded
 
 YAML kasutab taandrimist hierarhia määramiseks. Taandrimine peab olema järjekindel ja kasutama tühikuid:
 
@@ -999,7 +985,7 @@ child1: value1          # Vale tase
   nested_child: value   # Vale tase
 ```
 
-### Andmetüübid
+#### 10.2.2 Andmetüübid
 
 **Skalaarid:**
 ```yaml
@@ -1041,7 +1027,7 @@ server_config:
     - 10.0.0.0/8
 ```
 
-### Mitme rea stringid
+#### 10.2.3 Mitme rea stringid
 
 **Literal style (|) - säilitab reavahetused:**
 ```yaml
@@ -1059,9 +1045,9 @@ summary: >
   on üks pikk rida.
 ```
 
-## Task 15: Playbook'ide struktuur
+### 10.3 Playbook'ide struktuur
 
-### Playbook'i anatoomia
+#### 10.3.1 Playbook'i anatoomia
 
 Playbook koosneb ühest või mitmest "play'st", mis on suunatud konkreetsetele hostidele:
 
@@ -1091,10 +1077,9 @@ Playbook koosneb ühest või mitmest "play'st", mis on suunatud konkreetsetele h
         state: present
 ```
 
-### Play komponendid
+#### 10.3.2 Play komponendid
 
-#### Hosts directive
-Määrab sihtmärgid, kus play käivitatakse:
+**Hosts directive** - määrab sihtmärgid, kus play käivitatakse:
 
 ```yaml
 hosts: all                    # Kõik inventory hostid
@@ -1104,8 +1089,7 @@ hosts: webservers:dbservers  # Mitme grupi kombinatsioon
 hosts: all:!production       # Välistamisega
 ```
 
-#### Variables
-Muutujate defineerimine play tasemel:
+**Variables** - muutujate defineerimine play tasemel:
 
 ```yaml
 vars:
@@ -1120,8 +1104,7 @@ vars:
     timeout: 30
 ```
 
-#### Tasks
-Ülesannete loend, mis täidetakse järjekorras:
+**Tasks** - ülesannete loend, mis täidetakse järjekorras:
 
 ```yaml
 tasks:
@@ -1133,9 +1116,9 @@ tasks:
     tags: [tag1, tag2]
 ```
 
-## Task 16: Muutujate kasutamine
+### 10.4 Muutujate kasutamine
 
-### Muutujate interpoleerimine
+#### 10.4.1 Muutujate interpoleerimine
 
 YAML-is kasutatakse Jinja2 template süntaksit muutujate asendamiseks:
 
@@ -1164,7 +1147,7 @@ YAML-is kasutatakse Jinja2 template süntaksit muutujate asendamiseks:
         dest: "{{ config_path }}/app.conf"
 ```
 
-### Muutujate allikad
+#### 10.4.2 Muutujate allikad
 
 Ansible võtab muutujaid mitmest allikast hierarhilises järjekorras:
 
@@ -1189,7 +1172,7 @@ nginx_port: 8080
 custom_config: true
 ```
 
-## Handlers süsteem
+### 10.5 Handlers süsteem
 
 Handlers on erikülesanded, mis käivitatakse ainult notification'i peale ja alles play lõpus:
 
@@ -1229,7 +1212,7 @@ Handler'i käitumise reeglid:
 - Käivitatakse play lõpus isegi siis, kui mitu task'i sama handler'it notify'ib
 - Ei käivitata, kui task ebaõnnestub (v.a force_handlers: yes)
 
-## Praktiline näide: LAMP stack
+## 11. Praktiline näide: LAMP stack
 
 Kompleksne playbook veebiserveri infrastruktuuri seadistamiseks:
 
@@ -1365,9 +1348,9 @@ Kompleksne playbook veebiserveri infrastruktuuri seadistamiseks:
         status_code: 200
 ```
 
-## Task 17: Playbook'i käivitamine ja debugimine
+## 12. Playbook'i käivitamine ja debugimine
 
-### Põhilised käivitamise võimalused
+### 12.1 Põhilised käivitamise võimalused
 
 ```bash
 # Tavapärane käivitamine
@@ -1386,7 +1369,7 @@ ansible-playbook --check site.yml
 ansible-playbook --check --diff site.yml
 ```
 
-### Selektiivne käivitamine
+### 12.2 Selektiivne käivitamine
 
 ```bash
 # Ainult konkreetsed hostid
@@ -1402,7 +1385,7 @@ ansible-playbook --tags "database" site.yml
 ansible-playbook --skip-tags "testing" site.yml
 ```
 
-### Debugimine ja verbose väljund
+### 12.3 Debugimine ja verbose väljund
 
 ```bash
 # Põhiline verbose
@@ -1418,9 +1401,9 @@ ansible-playbook -vvv site.yml
 ansible-playbook -vvvv site.yml
 ```
 
-## Best practices
+## 13. Best practices
 
-### Playbook'i struktuur
+### 13.1 Playbook'i struktuur
 
 ```yaml
 ---
@@ -1466,7 +1449,7 @@ ansible-playbook -vvvv site.yml
         status_code: 200
 ```
 
-### Vigade käsitlemise strateegiad
+### 13.2 Vigade käsitlemise strateegiad
 
 ```yaml
 tasks:
@@ -1492,3 +1475,6 @@ tasks:
 
 ## Kokkuvõte
 
+Ansible Basics peatükk andis põhjaliku ülevaate Ansible'i arhitektuurist, SSH konfiguratsioonist, inventory haldamisest, ad-hoc käskudest ja playbook'ide kirjutamisest. Need teadmised on aluseks keerulisemate automatiseerimislahenduste loomisele ja infrastruktuuri kui koodi põhimõtete rakendamisele.
+
+Järgnevates peatükkides käsitletakse Ansible'i täpsemaid funktsioone, sealhulgas rolle, template'e, vault'i ja multi-environment deployment'e.

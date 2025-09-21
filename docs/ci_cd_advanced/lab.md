@@ -1,7 +1,7 @@
 # CI/CD Advanced Lab: Täielik Automatiseerimine
-*ITS-24 DevOps Automatiseerimine |  praktiline töö*
+*ITS-24 DevOps Automatiseerimine | Praktiline lõppprojekt*
 
-## Lab'i eesmärk**
+## Lab'i eesmärk
 
 **Täna teeme LÕPPPROJEKTI!** Kasutame KÕIKI oskusi, mida õppisime:
 
@@ -12,54 +12,57 @@
 - **CI/CD** (Nädal 25) → Automated deployment
 - **Monitoring** → Production visibility
 
-## Task 1: 🏢 **PROJEKT: "TechShop" E-commerce Automatiseerimine**
+---
+
+## 🏢 Projekt: "TechShop" E-commerce Automatiseerimine
 
 **Klient:** Väike e-commerce startup "TechShop"
 
 **Probleem:** 
-- Käsitsi deployment
+- Käsitsi deployment võtab 2 tundi
 - Tihti vigu (30% failure rate)
-- Aeglane rollback
+- Aeglane rollback (1+ tund)
 - Arendajad stressis
 
-**Lahendus:** Täielik automatiseerimine kõigi oskustega!
+**Lahendus:** Täielik automatiseerimine kõigi õpitud oskustega!
 
 ---
 
-## Task 2: 🛠 **Vajalikud tööriistad**
+## 🛠 Ettevalmistus
+
+### Vajalikud tööriistad
 
 **Kontrollige, et teil on:**
-- Git
-- Docker
-- Python 3.9+
-- Ansible
-- Terraform
+```bash
+# Versioonide kontroll
+git --version           # 2.30+
+docker --version        # 20.10+
+python3 --version       # 3.9+
+ansible --version       # 2.10+
+terraform --version     # 1.0+
+```
+
+**Vajalikud kontod:**
 - GitLab konto (tasuta)
-- VS Code
+- Docker Hub konto (valikuline)
 
 ---
 
-## Task 3: Infrastructure as Code (Terraform)**
+## Osa 1: Infrastructure as Code (Terraform)
 
-### Ülesanne 2.1: Loo Terraform projekt
+### 1.1 Projekti struktuur
 
 ```bash
-## Task 4: Loo projekt struktuur
+# Loo projekt
 mkdir techshop-automation
 cd techshop-automation
 
-## Task 5: Loo Terraform kaust
-mkdir terraform
+# Loo Terraform kaust
+mkdir -p terraform/templates
 cd terraform
-
-## Task 6: Loo Terraform failid
-touch main.tf
-touch variables.tf
-touch outputs.tf
-touch terraform.tfvars
 ```
 
-### Ülesanne 2.2: Loo infrastruktuur
+### 1.2 Terraform konfiguratsioon
 
 **`variables.tf`:**
 ```hcl
@@ -72,11 +75,17 @@ variable "project_name" {
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "production"
+  default     = "development"
 }
 
-variable "instance_type" {
-  description = "Local instance type"
+variable "app_port" {
+  description = "Application port"
+  type        = number
+  default     = 5000
+}
+
+variable "region" {
+  description = "Deploy region"
   type        = string
   default     = "local"
 }
@@ -85,118 +94,192 @@ variable "instance_type" {
 **`main.tf`:**
 ```hcl
 terraform {
+  required_version = ">= 1.0"
+  
   required_providers {
     local = {
       source  = "hashicorp/local"
-      version = "~> 2.0"
+      version = "~> 2.4"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2"
     }
   }
 }
 
-# Local infrastructure setup
+# Create project structure
 resource "local_file" "project_config" {
-  content  = "Project: ${var.project_name}\nEnvironment: ${var.environment}\nInstance Type: ${var.instance_type}"
-  filename = "${path.module}/config.txt"
+  content = jsonencode({
+    project     = var.project_name
+    environment = var.environment
+    port        = var.app_port
+    created_at  = timestamp()
+  })
+  filename = "${path.module}/config.json"
 }
 
-resource "local_directory" "app_directory" {
-  path = "${path.module}/app"
-}
-
+# Create docker-compose from template
 resource "local_file" "docker_compose" {
-  content = templatefile("${path.module}/docker-compose.yml.tpl", {
+  content = templatefile("${path.module}/templates/docker-compose.yml.tpl", {
     project_name = var.project_name
     environment  = var.environment
+    app_port     = var.app_port
   })
-  filename = "${path.module}/docker-compose.yml"
+  filename = "${path.module}/../docker-compose.yml"
 }
 
+# Create nginx config from template
 resource "local_file" "nginx_config" {
-  content = templatefile("${path.module}/nginx.conf.tpl", {
+  content = templatefile("${path.module}/templates/nginx.conf.tpl", {
     project_name = var.project_name
+    app_port     = var.app_port
     server_name  = "localhost"
   })
-  filename = "${path.module}/nginx.conf"
+  filename = "${path.module}/../nginx/nginx.conf"
 }
 
-  tags = {
-    Name = "${var.project_name}-web-server"
+# Null resource for local setup
+resource "null_resource" "local_setup" {
+  triggers = {
+    always_run = timestamp()
+  }
+  
+  provisioner "local-exec" {
+    command = "echo '✅ Infrastructure ready for ${var.project_name}'"
   }
 }
+```
 
-# Web configuration
-resource "local_file" "web_config" {
-  content  = "Web server configuration for ${var.project_name}"
-  filename = "web_config.txt"
+**`templates/docker-compose.yml.tpl`:**
+```yaml
+version: '3.8'
 
-  tags = {
-    Name = "${var.project_name}-config"
-  }
+services:
+  app:
+    image: ${project_name}:latest
+    container_name: ${project_name}-app
+    ports:
+      - "${app_port}:${app_port}"
+    environment:
+      - ENVIRONMENT=${environment}
+      - PORT=${app_port}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${app_port}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ${project_name}-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: ${project_name}-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - ${project_name}-network
+
+networks:
+  ${project_name}-network:
+    driver: bridge
+```
+
+**`templates/nginx.conf.tpl`:**
+```nginx
+upstream ${project_name}_backend {
+    server app:${app_port};
+}
+
+server {
+    listen 80;
+    server_name ${server_name};
+    
+    location / {
+        proxy_pass http://${project_name}_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /health {
+        proxy_pass http://${project_name}_backend/health;
+        access_log off;
+    }
 }
 ```
 
 **`outputs.tf`:**
 ```hcl
-output "project_config_path" {
-  description = "Path to project configuration"
-  value       = local_file.project_config.filename
+output "project_name" {
+  description = "Project name"
+  value       = var.project_name
 }
 
-output "app_directory_path" {
-  description = "Path to application directory"
-  value       = local_directory.app_directory.path
+output "environment" {
+  description = "Environment"
+  value       = var.environment
+}
+
+output "app_url" {
+  description = "Application URL"
+  value       = "http://localhost:${var.app_port}"
+}
+
+output "config_file" {
+  description = "Configuration file path"
+  value       = local_file.project_config.filename
 }
 ```
 
-### Ülesanne 2.3: Deploy'i infrastruktuur
+### 1.3 Deploy infrastruktuur
 
 ```bash
-## Task 7: Initsialiseeri Terraform
+# Initsialiseeri Terraform
 terraform init
 
-## Vaata planeeritud muudatusi
+# Vaata muudatusi
 terraform plan
 
-## Task 8: Deploy'i infrastruktuur
+# Deploy
 terraform apply -auto-approve
 
-## Salvesta väljundid
-terraform output > outputs.txt
+# Salvesta väljundid
+terraform output -json > outputs.json
 ```
 
 ---
 
-## Task 9: Server Configuration (Ansible)**
+## Osa 2: Server Configuration (Ansible)
 
-### Ülesanne 3.1: Loo Ansible projekt
+### 2.1 Ansible struktuur
 
 ```bash
-## Task 10: Mine tagasi projekti juurkausta
+# Mine projekti juurkausta
 cd ..
 
-## Task 11: Loo Ansible kaust
-mkdir ansible
+# Loo Ansible struktuur
+mkdir -p ansible/roles/webserver/{tasks,handlers,templates,defaults}
 cd ansible
-
-## Task 12: Loo Ansible failid
-touch inventory.yml
-touch playbook.yml
-touch group_vars/all.yml
-mkdir roles
-mkdir roles/webserver
-mkdir roles/webserver/tasks
-mkdir roles/webserver/handlers
-mkdir roles/webserver/templates
-touch roles/webserver/tasks/main.yml
-touch roles/webserver/handlers/main.yml
 ```
 
-### Ülesanne 3.2: Seadista inventory
+### 2.2 Inventory konfiguratsioon
 
 **`inventory.yml`:**
 ```yaml
 all:
   children:
+    local:
+      hosts:
+        localhost:
+          ansible_connection: local
+          ansible_python_interpreter: /usr/bin/python3
     webservers:
       hosts:
         localhost:
@@ -204,201 +287,310 @@ all:
       vars:
         app_name: techshop
         app_port: 5000
+        docker_network: techshop-network
 ```
 
-### Ülesanne 3.3: Loo webserver role
+### 2.3 Webserver role
+
+**`roles/webserver/defaults/main.yml`:**
+```yaml
+---
+app_name: techshop
+app_port: 5000
+app_user: appuser
+app_dir: /opt/{{ app_name }}
+docker_compose_version: "2.21.0"
+```
 
 **`roles/webserver/tasks/main.yml`:**
 ```yaml
 ---
-- name: Update package cache
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-
-- name: Install required packages
-  apt:
+- name: Install system packages
+  become: yes
+  package:
     name:
       - python3
       - python3-pip
-      - nginx
       - docker.io
-      - docker-compose
+      - curl
+      - git
     state: present
+    update_cache: yes
 
-- name: Start and enable Docker
+- name: Install Docker Compose
+  become: yes
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: Ensure Docker service is running
+  become: yes
   systemd:
     name: docker
     state: started
     enabled: yes
+    daemon_reload: yes
 
-- name: Add ubuntu user to docker group
+- name: Add current user to docker group
+  become: yes
   user:
-    name: ubuntu
+    name: "{{ ansible_user_id }}"
     groups: docker
     append: yes
 
 - name: Create application directory
+  become: yes
   file:
-    path: /opt/{{ app_name }}
+    path: "{{ app_dir }}"
     state: directory
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+
+- name: Copy docker-compose file
+  copy:
+    src: "../docker-compose.yml"
+    dest: "{{ app_dir }}/docker-compose.yml"
+    mode: '0644'
+
+- name: Create nginx config directory
+  file:
+    path: "{{ app_dir }}/nginx"
+    state: directory
     mode: '0755'
 
 - name: Copy nginx configuration
-  template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/sites-available/{{ app_name }}
-    owner: root
-    group: root
+  copy:
+    src: "../nginx/nginx.conf"
+    dest: "{{ app_dir }}/nginx/nginx.conf"
     mode: '0644'
-  notify: restart nginx
-
-- name: Enable nginx site
-  file:
-    src: /etc/nginx/sites-available/{{ app_name }}
-    dest: /etc/nginx/sites-enabled/{{ app_name }}
-    state: link
-  notify: restart nginx
-
-- name: Remove default nginx site
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-  notify: restart nginx
 ```
 
 **`roles/webserver/handlers/main.yml`:**
 ```yaml
 ---
-- name: restart nginx
+- name: restart docker
+  become: yes
   systemd:
-    name: nginx
+    name: docker
     state: restarted
+
+- name: reload nginx
+  docker_container:
+    name: techshop-nginx
+    restart: yes
 ```
 
-**`roles/webserver/templates/nginx.conf.j2`:**
-```nginx
-server {
-    listen 80;
-    server_name _;
-
-    location / {
-        proxy_pass http://localhost:{{ app_port }};
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location /health {
-        proxy_pass http://localhost:{{ app_port }}/health;
-        access_log off;
-    }
-}
-```
-
-### Ülesanne 3.4: Loo playbook
+### 2.4 Main playbook
 
 **`playbook.yml`:**
 ```yaml
 ---
-- name: Configure web server
-  hosts: webservers
-  become: yes
+- name: Configure TechShop infrastructure
+  hosts: local
+  gather_facts: yes
+  
+  pre_tasks:
+    - name: Display setup information
+      debug:
+        msg: "Setting up {{ app_name }} on {{ ansible_hostname }}"
+  
   roles:
     - webserver
+  
+  post_tasks:
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version
+      
+    - name: Display Docker version
+      debug:
+        msg: "Docker version: {{ docker_version.stdout }}"
 ```
 
-### Ülesanne 3.5: Käivita Ansible
+### 2.5 Käivita Ansible
 
 ```bash
-## Task 13: Seadista keskkonna muutuja
-export WEB_SERVER_IP=$(terraform -chdir=../terraform output -raw web_server_public_ip)
+# Kontrolli süntaksi
+ansible-playbook --syntax-check playbook.yml
 
-## Task 14: Käivita Ansible playbook
+# Käivita playbook
 ansible-playbook -i inventory.yml playbook.yml
 
-## Task 15: Kontrolli tulemus
-ansible webservers -i inventory.yml -m ping
+# Kontrolli tulemust
+ansible all -i inventory.yml -m ping
 ```
 
 ---
 
-## Task 16: **Samm 4: Application Development (Docker)**
+## Osa 3: Application Development (Docker)
 
-### Ülesanne 4.1: Loo rakendus
+### 3.1 Rakenduse struktuur
 
 ```bash
-## Task 17: Mine tagasi projekti juurkausta
+# Mine projekti juurkausta
 cd ..
 
-## Task 18: Loo rakenduse kaust
-mkdir app
+# Loo rakenduse kaust
+mkdir -p app/tests
 cd app
-
-## Task 19: Loo rakenduse failid
-touch app.py
-touch requirements.txt
-touch Dockerfile
-touch docker-compose.yml
 ```
 
-### Ülesanne 4.2: Loo Flask rakendus
+### 3.2 Flask rakendus
 
 **`app.py`:**
 ```python
+#!/usr/bin/env python3
+"""TechShop E-commerce API"""
+
 from flask import Flask, jsonify, request
 import os
 import logging
 from datetime import datetime
+import psutil
 
 # Setup logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
+# Create Flask app
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
+
+# In-memory database (for demo)
+PRODUCTS = [
+    {'id': 1, 'name': 'Laptop', 'price': 999.99, 'stock': 10},
+    {'id': 2, 'name': 'Phone', 'price': 599.99, 'stock': 25},
+    {'id': 3, 'name': 'Tablet', 'price': 399.99, 'stock': 15},
+    {'id': 4, 'name': 'Monitor', 'price': 299.99, 'stock': 20},
+    {'id': 5, 'name': 'Keyboard', 'price': 79.99, 'stock': 50}
+]
+
+ORDERS = []
 
 @app.route('/')
 def home():
-    logger.info(f"Home page accessed at {datetime.now()}")
+    """Home endpoint"""
+    logger.info("Home endpoint accessed")
     return jsonify({
-        'message': 'TechShop E-commerce API',
+        'service': 'TechShop E-commerce API',
         'version': '1.0.0',
         'status': 'running',
-        'timestamp': str(datetime.now()),
-        'hostname': os.uname().nodename
+        'timestamp': datetime.now().isoformat(),
+        'endpoints': {
+            'health': '/health',
+            'metrics': '/metrics',
+            'products': '/products',
+            'orders': '/orders'
+        }
     })
 
 @app.route('/health')
 def health():
+    """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
-        'timestamp': str(datetime.now())
+        'service': 'techshop-api',
+        'timestamp': datetime.now().isoformat()
+    })
+
+@app.route('/metrics')
+def metrics():
+    """System metrics endpoint"""
+    cpu_percent = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
+    
+    return jsonify({
+        'system': {
+            'cpu_percent': cpu_percent,
+            'memory_percent': memory.percent,
+            'memory_available_gb': round(memory.available / (1024**3), 2),
+            'disk_percent': disk.percent,
+            'disk_free_gb': round(disk.free / (1024**3), 2)
+        },
+        'application': {
+            'total_products': len(PRODUCTS),
+            'total_orders': len(ORDERS)
+        },
+        'timestamp': datetime.now().isoformat()
     })
 
 @app.route('/products')
-def products():
-    products = [
-        {'id': 1, 'name': 'Laptop', 'price': 999.99},
-        {'id': 2, 'name': 'Phone', 'price': 599.99},
-        {'id': 3, 'name': 'Tablet', 'price': 399.99}
-    ]
-    return jsonify(products)
-
-@app.route('/orders', methods=['POST'])
-def create_order():
-    data = request.get_json()
-    logger.info(f"New order created: {data}")
+def get_products():
+    """Get all products"""
+    logger.info("Products endpoint accessed")
     return jsonify({
-        'message': 'Order created successfully',
-        'order_id': 12345,
-        'timestamp': str(datetime.now())
+        'products': PRODUCTS,
+        'count': len(PRODUCTS),
+        'timestamp': datetime.now().isoformat()
     })
 
+@app.route('/products/<int:product_id>')
+def get_product(product_id):
+    """Get single product"""
+    product = next((p for p in PRODUCTS if p['id'] == product_id), None)
+    if product:
+        return jsonify(product)
+    return jsonify({'error': 'Product not found'}), 404
+
+@app.route('/orders', methods=['GET', 'POST'])
+def handle_orders():
+    """Handle orders"""
+    if request.method == 'GET':
+        return jsonify({
+            'orders': ORDERS,
+            'count': len(ORDERS),
+            'timestamp': datetime.now().isoformat()
+        })
+    
+    # POST - create new order
+    data = request.get_json()
+    if not data or 'product_id' not in data:
+        return jsonify({'error': 'Product ID required'}), 400
+    
+    product = next((p for p in PRODUCTS if p['id'] == data['product_id']), None)
+    if not product:
+        return jsonify({'error': 'Product not found'}), 404
+    
+    if product['stock'] < data.get('quantity', 1):
+        return jsonify({'error': 'Insufficient stock'}), 400
+    
+    # Create order
+    order = {
+        'id': len(ORDERS) + 1,
+        'product_id': product['id'],
+        'product_name': product['name'],
+        'quantity': data.get('quantity', 1),
+        'total': product['price'] * data.get('quantity', 1),
+        'created_at': datetime.now().isoformat()
+    }
+    
+    # Update stock
+    product['stock'] -= order['quantity']
+    ORDERS.append(order)
+    
+    logger.info(f"Order created: {order['id']}")
+    return jsonify(order), 201
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handle 404 errors"""
+    return jsonify({'error': 'Endpoint not found'}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    """Handle 500 errors"""
+    logger.error(f"Internal error: {error}")
+    return jsonify({'error': 'Internal server error'}), 500
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
 ```
 
 **`requirements.txt`:**
@@ -407,155 +599,204 @@ Flask==2.3.3
 gunicorn==21.2.0
 psutil==5.9.5
 requests==2.31.0
+pytest==7.4.2
 ```
 
-### Ülesanne 4.3: Loo Dockerfile
+### 3.3 Dockerfile
 
 **`Dockerfile`:**
 ```dockerfile
+# Multi-stage build
+FROM python:3.9-slim as builder
+
+WORKDIR /build
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Production stage
 FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY . .
-
 # Create non-root user
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /app && \
+    chown -R appuser:appuser /app
+
+# Copy dependencies from builder
+COPY --from=builder /root/.local /home/appuser/.local
+
+# Copy application
+COPY --chown=appuser:appuser . .
+
+# Switch to non-root user
 USER appuser
 
+# Add user's local bin to PATH
+ENV PATH=/home/appuser/.local/bin:$PATH
+
+# Expose port
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:app"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD python -c "import requests; requests.get('http://localhost:5000/health')"
+
+# Run application
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "30", "app:app"]
 ```
 
-### Ülesanne 4.4: Loo docker-compose
-
-**`docker-compose.yml`:**
-```yaml
-version: '3.8'
-
-services:
-  app:
-    build: .
-    ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=production
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-```
-
-### Ülesanne 4.5: Testi kohalikult
+### 3.4 Local testing
 
 ```bash
-## Task 20: Ehita ja käivita
-docker-compose up --build -d
+# Build image
+docker build -t techshop:latest .
 
-## Testi rakendust
+# Run container
+docker run -d --name techshop-test -p 5000:5000 techshop:latest
+
+# Test endpoints
 curl http://localhost:5000/
 curl http://localhost:5000/health
+curl http://localhost:5000/metrics
 curl http://localhost:5000/products
 
-## Task 21: Peata
-docker-compose down
+# Create order
+curl -X POST http://localhost:5000/orders \
+  -H "Content-Type: application/json" \
+  -d '{"product_id": 1, "quantity": 2}'
+
+# Cleanup
+docker stop techshop-test
+docker rm techshop-test
 ```
 
 ---
 
-## Task 22: **HARJUTUS 4: CI/CD Pipeline (GitLab CI)**
+## Osa 4: CI/CD Pipeline (GitLab CI)
 
-### Ülesanne 1.1: Loo Git repository
+### 4.1 Git repository setup
 
 ```bash
-## Task 23: Mine tagasi projekti juurkausta
+# Mine projekti juurkausta
 cd ..
 
-## Task 24: Initsialiseeri Git
+# Initialize Git
 git init
 
-## Lisa .gitignore
-echo "*.tfstate" > .gitignore
-echo "*.tfstate.backup" >> .gitignore
-echo "*.tfvars" >> .gitignore
-echo ".terraform/" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
-echo ".env" >> .gitignore
+# Create .gitignore
+cat > .gitignore << EOF
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
 
-## Lisa failid
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+.env
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+EOF
+
+# Add files
 git add .
+git commit -m "Initial commit: TechShop automation project"
 
-## Task 25: Esimene commit
-git commit -m "Initial commit - TechShop automation project"
-
-## Lisa remote (asenda oma GitLab URL'iga)
-git remote add origin https://gitlab.com/teie-kasutajanimi/techshop-automation.git
-
-## Push'i kood
+# Add remote (replace with your URL)
+git remote add origin https://gitlab.com/your-username/techshop-automation.git
 git push -u origin main
 ```
 
-### Ülesanne 2.1: Loo CI/CD pipeline
+### 4.2 GitLab CI pipeline
 
 **`.gitlab-ci.yml`:**
 ```yaml
+# Define stages
 stages:
   - validate
   - test
   - build
-  - deploy-infrastructure
-  - configure-servers
-  - deploy-application
+  - deploy
 
+# Global variables
 variables:
-  DOCKER_IMAGE: registry.gitlab.com/teie-kasutajanimi/techshop-app
-  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/techshop
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  IMAGE_NAME: $CI_REGISTRY_IMAGE/techshop
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
 
-# Validate Terraform
-validate-terraform:
+# Cache configuration
+cache:
+  paths:
+    - .terraform/
+
+# Stage 1: Validate
+validate:terraform:
   stage: validate
-  image: hashicorp/terraform:latest
+  image: hashicorp/terraform:1.5
   script:
     - cd terraform
-    - terraform init
+    - terraform init -backend=false
+    - terraform fmt -check=true
     - terraform validate
-    - terraform plan -out=plan.tfplan
-  artifacts:
-    paths:
-      - terraform/plan.tfplan
-    expire_in: 1 hour
   only:
+    - merge_requests
     - main
 
-# Test application
-test-app:
+validate:ansible:
+  stage: validate
+  image: ansible/ansible:latest
+  script:
+    - cd ansible
+    - ansible-playbook --syntax-check playbook.yml
+  only:
+    - merge_requests
+    - main
+
+# Stage 2: Test
+test:python:
   stage: test
   image: python:3.9
-  script:
+  before_script:
     - cd app
     - pip install -r requirements.txt
-    - python -c "import app; print('✅ App import successful')"
-    - echo "Application tests passed!"
+  script:
+    - python -m pytest tests/ -v
+    - python -m flake8 app.py --max-line-length=100
+  coverage: '/TOTAL.*\s+(\d+%)$/'
   only:
+    - merge_requests
     - main
 
-# Build Docker image
-build-app:
+test:docker:
+  stage: test
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - cd app
+    - docker build -t test-image .
+    - docker run --rm test-image python -c "import app; print('✅ Import successful')"
+  only:
+    - merge_requests
+    - main
+
+# Stage 3: Build
+build:docker:
   stage: build
   image: docker:latest
   services:
@@ -564,323 +805,278 @@ build-app:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd app
-    - docker build -t $DOCKER_IMAGE:$CI_COMMIT_SHA .
-    - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
-    - echo "✅ Docker image built and pushed!"
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:latest
+    - echo "✅ Image pushed: $IMAGE_NAME:$IMAGE_TAG"
   only:
     - main
 
-# Deploy infrastructure
-deploy-infrastructure:
-  stage: deploy-infrastructure
-  image: hashicorp/terraform:latest
-  before_script:
-    - cd terraform
-    - terraform init
-  script:
-    - terraform apply -auto-approve
-    - terraform output -json > outputs.json
-  artifacts:
-    paths:
-      - terraform/outputs.json
-    expire_in: 1 week
-  only:
-    - main
-  when: manual
-
-# Configure servers with Ansible
-configure-servers:
-  stage: configure-servers
+# Stage 4: Deploy
+deploy:staging:
+  stage: deploy
   image: alpine:latest
   before_script:
-    - apk add --no-cache ansible openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
+    - apk add --no-cache curl docker-cli
   script:
-    - cd ansible
-    - ansible-playbook -i inventory.yml playbook.yml
-    - echo "✅ Local environment configured!"
-  dependencies:
-    - deploy-infrastructure
-  only:
-    - main
-  when: manual
-
-# Deploy application
-deploy-application:
-  stage: deploy-application
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache docker-cli curl
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - echo "🚀 Deploying application locally..."
-    - docker pull $DOCKER_IMAGE:$CI_COMMIT_SHA
-    - docker stop techshop-app || true
-    - docker rm techshop-app || true
-    - docker run -d --name techshop-app -p 5000:5000 $DOCKER_IMAGE:$CI_COMMIT_SHA
+    - echo "🚀 Deploying to staging..."
+    - docker pull $IMAGE_NAME:$IMAGE_TAG
+    - docker stop techshop-staging || true
+    - docker rm techshop-staging || true
+    - |
+      docker run -d \
+        --name techshop-staging \
+        -p 5001:5000 \
+        --restart unless-stopped \
+        $IMAGE_NAME:$IMAGE_TAG
     - sleep 10
-    - curl -f http://localhost:5000/health || exit 1
-    - echo "✅ Application deployed successfully!"
-  dependencies:
-    - configure-servers
+    - curl -f http://localhost:5001/health || exit 1
+    - echo "✅ Staging deployment successful!"
+  environment:
+    name: staging
+    url: http://localhost:5001
   only:
     - main
+
+deploy:production:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl docker-cli ansible
+  script:
+    - echo "🚀 Deploying to production..."
+    - cd ansible
+    - ansible-playbook -i inventory.yml deploy.yml
+    - curl -f http://localhost/health || exit 1
+    - echo "✅ Production deployment successful!"
+  environment:
+    name: production
+    url: http://localhost
   when: manual
+  only:
+    - main
 ```
 
-### Ülesanne 3.1: Seadista GitLab CI/CD
+### 4.3 GitLab configuration
 
-1. **Mine GitLab'i** → oma projekt
-2. **Settings** → **CI/CD** → **Variables**
-3. **Lisa muutujad:**
-   - `DOCKER_IMAGE`: teie Docker image nimi
-   - `CI_REGISTRY_USER`: GitLab registry kasutajanimi
-   - `CI_REGISTRY_PASSWORD`: GitLab registry parool
+```bash
+# Set GitLab CI/CD variables
+# Go to: Settings → CI/CD → Variables
+
+# Add these variables:
+CI_REGISTRY_USER: your-gitlab-username
+CI_REGISTRY_PASSWORD: your-gitlab-token
+DOCKER_HOST: tcp://docker:2375
+```
 
 ---
 
-## Task 26: **HARJUTUS 5: Monitoring ja Troubleshooting**
+## Osa 5: Monitoring ja Observability
 
-### Ülesanne 1.1: Lisa monitoring
+### 5.1 Monitoring stack
 
-**Lisa `app.py` faili:**
+**`monitoring/docker-compose.yml`:**
+```yaml
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  monitoring:
+    driver: bridge
+```
+
+**`monitoring/prometheus.yml`:**
+```yaml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node_exporter:9100']
+  
+  - job_name: 'techshop'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:5000']
+```
+
+### 5.2 Application metrics
+
+Lisage `app.py` faili Prometheus metrics:
+
 ```python
-# Lisa import'id
-import psutil
-import requests
+from prometheus_client import Counter, Histogram, Gauge, generate_latest
+
+# Metrics
+request_count = Counter('app_requests_total', 'Total requests', ['method', 'endpoint'])
+request_duration = Histogram('app_request_duration_seconds', 'Request duration')
+active_orders = Gauge('app_active_orders', 'Number of active orders')
 
 @app.route('/metrics')
-def metrics():
-    cpu_percent = psutil.cpu_percent(interval=1)
-    memory = psutil.virtual_memory()
-    disk = psutil.disk_usage('/')
+def metrics_prometheus():
+    """Prometheus metrics endpoint"""
+    # Update gauges
+    active_orders.set(len(ORDERS))
     
-    return jsonify({
-        'cpu_percent': cpu_percent,
-        'memory_percent': memory.percent,
-        'disk_percent': disk.percent,
-        'timestamp': str(datetime.now())
-    })
-
-@app.route('/status')
-def status():
-    # Check database connection (if exists)
-    db_status = "healthy"  # Placeholder
-    
-    # Check external services
-    try:
-        response = requests.get('https://httpbin.org/status/200', timeout=5)
-        external_status = "healthy" if response.status_code == 200 else "unhealthy"
-    except:
-        external_status = "unhealthy"
-    
-    return jsonify({
-        'database': db_status,
-        'external_services': external_status,
-        'application': 'healthy',
-        'timestamp': str(datetime.now())
-    })
-```
-
-### Ülesanne 2.1: Lisa health check CI/CD pipeline'i
-
-**Lisa `.gitlab-ci.yml` faili:**
-```yaml
-# Lisa uus stage
-health-check:
-  stage: deploy-application
-  image: alpine:latest
-  script:
-    - apk add --no-cache curl
-    - python3 -c "import json; data=json.load(open('terraform/outputs.json')); print(f'export WEB_SERVER_IP={data[\"web_server_public_ip\"][\"value\"]}')" > set_ip.sh
-    - source set_ip.sh
-    - echo "🏥 Running health checks..."
-    - curl -f http://$WEB_SERVER_IP/health || exit 1
-    - curl -f http://$WEB_SERVER_IP/metrics || exit 1
-    - curl -f http://$WEB_SERVER_IP/status || exit 1
-    - echo "✅ All health checks passed!"
-  dependencies:
-    - deploy-application
-  only:
-    - main
-```
-
-### Ülesanne 3.1: Troubleshooting harjutused
-
-**Probleem 1: Application ei käivitu**
-```bash
-# Kontrolli Docker container'i
-ssh ubuntu@$WEB_SERVER_IP "docker ps -a"
-ssh ubuntu@$WEB_SERVER_IP "docker logs techshop-app"
-
-# Kontrolli port'i
-ssh ubuntu@$WEB_SERVER_IP "netstat -tlnp | grep 5000"
-
-# Kontrolli nginx
-ssh ubuntu@$WEB_SERVER_IP "sudo systemctl status nginx"
-```
-
-**Probleem 2: Infrastructure deployment ebaõnnestub**
-```bash
-# Kontrolli Terraform state
-cd terraform
-terraform show
-terraform plan
-
-# Kontrolli kohalikke seadeid
-ls -la
-```
-
-**Probleem 3: Ansible connection ebaõnnestub**
-```bash
-# Kontrolli SSH connection
-ssh -i ~/.ssh/techshop-key.pem ubuntu@$WEB_SERVER_IP
-
-# Kontrolli Ansible inventory
-ansible webservers -i inventory.yml -m ping -vvv
+    # Return metrics
+    return generate_latest(), 200, {'Content-Type': 'text/plain; charset=utf-8'}
 ```
 
 ---
 
-## Task 27: **HARJUTUS 6: Dokumenteerimine ja Demo**
+## Osa 6: Documentation
 
-### Ülesanne 1.1: Loo README.md
+### 6.1 README.md
 
 ```markdown
-# TechShop E-commerce Automation Project
+# TechShop E-commerce Automation
 
-## Task 28: Projekt kirjeldus
-Täielik automatiseeritud e-commerce lahendus, mis kasutab kõiki DevOps oskusi.
+## 📋 Overview
 
-## Task 29: Arhitektuur
-- **Infrastructure**: Local (Terraform)
-- **Configuration**: Ansible
-- **Application**: Python Flask (Docker)
-- **CI/CD**: GitLab CI
-- **Monitoring**: Custom metrics
+Complete DevOps automation project demonstrating modern CI/CD practices.
 
-## Task 30: Komponendid
+## 🏗 Architecture
 
-#### Infrastructure (Terraform)
-- Kohalikud seaded
-- Konfiguratsioonifailid
-- Security groups
-- Elastic IP
-
-#### Server Configuration (Ansible)
-- Nginx reverse proxy
-- Docker installation
-- Application directory setup
-
-#### Application (Docker)
-- Flask REST API
-- Health checks
-- Metrics endpoint
-- Product catalog
-
-#### CI/CD Pipeline (GitLab CI)
-- Infrastructure deployment
-- Server configuration
-- Application deployment
-- Health monitoring
-
-## Task 31: Kuidas kasutada
-
-### Kohalik arendus
-```bash
-## Task 32: Klooni projekt
-git clone https://gitlab.com/teie-kasutajanimi/techshop-automation.git
-
-## Task 33: Käivita kohalikult
-cd app
-docker-compose up --build
-
-## Testi
-curl http://localhost:5000/
+```
+┌─────────────┐     ┌──────────────┐     ┌──────────────┐
+│   GitLab    │────▶│   CI/CD      │────▶│  Deployment  │
+│   Repo      │     │   Pipeline   │     │  Environment │
+└─────────────┘     └──────────────┘     └──────────────┘
+       │                    │                     │
+       ▼                    ▼                     ▼
+┌─────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Terraform  │     │   Docker     │     │   Ansible    │
+│    IaC      │     │  Container   │     │   Config     │
+└─────────────┘     └──────────────┘     └──────────────┘
 ```
 
-### Production deployment
-1. Push'i kood GitLab'i
-2. Käivita "deploy-infrastructure" job
-3. Käivita "configure-servers" job
-4. Käivita "deploy-application" job
+## 🚀 Quick Start
 
-## Task 34: API Endpoints
-- `GET /` - Home page
-- `GET /health` - Health check
-- `GET /metrics` - System metrics
-- `GET /status` - Service status
-- `GET /products` - Product catalog
-- `POST /orders` - Create order
+### Local Development
+```bash
+# Clone repository
+git clone https://gitlab.com/username/techshop-automation.git
+cd techshop-automation
 
-## Task 35: Monitoring
-- Health checks: `/health`
-- System metrics: `/metrics`
-- Service status: `/status`
-- CI/CD pipeline monitoring
+# Run locally
+cd app
+docker build -t techshop:latest .
+docker run -p 5000:5000 techshop:latest
 
-## Troubleshooting
-- Application logs: `docker logs techshop-app`
-- Nginx logs: `sudo tail -f /var/log/nginx/access.log`
-- System logs: `journalctl -u docker`
+# Test
+curl http://localhost:5000/health
+```
 
-## Tehnoloogiad
-- **Infrastructure**: Terraform, Local
+### Production Deployment
+1. Push code to GitLab
+2. Pipeline runs automatically
+3. Manual approval for production
+
+## 📊 Monitoring
+
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000
+- Application: http://localhost:5000
+
+## 🛠 Technologies
+
+- **Infrastructure**: Terraform
 - **Configuration**: Ansible
 - **Containerization**: Docker
 - **CI/CD**: GitLab CI
+- **Monitoring**: Prometheus + Grafana
 - **Application**: Python Flask
-- **Web Server**: Nginx
 
-## Task 36: Järgmised sammud
-- [ ] Lisa PostgreSQL andmebaas
-- [ ] Lisa Redis cache
-- [ ] Lisa Prometheus monitoring
-- [ ] Lisa SSL sertifikaadid
-- [ ] Lisa backup automatiseerimine
+## 📚 Documentation
+
+- [API Documentation](docs/api.md)
+- [Deployment Guide](docs/deployment.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
+## 📈 Metrics
+
+- Deployment time: 2 hours → 5 minutes
+- Error rate: 30% → 2%
+- Rollback time: 1 hour → 2 minutes
 ```
-
-### Ülesanne 2.1: Demo ettevalmistus
-
-**Valmista ette demo:**
-1. **Infrastructure**: Näita Terraform koodi ja kohalikke ressursse
-2. **Configuration**: Näita Ansible playbook'i ja kohalikku seadistust
-3. **Application**: Näita Flask rakendust ja Docker container'it
-4. **CI/CD**: Käivita pipeline ja näita deployment'i
-5. **Monitoring**: Näita health checks ja metrics
 
 ---
 
-## Lab Kokkuvõte**
+## Lab'i kokkuvõte
 
-### **Kõik oskused kasutatud:**
-1. **Git** → Version control ja collaboration
-2. **Terraform** → Infrastructure as Code
-3. **Ansible** → Server configuration
-4. **Docker** → Application containerization
-5. **CI/CD** → Automated deployment
-6. **Monitoring** → Production visibility
-7. **Troubleshooting** → Probleemide lahendamine
+### ✅ Saavutatud tulemused
 
-### **Real-world projekt:**
-- **Production-ready** e-commerce lahendus
-- **Täielik automatiseerimine** - nullist kuni deployment'ini
-- **Kõik DevOps praktikad** ühes projektis
+1. **Täielik automatiseerimine** - nullist production'ini
+2. **Kõik oskused kasutatud** - Git, Ansible, Docker, Terraform, CI/CD
+3. **Production-ready lahendus** - monitoring, health checks, logging
+4. **Dokumenteeritud projekt** - README, API docs, troubleshooting
 
-### **Tulemused:**
-- **Deployment aeg**: 2- →utit
-- **Vigade arv**: 30% → 2%
-- **Rollback aeg**: 1 tund →utit
-- **Arendaja stress**: Kõrge → Madal
+### 📊 Mõõdetavad tulemused
 
-### **Järgmised sammud:**
-- Lisa andmebaas automatiseerimine
-- Lisa monitoring ja alerting
-- Lisa security scanning
-- Lisa backup ja disaster recovery
+| Metric | Enne | Pärast | Improvement |
+|--------|------|--------|------------|
+| Deployment aeg | 2 tundi | 5 minutit | 96% ↓ |
+| Vigade arv | 30% | 2% | 93% ↓ |
+| Rollback aeg | 1 tund | 2 minutit | 97% ↓ |
+| Arendaja stress | Kõrge | Madal | 100% ↓ |
 
-** Palju õnne! Oled nüüd valmis automatiseerimise projektideks!**
+### 🎯 Järgmised sammud
 
+- [ ] Lisa Kubernetes orchestration
+- [ ] Implementeeri blue-green deployment
+- [ ] Lisa security scanning (SAST/DAST)
+- [ ] Automatiseeri load testing
+- [ ] Lisa disaster recovery
+
+### 🎉 Õnnitleme!
+
+Olete edukalt lõpetanud DevOps automatiseerimise kursuse lõppprojekti! See projekt demonstreerib kõiki olulisi DevOps praktikaid ja on valmis kasutamiseks päris projektides.
+
+**Portfolio väärtus:** See projekt on suurepärane lisand teie portfolio'sse ja demonstreerib oskusi, mida tööandjad otsivad!

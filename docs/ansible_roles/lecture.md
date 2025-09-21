@@ -6,13 +6,13 @@ Tere tulemast tagasi! Eelmisel nädalal õppisime Ansible'i variables, templates
 ---
 
 ## Vagrant Testing Environment
-## Task 1: Loeng 1: Vagrant Basics for Testing ()
+### Loeng 1: Vagrant Basics for Testing
 
-## Task 2: Miks me vajame testikeskkonda?
+## Miks me vajame testikeskkonda?
 
-Kui töötate Ansible playbook'ide või Puppet manifest'idega, **ei saa neid testida toodangu serveritest**! Vajate turvalist keskkonda, kus:
+Kui töötate Ansible playbook'ide või Puppet manifest'idega, **ei saa neid testida toodangu serverites**! Vajate turvalist keskkonda, kus:
 
-- ✅ **Võib üles lüüa** - kui midagi läheb valesti
+- ✅ **Võib katki minna** - kui midagi läheb valesti
 - ✅ **Kiire reset** - uus puhas server sekundites  
 - ✅ **Erinevad OS'id** - Ubuntu, CentOS, Debian testimiseks
 - ✅ **Ei maksa raha** - cloud VM'ide asemel
@@ -92,7 +92,7 @@ flowchart TD
     B --> C[🚀 vagrant up<br/>Käivita VM]
     C --> D[🔗 vagrant ssh<br/>Ühenda VM'iga]
     D --> E[⏸ vagrant halt<br/>Peata VM]
-    E --> F[ vagrant reload<br/>Restart VM]
+    E --> F[🔄 vagrant reload<br/>Restart VM]
     F --> G[🗑 vagrant destroy<br/>Kustuta VM]
     
     style A fill:#99ccff
@@ -107,7 +107,7 @@ flowchart TD
 ```bash
 # Projekt setup
 vagrant init                # Loo Vagrantfile
-vagrant validate           # Kontrolli konfiguratsiooni
+vagrant validate            # Kontrolli konfiguratsiooni
 
 # VM management
 vagrant up                 # Käivita VM
@@ -142,35 +142,35 @@ vagrant ssh
 # VM sees: install Ansible, run playbooks
 ```
 
-## Task 3: Demo: Quick Vagrant Test
+## Demo: Quick Vagrant Test
 
 ```bash
-## Task 4: Loo test projekt
+# Loo test projekt
 mkdir vagrant-demo && cd vagrant-demo
 
-## Task 5: Initialize Vagrant
+# Initialize Vagrant
 vagrant init ubuntu/jammy64
 
-## Task 6: Start VM
+# Start VM
 vagrant up
 
-## Task 7: Connect and test
+# Connect and test
 vagrant ssh
 sudo apt update
 exit
 
-## Task 8: Cleanup
+# Cleanup
 vagrant destroy -f
 ```
 
-** Protip:** Vagrant'iga saate testida sama playbook'i erinevatel OS'idel!
+**💡 Protip:** Vagrant'iga saate testida sama playbook'i erinevatel OS'idel!
 
 ---
 
 ## Ansible Roles tutvustus  
-## Task 9: Loeng 2: Ansible Roles Architecture ()
+### Loeng 2: Ansible Roles Architecture
 
-## Task 10: Miks vajame role'e? Spagettikood probleem
+## Miks vajame role'e? Spagettikood probleem
 
 Kujutage ette olukorda: teie boss tuleb teie juurde ja ütleb:
 > "Palun seadista mulle 50 veebiserveri, 20 andmebaasiserveri ja 30 monitoring serveri. Kõik peavad olema identse konfiguratsiooniga ja ma vajan seda homme valmis."
@@ -266,7 +266,7 @@ Mõelge LEGO peale:
 
 ---
 
-## Task 11: Role'i anatoomia: Maja ehitamise meetod
+## Role'i anatoomia: Maja ehitamise meetod
 
 Mõelge role'ile nagu maja ehitamisele. Igal osalisel on oma koht ja eesmärk:
 
@@ -318,7 +318,7 @@ nginx-role/
 
 ---
 
-## Task 12: Lihtne nginx role näide
+## Lihtne nginx role näide
 
 Vaatame, kuidas lihtsaim nginx role välja näeks:
 
@@ -434,7 +434,7 @@ ansible-playbook site.yml -e nginx_port=3000
 
 ---
 
-## Task 13: Role'ide kasutamine playbook'is
+## Role'ide kasutamine playbook'is
 
 #### Lihtne kasutamine:
 ```yaml
@@ -477,14 +477,14 @@ ansible-playbook site.yml -e nginx_port=3000
 
 ---
 
-## Task 14: Role Creation Best Practices
-## Task 15: Loeng 2: Professionaalsed standardid ()
+## Role Creation Best Practices
+### Loeng 3: Professionaalsed standardid
 
 Nüüd kui teate, mis on role, õpime, kuidas teha neid **õigesti**. Ma olen näinud tuhandeid halbu role'e - aga hea uudis on see, et on lihtsad reeglid, mis muudavad teie role'id professionaalseteks!
 
 ---
 
-## Task 16: Reegel 1: Single Responsibility Principle
+## Reegel 1: Single Responsibility Principle
 
 **"Üks role = üks vastutus"**
 
@@ -519,7 +519,7 @@ roles/
 Kujutage ette, et teil on `web-stack` role, mis teeb kõike. Siis tuleb uus projekt, kus vaja ainult nginx'i (ilma MySQL'ita). Mida te teete?
 
 1. **Halvad valikud:**
-   - Kopeerite koodi ja eemaldatae MySQL osad (DRY printsiibi rikkumine)
+   - Kopeerite koodi ja eemaldatae MySQL osad (DRY printsiipi rikkumine)
    - Lisate tuhandeeid `when` tingimusi (keeruline)
    - Kasutate kogu role'i ja ignoreerite MySQL'i (raisatud ressursid)
 
@@ -528,7 +528,7 @@ Kujutage ette, et teil on `web-stack` role, mis teeb kõike. Siis tuleb uus proj
 
 ---
 
-## Task 17: Reegel 2: 80/20 Konfigureeritavus
+## Reegel 2: 80/20 Konfigureeritavus
 
 **80% juhtudest peaks role töötama vaikimisi seadetega!**
 
@@ -582,11 +582,11 @@ webserver_modules:
 **Võtmepunktid:**
 - **Defaults** peavad olema turvalised ja mõistlikud
 - **Kõik peab olema üle kirjutatav** advanced kasutajatele
-- **Dokumendiga peab olema näidete** mõlemale tasemele
+- **Dokumentatsioon peab sisaldama näiteid** mõlemale tasemele
 
 ---
 
-## Task 18: Reegel 3: Multi-OS tugi
+## Reegel 3: Multi-OS tugi
 
 Professionaalne role toetab mitut operatsioonisüsteemi. See tähendab, et sama role töötab Ubuntu's, Debian'is, CentOS'is, jne.
 
@@ -653,7 +653,7 @@ webserver_log_path: "/var/log/nginx"
 
 ---
 
-## Task 19: Reegel 4: Alati valideerige sisendeid!
+## Reegel 4: Alati valideerige sisendeid!
 
 Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cryptic error message'id.
 
@@ -712,7 +712,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 ### Süsteemi nõuete kontroll
 
 ```yaml
-- name: "Checkimum RAM requirement"
+- name: "Check minimum RAM requirement"
   assert:
     that:
       - ansible_memtotal_mb >= 512
@@ -738,7 +738,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 
 ---
 
-## Task 20: Reegel 5: Task'ide organiseerimine
+## Reegel 5: Task'ide organiseerimine
 
 **`tasks/main.yml` peaks olema nagu sisukord** - selge ülevaade, mis toimub.
 
@@ -777,7 +777,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 ### Miks see on hea?
 1. **Selge ülevaade** - näete kohe, mis toimub
 2. **Modulaarne** - iga osa eraldi failis
-3. **Conditional** - mittevajaliud osad jäetakse vahele
+3. **Conditional** - mittevajalikud osad jäetakse vahele
 4. **Testitav** - saate osi eraldi käivitada
 
 ### Task'ide nimetamine
@@ -799,7 +799,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 
 ---
 
-## Task 21: Dependency Management
+## Dependency Management
 
 Mõnikord teie role vajab teisi role'e. Näiteks `wordpress` role vajab `nginx`, `php` ja `mysql` role'e.
 
@@ -848,7 +848,7 @@ dependencies:
 ---
 
 ## Ansible Galaxy
-## Task 22: Loeng 3: Galaxy ecosystem ()
+### Loeng 4: Galaxy ecosystem
 
 Nüüd kui oskate role'e luua, õpime, kuidas kasutada **maailma suurimat Ansible role'ide repositooriumi**. Miks teha kõike ise, kui saate kasutada teiste head tööd?
 
@@ -859,20 +859,20 @@ Nüüd kui oskate role'e luua, õpime, kuidas kasutada **maailma suurimat Ansibl
 **Ansible Galaxy** on nagu **App Store programmeerijatele**:
 
 📦 **20,000+ valmis role'i**  
- **Kiire otsing ja filtreerimine**  
+🔍 **Kiire otsing ja filtreerimine**  
 ⭐ **Reitingud ja arvustused**  
- **Jagamine kogukonnaga**  
+🌍 **Jagamine kogukonnaga**  
 
 ### Praktiline näide
 
 **Probleem:** Boss tahab Jenkins + MySQL + SSL serveri homme valmis.
 
-**Ilma Galaxy'ta:** 6 päeva role'ide kirjutamist  
-**Galaxy'ga:**utit role'ide allalaadimist ja konfigureerimist
+**Ilma Galaxy'ta:** 3-5 päeva role'ide kirjutamist  
+**Galaxy'ga:** 1 tund role'ide allalaadimist ja konfigureerimist
 
 ---
 
-## Task 23: Role'ide allalaadimine
+## Role'ide allalaadimine
 
 ### Otsimine
 ```bash
@@ -941,7 +941,7 @@ ansible-galaxy install -r requirements.yml
 
 ### Täielik LAMP stack näide
 ```yaml
-# site.ymlutiga valmis!
+# site.yml - 10 minutiga valmis!
 - name: "LAMP stack Galaxy role'idega"
   hosts: webservers
   become: yes
@@ -1012,7 +1012,7 @@ ansible-galaxy install geerlingguy.nginx --force
 
 ---
 
-## Task 24: Oma role'ide publitseerimine
+## Oma role'ide publitseerimine
 
 Kui teie role on valmis, saate selle Galaxy'sse panna:
 
@@ -1023,14 +1023,14 @@ Kui teie role on valmis, saate selle Galaxy'sse panna:
 
 ---
 
-## Task 25: Puppet vs Ansible
-## Task 26: Loeng 4: Configuration Management võrdlus ()
+## Puppet vs Ansible
+### Loeng 5: Configuration Management võrdlus
 
 **Configuration Management** tööriistade maailmas on kaks suurt mängijat. Peate teadma mõlemat, et osata valida õiget tööriista õigeks tööks.
 
 ---
 
-## Task 27: Miks võrrelda Puppet'iga?
+## Miks võrrelda Puppet'iga?
 
 **Ansible** - mida me õpime, populaarne DevOps meeskondades  
 **Puppet** - enterprise'i standard, suur ettevõtetes
@@ -1039,7 +1039,7 @@ Kui teie role on valmis, saate selle Galaxy'sse panna:
 
 ---
 
-## Task 28: Fundamentaalsed erinevused
+## Fundamentaalsed erinevused
 
 #### Arhitektuur
 
@@ -1053,7 +1053,7 @@ Teie arvuti → SSH → Serverid
 
 **Puppet (Agent-based - Pull mudel):**
 ```
-Puppet Master ← Agents küsivad ise (iga)
+Puppet Master ← Agents küsivad ise (iga 30 min)
      ↓              ↓
   Manifest'id    Puppet Agent'id
 ```
@@ -1092,8 +1092,8 @@ service { 'apache2':
 ```
 
 **Õppimiskõver:**
-- **Ansible:** Kui oskate YAML'i, oskate Ansible'i
-- **Puppet:** Peate õppima uut keelt
+- **Ansible:** Kui oskate YAML'i, oskate Ansible'i (1-2 nädalat)
+- **Puppet:** Peate õppima uut keelt (1-2 kuud)
 
 ---
 
@@ -1170,13 +1170,30 @@ class webserver (
 }
 ```
 
+**Puppet templates (ERB):**
+```erb
+# nginx.conf.erb
+server {
+    listen 443 ssl;
+    server_name <%= @fqdn %>;
+    
+    ssl_certificate <%= @ssl_cert_path %>;
+    ssl_certificate_key <%= @ssl_key_path %>;
+    
+    <% if @enable_gzip -%>
+    gzip on;
+    gzip_types text/plain application/json;
+    <% end -%>
+}
+```
+
 **Mis erinevust märkate?**
 - Ansible: käsk-käsult, loogiline järjekord
 - Puppet: declarative, Puppet otsustab järjekorra
 
 ---
 
-## Task 29: Millal kasutada mida?
+## Millal kasutada mida?
 
 ### Ansible on parem kui:
 
@@ -1190,7 +1207,7 @@ class webserver (
 > Ei vaja agent'ide seadistamist, kohe valmis
 
 **✅ Multi-cloud keskkonnad**
-> SSH töötab kohalikult ja erinevates keskkondades
+> SSH töötab kõikjal, erinevates keskkondades
 
 **✅ Container orchestration**
 > Hea integratsioon Docker/Kubernetes'iga
@@ -1227,7 +1244,7 @@ class webserver (
 
 ---
 
-## Task 30: Skaleeritavuse võrdlus
+## Skaleeritavuse võrdlus
 
 ### Ansible limitatsioonid:
 ```bash
@@ -1254,7 +1271,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 
 ---
 
-## Task 31: Infrastructure Drift ja Compliance
+## Infrastructure Drift ja Compliance
 
 ### Ansible - "Fire and forget":
 ```
@@ -1269,7 +1286,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 
 ### Puppet - Pidev jälgimine:
 ```
-1. Agent käib igauti tagant
+1. Agent käib iga 30 minuti tagant
 2. Kontrollib konfiguratsiooni
 3. Parandab automaatselt drift'i
 4. Reporteerib kõik muudatused PuppetDB'sse
@@ -1281,12 +1298,12 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 
 ---
 
-## Task 32: Decision Matrix
+## Decision Matrix
 
-| Kriteerium | Väike env | Suur env | Dev team | Ops team | Startup | Enterprise |
-|------------|-----------|----------|----------|----------|---------|------------|
-| **Ansible** | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Puppet** | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Kriteerium | Väike env | Suur env | Dev team | Ops team | Startup | Enterprise | Learning curve |
+|------------|-----------|----------|----------|----------|---------|------------|----------------|
+| **Ansible** | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Puppet** | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
 
 ### Enterprise features võrdlus
 
@@ -1301,7 +1318,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 
 ---
 
-## Task 33: Hybrid lähenemine
+## Hybrid lähenemine
 
 Paljud organisatsioonid kasutavad **mõlemat**:
 
@@ -1310,7 +1327,7 @@ Paljud organisatsioonid kasutavad **mõlemat**:
 - name: "Initial server setup"
   hosts: new_servers
   tasks:
-    - name: "Create local environment"
+    - name: "Create cloud environment"
       local_action: ...
     
     - name: "Install Puppet agent"
@@ -1319,13 +1336,18 @@ Paljud organisatsioonid kasutavad **mõlemat**:
         state: present
 
 # Puppet ongoing configuration management
-# Agents pull konfiguratsiooni igautit
+# Agents pull konfiguratsiooni iga 30 minuti tagant
 # Hoiab compliance ja drift prevention
 ```
 
+**Reaalne näide: Netflix**
+- **Ansible:** Initial server provisioning, application deployment
+- **Puppet:** Ongoing configuration management, compliance
+- **Result:** Best of both worlds!
+
 ---
 
-## Task 34: Minu soovitus
+## Minu soovitus
 
 **Algajatele ja väiksematele projektidele:** Alustage **Ansible'iga**!
 - Lihtsam õppida
@@ -1338,7 +1360,7 @@ Paljud organisatsioonid kasutavad **mõlemat**:
 - 24/7 monitoring vajadus
 - Enterprise audit requirements
 
-**Siis kaaluge Puppet'i!**
+**Siis kaaluge Puppet'i või hybrid lähenemist!**
 
 ---
 

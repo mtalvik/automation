@@ -1,4 +1,4 @@
-# Infrastruktuuri Automatiseerimine
+# Automatiseerimine
 
 Tere tulemast infrastruktuuri automatiseerimise kursusele! See kursus õpetab kaasaegseid DevOps tööriistu ja praktikaid.
 

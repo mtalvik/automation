@@ -63,7 +63,7 @@ curl http://localhost:8080
 docker stop test-web && docker rm test-web
 ```
 
-### Ülesanne 1.3: Basic Commands Discovery ()
+### Ülesanne 1.3: Basic Commands Discovery
 
 **Avastage käske ja vaadake, mis juhtub:**
 
@@ -86,7 +86,7 @@ docker system df
 
 ## Task 5: 📦 **Samm 2: Build Your First App ()**
 
-### Ülesanne 2.1: Prepare Simple Web App ()
+### Ülesanne 2.1: Prepare Simple Web App
 
 **Looge töökaust:**
 ```bash
@@ -123,7 +123,7 @@ mkdir ~/docker-fundamentals-lab && cd ~/docker-fundamentals-lab
 </html>
 ```
 
-### Ülesanne 2.2: Write Your First Dockerfile ()
+### Ülesanne 2.2: Write Your First Dockerfile
 
 **Template (täitke lüngad):**
 ```dockerfile
@@ -147,7 +147,7 @@ COPY index.html /usr/share/nginx/html/
 EXPOSE 80
 ```
 
-### Ülesanne 2.3: Build and Test ()
+### Ülesanne 2.3: Build and Test
 
 ```bash
 ## Task 6: Build image
@@ -166,7 +166,7 @@ curl http://localhost:8080
 # Kas näete oma HTML'i? ✅/❌
 ```
 
-### Ülesanne 2.4: Modify and Rebuild ()
+### Ülesanne 2.4: Modify and Rebuild
 
 **Muutke HTML faili:**
 ```html
@@ -200,7 +200,7 @@ docker stop my-app-v2 && docker rm my-app-v2
 
 ## Docker vs Podman Side-by-Side ()**
 
-### Ülesanne 3.1: Install Podman (if needed) ()
+### Ülesanne 3.1: Install Podman (if needed)
 
 ```bash
 # Ubuntu/Debian
@@ -210,7 +210,7 @@ sudo apt update && sudo apt install -y podman
 podman --version
 ```
 
-### Ülesanne 3.2: Same Commands, Different Tools ()
+### Ülesanne 3.2: Same Commands, Different Tools
 
 **Käivitage SAMA rakendus mõlemas süsteemis:**
 
@@ -237,7 +237,7 @@ curl http://localhost:8082
 # Mõlemad töötavad? ✅/❌
 ```
 
-### Ülesanne 3.3: Observe the Differences ()
+### Ülesanne 3.3: Observe the Differences
 
 **Resource usage:**
 ```bash
@@ -283,7 +283,7 @@ podman stop web-podman && podman rm web-podman
 
 ## Task 8: 🐛 **Samm 4: Troubleshooting & Networks ()**
 
-### Ülesanne 4.1: Fix Broken Container ()
+### Ülesanne 4.1: Fix Broken Container
 
 **Antakse teile "broken" Dockerfile:**
 ```dockerfile
@@ -320,7 +320,7 @@ COPY index.html /usr/share/nginx/html/
 EXPOSE 80
 ```
 
-### Ülesanne 4.2: Simple Network Test ()
+### Ülesanne 4.2: Simple Network Test
 
 ```bash
 # Käivitage 2 container'it custom network'is
@@ -342,7 +342,7 @@ docker network rm test-network
 
 ## Task 9: Volume Persistence Test ()**
 
-### Ülesanne 5.1: Data Persistence Challenge ()
+### Ülesanne 5.1: Data Persistence Challenge
 
 **Create persistent web content:**
 ```bash
@@ -379,7 +379,7 @@ curl http://localhost:8084
 ** Küsimus:** Miks andmed jäid alles?  
 **Vastus:** ________________
 
-### Ülesanne 5.2: Development Workflow ()
+### Ülesanne 5.2: Development Workflow
 
 ```bash
 # Mount current directory
@@ -434,7 +434,7 @@ rm test.txt
 
 ## Task 14: **BOONUSÜLESANDED** (Docker'i oskajatele)
 
-### B1: Multi-stage Docker Builds ()
+### Ülesanne Multi-stage Docker Builds
 
 ```dockerfile
 # Optimized Node.js build
@@ -453,7 +453,7 @@ CMD ["npm", "start"]
 # Build: docker build -t optimized-app .
 ```
 
-### B2: Docker Security ja Best Practices ()
+### Ülesanne Docker Security ja Best Practices
 
 ```bash
 # Non-root user
@@ -473,7 +473,7 @@ docker run --read-only --tmpfs /tmp myapp:latest
 docker run --memory=512m --cpus=1.5 myapp:latest
 ```
 
-### B3: Advanced Networking ja Storage ()
+### Ülesanne Advanced Networking ja Storage
 
 ```bash
 # Custom networks
@@ -494,7 +494,7 @@ docker exec container-name netstat -tulpn
 docker exec container-name ss -tulpn
 ```
 
-### B4: Docker Performance Monitoring ()
+### Ülesanne Docker Performance Monitoring
 
 ```bash
 # Container stats
@@ -514,7 +514,7 @@ docker run --health-cmd='curl -f http://localhost:3000/health' \
            myapp:latest
 ```
 
-### B5: Docker Compose Advanced ()
+### Ülesanne Docker Compose Advanced
 
 ```yaml
 # docker-compose.advanced.yml

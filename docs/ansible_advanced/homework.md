@@ -2,22 +2,22 @@
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Apache serveri juurutamine Ansible Vault salajaste andmete ja Jinja2 mallide abil  
-**Aeg:** 1.5- praktilist juurutamist
+**Aeg:** 1.5-2h praktilist juurutamist
 
 **Te saate valmis starter failid - fookus on Vault'i ja template'ide õppimisel!**
 
 ---
 
-## Task 1: Projekt: Secure Web Server Deployment
+## 1. Projekt: Secure Web Server Deployment
 
-**Mida te ehitate:**
+### Mida te ehitate:
 - 🌐 **Apache web server** dünaamilise sisuga
 - 🔐 **Vault-krüptitud salajased andmed** (paroolid, API võtmed)
 - 📄 **Jinja2 mallid** dünaamilise HTML genereerimiseks
 - 🔧 **Teenuse käsitlejad** automaatsete taaskäivituste jaoks
 - 📊 **Süsteemi teabe kuvamine** serveri statistikaga
 
-**Mida te õpite:**
+### Mida te õpite:
 - Ansible Vault salajaste andmete haldamine
 - Mallipõhine konfiguratsioon
 - Teenuse haldamine käsitlejate abil
@@ -25,9 +25,9 @@
 
 ---
 
-## Task 2: Setup Project
+## 2. Setup Project
 
-#### Veebi varade hankimine ja automatiseerimisfailide loomine
+### 2.1 Veebi varade hankimine ja automatiseerimisfailide loomine
 
 ```bash
 # Kodutöö kataloogi loomine
@@ -48,7 +48,7 @@ mkdir group_vars
 touch ansible.cfg inventory.yml site.yml README.md
 ```
 
-#### Automatiseerimise konfiguratsiooni loomine
+### 2.2 Automatiseerimise konfiguratsiooni loomine
 
 **Fail: `ansible.cfg`:**
 ```ini
@@ -69,7 +69,7 @@ all:
     admin_email: "admin@example.com"
 ```
 
-#### Esimene commit (ainult automatiseerimisfailid)
+### 2.3 Esimene commit (ainult automatiseerimisfailid)
 
 ```bash
 # Lisa loodud automatiseerimisfailid
@@ -79,9 +79,9 @@ git commit -m "Loodud Ansible konfiguratsioon + lisatud veebi varad"
 
 ---
 
-## Task 3: Create Vault File
+## 3. Create Vault File
 
-#### Vault'i loomise õppimine
+### 3.1 Vault'i loomise õppimine
 
 ```bash
 # Krüptitud vault faili loomine
@@ -89,7 +89,7 @@ ansible-vault create group_vars/vault.yml
 # Parooli küsimisel kasuta: vault123
 ```
 
-#### Salajaste andmete lisamine vault'i (KIRJUTA NEED!)
+### 3.2 Salajaste andmete lisamine vault'i (KIRJUTA NEED!)
 
 ```yaml
 # Lisa need salajased andmed oma vault faili:
@@ -100,7 +100,7 @@ vault_api_key: "api-key-12345-secret"
 vault_student_name: "Sinu Nimi Siin"
 ```
 
-#### Vault'i operatsioonide testimine
+### 3.3 Vault'i operatsioonide testimine
 
 ```bash
 # Vaata oma krüptitud vault faili
@@ -115,7 +115,7 @@ ansible-vault view group_vars/vault.yml
 ansible-vault edit group_vars/vault.yml
 ```
 
-#### Vault'i loomise commit
+### 3.4 Vault'i loomise commit
 
 ```bash
 git add group_vars/vault.yml
@@ -124,9 +124,9 @@ git commit -m "Loodud krüptitud vault salajaste andmetega"
 
 ---
 
-## Task 4: Create Playbook
+## 4. Create Playbook
 
-#### Peamise playbook'i kirjutamine
+### 4.1 Peamise playbook'i kirjutamine
 
 **Fail: `site.yml`:**
 ```yaml
@@ -186,7 +186,7 @@ git commit -m "Loodud krüptitud vault salajaste andmetega"
         state: restarted
 ```
 
-#### Playbook'i testimine
+### 4.2 Playbook'i testimine
 
 ```bash
 # Kontrolli süntaksit (oluline!)
@@ -200,7 +200,7 @@ ansible-playbook --check site.yml --ask-vault-pass
 ansible-playbook site.yml --ask-vault-pass
 ```
 
-#### Juurutamise kontrollimine
+### 4.3 Juurutamise kontrollimine
 
 ```bash
 # Kontrolli, kas Apache töötab
@@ -217,7 +217,7 @@ cat /var/www/html/server-info.txt
 echo "Ava brauser: http://localhost"
 ```
 
-#### Playbook'i loomise commit
+### 4.4 Playbook'i loomise commit
 
 ```bash
 git add site.yml
@@ -226,9 +226,9 @@ git commit -m "Loodud täielik playbook vault'i ja mallidega"
 
 ---
 
-## Test Vault and Handler Operations ()**
+## 5. Test Vault and Handler Operations
 
-#### Vault'i operatsioonide testimine
+### 5.1 Vault'i operatsioonide testimine
 
 ```bash
 # Kontrolli praegust vault'i sisu
@@ -245,7 +245,7 @@ ansible-playbook site.yml --ask-vault-pass
 curl http://localhost | grep "Minu Uuendatud Sait"
 ```
 
-#### Käsitleja funktsionaalsuse testimine
+### 5.2 Käsitleja funktsionaalsuse testimine
 
 ```bash
 # Tee mallis muudatus (käivitab käsitleja)
@@ -259,7 +259,7 @@ ansible-playbook site.yml --ask-vault-pass -v
 sudo systemctl status apache2 | grep "Active since"
 ```
 
-#### Playbook'i funktsioonide testimine
+### 5.3 Playbook'i funktsioonide testimine
 
 ```bash
 # Käivita ainult kindlad ülesanded siltidega (kui saadaval)
@@ -272,35 +272,35 @@ ansible-playbook site.yml --ask-vault-pass --check
 ansible-playbook site.yml --ask-vault-pass -vv
 ```
 
-#### Operatsionaalse testimise commit
+### 5.4 Operatsionaalse testimise commit
 
 ```bash
 git add .
 git commit -m "Testitud vault'i operatsioone ja käsitleja funktsionaalsust"
-git push origin homework-[your-name]
+git push origin main
 ```
 
 ---
 
-## Task 5: Final Documentation and Evidence
+## 6. Final Documentation and Evidence
 
-#### README.md uuendamine
+### 6.1 README.md uuendamine
 
 **Täida `README.md` mall:**
 ```markdown
 # Ansible Kodutöö - Vault ja Mallid
 
-## Task 6: Mida ma ehitasin
+## Mida ma ehitasin
 - Apache veebiserver dünaamilise sisuga
 - Krüptitud vault salajased andmed turvalise identimisteabe salvestamiseks
 - Jinja2 mallid dünaamilise HTML genereerimiseks
 - Teenuse käsitlejad automaatsete taaskäivituste jaoks
 
-## Task 7: Juurutamise käsud
+## Juurutamise käsud
 ```bash
 # Klooni ja juuruta
 git clone [repository-url]
-cd ansible-vault-templates-starter
+cd ansible-advanced-homework
 ansible-playbook site.yml --ask-vault-pass
 # Vault parool: vault123
 ```
@@ -311,7 +311,7 @@ ansible-playbook site.yml --ask-vault-pass
 - Mall genereerib dünaamilist sisu
 - Käsitlejad taaskäivitavad teenused muudatuste korral
 
-## Task 8: Mida ma õppisin
+## Mida ma õppisin
 - Ansible Vault krüptib tundlikke andmeid
 - Jinja2 mallid loovad dünaamilisi konfiguratsioone
 - Käsitlejad käivituvad ainult muudatuste korral
@@ -323,7 +323,7 @@ ansible-playbook site.yml --ask-vault-pass
 - Git ajalugu näitab arengut
 ```
 
-#### Tee ekraanipildid
+### 6.2 Tee ekraanipildid
 
 **Vajalikud ekraanipildid:**
 1. **Vault'i sisu**: `ansible-vault view group_vars/vault.yml`
@@ -331,7 +331,7 @@ ansible-playbook site.yml --ask-vault-pass
 3. **Apache olek**: `sudo systemctl status apache2`
 4. **Mall tegevuses**: Näita dünaamilist sisu sinu kohandustega
 
-#### Lõplik commit ja push
+### 6.3 Lõplik commit ja push
 
 ```bash
 # Lõplik dokumentatsiooni commit
@@ -355,9 +355,9 @@ git push origin main
 
 ---
 
-## Task 9: Repository Submission Requirements
+## 7. Repository Submission Requirements
 
-### **Hoidla struktuur peab sisaldama:**
+### Hoidla struktuur peab sisaldama:
 
 ```
 ansible-advanced-homework/
@@ -378,13 +378,15 @@ ansible-advanced-homework/
 └── .gitignore
 ```
 
-### **Esitamise meetod:**
+### Esitamise meetod:
 1. **GitHub hoidla link** esitatud kursuse süsteemis
 2. **Hoidla peab olema avalik** ülevaatamiseks
 3. **Selge esitlus** - puhas, organiseeritud, dokumenteeritud
 4. **Töötav demonstreerimine** - õpetaja saab kloonida ja juurutada
 
-## Task 10: Edu nõuanded
+---
+
+## 8. Edu nõuanded
 
 1. **Klooni esmalt, koodi hiljem** - Alusta töötava hoidlaga
 2. **Testi iga muudatust** - Juuruta pärast iga muudatust
@@ -395,31 +397,30 @@ ansible-advanced-homework/
 
 ---
 
-## Task 11: Uuendatud ajakava
+## 9. Ajakava
 
 ```
-: Veebi varade hankimine + automatiseerimisfailide loomine
-: Vault faili loomine ja testimine
-: Playbook'i kirjutamine ja juurutamine
-: Vault'i/käsitleja operatsioonide testimine
-: Lõplik dokumentatsioon ja ekraanipildid
+15 min: Veebi varade hankimine + automatiseerimisfailide loomine
+20 min: Vault faili loomine ja testimine
+25 min: Playbook'i kirjutamine ja juurutamine
+20 min: Vault'i/käsitleja operatsioonide testimine
+10 min: Lõplik dokumentatsioon ja ekraanipildid
 
-Kokku: 1h 15min (täiuslik 2h labori jaoks piisava varuga!)
+Kokku: 1h 30min (täiuslik 2h labori jaoks piisava varuga!)
 ```
 
 ---
 
-## Task 12: Põhilised õpiteemad
+## 10. Põhilised õpiteemad
 
-**Õpilased omandavad:**
+### Õpilased omandavad:
 - 🔐 **Ansible Vault** - krüpti ja halda salajasi andmeid turvaliselt
 - 📄 **Jinja2 Mallid** - loo dünaamilisi konfiguratsioone
 - 🔧 **Teenuse Käsitlejad** - automatiseeri teenuse haldamine
 - 📁 **Git Töövoog** - hoidla haldamine
 
-**Praktilised Oskused:**
+### Praktilised Oskused:
 - Turvaline identimisteabe haldamine infrastruktuuri koodis
 - Dünaamiline konfiguratsiooni genereerimine erinevate keskkondade jaoks
 - Teenuse taaskäivituse automatiseerimine konfiguratsiooni muudatuste korral
 - Versioonikontrolli parimad tavad infrastruktuuri jaoks
-

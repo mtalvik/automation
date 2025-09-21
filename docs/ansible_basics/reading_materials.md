@@ -1,111 +1,111 @@
-# Ansible Reading Materials (Homework Task 2)
+# Ansible lugemismaterjalid (Kodutöö ülesanne 2)
 
-**Estimated Reading Time:** 2-  
-**Due:** Before next class session
-
----
-
-## Required Reading (1.)
-
-#### Ansible Architecture Deep Dive ()
-**Source:** Ansible Documentation & Architecture Guide
-
-**Key Topics:**
-- Agentless architecture and its advantages
-- Control node vs managed nodes
-- SSH-based communication
-- Ansible's execution model
-- Inventory management concepts
-
-**Reading Questions:**
-- Why does Ansible use an agentless architecture?
-- What are the advantages and disadvantages of agentless vs agent-based systems?
-- How does Ansible handle authentication and authorization?
-- What happens during an Ansible playbook execution?
-
-#### YAML Syntax and Best Practices ()
-**Source:** YAML Documentation & Ansible Style Guide
-
-**Key Topics:**
-- YAML data types and structures
-- Indentation and formatting rules
-- Ansible-specific YAML conventions
-- Common YAML pitfalls and how to avoid them
-- YAML validation tools
-
-**Reading Questions:**
-- What are the key differences between YAML and JSON?
-- Why is indentation so important in YAML?
-- What are some common YAML syntax errors?
-- How can you validate YAML syntax?
-
-#### Ansible Module Ecosystem ()
-**Source:** Ansible Module Documentation
-
-**Key Topics:**
-- Core modules vs community modules
-- Module categories (system, network, cloud, etc.)
-- Module parameters and return values
-- Idempotency in Ansible modules
-- Custom module development basics
-
-**Reading Questions:**
-- What makes a module "idempotent"?
-- How do you find the right module for a task?
-- What's the difference between core and community modules?
-- When might you need to create a custom module?
+**Eeldatav lugemisaeg:** 2-3 tundi  
+**Tähtaeg:** Enne järgmist tundi
 
 ---
 
-## Optional Reading (1 hour)
+## Kohustuslik lugemine (1,5 tundi)
 
-#### Ansible Best Practices ()
-**Source:** Ansible Best Practices Guide
+#### Ansible arhitektuuri süvaanalüüs
+**Allikas:** Ansible dokumentatsioon ja arhitektuuri juhend
 
-**Key Topics:**
-- Playbook organization and structure
-- Variable naming conventions
-- Error handling strategies
-- Performance optimization techniques
-- Security considerations
+**Põhiteemad:**
+- Agentless arhitektuur ja selle eelised
+- Control node vs hallatavad sõlmed
+- SSH-põhine kommunikatsioon
+- Ansible'i täitmismudel
+- Inventory haldamise kontseptsioonid
 
-#### Ansible vs Other Configuration Management Tools ()
-**Source:** Industry Comparisons & Documentation
+**Lugemisküsimused:**
+- Miks kasutab Ansible agentless arhitektuuri?
+- Millised on agentless vs agent-põhiste süsteemide eelised ja puudused?
+- Kuidas käsitleb Ansible autentimist ja autoriseerimist?
+- Mis juhtub Ansible playbook'i täitmise ajal?
 
-**Key Topics:**
+#### YAML süntaks ja parimad praktikad
+**Allikas:** YAML dokumentatsioon ja Ansible stiili juhend
+
+**Põhiteemad:**
+- YAML andmetüübid ja struktuurid
+- Taandrimise ja vormindamise reeglid
+- Ansible-spetsiifilised YAML konventsioonid
+- Levinud YAML lõksud ja kuidas neid vältida
+- YAML valideerimise tööriistad
+
+**Lugemisküsimused:**
+- Millised on peamised erinevused YAML'i ja JSON'i vahel?
+- Miks on taandrimine YAML'is nii oluline?
+- Millised on levinud YAML süntaksivead?
+- Kuidas saab YAML süntaksit valideerida?
+
+#### Ansible moodulite ökosüsteem
+**Allikas:** Ansible moodulite dokumentatsioon
+
+**Põhiteemad:**
+- Põhimoodulid vs kogukonna moodulid
+- Moodulite kategooriad (süsteem, võrk, pilv jne)
+- Mooduli parameetrid ja tagastusväärtused
+- Idempotentsus Ansible moodulites
+- Kohandatud moodulite arendamise alused
+
+**Lugemisküsimused:**
+- Mis teeb moodulist "idempotentse"?
+- Kuidas leida ülesandele õige moodul?
+- Mis vahe on põhi- ja kogukonna moodulitel?
+- Millal võib vaja minna kohandatud moodulit?
+
+---
+
+## Valikuline lugemine (1 tund)
+
+#### Ansible parimad praktikad
+**Allikas:** Ansible parimate praktikate juhend
+
+**Põhiteemad:**
+- Playbook'i organisatsioon ja struktuur
+- Muutujate nimetamise konventsioonid
+- Vigade käsitlemise strateegiad
+- Jõudluse optimeerimise tehnikad
+- Turvalisuse kaalutlused
+
+#### Ansible vs muud konfiguratsioonihalduse tööriistad
+**Allikas:** Tööstuse võrdlused ja dokumentatsioon
+
+**Põhiteemad:**
 - Ansible vs Puppet vs Chef vs Salt
-- Use cases for each tool
-- Learning curve comparisons
-- Community and ecosystem differences
-- When to choose Ansible over alternatives
+- Iga tööriista kasutusjuhud
+- Õppimiskõvera võrdlused
+- Kogukonna ja ökosüsteemi erinevused
+- Millal valida Ansible alternatiivide asemel
 
 ---
 
-## Reference Materials (Keep Handy)
+## Viitematerjalid (hoidke käepärast)
 
-### Ansible Command Quick Reference
+### Ansible käskude kiirülevaade
 ```bash
-# Basic commands
-ansible --version              # Check Ansible version
-ansible all -m ping            # Test connectivity to all hosts
-ansible all -m setup           # Gather facts from all hosts
-ansible-playbook playbook.yml  # Run a playbook
+# Põhikäsud
+ansible --version              # Kontrolli Ansible versiooni
+ansible all -m ping            # Testi ühenduvust kõigi hostidega
+ansible all -m setup           # Kogu fakte kõigist hostidest
+ansible-playbook playbook.yml  # Käivita playbook
 
-# Inventory management
-ansible-inventory --list       # Show inventory structure
-ansible-inventory --graph      # Show inventory as graph
+# Inventory haldamine
+ansible-inventory --list       # Näita inventory struktuuri
+ansible-inventory --graph      # Näita inventory graafiliselt
 
-# Ad-hoc commands
+# Ad-hoc käsud
 ansible webservers -m copy -a "src=/local/file dest=/remote/file"
 ansible dbservers -m service -a "name=mysql state=started"
 ansible all -m shell -a "uptime"
 ```
 
-### Common YAML Patterns in Ansible
+### Levinud YAML mustrid Ansible'is
 ```yaml
-# Basic playbook structure
+# Põhiline playbook'i struktuur
 ---
-- name: Example playbook
+- name: Näidis playbook
   hosts: webservers
   become: yes
   vars:
@@ -113,7 +113,7 @@ ansible all -m shell -a "uptime"
     app_port: 8080
   
   tasks:
-    - name: Install packages
+    - name: Installi paketid
       apt:
         name: "{{ item }}"
         state: present
@@ -122,32 +122,32 @@ ansible all -m shell -a "uptime"
         - python3
         - git
     
-    - name: Start service
+    - name: Käivita teenus
       service:
         name: nginx
         state: started
         enabled: yes
 ```
 
-### Ansible Facts and Variables
+### Ansible faktid ja muutujad
 ```yaml
-# Using facts
-- name: Display system info
+# Faktide kasutamine
+- name: Kuva süsteemi info
   debug:
     msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
 
-# Custom variables
-- name: Set custom variable
+# Kohandatud muutujad
+- name: Seadista kohandatud muutuja
   set_fact:
     app_path: "/opt/{{ app_name }}"
 
-# Variable precedence
-## extra vars (command line)
+# Muutujate prioriteedid
+## extra vars (käsurida)
 ## task vars
 ## block vars
-## role and include vars
+## role ja include vars
 ## play vars
-## host facts
+## host faktid
 ## host vars
 ## group vars
 ## inventory vars
@@ -156,33 +156,33 @@ ansible all -m shell -a "uptime"
 
 ---
 
-## Reading Reflection Assignment
+## Lugemise refleksioon ülesanne
 
-After completing the reading, please submit a brief reflection (200-300 words) covering:
+Pärast lugemise lõpetamist esitage lühike refleksioon (200-300 sõna), mis katab:
 
-1. **Key Insights:** What was the most surprising or important thing you learned about Ansible?
-2. **Questions:** What Ansible concepts are still unclear or need more explanation?
-3. **Application:** How do you think Ansible's agentless architecture will benefit your automation work?
-4. **Further Learning:** What Ansible topics would you like to explore more?
+1. **Peamised avastused:** Mis oli Ansible'i kohta kõige üllatavam või olulisem, mida õppisite?
+2. **Küsimused:** Millised Ansible kontseptsioonid on veel ebaselged või vajavad rohkem selgitust?
+3. **Rakendamine:** Kuidas arvate, et Ansible'i agentless arhitektuur aitab teie automatiseerimistööd?
+4. **Edasine õppimine:** Milliseid Ansible teemasid sooviksite rohkem uurida?
 
-**Submission Format:** Add to your GitHub repository as `ansible_basics_reading_reflection.md`
+**Esitamise formaat:** Lisage oma GitHub repositooriumisse failina `ansible_basics_reading_reflection.md`
 
 ---
 
-## 🔗 Additional Resources
+## 🔗 Lisamaterjalid
 
-- [Ansible Documentation](https://docs.ansible.com/)
-- [Ansible Best Practices](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html)
-- [Ansible Module Index](https://docs.ansible.com/ansible/latest/modules/modules_by_category.html)
-- [YAML Documentation](https://yaml.org/spec/)
+- [Ansible dokumentatsioon](https://docs.ansible.com/)
+- [Ansible parimad praktikad](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html)
+- [Ansible moodulite indeks](https://docs.ansible.com/ansible/latest/modules/modules_by_category.html)
+- [YAML dokumentatsioon](https://yaml.org/spec/)
 - [Ansible Galaxy](https://galaxy.ansible.com/)
 
 ---
 
-## Notes for Next Class
+## Märkused järgmiseks tunniks
 
-Come prepared with:
-- Questions from your reading
-- Any Ansible scenarios you'd like to practice
-- Ideas for your Ansible automation project
-- Understanding of YAML syntax and structure
+Tulge valmistatud:
+- Küsimustega lugemisest
+- Mis tahes Ansible stsenaariumidega, mida soovite harjutada
+- Ideedega oma Ansible automatiseerimisprojektile
+- YAML süntaksi ja struktuuri mõistmisega

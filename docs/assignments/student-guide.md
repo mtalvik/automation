@@ -1,271 +1,271 @@
-# Student Guide: Getting Started
+# Õpilase Juhend: Alustamine
 
-## Welcome to the Automation Course!
+## Tere tulemast automatiseerimise kursusele!
 
-This guide will help you get started with the course platforms and tools.
+See juhend aitab sul alustada kursuse platvormide ja tööriistadega.
 
-## Course Platforms
+## Kursuse Platvormid
 
 #### Google Classroom
-- **Purpose:** Assignment distribution and grading
-- **Access:** Use the class code provided by your instructor
-- **Features:** 
- - Assignment submissions
- - Grade tracking
- - Course announcements
- - Class discussions
+- **Eesmärk:** Ülesannete jagamine ja hindamine
+- **Ligipääs:** Kasuta õpetaja antud klassi koodi
+- **Funktsioonid:** 
+  - Ülesannete esitamine
+  - Hinnete jälgimine
+  - Kursuse teadaanded
+  - Klassi arutelud
 
 #### GitHub Education
-- **Purpose:** Code repositories and collaboration
-- **Access:** Create GitHub account and join classroom
-- **Features:**
- - Private repositories for assignments
- - Automated testing
- - Version control
- - Collaboration tools
+- **Eesmärk:** Koodihoidlad ja koostöö
+- **Ligipääs:** Loo GitHub konto ja liitu klassiruumiga
+- **Funktsioonid:**
+  - Privaatsed hoidlad ülesannete jaoks
+  - Automaatne testimine
+  - Versioonihaldus
+  - Koostöövahendid
 
 #### GitHub Discussions
-- **Purpose:** Q&A and community support
-- **Access:** Available in the course repository
-- **Features:**
- - Ask questions
- - Share resources
- - Get help from peers
- - Showcase your work
+- **Eesmärk:** Küsimused ja vastused ning kogukonna tugi
+- **Ligipääs:** Saadaval kursuse hoidlas
+- **Funktsioonid:**
+  - Küsimuste esitamine
+  - Ressursside jagamine
+  - Abi saamine kaaslastelt
+  - Oma töö tutvustamine
 
-## Getting Started
+## Alustamine
 
-### Step 1: Create Accounts
+### Samm 1: Kontode Loomine
 
-#### GitHub Account
-1. Go to [github.com](https://github.com)
-2. Click "Sign up"
-3. Use your school email address
-4. Complete your profile
-5. Apply for [Student Developer Pack](https://education.github.com/pack)
+#### GitHub Konto
+1. Mine [github.com](https://github.com) lehele
+2. Klõpsa "Sign up"
+3. Kasuta oma kooli e-posti aadressi
+4. Täida oma profiil
+5. Taoti [Student Developer Pack](https://education.github.com/pack)
 
-#### Google Account
-1. Use your school Google account
-2. Join the Google Classroom with the class code
-3. Complete your profile
+#### Google Konto
+1. Kasuta oma kooli Google kontot
+2. Liitu Google Classroom'iga klassi koodi abil
+3. Täida oma profiil
 
-### Step 2: Join the Course
+### Samm 2: Kursusega Liitumine
 
 #### GitHub Classroom
-1. Click the classroom invitation link from your instructor
-2. Accept the invitation
-3. Link your GitHub account
-4. You'll get access to assignment repositories
+1. Klõpsa õpetaja saadetud klassiruumi kutse lingil
+2. Nõustu kutsega
+3. Ühenda oma GitHub konto
+4. Saad ligipääsu ülesannete hoidlatele
 
 #### Google Classroom
-1. Use the class code to join
-2. Accept the invitation
-3. Review the course materials
-4. Check assignment deadlines
+1. Kasuta klassi koodi liitumiseks
+2. Nõustu kutsega
+3. Vaata läbi kursuse materjalid
+4. Kontrolli ülesannete tähtaegu
 
-### Step 3: Set Up Your Environment
+### Samm 3: Keskkonna Seadistamine
 
-#### Required Tools
-- **Git** - Version control
-- **Docker** - Containerization
-- **Ansible** - Configuration management
-- **Terraform** - Infrastructure as code
-- **VS Code** - Code editor
+#### Vajalikud Tööriistad
+- **Git** - Versioonihaldus
+- **Docker** - Konteinerimine
+- **Ansible** - Konfiguratsioonihaldus
+- **Terraform** - Infrastruktuur kui kood
+- **VS Code** - Koodiredaktor
 
-#### Installation Guides
-- [Windows Setup Guide](docs/setup/windows.md)
-- [Mac Setup Guide](docs/setup/mac.md)
-- [Linux Setup Guide](docs/setup/linux.md)
+#### Paigaldamise Juhendid
+- [Windows Seadistamise Juhend](docs/setup/windows.md)
+- [Mac Seadistamise Juhend](docs/setup/mac.md)
+- [Linux Seadistamise Juhend](docs/setup/linux.md)
 
-## Assignment Workflow
+## Ülesannete Töövoog
 
-#### Starting an Assignment
+#### Ülesande Alustamine
 
-#### From Google Classroom
-1. Open the assignment
-2. Read the instructions carefully
-3. Note the deadline and requirements
-4. Click the GitHub Classroom link
+#### Google Classroom'ist
+1. Ava ülesanne
+2. Loe juhiseid hoolikalt
+3. Märgi üles tähtaeg ja nõuded
+4. Klõpsa GitHub Classroom lingil
 
-#### From GitHub Classroom
-1. Click "Start assignment"
-2. Wait for repository creation
-3. Clone the repository to your computer
-4. Follow the README instructions
+#### GitHub Classroom'ist
+1. Klõpsa "Start assignment"
+2. Oota hoidla loomist
+3. Klooni hoidla oma arvutisse
+4. Järgi README juhiseid
 
-#### Working on Assignments
+#### Ülesannete Kallal Töötamine
 
-#### Development Process
-1. **Read the requirements** - Understand what needs to be done
-2. **Set up the environment** - Install required tools
-3. **Follow the instructions** - Step-by-step guidance
-4. **Test your work** - Ensure everything works
-5. **Document your work** - Update README and add comments
+#### Arendusprotsess
+1. **Loe nõudeid** - Mõista, mida vaja teha
+2. **Seadista keskkond** - Paigalda vajalikud tööriistad
+3. **Järgi juhiseid** - Samm-sammulised suunised
+4. **Testi oma tööd** - Veendu, et kõik töötab
+5. **Dokumenteeri oma töö** - Uuenda README ja lisa kommentaarid
 
-#### Best Practices
-- **Commit frequently** - Save your work often
-- **Write clear commit messages** - Describe what you changed
-- **Test before submitting** - Make sure everything works
-- **Ask for help** - Use Discussions if you're stuck
+#### Parimad Tavad
+- **Committa sageli** - Salvesta oma tööd tihti
+- **Kirjuta selged commit sõnumid** - Kirjelda, mida muutsid
+- **Testi enne esitamist** - Veendu, et kõik töötab
+- **Küsi abi** - Kasuta Discussions'i, kui oled hätta jäänud
 
-#### Submitting Assignments
+#### Ülesannete Esitamine
 
-#### GitHub Submission
-1. **Push your changes** - `git push origin main`
-2. **Check automated tests** - View results in Actions tab
-3. **Fix any issues** - Address test failures
-4. **Update documentation** - Ensure README is complete
+#### GitHub Esitamine
+1. **Lükka oma muudatused** - `git push origin main`
+2. **Kontrolli automaatseid teste** - Vaata tulemusi Actions vahekaardil
+3. **Paranda probleemid** - Lahenda testide vead
+4. **Uuenda dokumentatsiooni** - Veendu, et README on täielik
 
-#### Google Classroom Submission
-1. **Submit the GitHub repository link**
-2. **Add any required screenshots**
-3. **Include a brief summary** of what you accomplished
-4. **Submit before the deadline**
+#### Google Classroom Esitamine
+1. **Esita GitHub hoidla link**
+2. **Lisa vajalikud ekraanipildid**
+3. **Lisa lühike kokkuvõte** sellest, mida saavutasid
+4. **Esita tähtajaks**
 
-## Getting Help
+## Abi Saamine
 
 #### GitHub Discussions
-- **Search first** - Your question might already be answered
-- **Ask in Q&A category** - Use the help template
-- **Provide details** - Include error messages and environment info
-- **Help others** - Answer questions when you can
+- **Otsi esmalt** - Sinu küsimusele võib juba vastatud olla
+- **Küsi Q&A kategoorias** - Kasuta abi malli
+- **Anna üksikasju** - Lisa veateated ja keskkonna info
+- **Aita teisi** - Vasta küsimustele, kui oskad
 
-#### Office Hours
-- **Check schedule** - Posted in Google Classroom
-- **Prepare questions** - Have specific issues ready
-- **Share your screen** - Show the problem directly
-- **Take notes** - Document solutions for future reference
+#### Konsultatsioonid
+- **Kontrolli ajakava** - Postitatud Google Classroom'is
+- **Valmista küsimused ette** - Pane konkreetsed probleemid valmis
+- **Jaga ekraani** - Näita probleemi otse
+- **Tee märkmeid** - Dokumenteeri lahendused tuleviku jaoks
 
-#### Peer Support
-- **Form study groups** - Work together on assignments
-- **Share resources** - Helpful links and tutorials
-- **Review each other's work** - Learn from different approaches
-- **Celebrate successes** - Recognize achievements
+#### Kaaslaste Tugi
+- **Moodusta õpperühmi** - Tööta ülesannete kallal koos
+- **Jaga ressursse** - Kasulikud lingid ja õpetused
+- **Vaata üle üksteise tööd** - Õpi erinevatest lähenemistest
+- **Tähistage edu** - Tunne ära saavutusi
 
-## Course Resources
+## Kursuse Ressursid
 
-#### Documentation
-- **Course website** - [https://mtalvik.github.io/automation](https://mtalvik.github.io/automation)
-- **Assignment instructions** - Detailed step-by-step guides
-- **Reading materials** - Background theory and concepts
-- **Reference guides** - Quick command references
+#### Dokumentatsioon
+- **Kursuse veebileht** - [https://mtalvik.github.io/automation](https://mtalvik.github.io/automation)
+- **Ülesannete juhised** - Üksikasjalikud samm-sammulised juhendid
+- **Lugemismaterjalid** - Taustateooria ja kontseptsioonid
+- **Referentsjuhendid** - Kiired käskude viited
 
-#### Tools and Services
-- **Student Developer Pack** - Premium tools and services
-- **Cloud credits** - AWS, Azure, DigitalOcean credits
-- **Free software** - JetBrains IDEs, GitHub Desktop
-- **Learning resources** - GitHub Learning Lab courses
+#### Tööriistad ja Teenused
+- **Student Developer Pack** - Premium tööriistad ja teenused
+- **Pilve krediidid** - AWS, Azure, DigitalOcean krediidid
+- **Tasuta tarkvara** - JetBrains IDE-d, GitHub Desktop
+- **Õppimisressursid** - GitHub Learning Lab kursused
 
-#### Community
-- **GitHub Discussions** - Course Q&A and discussions
-- **Study groups** - Peer learning and collaboration
-- **Showcase** - Share your projects and achievements
-- **Feedback** - Help improve the course
+#### Kogukond
+- **GitHub Discussions** - Kursuse küsimused ja arutelud
+- **Õpperühmad** - Kaaslaste õppimine ja koostöö
+- **Näidisprojektid** - Jaga oma projekte ja saavutusi
+- **Tagasiside** - Aita kursust parandada
 
-## Grading and Assessment
+## Hindamine ja Hinnangud
 
-#### Assignment Types
-- **Lab assignments** - Hands-on practical work
-- **Homework** - Theory and practice combination
-- **Reading assignments** - Documentation and research
-- **Projects** - Larger integrated assignments
+#### Ülesannete Tüübid
+- **Laborülesanded** - Praktilised käed-külge tööd
+- **Kodutööd** - Teooria ja praktika kombinatsioon
+- **Lugemisülesanded** - Dokumentatsiooni ja uurimistöö
+- **Projektid** - Suuremad integreeritud ülesanded
 
-#### Grading Criteria
-- **Functionality** - Does the code work correctly?
-- **Best practices** - Following industry standards
-- **Documentation** - Clear README and comments
-- **Timeliness** - Submitted by deadline
+#### Hindamiskriteeriumid
+- **Funktsionaalsus** - Kas kood töötab õigesti?
+- **Parimad tavad** - Tööstuse standardite järgimine
+- **Dokumentatsioon** - Selge README ja kommentaarid
+- **Õigeaegsus** - Esitatud tähtajaks
 
-#### Feedback
-- **Automated testing** - Immediate feedback on functionality
-- **Peer review** - Learn from other students
-- **Instructor feedback** - Detailed comments and suggestions
-- **Self-assessment** - Reflect on your learning
+#### Tagasiside
+- **Automaatne testimine** - Kohene tagasiside funktsionaalsuse kohta
+- **Kaaslaste ülevaatus** - Õpi teistelt õpilastelt
+- **Õpetaja tagasiside** - Üksikasjalikud kommentaarid ja ettepanekud
+- **Eneseanalüüs** - Mõtle oma õppimise üle
 
-## Tips for Success
+## Nõuanded Edukuse Saavutamiseks
 
-#### Time Management
-- **Start early** - Don't wait until the lastute
-- **Break down tasks** - Work on assignments in smaller chunks
-- **Set deadlines** - Create your own milestones
-- **Ask for help** - Don't struggle alone
+#### Ajahaldus
+- **Alusta vara** - Ära oota viimase hetkeni
+- **Jaga ülesandeid** - Tööta ülesannete kallal väiksemas tükkides
+- **Sea tähtajad** - Loo oma vahemärgid
+- **Küsi abi** - Ära kannata üksi
 
-#### Learning Strategies
-- **Practice regularly** - Hands-on experience is key
-- **Read documentation** - Understand the tools you're using
-- **Experiment** - Try different approaches
-- **Reflect** - Think about what you've learned
+#### Õppimisstrateegiaid
+- **Harjuta regulaarselt** - Praktiline kogemus on võtmetähtsusega
+- **Loe dokumentatsiooni** - Mõista tööriistu, mida kasutad
+- **Eksperimenteeri** - Proovi erinevaid lähenemisviise
+- **Reflekteeri** - Mõtle sellele, mida oled õppinud
 
-#### Collaboration
-- **Help others** - Teaching reinforces your own learning
-- **Ask questions** - There are no stupid questions
-- **Share resources** - Contribute to the community
-- **Celebrate progress** - Recognize your achievements
+#### Koostöö
+- **Aita teisi** - Õpetamine tugevdab sinu enda õppimist
+- **Esita küsimusi** - Rumalaid küsimusi ei ole
+- **Jaga ressursse** - Aita kogukonda
+- **Tähistage edasiminekut** - Tunnusta oma saavutusi
 
-## Troubleshooting
+## Veaotsing
 
-### Common Issues
-1. **Can't access GitHub Classroom**
- - Check your GitHub account
- - Verify the invitation link
- - Contact your instructor
+### Levinud Probleemid
+1. **Ei saa GitHub Classroom'ile ligi**
+   - Kontrolli oma GitHub kontot
+   - Kinnita kutse linki
+   - Võta ühendust õpetajaga
 
-2. **Assignment repository not created**
- - Wait a fewutes
- - Refresh the page
- - Check your GitHub notifications
+2. **Ülesande hoidlat ei loodud**
+   - Oota mõni minut
+   - Värskenda lehte
+   - Kontrolli oma GitHub teateid
 
-3. **Tools not working**
- - Check installation guides
- - Verify system requirements
- - Ask for help in Discussions
+3. **Tööriistad ei tööta**
+   - Kontrolli paigaldamise juhendeid
+   - Kinnita süsteemi nõudeid
+   - Küsi abi Discussions'is
 
-4. **Assignment submission issues**
- - Check deadline
- - Verify repository permissions
- - Contact your instructor
+4. **Ülesande esitamise probleemid**
+   - Kontrolli tähtaega
+   - Kinnita hoidla õigusi
+   - Võta ühendust õpetajaga
 
-### Getting Support
-- **GitHub Discussions** - Course-specific help
-- **Office** - Direct instructor support
-- **Peer support** - Study groups and collaboration
-- **Documentation** - Self-help resources
+### Toe Saamine
+- **GitHub Discussions** - Kursusespetsiifiline abi
+- **Konsultatsioonid** - Otsene õpetaja tugi
+- **Kaaslaste tugi** - Õpperühmad ja koostöö
+- **Dokumentatsioon** - Eneseabi ressursid
 
-## Course Schedule
+## Kursuse Ajakava
 
-### Weekly Structure
-- **Monday** - New assignment posted
-- **Wednesday** - Lab session (if applicable)
-- **Friday** - Assignment due
-- **Weekend** - Reading and preparation
+### Nädala Struktuur
+- **Esmaspäev** - Uus ülesanne postitatud
+- **Kolmapäev** - Labori sessioon (kui kohaldub)
+- **Reede** - Ülesande tähtaeg
+- **Nädalavahetus** - Lugemine ja ettevalmistus
 
-### Important Dates
-- **Course start** - [Date]
-- **Midterm project** - [Date]
-- **Final project** - [Date]
-- **Course end** - [Date]
+### Tähtsad Kuupäevad
+- **Kursuse algus** - [Kuupäev]
+- **Vaheeksam** - [Kuupäev]
+- **Lõpueksam** - [Kuupäev]
+- **Kursuse lõpp** - [Kuupäev]
 
-## Contact Information
+## Kontaktandmed
 
-### Instructor
-- **Name:** Maria Talvik
-- **Email:** [your-email@example.com]
-- **Office:** [Schedule]
+### Õpetaja
+- **Nimi:** Maria Talvik
+- **E-post:** [your-email@example.com]
+- **Vastuvõtt:** [Ajakava]
 - **GitHub:** [@mtalvik](https://github.com/mtalvik)
 
-### Course Resources
-- **Website:** [https://mtalvik.github.io/automation](https://mtalvik.github.io/automation)
-- **Repository:** [https://github.com/mtalvik/automation](https://github.com/mtalvik/automation)
-- **Discussions:** [https://github.com/mtalvik/automation/discussions](https://github.com/mtalvik/automation/discussions)
+### Kursuse Ressursid
+- **Veebileht:** [https://mtalvik.github.io/automation](https://mtalvik.github.io/automation)
+- **Hoidla:** [https://github.com/mtalvik/automation](https://github.com/mtalvik/automation)
+- **Arutelud:** [https://github.com/mtalvik/automation/discussions](https://github.com/mtalvik/automation/discussions)
 
-## Welcome to the Course!
+## Tere tulemast kursusele!
 
-We're excited to have you in the automation course. This is a hands-on, practical course that will give you real-world skills in DevOps and infrastructure automation.
+Oleme põnevil, et oled automatiseerimise kursusel. See on praktiline, käed-külge kursus, mis annab sulle päriselu oskused DevOps'i ja infrastruktuuri automatiseerimise valdkonnas.
 
-Remember:
-- **Ask questions** - We're here to help
-- **Practice regularly** - Hands-on experience is essential
-- **Collaborate** - Learn from your peers
-- **Have fun** - Enjoy the learning process
+Pidage meeles:
+- **Esitage küsimusi** - Oleme siin aitamaks
+- **Harjutage regulaarselt** - Praktiline kogemus on hädavajalik
+- **Tehke koostööd** - Õppige oma kaaslastelt
+- **Nautige** - Naudige õppimisprotsessi
 
-Good luck with your studies!
+Edu õpingutes!

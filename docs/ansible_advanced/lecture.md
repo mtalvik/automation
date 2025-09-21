@@ -1,11 +1,11 @@
 # Ansible Advanced: Edasijõudnud Funktsioonid
 
-**Kestus:**   
+**Kestus:** 2 tundi  
 **Teemad:** Variables, Templates, Handlers, Vault
 
 ---
 
-## Task 1: Õpiväljundid
+## Õpiväljundid
 
 Pärast seda nädalat oskate:
 - Hallata keerukamaid muutujaid ja nende hierarhiat
@@ -16,9 +16,9 @@ Pärast seda nädalat oskate:
 
 ---
 
-## Variables ja Variable Precedence
+## 1. Variables ja Variable Precedence
 
-### Muutujate hierarhia
+### 1.1 Muutujate hierarhia
 
 Ansible'is on muutujatel kindel prioriteedi järjekord:
 
@@ -42,6 +42,7 @@ graph TD
     style H fill:#99ffcc
 ```
 
+**Prioriteedi järjekord (kõrgeim esimesena):**
 1. **Command line** (`-e`, `--extra-vars`)
 2. **Task variables** (task sees)
 3. **Block variables** (block sees)
@@ -64,19 +65,20 @@ server_port: 8080
 - name: "Server setup"
   vars:
     server_port: 3000
-  debug:
-    msg: "Port will be: {{ server_port }}"  # Tulemus: 3000
+  tasks:
+    - debug:
+        msg: "Port will be: {{ server_port }}"  # Tulemus: 3000
 ```
 
 🤔 **Realiteedikontroll:** Kui teil on 100 serverit ja igal on erinev konfiguratsioon, kuidas te seda ilma muutujate hierarhiata hallaksite?
 
-### Faktide kasutamine
+### 1.2 Faktide kasutamine
 
 Ansible kogub automaatselt süsteemi infot:
 
 ```yaml
 - name: "Näita süsteemi faktid"
-    debug:
+  debug:
     msg:
       - "OS: {{ ansible_os_family }}"
       - "Memory: {{ ansible_memtotal_mb }}MB"
@@ -84,7 +86,7 @@ Ansible kogub automaatselt süsteemi infot:
       - "IP: {{ ansible_default_ipv4.address }}"
 ```
 
-### Registered variables
+### 1.3 Registered variables
 
 Salvestage käsu tulemusi:
 
@@ -95,16 +97,16 @@ Salvestage käsu tulemusi:
   failed_when: false
 
 - name: "Tegevus Apache staatuse põhjal"
-    debug:
+  debug:
     msg: "Apache on {{ apache_status.stdout }}"
   when: apache_status.rc == 0
 ```
 
 ---
 
-## Task 2: Jinja2 Templates
+## 2. Jinja2 Templates
 
-### Template'ite põhitõed
+### 2.1 Template'ite põhitõed
 
 Jinja2 võimaldab luua dünaamilisi faile:
 
@@ -130,12 +132,12 @@ cache_enabled = true
 {% else %}
 log_level = DEBUG
 cache_enabled = false
-    {% endif %}
+{% endif %}
 ```
 
- **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
+💡 **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
 
-### Conditionals template'ites
+### 2.2 Conditionals template'ites
 
 ```jinja2
 {% if ansible_os_family == "Debian" %}
@@ -152,7 +154,7 @@ service_port = {{ 443 if ssl_enabled else 80 }}
 
 🤔 **Mõelge:** Kuidas aitavad conditionals hallata erinevaid operatsioonisüsteeme ühes template'is?
 
-### Loops template'ites
+### 2.3 Loops template'ites
 
 ```jinja2
 # Virtual hosts
@@ -174,9 +176,9 @@ GRANT {{ user.privileges | join(', ') }} ON {{ user.database }}.* TO '{{ user.na
 {% endfor %}
 ```
 
- **Võrdlus:** Võrrelge template'i kasutamist staatilise konfiguratsiooniga. Millised on eelised ja puudused?
+📊 **Võrdlus:** Võrrelge template'i kasutamist staatilise konfiguratsiooniga. Millised on eelised ja puudused?
 
-### Filters
+### 2.4 Filters
 
 ```jinja2
 # String manipulation
@@ -195,13 +197,13 @@ first_server = {{ groups['webservers'] | first }}
 config = {{ app_config | to_nice_json }}
 ```
 
- **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
+✅ **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
 
 ---
 
-## Handlers ja Notifications
+## 3. Handlers ja Notifications
 
-### Handler'ite põhitõed
+### 3.1 Handler'ite põhitõed
 
 Handler'id käivituvad ainult siis, kui task teeb muudatusi:
 
@@ -210,27 +212,27 @@ tasks:
   - name: "Uuenda Apache konfiguratsioon"
     template:
       src: apache.conf.j2
-        dest: /etc/apache2/apache2.conf
-      notify: "restart apache"
+      dest: /etc/apache2/apache2.conf
+    notify: "restart apache"
     
   - name: "Lisa virtual host"
-      template:
-        src: vhost.conf.j2
-        dest: "/etc/apache2/sites-available/{{ site_name }}.conf"
+    template:
+      src: vhost.conf.j2
+      dest: "/etc/apache2/sites-available/{{ site_name }}.conf"
     notify:
       - "enable site"
       - "reload apache"
 
-  handlers:
-    - name: "restart apache"
-      service:
-        name: apache2
-        state: restarted
-    
-    - name: "reload apache"
-      service:
-        name: apache2
-        state: reloaded
+handlers:
+  - name: "restart apache"
+    service:
+      name: apache2
+      state: restarted
+  
+  - name: "reload apache"
+    service:
+      name: apache2
+      state: reloaded
 
   - name: "enable site"
     command: "a2ensite {{ site_name }}"
@@ -238,7 +240,7 @@ tasks:
 
 🤔 **Mõelge:** Miks kasutada `reload` mitte `restart`? Millal on vahe oluline?
 
-### Handler'ite täiustatud kasutamine
+### 3.2 Handler'ite täiustatud kasutamine
 
 **Listen groups:**
 ```yaml
@@ -269,15 +271,15 @@ handlers:
     listen: "restart web services"
 ```
 
- **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
+💡 **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
 
-🎯 **Praktikaasoovitus:** Kasutage `meta: flush_handlers` kriitiliste kontrollidel, kui peate veenduma, et teenus on taaskäivitatud enne järgmisi task'e.
+🎯 **Praktikasoovitus:** Kasutage `meta: flush_handlers` kriitiliste kontrollidel, kui peate veenduma, et teenus on taaskäivitatud enne järgmisi task'e.
 
 ---
 
-## Ansible Vault Secrets
+## 4. Ansible Vault Secrets
 
-### Vault'i põhitõed
+### 4.1 Vault'i põhitõed
 
 Ansible Vault krüpteerib tundlikud andmed:
 
@@ -309,9 +311,9 @@ vault_ssl_private_key: |
   -----END PRIVATE KEY-----
 ```
 
- **Turvanipp:** Vault'i parool peaks olema vähemalt 12 tähemärki ja sisaldama erinevaid sümboleid.
+🔐 **Turvanipp:** Vault'i parool peaks olema vähemalt 12 tähemärki ja sisaldama erinevaid sümboleid.
 
-### Vault'i kasutamine playbook'ides
+### 4.2 Vault'i kasutamine playbook'ides
 
 ```yaml
 # group_vars/production/vault.yml (krüpteeritud)
@@ -336,7 +338,7 @@ ansible-playbook site.yml --vault-password-file .vault_pass
 
 🤔 **Mõelge:** Kuidas saaksite organisatsioonis turvaliselt jagada vault paroole?
 
-### Multiple vault passwords
+### 4.3 Multiple vault passwords
 
 ```bash
 # Erinev vault erinevale keskkonnale
@@ -347,7 +349,7 @@ ansible-vault create --vault-id dev@prompt development-secrets.yml
 ansible-playbook site.yml --vault-id prod@prompt --vault-id dev@prompt
 ```
 
-### Vault parooli haldamine
+### 4.4 Vault parooli haldamine
 
 **Environment variable:**
 ```bash
@@ -365,9 +367,9 @@ chmod +x vault_pass.sh
 ansible-playbook site.yml --vault-password-file vault_pass.sh
 ```
 
- **Küsimus:** Mis probleeme võib tekkida vault paroolide haldamisel meeskonnatöös?
+💭 **Küsimus:** Mis probleeme võib tekkida vault paroolide haldamisel meeskonnatöös?
 
-### Vault'i rekey
+### 4.5 Vault'i rekey
 
 ```bash
 # Muuda vault parooli
@@ -377,11 +379,11 @@ ansible-vault rekey secrets.yml
 ansible-vault rekey --vault-id old@prompt --new-vault-id new@prompt secrets.yml
 ```
 
- **Praktiline nipp:** Regulaarselt muutge vault paroole ja dokumenteerige rotatsiooni protseduuri.
+✅ **Praktiline nipp:** Regulaarselt muutke vault paroole ja dokumenteerige rotatsiooni protseduuri.
 
-### Best practices
+### 4.6 Best practices
 
-1. **Vault failide organisatsioon:**
+#### 4.6.1 Vault failide organisatsioon
 ```
 group_vars/
 ├── all/
@@ -397,21 +399,21 @@ group_vars/
 
 🤔 **Mõelge:** Kuidas organiseerida vault faile nii, et oleks selge, millised andmed on krüpteeritud ja millised mitte?
 
-2. **Vault rotatsiooni strateegi**
+#### 4.6.2 Vault rotatsiooni strateegi
 
 ```bash
 # Regulaarne parooli vahetamine (näiteks kvartaalselt)
-## Task 3: Loo uus vault parool
+# 1. Loo uus vault parool
 ansible-vault rekey --new-vault-password-file new_password production-secrets.yml
 
-## Task 4: Uuenda CI/CD süsteemid uue parooliga
-## Teavita meeskonda muudatusest
-## Task 5: Eemalda vana parool kõigist süsteemidest
+# 2. Uuenda CI/CD süsteemid uue parooliga
+# 3. Teavita meeskonda muudatusest
+# 4. Eemalda vana parool kõigist süsteemidest
 ```
 
 ---
 
-## Lab: Template-based Configuration
+## 5. Lab: Template-based Configuration
 
 Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
@@ -425,11 +427,9 @@ Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 
 ---
 
-## Kokkuvõte: Week 13 Advanced Ansible
+## 6. Kokkuvõte
 
-Selles nädalas õppisime:
-
-### **Peamised teemad:**
+### 6.1 Peamised teemad
 
 1. **Variables ja Precedence**
    - Muutujate hierarhia ja prioriteedid
@@ -455,7 +455,7 @@ Selles nädalas õppisime:
    - Multiple vault passwords
    - CI/CD integration strategies
 
-### **Praktilised oskused:**
+### 6.2 Praktilised oskused
 
 - Advanced playbook architecture
 - Production-ready template'ite loomine
@@ -463,7 +463,7 @@ Selles nädalas õppisime:
 - Multi-environment deployments
 - Professional project structure
 
-### **Järgmiseks nädalaks:**
+### 6.3 Järgmiseks nädalaks
 
 Enne järgmist loengut (Ansible Roles ja Puppet):
 1. Lõpetage kodutöö - lihtne vault ja template'id projekt

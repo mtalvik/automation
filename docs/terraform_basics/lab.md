@@ -14,7 +14,7 @@ Pärast laborit oskate:
 
 ---
 
-## Task 2: Terraform'i installimine ja seadistamine ()
+## Task 2: Terraform'i installimine ja seadistamine
 
 ### Ülesanne 1.1: Terraform'i installimine
 
@@ -64,7 +64,7 @@ terraform --help
 
 ---
 
-## Task 3: Lihtsa Terraform projekti loomine ()
+## Task 3: Lihtsa Terraform projekti loomine
 
 ### Ülesanne 2.1: Põhilise Terraform faili loomine
 
@@ -190,7 +190,7 @@ terraform state list
 
 ---
 
-## Task 4: Muudatuste tegemine ja haldamine ()
+## Task 4: Muudatuste tegemine ja haldamine
 
 ### Ülesanne 3.1: Konfiguratsiooni muutmine
 
@@ -270,7 +270,7 @@ terraform destroy
 
 ---
 
-## Task 5: Variables ja Outputs ()
+## Task 5: Variables ja Outputs
 
 ### Ülesanne 4.1: Variables faili loomine
 
@@ -472,7 +472,7 @@ terraform output
 
 ---
 
-## Task 6: Advanced Features ()
+## Task 6: Advanced Features
 
 ### Ülesanne 5.1: Data sources kasutamine
 
@@ -556,7 +556,7 @@ cat summary.txt
 
 ---
 
-## Task 7: Kokkuvõte
+## Kokkuvõte
 
 Täna õppisime:
 
@@ -575,7 +575,7 @@ Täna õppisime:
 
 ## Task 8: **BOONUSÜLESANDED** (Terraform'i oskajatele)
 
-### B1: Advanced Local Infrastructure ()
+### Ülesanne Advanced Local Infrastructure
 
 ```hcl
 # locals.tf - Advanced local values
@@ -623,7 +623,7 @@ resource "local_file" "service_configs" {
 }
 ```
 
-### B2: Template Files ja Functions ()
+### Ülesanne Template Files ja Functions
 
 ```hcl
 # templates/nginx.conf.tpl
@@ -664,7 +664,7 @@ resource "local_file" "nginx_config" {
 }
 ```
 
-### B3: Modules ja Code Organization ()
+### Ülesanne Modules ja Code Organization
 
 ```hcl
 # modules/webapp/main.tf
@@ -752,7 +752,7 @@ module "backend" {
 }
 ```
 
-### B4: Terraform Workspaces ja State Management ()
+### Ülesanne Terraform Workspaces ja State Management
 
 ```bash
 # Create workspaces for different environments
@@ -805,7 +805,7 @@ locals {
 }
 ```
 
-### B5: Advanced Data Sources ja External Integration ()
+### Ülesanne Advanced Data Sources ja External Integration
 
 ```hcl
 # External data source

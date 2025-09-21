@@ -28,7 +28,7 @@ feature branch'id        ●─────●─────●
 
 ## Task 3: Juhend
 
-### Ülesanne 1.1: Repository Loomine ()
+### Ülesanne 1.1: Repository Loomine
 
 1. **GitHub'is looge uus repository**
    - Nimi: `its-git-demo` (või sarnane)
@@ -51,7 +51,7 @@ feature branch'id        ●─────●─────●
    git push origin main
    ```
 
-### Ülesanne 2.1: Lihtne Script ()
+### Ülesanne 2.1: Lihtne Script
 
 1. **Looge develop branch**
    - Minge main branch'ilt develop branch'ile
@@ -139,7 +139,7 @@ feature branch'id        ●─────●─────●
    - Tehke commit selge sõnumiga: `git commit -m "feat: add system info script and docs"`
    - Push'ige feature branch GitHub'i: `git push origin feature/system-info`
 
-### Ülesanne 3.1: GitHub Features ()
+### Ülesanne 3.1: GitHub Features
 
 1. **Looge Issues GitHub'is**
    - Issue #1: "Add system info script" - märgistage label'iga "enhancement"
@@ -163,7 +163,7 @@ feature branch'id        ●─────●─────●
    - Veenduge, et workflow töötab
    - Kui ei tööta, parandage vead
 
-### Ülesanne 4.1: Git Advanced Features ()
+### Ülesanne 4.1: Git Advanced Features
 
 1. **Looge tahtlikult merge conflict**
    - Minge develop branch'ile: `git checkout develop`
@@ -208,7 +208,7 @@ feature branch'id        ●─────●─────●
    - Push'ige tag'id GitHub'i: `git push origin v1.0.0`
    - GitHub'is looge Release v1.0.0 tag'i põhjal
 
-### Ülesanne 5.1: Finalize ()
+### Ülesanne 5.1: Finalize
 
 1. **Uuendage README.md**
    - **Kopeerige see sisu README.md faili:**

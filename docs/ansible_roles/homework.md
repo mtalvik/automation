@@ -2,13 +2,13 @@
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Deploy sama infrastruktuuri mõlema tööriistaga ja võrdle praktikas  
-praktilist ehitamist
+**Fookus:** Praktiline ehitamine
 
 **Te saate valmis starter kood - fookus on deployment'il ja praktilisel võrdlusel!**
 
 ---
 
-## Task 1: Projekt: Veebserveri + Andmebaasi seadistamine**
+## 1. Projekt: Veebserveri + Andmebaasi seadistamine
 
 **Mida te ehitate:**
 - 🌐 **Nginx veebiserver** kohandatud konfiguratsiooniga
@@ -23,17 +23,19 @@ praktilist ehitamist
 - Infrastruktuuri deployment strateegiad
 - Tööriistaspetsiifilised debug ja probleemilahendus
 
-## Task 2: **Ansible vs Puppet - Miks võrdleme?**
+---
+
+## 2. Ansible vs Puppet - Miks võrdleme?
 
 **Miks on oluline mõista erinevaid tööriistu?**
 
-### Ansible - Push-based lähenemine
+### 2.1 Ansible - Push-based lähenemine
 - **Kuidas töötab:** Kontrollserver saadab käsud sihtmasinatele
 - **Eelised:** Lihtne alustada, YAML süntaks, agentless
 - **Puudused:** Vajab SSH ühendust, vähem keerukaid funktsioone
 - **Kus kasutada:** Väiksemad meeskonnad, lihtsad automatiseerimised
 
-### Puppet - Pull-based lähenemine
+### 2.2 Puppet - Pull-based lähenemine
 - **Kuidas töötab:** Sihtmasinad ise küsivad konfiguratsiooni serverilt
 - **Eelised:** Võimas, keerukad funktsioonid, agent-based
 - **Puudused:** Keerulisem seadistada, Ruby süntaks
@@ -45,9 +47,11 @@ praktilist ehitamist
 - Õpite debug'ima mõlemat tööriista
 - Saate praktilise kogemuse
 
-## Task 3: Repository seadistamine ()**
+---
 
-#### Klooni starter repository
+## 3. Repository seadistamine (15 min)
+
+### 3.1 Klooni starter repository
 
 ```bash
 # Klooni kodutöö starter valmis failidega
@@ -62,7 +66,7 @@ ls -la
 # Peaksite nägema: ansible/, puppet/, docs/, README.md
 ```
 
-#### Kontrolli starter faile
+### 3.2 Kontrolli starter faile
 
 **Repository sisaldab:**
 - `ansible/` - Ansible playbook'i baas (vajab SSL ja virtual hosts lisamist)
@@ -70,14 +74,14 @@ ls -la
 - `vagrant/` - Test VM'ide konfiguratsioon (valmis kasutamiseks)
 - `requirements.md` - Mis te peate lisama
 
-#### Tutvu starter koodiga
+### 3.3 Tutvu starter koodiga
 
 **Ansible struktuur:**
 ```bash
 cd ansible/
 ls -la
 # Peaksite nägema:
-# - inventory/ (sihtmashinad)
+# - inventory/ (sihtmachinad)
 # - roles/ (nginx, postgresql)
 # - site.yml (peamine playbook)
 # - requirements.md (mis vaja lisada)
@@ -102,9 +106,9 @@ ls -la
 
 ---
 
-## Task 4: Ehita Ansible deployment ()**
+## 4. Ehita Ansible deployment (45 min)
 
-#### Käivita test keskkond
+### 4.1 Käivita test keskkond
 
 ```bash
 # Käivita VM testimiseks
@@ -121,16 +125,16 @@ vagrant ssh ansible-vm
 - **Kiire:** Võimaldab kiiresti testida ja kustutada
 - **Turvaline:** Võite eksperimenteerida vabalt
 
-#### Lisa SSL konfiguratsioon
+### 4.2 Lisa SSL konfiguratsioon
 
 **Starters on ainult basic nginx + postgresql. Peate lisama:**
 
 ```bash
 cd ../ansible/
 
-## Lisa SSL task'id (roles/nginx/tasks/ssl.yml)
-## Task 5: Kohandada nginx template'i SSL jaoks  
-## Lisada virtual hosts konfiguratsioon
+# Lisa SSL task'id (roles/nginx/tasks/ssl.yml)
+# Kohandada nginx template'i SSL jaoks  
+# Lisada virtual hosts konfiguratsioon
 
 # Vaata requirements.md faili, mis täpselt vaja
 cat requirements.md
@@ -138,7 +142,7 @@ cat requirements.md
 
 **Mida peate lisama SSL jaoks:**
 
-**1. SSL sertifikaatide genereerimine:**
+#### 4.2.1 SSL sertifikaatide genereerimine
 ```yaml
 # roles/nginx/tasks/ssl.yml
 - name: "Create SSL directory"
@@ -153,7 +157,7 @@ cat requirements.md
     creates: /etc/nginx/ssl/nginx.crt
 ```
 
-**2. Nginx SSL konfiguratsioon:**
+#### 4.2.2 Nginx SSL konfiguratsioon
 ```nginx
 # roles/nginx/templates/nginx.conf.j2
 server {
@@ -182,7 +186,7 @@ server {
 - **Õppimine:** SSL konfiguratsioon on oluline oskus
 - **Testimine:** Näete, kuidas töötab turvaline ühendus
 
-#### Lisa virtual hosts
+### 4.3 Lisa virtual hosts
 
 **Virtual hosts võimaldavad ühel serveril mitut veebisaiti:**
 
@@ -212,7 +216,7 @@ server {
 - **Praktika:** Paljud ettevõtted kasutavad virtual hoste
 - **Skaleerimine:** Võimaldab kasvada ilma uute serverite lisamata
 
-#### Käivita ja testi
+### 4.4 Käivita ja testi
 
 ```bash
 # Proovi oma laiendatud versiooni
@@ -233,7 +237,7 @@ curl -k https://localhost/site2
 - **Õppimine:** Testimine on oluline oskus
 - **Usaldus:** Saate usaldada oma automatiseerimist
 
-#### Commit oma töö
+### 4.5 Commit oma töö
 
 ```bash
 # Kui kõik töötab
@@ -243,9 +247,9 @@ git commit -m "Lisasin SSL ja virtual hosts Ansible'ile - töötab"
 
 ---
 
-## Task 6: Ehita Puppet deployment ()**
+## 5. Ehita Puppet deployment (45 min)
 
-#### Lülitu Puppet VM'ile
+### 5.1 Lülitu Puppet VM'ile
 
 ```bash
 # Hävita eelmine VM ja käivita puppet VM
@@ -260,17 +264,17 @@ vagrant ssh puppet-vm
 - **Praktika:** Reaalses elus kasutate erinevaid masinaid
 - **Debug:** Lihtsam lahendada probleeme
 
-#### Lisa samad asjad Puppet'iga
+### 5.2 Lisa samad asjad Puppet'iga
 
 **Puppet kood on veel poolik - pead lisama:**
 
 ```bash
 cd ../puppet/
 
-## Task 7: SSL sertifikaatide genereerimine
-## Task 8: Nginx SSL konfiguratsioon
-## Task 9: Virtual hosts setup
-## PostgreSQL initial schema
+# SSL sertifikaatide genereerimine
+# Nginx SSL konfiguratsioon
+# Virtual hosts setup
+# PostgreSQL initial schema
 
 # Vaata requirements.md - mis pead täpselt tegema
 cat ../requirements.md
@@ -278,7 +282,7 @@ cat ../requirements.md
 
 **Puppet SSL konfiguratsioon:**
 
-**1. SSL sertifikaatide genereerimine:**
+#### 5.2.1 SSL sertifikaatide genereerimine
 ```puppet
 # modules/nginx/manifests/ssl.pp
 class nginx::ssl {
@@ -296,7 +300,7 @@ class nginx::ssl {
 }
 ```
 
-**2. Nginx SSL konfiguratsioon:**
+#### 5.2.2 Nginx SSL konfiguratsioon
 ```puppet
 # modules/nginx/templates/nginx.conf.erb
 server {
@@ -325,7 +329,7 @@ server {
 - **Idempotent:** Puppet kontrollib olekut ja teeb ainult vajalikud muudatused
 - **Võimas:** Rohkem keerukaid funktsioone kui Ansible
 
-#### Lisa monitoring
+### 5.3 Lisa monitoring
 
 **Monitoring võimaldab kontrollida teenuste tööd:**
 
@@ -346,7 +350,7 @@ class monitoring::health {
   
   cron { 'health-check':
     command => '/usr/local/bin/health-check.sh >> /var/log/health.log 2>&1',
-  ute  => '*/5',
+    minute  => '*/5',
   }
 }
 ```
@@ -357,7 +361,7 @@ class monitoring::health {
 - **Praktika:** Kõik päris süsteemid vajavad monitooringut
 - **Debug:** Aitab leida probleeme
 
-#### Rakenda oma Puppet kood
+### 5.4 Rakenda oma Puppet kood
 
 ```bash
 # Proovi oma versiooni
@@ -371,7 +375,7 @@ curl -k https://localhost  # SSL peaks töötama!
 sudo /usr/local/bin/health-check.sh
 ```
 
-#### Commit Puppet töö
+### 5.5 Commit Puppet töö
 
 ```bash
 # Kui sama tulemus mis Ansible'iga
@@ -381,9 +385,9 @@ git commit -m "Lisasin samad asjad Puppet'iga - sama tulemus"
 
 ---
 
-## Task 10: Võrdle ja analüüsi ()**
+## 6. Võrdle ja analüüsi (15 min)
 
-#### Mõtle läbi, mis oli erinev
+### 6.1 Mõtle läbi, mis oli erinev
 
 Pärast mõlema tööriista kasutamist:
 
@@ -397,7 +401,7 @@ git commit -m "Mõlemad deploymentid töötavad - Ansible ja Puppet"
 git push origin homework-[your-name]
 ```
 
-#### Lühike võrdlus
+### 6.2 Lühike võrdlus
 
 **Kirjuta 2-3 lauset oma kogemusest:**
 
@@ -407,14 +411,14 @@ git push origin homework-[your-name]
 
 ---
 
-## Task 11: Lõpeta ja esita ()**
+## 7. Lõpeta ja esita (15 min)
 
-#### Kirjuta põhjalik README.md
+### 7.1 Kirjuta põhjalik README.md
 
 ```markdown
 # Kodutöö - Ehitasin sama asja Ansible ja Puppet'iga
 
-## Task 12: Mida ehitasin
+## Mida ehitasin
 - Laiensid basic nginx + postgresql starter koodi
 - Lisasin SSL sertifikaadid ja HTTPS konfiguratsioon
 - Lisasin virtual hosts funktsionaalsuse
@@ -435,10 +439,10 @@ git push origin homework-[your-name]
 - **Debug:** Rohkem keeruline, aga detailne
 - **Dokumentatsioon:** Hea, aga vähem algajasõbralik
 
-## Task 13: Eelistus ja põhjendus
+## Eelistus ja põhjendus
 Ma eelistaks **[Ansible/Puppet]** sest [2-3 lauset põhjendust].
 
-## Task 14: Õpitud oskused
+## Õpitud oskused
 - SSL sertifikaatide konfigureerimine
 - Virtual hosts seadistamine
 - Monitooringu lisamine
@@ -449,7 +453,7 @@ Ma eelistaks **[Ansible/Puppet]** sest [2-3 lauset põhjendust].
 Tehtud [kuupäev] - mõlemad deploymentid töötavad!
 ```
 
-#### Lõplik push ja esitamine
+### 7.2 Lõplik push ja esitamine
 
 ```bash
 # Lõplik commit
@@ -465,23 +469,21 @@ echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
 
 ---
 
- 
+## 8. Näpunäited
 
-## Näpunäited
-
-### Ansible näpunäited
+### 8.1 Ansible näpunäited
 - **Alusta lihtsalt:** Ära proovi kõike korraga
-- **Kasuta YAML validatorit:** Välti süntaksi vigu
+- **Kasuta YAML validatorit:** Väldi süntaksi vigu
 - **Testi playbook'i:** Kasuta `--check` režiimi
 - **Dokumenteeri muudatused:** Selge commit sõnumid
 
-### Puppet näpunäited
+### 8.2 Puppet näpunäited
 - **Õpi Ruby põhitõdesid:** Aitab süntaksit mõista
 - **Kasuta puppet-lint:** Kontrolli koodi kvaliteeti
 - **Testi modulit:** Kasuta `puppet apply --noop`
 - **Dokumenteeri klassi:** Selge kommentaarid
 
-### Üldised näpunäited
+### 8.3 Üldised näpunäited
 - **Võrdle objektiivselt:** Ära eelista üht või teist
 - **Mõtle praktiliselt:** Millal mida kasutada
 - **Dokumenteeri kogemused:** Aitab hiljem meeles pidada
@@ -489,7 +491,7 @@ echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
 
 ---
 
-## KKK
+## 9. KKK
 
 **Q: Kas pean mõlemad deploymentid tegema?**  
 A: Jah, see on kodutöö eesmärk - võrrelda mõlemat lähenemist.
@@ -505,7 +507,7 @@ A: Järgmise nädala alguseks. Hilinemine = punktide kaotus.
 
 ---
 
-## Õnnitlused!
+## Õnnitleused!
 
 Kui jõuate siia, olete:
 - Ehitanud sama infrastruktuuri kahe erineva tööriistaga

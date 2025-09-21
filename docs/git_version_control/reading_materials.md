@@ -7,7 +7,7 @@
 
 ## Required Reading (1.)
 
-#### Git History and Evolution ()
+#### Git History and Evolution
 **Source:** Git Documentation & History
 
 **Key Topics:**
@@ -21,7 +21,7 @@
 - How does Git's distributed nature differ from centralized VCS?
 - Why did Linus Torvalds choose the name "Git"?
 
-#### Git Internals Deep Dive ()
+#### Git Internals Deep Dive
 **Source:** Git Internals Documentation
 
 **Key Topics:**
@@ -35,7 +35,7 @@
 - How does Git achieve content-addressable storage?
 - What happens when you run `git add` vs `git commit`?
 
-#### Advanced Branching Strategies ()
+#### Advanced Branching Strategies
 **Source:** Git Flow, GitHub Flow Documentation
 
 **Key Topics:**
@@ -53,7 +53,7 @@
 
 ## Optional Reading (1 hour)
 
-#### Git Best Practices ()
+#### Git Best Practices
 **Source:** Industry Standards & Git Documentation
 
 **Key Topics:**
@@ -62,7 +62,7 @@
 - When to commit vs when to stash
 - Code review best practices
 
-#### Git Tools and Ecosystem ()
+#### Git Tools and Ecosystem
 **Source:** Git Tools Documentation
 
 **Key Topics:**

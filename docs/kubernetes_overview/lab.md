@@ -11,7 +11,7 @@ Pärast laborit oskate:
 
 ---
 
-## Task 2: 🛠 Samm 2: Kohaliku Kubernetes Seadistamine ()
+## Task 2: 🛠 Samm 2: Kohaliku Kubernetes Seadistamine
 
 ### Ülesanne 2.1: Minikube Install
 
@@ -65,7 +65,7 @@ kubectl version --client
 
 ---
 
-## Task 3: Esimene Kubernetes Rakendus ()
+## Task 3: Esimene Kubernetes Rakendus
 
 ### Ülesanne 3.1: Lihtne Nginx Pod
 
@@ -183,7 +183,7 @@ minikube service nginx-service
 
 ---
 
-## Task 4: Scaling ja Updates ()
+## Task 4: Scaling ja Updates
 
 ### Ülesanne 4.1: Scaling
 
@@ -235,7 +235,7 @@ kubectl get pods -w
 
 ---
 
-## Task 5: Monitoring ja Debugging ()
+## Task 5: Monitoring ja Debugging
 
 ### Ülesanne 5.1: Põhilised kubectl käsud
 
@@ -307,7 +307,7 @@ kubectl get events --field-selector involvedObject.name=nginx-deployment
 
 ---
 
-## Task 6: Konfiguratsioon ja Secret'id ()
+## Task 6: Konfiguratsioon ja Secret'id
 
 ### Ülesanne 6.1: ConfigMap
 
@@ -375,7 +375,7 @@ kubectl describe secret app-secret
 
 ---
 
-## Task 7: 🧹 Samm 7: Cleanup ()
+## Task 7: 🧹 Samm 7: Cleanup
 
 **Kustuta kõik ressursid:**
 ```bash
@@ -402,7 +402,7 @@ minikube stop
 
 ---
 
-## Task 8: HARJUTUS 8: Bonus Ülesanded ()
+## Task 8: HARJUTUS 8: Bonus Ülesanded
 
 ### Ülesanne 8.1: Multi-container Pod
 

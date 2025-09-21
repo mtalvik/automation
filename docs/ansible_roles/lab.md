@@ -1,780 +1,275 @@
-# Ansible Roles Lab: Custom Nginx Role Creation
-## Eesmärk: Professionaalse Ansible role'i loomine (2h)
+# Ansible Roles Lab: Nginx Role
 
-Täna loome oma esimese professionaalse Ansible role'i!
-
----
-
-## Task 1: Lab'i eesmärgid
-
-- **Nginx role** Galaxy standardites
-- **Multi-OS tugi** (Ubuntu/Debian)
-- **SSL sertifikaadid** automaatselt
-- **Virtual hosts** konfiguratsioon
+**Aeg:** 2 tundi  
+**Eeldused:** Ansible basics läbitud  
+**Eesmärk:** Luua töötav Ansible role
 
 ---
 
-## Task 2: Role struktuuri loomine ()
+## Lab ülesanded
 
-### Töökeskkonna ettevalmistamine
+### Ülesanne 1: Role struktuuri loomine (10 min)
 
 ```bash
-# Kontrollige Ansible
-ansible --version
+# Looge töökataloog
+mkdir ~/ansible-roles-lab && cd ~/ansible-roles-lab
+mkdir roles && cd roles
 
-# Looge töökausta  
-mkdir ~/ansible-roles-lab
-cd ~/ansible-roles-lab
-mkdir roles
-cd roles
+# Genereerige role struktuur
+ansible-galaxy init nginx-custom
+
+# Liikuge role kausta
+cd nginx-custom
 ```
 
-### Role'i genereerimine
+**✅ Checkpoint:** `ls -la` peaks näitama 8 kausta/faili
 
+---
+
+### Ülesanne 2: Defaults seadistamine (15 min)
+
+**Fail:** `defaults/main.yml`
+
+**Nõuded:**
+- Defineerige vähemalt 5 muutujat nginx jaoks
+- Üks muutuja peab kasutama Jinja2 (näiteks: `{{ ansible_processor_vcpus }}`)
+- Dokumenteerige kommentaaridega
+
+**Vihje:** Mõelge portidele, kasutajatele, SSL-ile
+
+**✅ Test:**
 ```bash
-# Galaxy tool genereerib struktuuri
-ansible-galaxy init nginx-webserver
-
-# Kontrollige
-tree nginx-webserver/
+ansible -m debug -a "var=nginx_port" localhost -e "@defaults/main.yml"
 ```
 
-Peaks näitama:
-```
-nginx-webserver/
-├── README.md
-├── defaults/main.yml
-├── handlers/main.yml  
-├── meta/main.yml
-├── tasks/main.yml
-├── templates/
-├── vars/main.yml
-└── tests/
-```
+---
 
-### Metadata seadistamine
+### Ülesanne 3: Installation tasks (20 min)
 
-**Muutke `meta/main.yml`:**
+**Fail:** `tasks/install.yml`
+
+**Nõuded:**
+1. Update package cache (ainult Debian/Ubuntu)
+2. Install nginx
+3. Create nginx user
+4. Create directories: `/var/www/html`, `/etc/nginx/sites-available`, `/etc/nginx/sites-enabled`
+
+**Looge ka:** `tasks/main.yml`
 ```yaml
 ---
-galaxy_info:
-  author: "ITS-24 Student"
-  description: "Professional Nginx with SSL and virtual hosts"
-  company: "ITS-24 DevOps Course"
-  license: "MIT"
-_ansible_version: "2.9"
-  
-  platforms:
-    - name: Ubuntu
-      versions: [focal, jammy]
-    - name: Debian  
-      versions: [buster, bullseye]
-  
-  galaxy_tags:
-    - web
-    - nginx
-    - ssl
-    - webserver
+- include_tasks: install.yml
+```
 
-dependencies: []
+**✅ Test:**
+```bash
+ansible-playbook --syntax-check tasks/main.yml
 ```
 
 ---
 
-## Task 3: Variables ja defaults ()
+### Ülesanne 4: Nginx template (20 min)
 
-### Vaikimisi seaded - algajasõbralik
+**Fail:** `templates/nginx.conf.j2`
 
-**Muutke `defaults/main.yml`:**
-```yaml
----
-# Basic settings (töötab kohe!)
-nginx_user: "www-data"
-nginx_worker_processes: "{{ ansible_processor_vcpus | default(2) }}"
-nginx_worker_connections: 1024
+**Nõuded:**
+- Kasutage vähemalt 3 muutujat defaults'ist
+- Lisage conditional block ({% if %})
+- Worker processes peab sõltuma CPU tuumadest
 
-# Ports
-nginx_http_port: 80
-nginx_https_port: 443
-
-# SSL (vaikimisi välja lülitatud)
-nginx_ssl_enabled: false
-nginx_ssl_cert_path: "/etc/ssl/certs/nginx.crt"
-nginx_ssl_key_path: "/etc/ssl/private/nginx.key"
-
-# Virtual hosts (tühi list = default site)
-nginx_vhosts: []
-
-# Security
-nginx_remove_default_vhost: true
-nginx_server_tokens: "off"
-nginx_gzip_enabled: true
-```
-
-### Role sisemised muutujad
-
-**Muutke `vars/main.yml`:**
-```yaml
----
-# OS-specific packages
-_nginx_packages:
-  Debian: [nginx, ssl-cert, curl]
-  Ubuntu: [nginx, ssl-cert, curl]
-
-nginx_packages: "{{ _nginx_packages[ansible_os_family] | default(_nginx_packages['Debian']) }}"
-
-# System paths
-nginx_config_path: "/etc/nginx"
-nginx_sites_available: "{{ nginx_config_path }}/sites-available"
-nginx_sites_enabled: "{{ nginx_config_path }}/sites-enabled"
-nginx_log_path: "/var/log/nginx"
-
-# Service
-nginx_service_name: "nginx"
-```
-
----
-
-## Task 4: Tasks loomine ()
-
-### Peamine tasks fail - sisukord
-
-**Muutke `tasks/main.yml`:**
-```yaml
----
-- name: "Include OS variables"
-  include_vars: "{{ ansible_os_family }}.yml"
-  when: ansible_os_family in ['Debian', 'Ubuntu']
-
-- name: "Validate configuration"
-  include_tasks: validate.yml
-
-- name: "Install Nginx"
-  include_tasks: install.yml
-
-- name: "Configure Nginx"
-  include_tasks: configure.yml
-
-- name: "Setup SSL"
-  include_tasks: ssl.yml
-  when: nginx_ssl_enabled
-
-- name: "Setup virtual hosts"
-  include_tasks: vhosts.yml
-
-- name: "Start service"
-  include_tasks: service.yml
-
-- name: "Run tests"
-  include_tasks: test.yml
-```
-
-### Validation - alati kontrollige sisendeid!
-
-**Looge `tasks/validate.yml`:**
-```yaml
----
-- name: "Validate HTTP port"
-  assert:
-    that:
-      - nginx_http_port is defined
-      - nginx_http_port is number
-      - nginx_http_port > 0
-      - nginx_http_port < 65536
-    fail_msg: "nginx_http_port must be valid port (1-65535)"
-
-- name: "Validate HTTPS port"
-  assert:
-    that:
-      - nginx_https_port is defined
-      - nginx_https_port is number
-      - nginx_https_port > 0
-      - nginx_https_port < 65536
-    fail_msg: "nginx_https_port must be valid port (1-65535)"
-
-- name: "Validate SSL settings when enabled"
-  assert:
-    that:
-      - nginx_ssl_cert_path is defined
-      - nginx_ssl_key_path is defined
-      - nginx_ssl_cert_path | length > 0
-      - nginx_ssl_key_path | length > 0
-    fail_msg: "SSL certificate paths required when SSL enabled"
-  when: nginx_ssl_enabled
-
-- name: "Checkimum RAM"
-  assert:
-    that:
-      - ansible_memtotal_mb >= 256
-    fail_msg: "Need at least 256MB RAM for nginx"
-```
-
-### Installation tasks
-
-**Looge `tasks/install.yml`:**
-```yaml
----
-- name: "Update package cache (Debian/Ubuntu)"
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-  when: ansible_os_family == "Debian"
-
-- name: "Install Nginx packages"
-  package:
-    name: "{{ nginx_packages }}"
-    state: present
-
-- name: "Ensure nginx user exists"
-  user:
-    name: "{{ nginx_user }}"
-    system: yes
-    shell: /bin/false
-    home: /var/www
-    createhome: no
-    state: present
-
-- name: "Create required directories"
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  loop:
-    - "{{ nginx_config_path }}"
-    - "{{ nginx_sites_available }}"
-    - "{{ nginx_sites_enabled }}"
-    - "{{ nginx_log_path }}"
-    - "/var/www"
-```
-
-### Configuration tasks
-
-**Looge `tasks/configure.yml`:**
-```yaml
----
-- name: "Backup original nginx.conf"
-  copy:
-    src: "{{ nginx_config_path }}/nginx.conf"
-    dest: "{{ nginx_config_path }}/nginx.conf.original"
-    remote_src: yes
-    force: no
-  ignore_errors: yes
-
-- name: "Configure main nginx.conf"
-  template:
-    src: nginx.conf.j2
-    dest: "{{ nginx_config_path }}/nginx.conf"
-    owner: root
-    group: root
-    mode: '0644'
-    backup: yes
-  notify: reload nginx
-
-- name: "Remove default nginx site"
-  file:
-    path: "{{ nginx_sites_enabled }}/default"
-    state: absent
-  when: nginx_remove_default_vhost
-  notify: reload nginx
-
-- name: "Remove default site config"
-  file:
-    path: "{{ nginx_sites_available }}/default"
-    state: absent
-  when: nginx_remove_default_vhost
-```
-
----
-
-## Task 5: SSL ja Virtual Hosts ()
-
-### SSL tasks
-
-**Looge `tasks/ssl.yml`:**
-```yaml
----
-- name: "Install OpenSSL for certificate generation"
-  package:
-    name: openssl
-    state: present
-
-- name: "Create SSL directories"
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  loop:
-    - "/etc/ssl/certs"
-    - "/etc/ssl/private"
-
-- name: "Generate self-signed SSL certificate"
-  command: >
-    openssl req -new -x509 -days 365 -nodes
-    -out {{ nginx_ssl_cert_path }}
-    -keyout {{ nginx_ssl_key_path }}
-    -subj "/C=EE/ST=Harju/L=Tallinn/O=ITS-24 Course/CN={{ ansible_fqdn }}"
-  args:
-    creates: "{{ nginx_ssl_cert_path }}"
-  when: nginx_ssl_enabled
-
-- name: "Set SSL certificate permissions"
-  file:
-    path: "{{ nginx_ssl_cert_path }}"
-    owner: root
-    group: root
-    mode: '0644'
-  when: nginx_ssl_enabled
-
-- name: "Set SSL private key permissions (very important!)"
-  file:
-    path: "{{ nginx_ssl_key_path }}"
-    owner: root
-    group: root
-    mode: '0600'
-  when: nginx_ssl_enabled
-```
-
-### Virtual hosts tasks
-
-**Looge `tasks/vhosts.yml`:**
-```yaml
----
-- name: "Configure virtual hosts"
-  template:
-    src: vhost.conf.j2
-    dest: "{{ nginx_sites_available }}/{{ item.name }}.conf"
-    owner: root
-    group: root
-    mode: '0644'
-  loop: "{{ nginx_vhosts }}"
-  notify: reload nginx
-  when: nginx_vhosts | length > 0
-
-- name: "Enable virtual hosts"
-  file:
-    src: "{{ nginx_sites_available }}/{{ item.name }}.conf"
-    dest: "{{ nginx_sites_enabled }}/{{ item.name }}.conf"
-    state: link
-  loop: "{{ nginx_vhosts }}"
-  notify: reload nginx
-  when: nginx_vhosts | length > 0
-
-- name: "Create document root directories"
-  file:
-    path: "{{ item.root | default('/var/www/' + item.name) }}"
-    state: directory
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}"
-    mode: '0755'
-  loop: "{{ nginx_vhosts }}"
-  when: nginx_vhosts | length > 0
-
-- name: "Create index.html for sites"
-  template:
-    src: index.html.j2
-    dest: "{{ item.root | default('/var/www/' + item.name) }}/index.html"
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}"
-    mode: '0644'
-  loop: "{{ nginx_vhosts }}"
-  when: nginx_vhosts | length > 0
-```
-
-### Service ja test tasks
-
-**Looge `tasks/service.yml`:**
-```yaml
----
-- name: "Start and enable Nginx service"
-  service:
-    name: "{{ nginx_service_name }}"
-    state: started
-    enabled: yes
-
-- name: "Check Nginx service status"
-  service:
-    name: "{{ nginx_service_name }}"
-    state: started
-  register: nginx_status
-
-- name: "Display service status"
-  debug:
-    msg: "Nginx teenus on {{ nginx_status.state }}!"
-```
-
-**Looge `tasks/test.yml`:**
-```yaml
----
-- name: "Test nginx configuration syntax"
-  command: nginx -t
-  register: nginx_config_test
-  changed_when: false
-  failed_when: nginx_config_test.rc != 0
-
-- name: "Test HTTP response"
-  uri:
-    url: "http://{{ ansible_default_ipv4.address }}:{{ nginx_http_port }}"
-    method: GET
-    status_code: [200, 301, 302, 404]
-  register: http_test
-  ignore_errors: yes
-
-- name: "Test HTTPS response (if SSL enabled)"
-  uri:
-    url: "https://{{ ansible_default_ipv4.address }}:{{ nginx_https_port }}"
-    method: GET
-    status_code: [200, 301, 302, 404]
-    validate_certs: no
-  register: https_test
-  ignore_errors: yes
-  when: nginx_ssl_enabled
-
-- name: "Display test results"
-  debug:
-    msg: |
-      Test tulemused:
-      - Config syntax: {{ 'OK' if nginx_config_test.rc == 0 else 'FAILED' }}
-      - HTTP response: {{ 'OK' if http_test.failed is not defined else 'FAILED' }}
-      - HTTPS response: {{ 'OK' if https_test.skipped is not defined and https_test.failed is not defined else 'SKIPPED/FAILED' }}
-```
-
----
-
-## Task 6: Templates ()
-
-### Main nginx configuration
-
-**Looge `templates/nginx.conf.j2`:**
+**Näide algus:**
 ```nginx
-# {{ ansible_managed }}
-# Nginx configuration for {{ inventory_hostname }}
-# Generated: {{ ansible_date_time.iso8601 }}
-
 user {{ nginx_user }};
 worker_processes {{ nginx_worker_processes }};
-pid /run/nginx.pid;
 
 events {
     worker_connections {{ nginx_worker_connections }};
-    use epoll;
-    multi_accept on;
 }
 
 http {
-    # Basic Settings
-    sendfile on;
-    tcp_nopush on;
-    tcp_nodelay on;
-    keepalive_timeout 65;
-    types_hash_max_size 2048;
-    server_tokens {{ nginx_server_tokens }};
-
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-
-    # Logging
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log {{ nginx_log_path }}/access.log main;
-    error_log {{ nginx_log_path }}/error.log;
-
-{% if nginx_gzip_enabled %}
-    # Gzip Settings
-    gzip on;
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types
-        text/plain
-        text/css
-        text/xml
-        text/javascript
-        application/json
-        application/javascript
-        application/xml+rss
-        application/atom+xml;
-{% endif %}
-
-{% if nginx_ssl_enabled %}
-    # SSL Settings
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256;
-    ssl_prefer_server_ciphers on;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 10m;
-{% endif %}
-
-    # Virtual Host Configs
-    include {{ nginx_sites_enabled }}/*;
+    # Teie kood siia
 }
 ```
 
-### Virtual host template
+**Fail:** `tasks/configure.yml`
+```yaml
+---
+- name: Deploy nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+  notify: restart nginx
+```
 
-**Looge `templates/vhost.conf.j2`:**
+**✅ Test:** Template peab genereeruma ilma vigadeta
+
+---
+
+### Ülesanne 5: Handlers (10 min)
+
+**Fail:** `handlers/main.yml`
+
+**Nõuded:**
+1. Handler "restart nginx"
+2. Handler "reload nginx"
+
+**✅ Test:** Handler peab olema `service` mooduliga
+
+---
+
+### Ülesanne 6: Virtual hosts (25 min)
+
+**Fail:** `templates/vhost.conf.j2`
+
 ```nginx
-# {{ ansible_managed }}
-# Virtual host: {{ item.name }}
-
-{% if item.ssl | default(nginx_ssl_enabled) %}
-# HTTPS server
 server {
-    listen {{ nginx_https_port }} ssl http2;
+    listen {{ item.port | default(80) }};
     server_name {{ item.name }};
-
-    # SSL Configuration
-    ssl_certificate {{ nginx_ssl_cert_path }};
-    ssl_certificate_key {{ nginx_ssl_key_path }};
-
-    # Security headers
-    add_header Strict-Transport-Security "max-age=31536000" always;
-    add_header X-Frame-Options DENY always;
-    add_header X-Content-Type-Options nosniff always;
-
-    # Document root
-    root {{ item.root | default('/var/www/' + item.name) }};
-    index index.html index.htm;
-
-    # Logs
-    access_log {{ nginx_log_path }}/{{ item.name }}_ssl_access.log main;
-    error_log {{ nginx_log_path }}/{{ item.name }}_ssl_error.log;
+    root {{ item.root | default('/var/www/html') }};
+    
+    # Lisa SSL kui item.ssl == true
 }
-
-# Redirect HTTP to HTTPS
-server {
-    listen {{ nginx_http_port }};
-    server_name {{ item.name }};
-    return 301 https://$server_name$request_uri;
-}
-
-{% else %}
-# HTTP server
-server {
-    listen {{ nginx_http_port }};
-    server_name {{ item.name }};
-
-    # Document root
-    root {{ item.root | default('/var/www/' + item.name) }};
-    index index.html index.htm;
-
-    # Logs
-    access_log {{ nginx_log_path }}/{{ item.name }}_access.log main;
-    error_log {{ nginx_log_path }}/{{ item.name }}_error.log;
-}
-{% endif %}
 ```
 
-### Index.html template
+**Fail:** `tasks/vhosts.yml`
 
-**Looge `templates/index.html.j2`:**
-```html
-<!DOCTYPE html>
-<html lang="et">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ item.name }} - ITS-24 Nginx Role</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            max-width: 800px; 
-            margin: 50px auto; 
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .container {
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-        h1 { text-align: center; }
-        .info { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 5px; margin: 10px 0; }
-        .success { color: #4CAF50; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 ITS-24 Nginx Role</h1>
-        <p class="success">✅ {{ item.name }} on edukalt konfigureeritud!</p>
-        
-        <div class="info">
-            <strong>Virtual Host:</strong> {{ item.name }}<br>
-            <strong>Server:</strong> {{ inventory_hostname }}<br>
-            <strong>Document Root:</strong> {{ item.root | default('/var/www/' + item.name) }}<br>
-            <strong>SSL Enabled:</strong> {{ item.ssl | default(nginx_ssl_enabled) | ternary('Yes', 'No') }}<br>
-            <strong>Generated:</strong> {{ ansible_date_time.iso8601 }}
-        </div>
+**Nõuded:**
+1. Loop läbi `nginx_vhosts` listi
+2. Create vhost config igale saidile
+3. Create document root kataloogid
+4. Enable sites (symlink)
 
-        <h3>📊 Server Info</h3>
-        <div class="info">
-            <strong>OS:</strong> {{ ansible_distribution }} {{ ansible_distribution_version }}<br>
-            <strong>Architecture:</strong> {{ ansible_architecture }}<br>
-            <strong>CPU Cores:</strong> {{ ansible_processor_vcpus }}<br>
-            <strong>Memory:</strong> {{ (ansible_memtotal_mb/1024)|round(1) }} GB
-        </div>
-    </div>
-</body>
-</html>
+**defaults/main.yml lisa:**
+```yaml
+nginx_vhosts: []
+# nginx_vhosts:
+#   - name: example.com
+#     port: 80
+#     root: /var/www/example
 ```
 
-### Handlers
+---
 
-**Muutke `handlers/main.yml`:**
+### Ülesanne 7: SSL sertifikaadid (20 min)
+
+**Fail:** `tasks/ssl.yml`
+
+**Nõuded:**
+1. Genereeri self-signed cert kui `nginx_ssl_enabled: true`
+2. Kasuta OpenSSL käsku
+3. Cert kehtib 365 päeva
+
+**Käsk vihjeks:**
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/nginx.key \
+  -out /etc/ssl/certs/nginx.crt \
+  -subj "/C=EE/ST=Harjumaa/L=Tallinn/O=School/CN=localhost"
+```
+
+---
+
+### Ülesanne 8: Idempotency test (10 min)
+
+**Fail:** `tasks/main.yml`
+
+Ühendage kõik taskid:
 ```yaml
 ---
-- name: reload nginx
-  service:
-    name: "{{ nginx_service_name }}"
-    state: reloaded
+- include_tasks: install.yml
+- include_tasks: configure.yml
+- include_tasks: ssl.yml
+  when: nginx_ssl_enabled | default(false)
+- include_tasks: vhosts.yml
+  when: nginx_vhosts | length > 0
+```
 
-- name: restart nginx
-  service:
-    name: "{{ nginx_service_name }}"
-    state: restarted
+**✅ Test:** Käivitage 2x järjest, teine kord ei tohi midagi muuta
+```bash
+ansible-playbook test.yml
+ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
 ```
 
 ---
 
-## Task 7: Role'i testimine ()
+### Ülesanne 9: Test playbook (10 min)
 
-### Test playbook loomine
+**Fail:** `~/ansible-roles-lab/test.yml`
 
-**Looge `test-nginx.yml` (roles/ kataloogis):**
 ```yaml
 ---
-- name: "Test nginx role"
+- name: Test nginx role
   hosts: localhost
   connection: local
   become: yes
   
   vars:
-    # Test konfiguratsioon
     nginx_ssl_enabled: true
     nginx_vhosts:
-      - name: "test.local"
-        root: "/var/www/test"
+      - name: test.local
+        port: 8080
         ssl: true
-      - name: "demo.local"
-        root: "/var/www/demo"
-        ssl: false
-    
-    # Custom seaded
-    nginx_worker_processes: 4
-    nginx_gzip_enabled: true
   
   roles:
-    - nginx-webserver
+    - nginx-custom
   
   post_tasks:
-    - name: "Final verification"
-      debug:
-        msg: |
-          🎓 ITS-24 Nginx Role Test Complete!
-          
-          ✅ Nginx installed and configured
-          ✅ SSL certificates generated
-          ✅ Virtual hosts: {{ nginx_vhosts | length }}
-          ✅ Test URLs:
-             - http://localhost (should redirect to HTTPS)
-             - https://localhost (SSL test site)
-          
-          Role is ready for production! 🚀
+    - name: Check nginx
+      uri:
+        url: "http://localhost:8080"
+      ignore_errors: yes
 ```
 
-### Role'i käivitamine
-
+**✅ Lõpptest:**
 ```bash
-# Navigeerige tagasi roles/ kausta
-cd ~/ansible-roles-lab
-
-# Käivitage test
-ansible-playbook -i localhost, test-nginx.yml
-
-# Kontrollige tulemust
-curl http://localhost
-curl -k https://localhost  # -k sest self-signed cert
-
-# Vaadake nginx status
+ansible-playbook test.yml --ask-become-pass
 sudo systemctl status nginx
+curl http://localhost:8080
 ```
 
 ---
 
-## Task 8: README dokumentatsioon
+## Hindamiskriteeriumid
 
-**Looge/muutke `README.md`:**
-```markdown
-# Nginx Webserver Role
+### Kohustuslik (5p)
+- [ ] Role struktuur õige
+- [ ] Nginx installeerub
+- [ ] Template töötab
+- [ ] Handler töötab
+- [ ] Idempotent
 
-Professional Nginx role with SSL support and virtual hosts management.
-
-## Task 9: Features
-
-- **Nginx installation and configuration**
-- **SSL/TLS support with self-signed certificates**
-- **Virtual hosts management**
-- **Security headers and optimization**
-- **Multi-OS support (Ubuntu/Debian)**
-
-## Task 10: Quick Start
-
-```yaml
-- hosts: webservers
-  become: yes
-  roles:
-    - nginx-webserver
-```
-
-## Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `nginx_ssl_enabled` | `false` | Enable SSL/HTTPS |
-| `nginx_http_port` | `80` | HTTP port |
-| `nginx_https_port` | `443` | HTTPS port |
-| `nginx_vhosts` | `[]` | Virtual hosts list |
-
-## Task 11: Example with SSL
-
-```yaml
-- hosts: webservers
-  become: yes
-  vars:
-    nginx_ssl_enabled: true
-    nginx_vhosts:
-      - name: "example.com"
-        root: "/var/www/example"
-        ssl: true
-  roles:
-    - nginx-webserver
-```
-
-## Task 12: Author
-
-ITS-24 DevOps Automation Course
-```
+### Lisapunktid
+- [ ] SSL töötab (+1p)
+- [ ] Virtual hosts töötab (+1p)
+- [ ] Validation tasks (+1p)
+- [ ] README.md (+1p)
+- [ ] Meta informatsioon (+1p)
 
 ---
 
-## Task 13: Kokkuvõte
+## Vihjed probleemide korral
 
-Palju õnne! Teil on nüüd:
+**Nginx ei käivitu:**
+```bash
+sudo nginx -t  # Kontrolli konfiguratsiooni
+sudo journalctl -u nginx  # Vaata logisid
+```
 
-**Nginx role**
-**Multi-OS tugi**
-**SSL sertifikaadid**
-**Virtual hosts**
-**Täielik dokumentatsioon**
-**Testitud ja töötav**  
+**Template ei genereeru:**
+```bash
+ansible -m template -a "src=nginx.conf.j2 dest=/tmp/test.conf" localhost
+```
 
-**See role on valmis kasutamiseks päris projektides!**
+**Handler ei käivitu:**
+- Kontrollige, kas task muutis midagi (changed: true)
+- Notify nimi peab täpselt klappima
 
-**Kodutöö:** Puppet vs Ansible analüüs põhineb sellel, mida täna õppisime.
+---
+
+## Esitamine
+
+1. Push GitHub'i: `ansible-roles-lab/` kaust
+2. README.md peab sisaldama kasutamise näidet
+3. Role peab töötama Ubuntu 20.04/22.04
+
+**Tähtaeg:** Järgmise nädala algus

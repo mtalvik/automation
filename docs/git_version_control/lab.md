@@ -5,9 +5,9 @@
 
 ---
 
-## Task 1: Git Basics ja Kohalik Kasutamine ()
+## Task 1: Git Basics ja Kohalik Kasutamine
 
-### Harjutus 1.1: Git Setup ja Esimene Repository ()
+### Harjutus 1.1: Git Setup ja Esimene Repository
 
 **Seadistage Git:**
 ```bash
@@ -53,7 +53,7 @@ git log --oneline
 
 **Kontrollpunkt:** Teil peaks olema Git repository ühe commit'iga.
 
-### Harjutus 1.2: Põhiline Git Workflow ()
+### Harjutus 1.2: Põhiline Git Workflow
 
 **Looge ja muutke faile:**
 ```bash
@@ -113,7 +113,7 @@ git commit -m "Lisa hello script ja gitignore"
 
 **Kontrollpunkt:** Teil peaks olema 3-4 commit'i erinevate failidega.
 
-### Harjutus 1.3: Advanced Git Operations ()
+### Harjutus 1.3: Advanced Git Operations
 
 **Staging area vahele jätmine:**
 ```bash
@@ -180,9 +180,9 @@ git checkout -- calculator.py
 
 ---
 
-## Task 2: Branching ja Merging ()
+## Task 2: Branching ja Merging
 
-### Harjutus 2.1: Harude Loomine ja Haldamine ()
+### Harjutus 2.1: Harude Loomine ja Haldamine
 
 **Looge uus branch:**
 ```bash
@@ -258,7 +258,7 @@ git log --oneline --graph --all
 
 **Kontrollpunkt:** Teil on kaks feature branch'i erinevate failidega.
 
-### Harjutus 2.2: Branch'ide Merging ()
+### Harjutus 2.2: Branch'ide Merging
 
 **Merge esimene branch main'i:**
 ```bash
@@ -291,7 +291,7 @@ python3 advanced_math.py
 
 **Kontrollpunkt:** Mõlemad feature'id on main'is merge'itud.
 
-### Harjutus 2.3: Merge Conflicts ()
+### Harjutus 2.3: Merge Conflicts
 
 **Looge konflikt:**
 ```bash
@@ -358,9 +358,9 @@ git log --oneline --graph
 
 ---
 
-## Task 3: GitHub ja Remote Repositories ()
+## Task 3: GitHub ja Remote Repositories
 
-### Harjutus 3.1: GitHub Setup ja SSH ()
+### Harjutus 3.1: GitHub Setup ja SSH
 
 **SSH võtmete seadistamine:**
 ```bash
@@ -393,7 +393,7 @@ ssh -T git@github.com
 
 **Kontrollpunkt:** SSH ühendus GitHub'iga töötab.
 
-### Harjutus 3.2: Remote Repository ja Collaboration ()
+### Harjutus 3.2: Remote Repository ja Collaboration
 
 **GitHub'is looge uus repository:**
 1. Click "New repository"
@@ -442,7 +442,7 @@ git push origin main
 
 **Kontrollpunkt:** Kohalik ja remote repository on sünkroniseeritud.
 
-### Harjutus 3.3: Pull Requests ()
+### Harjutus 3.3: Pull Requests
 
 **Looge uus feature:**
 ```bash
@@ -504,7 +504,7 @@ git push origin --delete feature/documentation
 
 ---
 
-## Task 7: Advanced Git Features ()
+## Task 7: Advanced Git Features
 
 ### Harjutus 4.1: Git Rebase ja History Cleanup
 
@@ -585,7 +585,7 @@ git log --oneline -3
 
 ---
 
-## Kokkuvõte ja Kontrolljaarati ()
+## Kokkuvõte ja Kontrolljaarati
 
 ### Lõplik kontroll
 
@@ -651,7 +651,7 @@ git lg
 
 ## Task 13: **BOONUSÜLESANDED** (juba Git'i oskajatele)
 
-### Samm B1: Advanced Git Features ()
+### Ülesanne 1: Advanced Git Features
 
 #### Interactive Rebase - Commit'ide Ühendamine
 ```bash
@@ -700,7 +700,7 @@ git diff main..feature-branch
 git log main..feature-branch --oneline
 ```
 
-### Samm B2: Git Hooks ja Workflow Automation ()
+### Ülesanne 2: Git Hooks ja Workflow Automation
 
 #### Pre-commit Hook (automaatne kvaliteedikontroll)
 ```bash
@@ -757,7 +757,7 @@ EOF
 chmod +x .git/hooks/post-merge
 ```
 
-### Samm B3: Git Submodules ja Worktrees ()
+### Ülesanne 3: Git Submodules ja Worktrees
 
 #### Submodules - Dependency Management
 ```bash
@@ -791,7 +791,7 @@ cd ../git-practice-lab
 git worktree remove ../feature-payment
 ```
 
-### Samm B4: Advanced Git Performance ()
+### Ülesanne 4: Advanced Git Performance
 
 #### Git LFS - Large File Storage
 ```bash
@@ -822,7 +822,7 @@ git clone --depth 1 <repo-url> quick-clone
 git clone --filter=blob:none <repo-url> partial-clone
 ```
 
-### Samm B5: Expert Level Debugging ()
+### Ülesanne 5: Expert Level Debugging
 
 #### Git Bisect - Bug Hunt
 ```bash
@@ -896,7 +896,7 @@ git config --global mergetool.keepBackup false
 git mergetool
 ```
 
-### Samm B6: Git Flow ja Release Management ()
+### Ülesanne 6: Git Flow ja Release Management
 
 ```bash
 # Git Flow setup (kui installitud)
@@ -921,7 +921,7 @@ git add security.patch && git commit -m "Security fix"
 git flow hotfix finish critical-security-fix
 ```
 
-### Samm B7: Git Best Practices Enforcement ()
+### Ülesanne 7: Git Best Practices Enforcement
 
 ```bash
 # Conventional commits hook
