@@ -1,245 +1,319 @@
-# Automatiseerimise Kursuse Õppekava
+# IT Automatiseerimise Kursuse Õppekava
 
-**ITS-24 - Täiskasvanute klass (8 moodulit)**
+** 8 Moodulit • 24 Kontakttundi**
 
 ---
 
 ## Kursuse Ülevaade
 
-See kursus katab olulisi automatiseerimise tööriistu ja praktikaid kaasaegsetes DevOps töövoogudes. Iga moodul sisaldab  kontaktõpet ning struktureeritud kodutöid.
+Kaasaegse DevOps automatiseerimise praktikad ja tööriistad. Kursus katab versioonihaldusest kuni orkestratsioonini - kõik vajalik infrastruktuuri automatiseerimiseks.
+
+**Kursuse eesmärgid:**
+- Praktiline kogemus olulisemate automatiseerimise tööriistadega
+- Projektipõhine õppimine reaalse infrastruktuuri näidetel
+- Tööstuse standardid ja parimad praktikad
+- Iseseisev probleemilahendamine ja dokumenteerimine
 
 ---
 
 ## Kursuse Struktuur
 
-| Moodul | Teema | Kontaktaeg | Kodutöö Ülesanne 1 | Kodutöö Ülesanne 2 |
-|--------|-------|------------|-------------------|-------------------|
-| 1 | **Git Versioonihaldus** | 4h | Git projekti portfoolio näidetega | Lugemine: Git ajalugu, sisemused, edasijõudnud kontseptsioonid |
-| 2 | **Ansible Alused** | 4h | Kohalik LAMP stack (VirtualBox/Vagrant) | Lugemine: Ansible arhitektuur, YAML, moodulid |
-| 3 | **Docker Alused** | 4h | Mitme-rakendusega konteineriseerimise projekt | Lugemine: Docker arhitektuur, turvalisus |
-| 4 | **Docker Orkestratsioon** | 4h | Täispinu kohalik paigaldus | Lugemine: Konteinerite orkestreerimise mustrid |
-| 5 | **Ansible Edasijõudnud** | **Iseseisvad Labored** | Edasijõudnud funktsioonide laboriharjutused | Lugemine: Jinja2, muutujad, Ansible Vault |
-| 6 | **Ansible Rollid** | **Iseseisvad Labored** | Rolli loomise labor + Puppet võrdlus | Lugemine: Rollide parimad praktikad, Galaxy |
-| 7 | **Terraform Alused** | 2h | Kohalik infrastruktuur (failid, konfiguratsioon) | Lugemine: IaC põhimõtted, Terraform mustrid |
-| 8 | **CI/CD + Kubernetes** | 2h | Täielik pipeline + K8s ülevaade (kohalikikube) | Lugemine: GitOps, Kubernetes, produktsioon |
+| Moodul | Teema | Kontakt | Kodutöö 1 | Kodutöö 2 |
+|--------|-------|---------|------------|-----------|
+| **1** | **Git Versioonihaldus** | 4h | Git projekti portfoolio | Git sisemused ja edasijõudnud kontseptsioonid |
+| **2** | **Ansible Alused** | 4h | LAMP stack playbook (Vagrant) | - |
+| **3** | **Docker Alused** | 4h | Süsteemi monitoring dashboard | - |
+| **4** | **Docker Orkestratsioon** | 4h | Full-stack rakendus (4 teenust) | 12-factor app analüüs |
+| **5** | **Ansible Edasijõudnud** | *Iseseisvad laborid* | Apache + Vault + Jinja2 | - |
+| **6** | **Ansible Rollid** | *Iseseisvad laborid* | Multi-tier infrastruktuur | Ansible vs Puppet võrdlus |
+| **7** | **Terraform Alused** | 2h | Kohalik infrastruktuur | Moodulid ja korduvkasutus |
+| **8** | **CI/CD + Kubernetes** | 2h | Projekti lõpetamine | - |
+
+**Kokku:** 20h kontaktõpet + iseseisvad laborid + kodutööd
 
 ---
 
-## Moodulite Detailid
+## Moodulite Detailsed Kirjeldused
 
-### **Moodul 1: Git Versioonihaldus (4h)**
+### 1️⃣ **Git Versioonihaldus** (4h)
 
-**Kontaktaja Struktuur:**
-- Git kontseptsioonid ja töövoog (1h)
-- Põhilised käsud praktikas (1h)
-- GitHub koostöö (1h)
-- Harude loomine ja ühendamine praktikas (1h)
-- **Boonus:** Edasijõudnud Git funktsioonid (hooks, submodules, kohandatud käsud)
+**Õpieesmärgid:**
+- Versioonihalduse kontseptsioonid ja töövoog
+- Meeskonnatöö Git'iga (harude strateegia, merge conflicts)
+- GitHub töövoog (Pull Requests, Issues, projektihaldus)
+- Edasijõudnud Git funktsioonid
 
-**Käsitletud Teemad:**
-- Git alused ja versioonihalduse põhimõtted
-- Kohalik Git kasutamine ja põhilised käsud
-- GitHub ja kaugrepositooriumid
-- Meeskonnatöö ja Pull Request'id
+**Praktilised teemad:**
+- Git seadistamine ja SSH võtmed
+- Repositooriumide loomine ja kloneerimine
+- Harude loomine, ühendamine, konfliktide lahendamine
+- GitHub collaboration workflow
+- Git hooks ja submodules (boonus)
 
 **Kodutööd:**
-- **Ülesanne 1:** Täielik Git projekti portfoolio harude töövooga
-- **Ülesanne 2:** Loe Git ajalugu, sisemusi ja edasijõudnud kontseptsioone (2-)
+- **HW1:** Täielik Git projekti portfoolio harude töövooga
+- **HW2:** Git ajalugu, sisemused ja edasijõudnud kontseptsioonide lugemine
 
 ---
 
-### **Moodul 2: Ansible Alused (4h)**
+### 2️⃣ **Ansible Alused** (4h)
 
-**Kontaktaja Struktuur:**
-- Ansible arhitektuuri ülevaade
-- Kohalik VM seadistus Vagrant'iga
-- SSH seadistus ja inventory (1h)
-- Ad-hoc käskude praktika (1h)
-- Esimese playbook'i loomine (1h)
-- **Boonus:** Edasijõudnud playbook'id, veakkäsitlemine, kohandatud moodulid
-
-**Käsitletud Teemad:**
-- Ansible arhitektuur ja SSH konfiguratsioon
-- Kohalik testimine Vagrant/VirtualBox'iga
+**Õpieesmärgid:**
+- Ansible arhitektuur ja SSH põhised automatiseerimise kontseptsioonid
+- Kohalik testimiskeskkond Vagrant'iga
 - Inventory haldamine ja ad-hoc käsud
-- YAML süntaks ja põhilised playbook'id
-- Esimesed automatiseerimise töövood
+- Esimeste playbook'ide loomine
+
+**Praktilised teemad:**
+- Ansible installatsioon ja SSH konfiguratsioon
+- Vagrant/VirtualBox testimiskeskkond
+- YAML süntaks ja playbook struktuur
+- Moodulid: package, service, file, template
+- Veakäsitlus ja debug
 
 **Kodutööd:**
-- **Ülesanne 1:** Paigalda LAMP stack kohalikult Vagrant VM'idega + palju näiteid
-- **Ülesanne 2:** Loe Ansible arhitektuur, YAML ja moodulite ökosüsteem (2-)
+- **HW1:** LAMP Stack Playbook Vagrant keskkonnas (Apache, MySQL, PHP)
 
 ---
 
-### **Moodul 3: Docker Alused (4h)**
+### 3️⃣ **Docker Alused** (4h)
 
-**Kontaktaja Struktuur:**
-- Konteinerite kontseptsioonid vs VM'id
-- Docker'i installimine ja esimene konteiner (1h)
-- Dockerfile'i loomise töötuba (1.5h)
-- Põhiline võrgustik ja helitugevused (1h)
-- **Boonus:** Mitme-etapiline ehitus, turvalisus, edasijõudnud võrgustik
+**Õpieesmärgid:**
+- Konteineritehnoloogia mõistmine vs VM'id
+- Docker lifecycle ja CLI oskused
+- Dockerfile loomine ja optimeerimine
+- Volume'id, networking ja turvalisus
 
-**Käsitletud Teemad:**
-- Konteineritehnoloogia ülevaade
-- Docker'i installimine ja põhilised käsud
-- Dockerfile'i loomine ja parimad praktikad
-- Docker'i võrgustik ja helitugevused
+**Praktilised teemad:**
+- **Loeng 1 (2h):** Docker installatsioon, põhikäsud, lihtne Dockerfile
+- **Loeng 2 (2h):** Dockerfile optimeerimine, networking, Podman alternatiiv
+
+**Detailsed teemad:**
+- Container lifecycle (create, start, stop, remove)
+- Dockerfile best practices ja mitmeetapiline ehitus
+- Docker networking (bridge, host, none)
+- Volume'ide kasutamine andmete säilitamiseks
+- Podman vs Docker võrdlus
 
 **Kodutööd:**
-- **Ülesanne 1:** Konteineriseeri mitu rakendust paljude näidetega
-- **Ülesanne 2:** Loe Docker'i arhitektuur, turvalisus ja parimad praktikad (2-)
+- **HW1:** Süsteemi oleku monitoring dashboard (Docker + Podman)
 
 ---
 
-### **Moodul 4: Docker Orkestratsioon (4h)**
+### 4️⃣ **Docker Orkestratsioon** (4h)
 
-**Kontaktaja Struktuur:**
-- Mitme-konteineriga kontseptsioonid
-- Compose faili loomine (1.5h)
-- Mitme-teenusega rakenduse seadistus (1.5h)
-- Kohalik orkestratsioon näidetega
+**Õpieesmärgid:**
+- Mitme-konteineriga rakenduste orkestratsioon
+- Docker Compose süntaks ja parimad praktikad
+- Keskkonnaspetsiifilised konfiguratsioonid
+- Service discovery ja networking
 
-**Käsitletud Teemad:**
-- Docker Compose süntaks ja kasutamine
-- Mitme-konteineriga rakendused
-- Keskkonna-spetsiifilised konfiguratsioonid
-- Kohalikud arenduse töövood
+**Praktilised teemad:**
+- Docker Compose YAML struktuur
+- Service'ide defineerimine ja sõltuvused
+- Environment variables ja secrets
+- Volume'ide jagamine service'ide vahel
+- Load balancing ja health checks
 
 **Kodutööd:**
-- **Ülesanne 1:** Paigalda full-stack rakendus kohalikult paljude teenuste näidetega
-- **Ülesanne 2:** Loe konteinerite orkestreerimise mustreid ja strateegiaid (2-)
+- **HW1:** Full-stack rakendus (frontend, backend, andmebaas, cache)
+- **HW2:** 12-factor app analüüs - võrdle oma projekti printsiipidega
 
 ---
 
-### **Moodul 5: Ansible Edasijõudnud (Iseseisvad Labored)**
+### 5️⃣ **Ansible Edasijõudnud** (Iseseisvad Laborid)
 
-**Iseseisva Labori Struktuur:**
-- Juhendatud harjutused samm-sammuliste juhistega
-- Muutujate ja Jinja2 mallide labor
-- Käsitlejate ja veakäsitlemise labor
-- Ansible Vault turvalisuse labor
-- Mitmesugused praktilised näited
+**Õpieesmärgid:**
+- Edasijõudnud playbook struktuurid
+- Muutujad, Jinja2 mallid ja conditional logic
+- Ansible Vault saladuste turvaliseks haldamiseks
+- Error handling ja rollback strateegiad
 
-**Käsitletud Teemad:**
-- Muutujad ja Jinja2 mallid
-- Käsitlejad ja veakäsitlemise strateegiad
-- Ansible Vault saladuste haldamiseks
-- Parimad praktikad ja optimeerimine
+**Iseseisvad laborid:**
+- **Labor 1:** Muutujad ja Jinja2 mallide labor
+- **Labor 2:** Handlers ja error handling labor  
+- **Labor 3:** Ansible Vault turvalisuse labor
+- **Labor 4:** Multi-environment deployment patterns
 
 **Kodutööd:**
-- **Ülesanne 1:** Lõpeta kõik iseseisva labori harjutused näidetega
-- **Ülesanne 2:** Loe Jinja2 mallid, muutujad ja Vault turvalisus (2-)
+- **HW1:** Apache veebiserver Vault'iga ja Jinja2 mallidega
 
 ---
 
-### **Moodul 6: Ansible Rollid (Iseseisvad Labored)**
+### 6️⃣ **Ansible Rollid** (Iseseisvad Laborid)
 
-**Iseseisva Labori Struktuur:**
-- Rolli loomise samm-sammuline juhend
-- Rolli muutujate ja sõltuvuste labor
-- Ansible Galaxy uurimine
-- Puppet vs Ansible võrdlusharjutus
-
-**Käsitletud Teemad:**
+**Õpieesmärgid:**
 - Ansible rollide struktuur ja parimad praktikad
-- Rolli muutujad ja sõltuvused
-- Ansible Galaxy kogukond
-- Konfiguratsiooni haldamise võrdlus
+- Ansible Galaxy kogukonna rollide kasutamine
+- Multi-OS tugi ja input validation
+- Puppet vs Ansible konfiguratsiooni haldamise võrdlus
+
+**Iseseisvad laborid:**
+- **Labor 1:** Vagrant testing environment setup
+- **Labor 2:** Role creation samm-sammuline juhend
+- **Labor 3:** Ansible Galaxy integration
+- **Labor 4:** Puppet fundamentals ja võrdlusharjutus
 
 **Kodutööd:**
-- **Ülesanne 1:** Loo roll + Puppet võrdlus paljude näidetega
-- **Ülesanne 2:** Loe rolli parimaid praktikaid ja Galaxy ökosüsteemi (2-)
+- **HW1:** Multi-tier infrastruktuur (veebiserver + andmebaas)
+- **HW2:** Ansible vs Puppet võrdlev analüüs - sama infrastruktuur mõlema tööriistaga
 
 ---
 
-### **Moodul 7: Terraform Alused (2h Kontaktõpe)**
+### 7️⃣ **Terraform Alused** (2h)
 
-**Kontaktaja Struktuur:**
-- Infrastructure as Code ülevaade
-- Kohalik Terraform demo (failisüsteemi haldamine) (1h)
-- Praktiline: Loo kohalik infrastruktuur
-- **Boonus:** Moodulid, tööruumid, edasijõudnud mallid
-
-**Käsitletud Teemad:**
-- Terraform alused ja HCL keel
-- Kohalikud providerid (failisüsteemi haldamine)
-- State'i haldamise kontseptsioonid
+**Õpieesmärgid:**
 - Infrastructure as Code põhimõtted
+- HCL (HashiCorp Configuration Language) süntaks
+- State'i haldamine ja lifecycle
+- Moodulid ja korduvkasutatavus
+
+**Praktilised teemad:**
+- Terraform installatsioon ja seadistamine
+- Kohalik provider (failisüsteemi haldamine)
+- Muutujad, outputs ja funktsioonid
+- Count ja for_each tsüklid
+- Moodulite loomine ja kasutamine
 
 **Kodutööd:**
-- **Ülesanne 1:** Kohalik infrastruktuuriprojekt (failid, konfiguratsioon, skriptid) paljude näidetega
-- **Ülesanne 2:** Loe IaC põhimõtteid ja Terraform mustreid (2-)
+- **HW1:** Terraform põhitõed - kohalik infrastruktuur muutujatega
+- **HW2:** Terraform moodulid ja korduvkasutus - projekti generaator
 
 ---
 
-### **Moodul 8: CI/CD + Kubernetes (2h Kontaktõpe)**
+### 8️⃣ **CI/CD + Kubernetes** (2h)
 
-**Kontaktaja Struktuur:**
-- Täieliku automatiseerimise pipeline demo (1h)
-- Kubernetes ülevaade kohalikuikube'iga
-- Kõigi tööriistade integratsioon
+**Õpieesmärgid:**
+- Ettevõtte-tasemel DevOps pipeline'id
+- Kubernetes põhikontseptsioonid ja deployment'id
+- Turvalisus ja monitooring pipeline'ides
+- Projekti integratsioon ja dokumenteerimine
 
-**Käsitletud Teemad:**
-- GitHub Actions eelnevate tööriistadega
-- Täielik automatiseerimise töövoog
-- Kubernetes tutvustus (kohalik)
-- DevOps pipeline integratsioon
+**Praktilised teemad:**
+- **CI/CD (1h):** GitLab CI/CD, pipeline arhitektuur, turvaskaneerimine
+- **Kubernetes (1h):** Minikube, pod'id, deployment'id, service'id
+
+**Detailsed teemad:**
+- Multi-stage pipeline konfiguratsioon
+- Docker image optimeerimine ja turvaskaneerimine
+- Kubernetes objektid: ConfigMap, Secret, Health checks
+- Rolling updates ja service discovery
 
 **Kodutööd:**
-- **Ülesanne 1:** Täielik automatiseerimise projekt kõigi tööriistade integratsiooniga + näited
-- **Ülesanne 2:** Loe GitOps, Kubernetes ja produktsiooni mustreid (2-)
+- **HW1:** Projekti lõpetamine ja professionaalne dokumenteerimine
 
 ---
 
-## Failide Struktuur
+## Tehnilised Eeldused
 
-### Iga Moodul Sisaldab:
+### Tarkvara Nõuded:
+- **Git** (versioonihaldus)
+- **Docker Desktop** (konteinerid)
+- **VirtualBox/VMware** (virtualisatsioon)
+- **Vagrant** (VM haldamine)
+- **Ansible** (konfiguratsiooni haldamine)
+- **Terraform** (infrastruktuuri kood)
+- **kubectl + Minikube** (Kubernetes)
+
+### Opsüsteemi Tugi:
+- **Windows:** WSL2 + Docker Desktop
+- **macOS:** Homebrew + Docker Desktop
+- **Linux:** Native tools
+
+### Seadistamise Juhendid:
+- [Windows Setup Guide](docker_orchestration/kodu_masina_ehitus_juhend.md#windows-setup)
+- [Linux/macOS Setup Guide](docker_orchestration/kodu_masina_ehitus_juhend.md)
+
+---
+
+## Failide Organisatsioon
+
+### Standardne Mooduli Struktuur:
 ```
-modul_nimi/
-├── lecture.md              # Peamine loengumaterjal
+moodul_nimi/
+├── lecture.md              # Põhiline loengumaterjal
+├── lab.md                  # Praktilised harjutused ja laborid
+├── homework.md             # Praktiline ülesanne (HW1)
+└── reading_materials.md    # Lugemismaterjalid (HW2)
+```
+
+### Erisused:
+
+**Docker (kaheks jaotatud):**
+```
+docker_fundamentals/
+├── lecture1.md             # Docker alused - osa 1
+├── lecture2.md             # Docker alused - osa 2
 ├── lab.md                  # Praktilised harjutused
-├── homework.md             # Praktiline ülesanne (Ülesanne 1)
-└── reading_materials.md    # Teooria ja taust (Ülesanne 2)
+└── homework.md             # Praktiline ülesanne
 ```
 
-### Võrdlusmaterjal (kui rakendatav):
+**Terraform (kaks kodutööd):**
 ```
-modul_nimi/
-├── reference/              # Kiired viited ja juhendid
-└── examples/               # Koodinäited ja mallid
+terraform_basics/
+├── lecture.md              # Terraform loeng
+├── lab.md                  # Praktilised harjutused  
+├── homework1.md            # Terraform põhitõed
+├── homework2.md            # Terraform moodulid
+└── homework_aws_backup.md  # AWS backup (boonus)
+```
+
+**Kubernetes + CI/CD (kaks laborit):**
+```
+kubernetes_overview/
+├── lecture.md              # Kubernetes + CI/CD ülevaade
+├── lab1.md                 # Kubernetes labor - põhialused
+├── lab2.md                 # Kubernetes labor - intermediate
+└── homework.md             # Lõpuprojekt
 ```
 
 ---
 
-## Õpieesmärgid
+## Hindamise Süsteem
 
-- **Praktiline kogemus** kõigi automatiseerimise tööriistadega
-- **Projektipõhise õppimise** lähenemine
-- **Meeskonnatöö** oskused
-- **Tööstuse standardid** ja parimad praktikad
-- **Iseseisev õppimine** lugemiülesannete kaudu
+### Hindamise Kriteeriumid:
+
+| Komponent | Osakaal | Kirjeldus |
+|-----------|---------|-----------|
+| **Praktilised Ülesanded** | 70% | Kodutööd ja laborid (tehniline korrektsus) |
+| **Lugemismaterjalid** | 15% | Analüüsid ja reflektsioonid (mõistmine) |
+| **Lõpuprojekt** | 10% | Kõigi tööriistade integratsioon |
+| **Osalus** | 5% | Aktiivsus ja küsimused |
+
+### Hindeskaalad:
+- **A (90-100%):** Erakordne töö, innovatiivsed lahendused
+- **B (80-89%):** Hea töö, kõik nõuded täidetud
+- **C (70-79%):** Rahuldav töö, põhinõuded täidetud
+- **D (60-69%):** Nõrk töö, osalised puudused
+- **F (<60%):** Mittearvestatud
+
+### Portfoolio Nõuded:
+- **GitHub repositoorium** kõigi ülesannetega
+- **README.md** kursuse kokkuvõttega
+- **Dokumenteeritud kood** ja konfiguratsioonid
+- **Troubleshooting logi** leitud probleemidest
 
 ---
 
-## Hindamisstrateegia
+## Kursuse Tulemusnäitajad
 
-- **Ülesanne 1:** Praktiline töö (hinnatakse funktsionaalsuse järgi)
-- **Ülesanne 2:** Lugemise refleksioon (hinnatakse mõistmise järgi)
-- **Portfoolio:** GitHub repositoorium kogu tööga
-- **Lõpuprojekt:** Kõigi tööriistade integratsioon
+### Tehnilised Oskused:
+- ✅ **Git workflow** meeskonnatöös
+- ✅ **Ansible automation** server konfiguratsioonideks
+- ✅ **Docker containerization** rakenduste jaoks
+- ✅ **Infrastructure as Code** Terraform'iga
+- ✅ **CI/CD pipeline'id** automaatseks deployment'iks
+- ✅ **Kubernetes basics** orkestratsiooniks
 
----
+### Praktiline Kogemus:
+- ✅ **Multi-tier rakenduste** deployment
+- ✅ **Turvalisuse parimad praktikad** 
+- ✅ **Monitoring ja logging** seadistamine
+- ✅ **Troubleshooting** ja veakäsitlus
+- ✅ **Dokumenteerimine** ja knowledge sharing
 
-## Seadistamise Juhendid
-
-### **Enne kursuse alustamist:**
-- **Windows kasutajad:** [Windows Seadistamise Juhend](docker_orchestration/kodu_masina_ehitus_juhend.md#windows-setup)
-- **Linux/macOS kasutajad:** [Kodu Masina Ehitus Juhend](docker_orchestration/kodu_masina_ehitus_juhend.md)
-
-### **Vajalikud tööriistad:**
-- Git (versioonihaldus)
-- Docker Desktop (konteinerid)
-- Ansible (konfiguratsiooni haldamine)
-- Terraform (infrastruktuuri kood)
-- kubectl + Minikube (Kubernetes)
+### Karjääri Ettevalmistus:
+- ✅ **DevOps Engineer** positsioonideks
+- ✅ **Cloud Infrastructure** rollideks  
+- ✅ **Site Reliability Engineer** (SRE) oskusteks
+- ✅ **Automation Specialist** töödeks

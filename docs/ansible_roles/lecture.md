@@ -1,5 +1,4 @@
 # Ansible Roles: Roles ja Puppet
-## Teemad: Vagrant basics, Ansible roles structure, Role variables ja dependencies, Ansible Galaxy, Puppet fundamentals, Puppet vs Ansible võrdlus
 
 Tere tulemast tagasi! Eelmisel nädalal õppisime Ansible'i variables, templates ja vault'i kasutamist. Täna astume järgmise suure sammu - õpime kirjutama **professionaalset infrastruktuuri koodi** ja võrdleme erinevaid tööriistu.
 
@@ -12,10 +11,10 @@ Tere tulemast tagasi! Eelmisel nädalal õppisime Ansible'i variables, templates
 
 Kui töötate Ansible playbook'ide või Puppet manifest'idega, **ei saa neid testida toodangu serverites**! Vajate turvalist keskkonda, kus:
 
-- ✅ **Võib katki minna** - kui midagi läheb valesti
-- ✅ **Kiire reset** - uus puhas server sekundites  
-- ✅ **Erinevad OS'id** - Ubuntu, CentOS, Debian testimiseks
-- ✅ **Ei maksa raha** - cloud VM'ide asemel
+- **Võib katki minna** - kui midagi läheb valesti
+- **Kiire reset** - uus puhas server sekundites  
+- **Erinevad OS'id** - Ubuntu, CentOS, Debian testimiseks
+- **Ei maksa raha** - cloud VM'ide asemel
 
 **Vagrant lahendab täpselt selle probleemi!**
 
@@ -1378,7 +1377,3 @@ Mõlemad tööriistad on head, aga erinevatel juhtudel:
 
 **Ansible = Tesla** - innovaatiline, kiire, sobib modernsele DevOps'ile  
 **Puppet = Mercedes** - traditsiooniliselt usaldusvääre, enterprise-ready
-
----
-
-**Järgmises osas:** Praktiline lab - loome oma nginx role'i!

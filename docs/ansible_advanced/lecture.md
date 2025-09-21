@@ -1,9 +1,6 @@
 # Ansible Advanced: Edasijõudnud Funktsioonid
 
-**Kestus:** 2 tundi  
 **Teemad:** Variables, Templates, Handlers, Vault
-
----
 
 ## Õpiväljundid
 
@@ -135,7 +132,7 @@ cache_enabled = false
 {% endif %}
 ```
 
-💡 **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
+**Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
 
 ### 2.2 Conditionals template'ites
 
@@ -197,7 +194,7 @@ first_server = {{ groups['webservers'] | first }}
 config = {{ app_config | to_nice_json }}
 ```
 
-✅ **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
+**Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
 
 ---
 
@@ -271,7 +268,7 @@ handlers:
     listen: "restart web services"
 ```
 
-💡 **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
+**Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
 
 🎯 **Praktikasoovitus:** Kasutage `meta: flush_handlers` kriitiliste kontrollidel, kui peate veenduma, et teenus on taaskäivitatud enne järgmisi task'e.
 
@@ -379,7 +376,7 @@ ansible-vault rekey secrets.yml
 ansible-vault rekey --vault-id old@prompt --new-vault-id new@prompt secrets.yml
 ```
 
-✅ **Praktiline nipp:** Regulaarselt muutke vault paroole ja dokumenteerige rotatsiooni protseduuri.
+**Praktiline nipp:** Regulaarselt muutke vault paroole ja dokumenteerige rotatsiooni protseduuri.
 
 ### 4.6 Best practices
 
@@ -424,53 +421,3 @@ Käed-küljes praktikum Ansible'i täpsemate funktsioonidega tutvumiseks.
 - Jinja2 template'ite loomine
 - Handlers ja advanced playbook'id  
 - Ansible Vault rakendamine
-
----
-
-## 6. Kokkuvõte
-
-### 6.1 Peamised teemad
-
-1. **Variables ja Precedence**
-   - Muutujate hierarhia ja prioriteedid
-   - Group_vars ja host_vars
-   - Runtime muutujad ja extra_vars
-   - Facts ja registered variables
-
-2. **Jinja2 Templates**
-   - Dünaamiliste konfiguratsioonide loomine
-   - Conditional logic template'ites
-   - Loops ja filters
-   - Environment-specific configurations
-
-3. **Handlers ja Notifications**
-   - Smart service management
-   - Handler precedence ja timing
-   - Listen groups ja meta tasks
-   - Error handling ja recovery
-
-4. **Ansible Vault**
-   - Secrets encryption ja decryption
-   - Vault files vs inline vault
-   - Multiple vault passwords
-   - CI/CD integration strategies
-
-### 6.2 Praktilised oskused
-
-- Advanced playbook architecture
-- Production-ready template'ite loomine
-- Secure password management
-- Multi-environment deployments
-- Professional project structure
-
-### 6.3 Järgmiseks nädalaks
-
-Enne järgmist loengut (Ansible Roles ja Puppet):
-1. Lõpetage kodutöö - lihtne vault ja template'id projekt
-2. Lugege Ansible Galaxy documentation
-3. Tutvuge Puppet vs Ansible comparison'iga
-4. Mõelge, kuidas teete oma infrastruktuuri korduvkasutatavaks
-
-🎯 **Väljakutse:** Proovige rakendada siin õpitud template'e ja vault'i oma kodutöös!
-
-**Küsimused?** Küsige julgelt järgmisel loengul või kursuse chat'is!

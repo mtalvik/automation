@@ -1,4 +1,4 @@
-# Git Käsud - Viide
+# Git Käsud
 
 ## Põhilised Käsud
 

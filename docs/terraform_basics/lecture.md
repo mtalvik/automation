@@ -1,912 +1,407 @@
 # Terraform Basics: Infrastructure as Code
 
-**Kestus:**  (ülevaade)  
-**Teemad:** Terraform fundamentals, HCL language, Local providers, State management
+**Eesmärk:** Mõista Infrastructure as Code kontseptsiooni ja õppida Terraform'i põhialused
 
 ---
 
-## Task 1: Õpiväljundid
+## Sissejuhatus - Miks me vajame Infrastructure as Code?
 
-Pärast seda oskate:
-- **Mõista Infrastructure as Code mõistet** - miks ja kuidas kasutada
-- **Kirjutada lihtsaid Terraform faile** - HCL süntaks ja põhilised ressursid
-- **Kasutada local provider'eid** - failisüsteemi ja kohalike ressursside haldamine
-- **Hallata Terraform state** - miks oluline ja kuidas kasutada
-- **Rakendada põhilisi parimaid praktikaid** - turvaline ja korrektne kasutamine
+Tere tulemast infrastruktuuri maailma! Eelmisel nädalal õppisime Kubernetes'i - kuidas orkesteerida konteinereid. Täna astume järgmisele tasemele ja vaatame, kuidas hallata kogu infrastruktuuri koodi abil.
 
----
-
-## Task 2: Infrastructure as Code Concepts
-
-### Tere tulemast Infrastructure as Code maailma!
-
-Tere tagasi! Eelmisel nädalal õppisime Docker Compose'i ja orkestreerimist. Täna astume järgmisele tasemele - õpime **infrastruktuuri kui koodi** haldamist.
-
-### Mis on Infrastructure as Code (IaC)?
-
-**Infrastructure as Code** tähendab, et infrastruktuuri (serverid, võrgud, andmebaasid) kirjeldatakse ja hallatakse koodi abil, mitte käsitsi konfiguratsioonide abil.
-
-**Kujutage ette seda nii:**
-- **Traditsiooniline lähenemine:** Käsitsi serverite loomine ja konfiguratsioon
-- **IaC lähenemine:** Kood kirjeldab, mida soovid, ja tööriist teeb selle sinu eest
-
-### Miks IaC on oluline?
-
-- **Konsistentsus** - sama infrastruktuur igal kord
-- **Kiirus** - automatiseeritud juurutamine
-- **Turvalisus** - vähem inimeste vigu
-- **Skaleerimine** - lihtne kopeerida ja muuta
-
-```mermaid
-graph TB
-    subgraph "🏗 Traditsiooniline lähenemine"
-        Manual[👤 Käsitsi konfiguratsioon]
-        Error[❌ Inimeste vead]
-        Slow[🐌 Aeglane]
-        Inconsistent[ Ebakindel]
-    end
-    
-    subgraph "💻 Infrastructure as Code"
-        Code[📝 Kood]
-        Version[ Versioneerimine]
-        Test[🧪 Testimine]
-        Automate[⚡ Automatiseerimine]
-    end
-    
-    Manual --> Error
-    Manual --> Slow
-    Manual --> Inconsistent
-    
-    Code --> Version
-    Code --> Test
-    Code --> Automate
-    
-    style Manual fill:#ff9999
-    style Code fill:#99ff99
-```
-
-**Miks IaC on oluline?**
-- **Konsistentsus** - sama infrastruktuur igal kord
-- **Kiirus** - automatiseeritud juurutamine
-- **Turvalisus** - vähem inimeste vigu
-- **Skaleerimine** - lihtne kopeerida ja muuta
-- **Dokumentatsioon** - kood on dokumentatsioon
-
-### Reaalne probleem: Lihtne web rakendus
-
-**Kujutage ette, et teil on lihtne web rakendus:**
-
-```mermaid
-graph TB
-    subgraph "🌐 Lihtne Web Rakendus"
-        User[👤 Kasutaja]
-        Web[ Web Server<br/>HTML, CSS, JavaScript]
-        DB[🗄 Andmebaas<br/>PostgreSQL]
-    end
-    
-    User --> Web
-    Web --> DB
-```
+Kujutage ette stsenaariumi: teil on vaja seadistada uus arenduskeskkond. Traditsioonilise lähenemisega tähendaks see:
 
 **Traditsiooniline lähenemine:**
-1. Käsitsi serveri loomine
-2. Käsitsi andmebaasi seadistamine
-3. Käsitsi ühenduste konfigureerimine
+- Käsitsi serverite tellimine
+- Käsitsi operatsioonisüsteemi installeerimine  
+- Käsitsi tarkvara seadistamine
+- Käsitsi võrgu konfigureerimine
+- Käsitsi turvaseadete rakendamine
 
-**IaC lähenemine:**
-1. Kood kirjeldab, mida soovid
-2. Terraform teeb selle sinu eest
-3. Sama kood töötab igal kord
+Iga samm võtab aega, on altid vigadele ja raske korrata. Mis juhtub, kui peate seadistama teise keskkonna? Või kolmanda?
 
-### Terraform vs teised IaC tööriistad
+```mermaid
+graph TB
+    subgraph "Traditsiooniline Lähenemine"
+        A[Käsitsi serverite tellimine] --> B[Käsitsi OS installeerimine]
+        B --> C[Käsitsi tarkvara paigaldamine]
+        C --> D[Käsitsi võrgu seadistamine]
+        D --> E[Käsitsi turvaseadete rakendamine]
+        E --> F[Aeglane ja vigadealane protsess]
+    end
+    
+    subgraph "Infrastructure as Code"
+        G[Kirjuta kood] --> H[Käivita terraform apply]
+        H --> I[Automatiseeritud loomine]
+        I --> J[Konsistentne ja kiire]
+    end
+    
+    style F fill:#ffcccc
+    style J fill:#ccffcc
+```
 
-**Terraform** on populaarne valik, aga pole ainus:
+**Infrastructure as Code muudab mängu:**
+- Kirjutate koodi, mis kirjeldab soovitud infrastruktuuri
+- Käivitate käsu, mis loob selle teie eest
+- Sama kood töötab igal kord
+- Versioonihaldusse saab panna
+- Saab testida ja üle vaadata
 
-| Tööriist | Tugevused | Nõrkused | Parim kasutamine |
-|----------|-----------|----------|------------------|
-| **Terraform** | Multi-cloud, declarative, state management | Kõrge õppimiskõver, HCL süntaks | Cloud infrastruktuur |
-| **Ansible** | Agentless, YAML, idempotent | Limited infrastructure | Configuration management |
-| **CloudFormation** | AWS native, JSON/YAML | AWS only, complex syntax | AWS environments (not covered) |
-| **Pulumi** | General programming languages | Newer, smaller community | Complex logic |
+### Mis on Infrastructure as Code?
 
-**Miks Terraform?**
-- **Multi-cloud** - töötab kohalikult, VirtualBox, Docker jne (meie kursusel kohalik)
-- **Declarative** - kirjeldad mida tahad, mitte kuidas
-- **State management** - teab, mis on juba olemas
-- **Large community** - palju dokumentatsiooni ja näiteid
+Infrastructure as Code (IaC) tähendab infrastruktuuri kirjeldamist ja haldamist koodi abil, mitte käsitsi konfiguratsioonide kaudu.
+
+Mõelge sellele nagu retseptile:
+- **Traditsiooniline:** "Ütlen sulle, kuidas kooki teha"
+- **IaC:** "Siin on retsept, järgi seda"
+
+IaC eelised:
+- **Konsistentsus** - sama tulemus iga kord
+- **Kiirus** - automatiseeritud protsess
+- **Dokumentatsioon** - kood ise on dokumentatsioon
+- **Versioonihaldus** - saab kasutada Git'i
+- **Testimine** - saab testida enne rakendamist
 
 ---
 
-## Task 3: HCL Syntax ja Providers
+## 1. Terraform Sissejuhatus
 
-### HashiCorp Configuration Language (HCL)
+### Mis on Terraform?
 
-**HCL** on Terraform'i konfiguratsioonikeel. See on lihtne, loetav ja võimas. Kujutage ette HCL-i kui "infrastruktuuri kirjeldamise keelt" - nagu HTML kirjeldab veebilehte, kirjeldab HCL teie infrastruktuuri.
+Terraform on HashiCorp'i loodud Infrastructure as Code tööriist. See võimaldab teil kirjeldada infrastruktuuri deklaratiivses keeles nimega HCL (HashiCorp Configuration Language).
 
-**Miks HCL?**
-- **Loetav** - sarnane JSON-iga, aga lihtsam
-- **Võimas** - toetab funktsioone ja loogikat
-- **Turvaline** - tüübi kontroll ja valideerimine
-- **Dokumenteeritud** - kood ise on dokumentatsioon
+**Terraform vs teised tööriistad:**
 
-### Põhiline HCL süntaks
+| Tööriist | Lähenemine | Keeled | Tugevused |
+|----------|------------|--------|-----------|
+| **Terraform** | Deklaratiivne | HCL | Multi-cloud, rikas ökosüsteem |
+| **Ansible** | Protseduuriline | YAML | Lihtne õppida, agentless |
+| **Pulumi** | Imperatiivne | Python, Go, etc | Programmeerimiskeelte võimsus |
 
-HCL koosneb neljast põhilistest ploki tüübist, mis on nagu laused looduses. Iga plokk kirjeldab midagi konkreetset ja on oma süntaksiga.
+**Miks Terraform?**
+- **Multi-provider** - töötab AWS, Azure, Google Cloud, kohalikult
+- **Deklaratiivne** - kirjeldate mida tahate, mitte kuidas
+- **State management** - teab, mis on juba olemas
+- **Plan and apply** - näitab ette, mida teeb
 
-##### Resource Block - ressursi loomine
+### Terraform Workflow
 
-**Resource** on Terraform'i põhiline üksus - see kirjeldab, mida soovid luua. Kujutage ette seda kui "tellimust" - sa ütled Terraform'ile: "loo mulle see ja see".
+```mermaid
+graph LR
+    A[Write] --> B[Plan] --> C[Apply] --> D[Manage]
+    
+    A -.-> A1[.tf failid]
+    B -.-> B1[terraform plan]
+    C -.-> C1[terraform apply]
+    D -.-> D1[terraform destroy]
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#e8f5e8
+    style D fill:#fce4ec
+```
 
-Resource'i süntaks on: `resource "provider_type" "local_name" { konfiguratsioon }`
+**1. Write** - kirjutate HCL konfiguratsioonifailid
+**2. Plan** - Terraform näitab, mida kavatseb teha
+**3. Apply** - Terraform teeb muudatused
+**4. Manage** - Terraform jälgib ja haldab ressursse
 
-**Näide - Kohaliku faili loomine:**
+---
+
+## 2. HCL Keel ja Süntaks
+
+### HashiCorp Configuration Language
+
+HCL on spetsiaalselt infrastruktuuri kirjeldamiseks loodud keel. See on JSON-i sarnane, kuid loetavam ja võimsam.
+
+### Põhilised HCL Blokid
+
+**Resource Block - ressursi definitsioon:**
 
 ```hcl
-resource "local_file" "web_config" {
-  content  = "Server configuration for web application"
-  filename = "web_config.txt"
-  
-  tags = {
-    Name = "Web Config"
-    Environment = "Local"
-    Project = "Terraform Basics Lab"
-    CreatedBy = "Terraform"
+resource "local_file" "example" {
+  content  = "Hello, Terraform!"
+  filename = "hello.txt"
+}
+```
+
+See loob kohaliku faili nimega "hello.txt" sisuga "Hello, Terraform!".
+
+**Variable Block - muutujad:**
+
+```hcl
+variable "file_name" {
+  description = "Name of the file to create"
+  type        = string
+  default     = "hello.txt"
+}
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "Environment must be dev, staging, or prod."
   }
 }
 ```
 
-**Mida see teeb?**
-- `local_file` - kohaliku faili tüüp
-- `web_config` - kohalik nimi (saad seda kasutada viitamiseks)
-- `content` - faili sisu
-- `filename` - faili nimi ja asukoht
-- `tags` - siltid, mis aitavad identifitseerida ja organiseerida
+**Output Block - väljundid:**
 
-##### Data Source - olemasoleva info lugemine
+```hcl
+output "file_path" {
+  description = "Path to the created file"
+  value       = local_file.example.filename
+}
+```
 
-**Data source** ei loo midagi uut, vaid loeb olemasolevat infot. See on nagu "küsimus" - sa küsid: "anna mulle see ja see info".
-
-**Näide - Kohaliku faili lugemine:**
+**Data Source - andmete lugemine:**
 
 ```hcl
 data "local_file" "config" {
   filename = "config.txt"
 }
-```
 
-**Mida see teeb?**
-- Loeb olemasoleva kohaliku faili sisu
-- `filename` - faili asukoht
-- Saad kasutada `data.local_file.config.content` muutujana
-
-##### Variable - dünaamiline väärtus
-
-**Variable** võimaldab muuta väärtusi ilma koodi muutmata. See on nagu "seadistus" - sama kood, aga erinevad väärtused.
-
-**Näide - instance type muutuja:**
-
-```hcl
-variable "file_name" {
-  description = "Local file name"
-  type        = string
-  default     = "config.txt"
-  
-  validation {
-    condition     = contains(["t2.micro", "t2.small", "t2.medium"], var.instance_type)
-    error_message = "Instance type must be t2.micro, t2.small, or t2.medium."
-  }
+# Kasutamine
+resource "local_file" "processed" {
+  content  = "Processed: ${data.local_file.config.content}"
+  filename = "processed.txt"
 }
 ```
 
-**Mida see teeb?**
-- `description` - kirjeldus, mida muutuja teeb
-- `type` - andmetüüp (string, number, bool, list, map)
-- `default` - vaikeväärtus
-- `validation` - kontrollib, et väärtus oleks korrektne
+### Andmetüübid ja Funktsioonid
 
-##### Output - tagastatav väärtus
-
-**Output** võimaldab näha loodud ressursside infot. See on nagu "vastus" - mida Terraform tagastab pärast töö lõpetamist.
-
-**Näide - serveri IP aadress:**
+**Andmetüübid:**
 
 ```hcl
-output "public_ip" {
-  description = "Public IP of the web server"
-  value       = local_file.web_config.filename
-}
-```
-
-**Mida see teeb?**
-- `description` - kirjeldus, mida väljund tagastab
-- `value` - väärtus, mida tagastada (serveri avalik IP)
-
-##### Data types - andmetüübid
-
-Terraform toetab erinevaid andmetüüpe, nagu ka teised programmeerimiskeeled. Iga tüüp on mõeldud teatud kindlatele andmetele ja kasutamise juhtumitele.
-
-**String - tekst**
-String on tavaline tekst, mis on jutumärkides. Kasutatakse nimede, kirjelduste ja tekstiliste väärtuste jaoks.
-
-```hcl
+# String
 variable "name" {
   type    = string
   default = "my-server"
 }
-```
 
-**Number - arv**
-Number on arv ilma jutumärkideta. Kasutatakse pordide, mälu, ketta suuruse jaoks.
-
-```hcl
+# Number
 variable "port" {
   type    = number
   default = 80
 }
-```
 
-**Boolean - tõeväärtus**
-Boolean on kas `true` (tõene) või `false` (väär). Kasutatakse sätete sisse/välja lülitamiseks.
-
-```hcl
-variable "enable_monitoring" {
+# Boolean
+variable "enable_ssl" {
   type    = bool
   default = true
 }
-```
 
-**List - nimekiri**
-List on järjestatud kogum väärtusi. Kasutatakse, kui sul on mitu sarnast väärtust.
-
-```hcl
-variable "subnets" {
-  type    = list(string)
-  default = ["subnet-123", "subnet-456", "subnet-789"]
+# List
+variable "allowed_ports" {
+  type    = list(number)
+  default = [80, 443, 22]
 }
-```
 
-**Map - kaart (võti-väärtus paarid)**
-Map on võtmete ja väärtuste kogum. Kasutatakse, kui sul on struktureeritud andmeid.
-
-```hcl
+# Map
 variable "tags" {
   type = map(string)
   default = {
-    Environment = "Production"
-    Project     = "WebApp"
-    Owner       = "DevOps Team"
+    Environment = "dev"
+    Project     = "web-app"
   }
 }
 ```
 
-##### Functions ja expressions - funktsioonid ja avaldised
-
-Terraform toetab funktsioone ja avaldisi, mis võimaldavad teha loogilisi operatsioone ja andmete töötlemist. Need on nagu valemid Excelis - võimaldavad teha arvutusi ja loogilisi otsuseid.
-
-**String concatenation - stringide ühendamine**
-
-Locals võimaldab defineerida väärtusi, mida saab korduvalt kasutada. See on nagu muutuja, mis on ainult selle faili sees.
+**Funktsioonid ja avaldised:**
 
 ```hcl
 locals {
+  # String interpolation
   full_name = "${var.project_name}-${var.environment}"
-  domain_name = "${var.subdomain}.${var.domain}"
-}
-```
-
-**Conditional logic - tingimuslik loogika**
-
-Ternary operator võimaldab teha tingimuslikke otsuseid: `tingimus ? tõene_väärtus : väär_väärtus`
-
-```hcl
-resource "local_file" "config" {
-  content = var.environment == "production" ? var.prod_config : var.dev_config
-  filename = var.config_filename
-  count = var.enable_config ? 1 : 0
-}
-```
-
-**File reading - faili lugemine**
-
-`file()` funktsioon loeb faili sisu ja tagastab selle stringina. Kasutatakse skriptide ja konfiguratsioonide jaoks.
-
-```hcl
-resource "local_file" "config" {
-  content = file("${path.module}/config_template.txt")
-  filename = "generated_config.txt"
-}
-```
-
-**Loops ja iteration - tsüklid ja kordused**
-
-`for_each` võimaldab luua mitu ressurssi nimekirja põhjal.
-
-```hcl
-resource "local_file" "configs" {
-  for_each = toset(var.config_names)
   
-  content  = "Configuration for ${each.key}"
-  filename = "${each.key}_config.txt"
+  # Conditional expression
+  instance_type = var.environment == "prod" ? "large" : "small"
   
-  tags = {
-    Name = each.key
-    Index = each.value
-  }
-}
-```
-
-**Mathematical operations - matemaatilised operatsioonid**
-
-Terraform toetab matemaatilisi operatsioone ja funktsioone.
-
-```hcl
-locals {
-  subnet_size = pow(2, 32 - var.cidr_block_size)
-  average_load = (var.min_instances + var.max_instances) / 2
-}
-```
-
-### Terraform Providers
-
-**Provider** on plugin, mis võimaldab Terraform'il suhelda erinevate teenustega. Kujutage ette provider'it kui "tõlki" - see tõlgib Terraform'i käsud konkreetse teenuse (local, VirtualBox, Docker) keelde.
-
-**Miks provider'id on olulised?**
-- **Ühtne süntaks** - sama HCL kood töötab erinevate teenustega
-- **Spetsialiseeritud funktsioonid** - iga provider toetab oma teenuse võimalusi
-- **Versioonihaldus** - saad määrata, millist provider'i versiooni kasutada
-- **Turvalisus** - provider haldab autentimist ja autoriseerimist
-
-**Local Provider näide:**
-
-```hcl
-# ==========================================
-# TERRAFORM CONFIGURATION - Terraform'i seaded
-# ==========================================
-# See plokk määrab, milliseid provider'eid ja versioone kasutada
-terraform {
-  # Määra Terraform'i versioon (valikuline, aga soovituslik)
-  required_version = ">= 1.0"
-  
-  # Määra vajalikud provider'id ja nende versioonid
-  required_providers {
-    local = {
-      source  = "hashicorp/local"  # Provider'i allikas (HashiCorp'i registry)
-      version = "~> 2.0"           # Versioon: 2.x.x
-    }
-  }
-}
-
-# ==========================================
-# LOCAL PROVIDER CONFIGURATION - kohalikud seaded
-# ==========================================
-# Kohalik provider ei vaja erilisi seadeid
-# Töötab kohe kohalikus failisüsteemis
-
-# ==========================================
-# LOCAL RESOURCE - kohalik ressurss
-# ==========================================
-# Nüüd saame luua kohalikke ressursse
-resource "local_file" "web_config" {
-  content  = "Web server configuration for local development"
-  filename = "web_config.txt"
-  
-  tags = {
-    Name = "Web Config"           # Resurssi nimi
-    Purpose = "Learning Terraform" # Lisainfo
-  }
-}
-```
-
-**Local Provider näide (lab jaoks):**
-
-Local provider võimaldab luua faile ja katalooge kohalikus failisüsteemis. See on suurepärane õppimiseks, kuna ei vaja cloud'i ega makse.
-
-```hcl
-# ==========================================
-# LOCAL PROVIDER - kohalik failisüsteem
-# ==========================================
-# Local provider töötab ainult kohalikus failisüsteemis
-# Ei vaja interneti ühendust ega cloud'i teenuseid
-terraform {
-  required_providers {
-    local = {
-      source  = "hashicorp/local"  # HashiCorp'i local provider
-      version = "~> 2.0"           # Versioon 2.x.x
-    }
-  }
-}
-
-# ==========================================
-# CREATE A LOCAL FILE - kohaliku faili loomine
-# ==========================================
-# local_file loob või uuendab faili kohalikus failisüsteemis
-resource "local_file" "hello" {
-  content  = "Hello, Terraform!"  # Faili sisu
-  filename = "${path.module}/hello.txt"  # Faili nimi ja asukoht
-  # path.module on kaust, kus praegune .tf fail asub
-}
-
-# ==========================================
-# CREATE A DIRECTORY - kataloogi loomine
-# ==========================================
-# local_directory loob kataloogi, kui seda pole olemas
-resource "local_directory" "example" {
-  path = "${path.module}/example_dir"  # Kataloogi tee
-}
-
-# ==========================================
-# CREATE A CONFIGURATION FILE - konfiguratsioonifaili loomine
-# ==========================================
-# Looge JSON konfiguratsioonifail
-resource "local_file" "config" {
-  content = jsonencode({
-    project_name = "Week 23 Lab"
-    environment  = "development"
-    created_by   = "Terraform"
-    timestamp    = timestamp()
-    version      = "1.0.0"
+  # Functions
+  config_json = jsonencode({
+    name = var.project_name
+    ports = var.allowed_ports
   })
-  filename = "${path.module}/config.json"
-}
-
-# ==========================================
-# CREATE A SCRIPT FILE - skriptifaili loomine
-# ==========================================
-# Looge Bash skript
-resource "local_file" "script" {
-  content = <<-EOF
-    #!/bin/bash
-    echo "This script was created by Terraform"
-    echo "Project: Week 23 Lab"
-    echo "Timestamp: $(date)"
-    echo "Current directory: $(pwd)"
-  EOF
-  filename = "${path.module}/scripts/startup.sh"
 }
 ```
 
-**Docker Provider näide:**
+---
 
-Docker provider võimaldab hallata Docker container'eid ja image'e Terraform'i abil. See on kasulik, kui soovid hallata container'eid kui infrastruktuuri osa.
+## 3. Providers ja Ressursid
 
-```hcl
-# ==========================================
-# DOCKER PROVIDER - Docker container'ite haldamine
-# ==========================================
-# Docker provider võimaldab hallata Docker container'eid Terraform'i abil
-# See on kasulik, kui soovid hallata container'eid kui infrastruktuuri osa
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"  # Kolmanda osapoole Docker provider
-      version = "~> 3.0"              # Versioon 3.x.x
-    }
-  }
-}
+### Mis on Provider?
 
-# ==========================================
-# DOCKER PROVIDER CONFIGURATION - Docker seaded
-# ==========================================
-# Määrab, kuidas ühenduda Docker daemon'iga
-provider "docker" {
-  host = "unix:///var/run/docker.sock"  # Docker socket'i asukoht Linuxis
-  # Windows: "npipe:////./pipe/docker_engine"
-  # Remote: "tcp://docker-host:2376"
-}
+Provider on plugin, mis võimaldab Terraform'il suhelda erinevate teenustega. Mõelge sellele kui "tõlkijale" - see tõlgib Terraform'i käsud konkreetse teenuse API kõnedeks.
 
-# ==========================================
-# PULL DOCKER IMAGE - Docker image'i allalaadimine
-# ==========================================
-# docker_image allalaadib image'i Docker Hub'ist või muust registry'st
-resource "docker_image" "nginx" {
-  name = "nginx:latest"  # Image'i nimi ja tag
-  # Alternatiivid:
-  # name = "nginx:1.21"     # Konkreetne versioon
-  # name = "my-registry.com/nginx:latest"  # Privaatne registry
-}
-
-# ==========================================
-# CREATE DOCKER CONTAINER - Docker container'i loomine
-# ==========================================
-# docker_container loob ja haldab Docker container'eid
-resource "docker_container" "web" {
-  name  = "web-server"                    # Container'i nimi
-  image = docker_image.nginx.image_id     # Kasuta allalaaditud image'i
-  
-  # Port mapping - ühenda container'i port 80 host'i portiga 8080
-  ports {
-    internal = 80    # Container'i sees olev port
-    external = 8080  # Host'i port (http://localhost:8080)
-  }
-  
-  # Keskkonnamuutujad
-  env = [
-    "NGINX_HOST=localhost",
-    "NGINX_PORT=80"
-  ]
-  
-  # Volume mounting - ühenda host'i kaust container'i kausta
-  volumes {
-    container_path = "/usr/share/nginx/html"  # Container'i kaust
-    host_path      = "${path.module}/web"     # Host'i kaust
-    read_only      = false                    # Lugemine ja kirjutamine
-  }
-  
-  # Container'i käivitamise käsud
-  command = ["nginx", "-g", "daemon off;"]
-  
-  # Restart policy
-  restart = "unless-stopped"  # Taaskäivita, kui pole käsitsi peatatud
-}
-```
-
-### Provider konfiguratsiooni best practices
-
-Provider'ite konfiguratsioon on kriitiline Terraform'i stabiilsuse ja turvalisuse jaoks. Järgige neid best practices, et vältida probleeme.
-
-**1. Versioonide fikseerimine - oluline stabiilsuse jaoks:**
+**Provider konfiguratsioon:**
 
 ```hcl
-# ==========================================
-# VERSION PINNING - versioonide fikseerimine
-# ==========================================
-# ALATI fikseeri provider'ite versioonid, et vältida ootamatuid muudatusi
 terraform {
   required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.0"  # 2.x.x, aga mitte 3.0.0
-      # ~> tähendab "vähemalt 2.0, aga vähem kui 3.0"
-      # See võimaldab saada bug fix'e, aga mitte breaking change'e
-    }
-    
-    # Mitu provider'it
     local = {
       source  = "hashicorp/local"
       version = "~> 2.0"
     }
-    
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
+  }
+}
+```
+
+### Local Provider Näited
+
+Alustame kohaliku provider'iga, mis ei vaja cloud'i:
+
+**Lihtsa faili loomine:**
+
+```hcl
+resource "local_file" "web_config" {
+  content  = "Server configuration for web application"
+  filename = "${path.module}/config/web.conf"
+}
+```
+
+**Kataloogi loomine:**
+
+```hcl
+resource "local_file" "logs_dir" {
+  content  = ""
+  filename = "${path.module}/logs/.gitkeep"
+}
+```
+
+**Konfiguratsioonifaili loomine JSON'iga:**
+
+```hcl
+resource "local_file" "app_config" {
+  content = jsonencode({
+    app_name = "my-web-app"
+    version  = "1.0.0"
+    database = {
+      host = "localhost"
+      port = 5432
+      name = "myapp"
     }
-  }
+    features = {
+      ssl_enabled     = true
+      debug_mode      = false
+      max_connections = 100
+    }
+  })
+  filename = "${path.module}/config/app.json"
 }
 ```
 
-**2. Keskkonnamuutujad - turvaline autentimine:**
-
-```bash
-# ==========================================
-# ENVIRONMENT VARIABLES - keskkonnamuutujad
-# ==========================================
-# ÄRA kunagi kirjuta access key'e otse koodi!
-# Kasuta keskkonnamuutujaid või kohalikke seadeid
-
-# Local provider credentials (ei vaja)
-# Kohalik provider töötab kohe, ei vaja erilisi seadeid
-
-# Või kasuta keskkonnamuutujaid
-export TF_VAR_project_name="my-project"
-export TF_VAR_environment="development"
-```
-
-**3. Multiple providers - erinevate keskkondade haldamine:**
+**Template'ide kasutamine:**
 
 ```hcl
-# ==========================================
-# MULTIPLE PROVIDERS - mitu provider'it
-# ==========================================
-# Kasutage alias'e, kui teil on mitu sama tüüpi provider'it
-# Näiteks: erinevad kohalikud keskkonnad või projektid
-
-# Production environment
-provider "local" {
-  alias = "prod"         # Unikaalne nimi
-}
-
-# Development environment  
-provider "local" {
-  alias = "dev"          # Unikaalne nimi
-}
-
-# Kasuta konkreetset provider'it
-resource "local_file" "prod_config" {
-  provider = local.prod  # Määra, millist provider'it kasutada
-  content  = "Production configuration"
-  filename = "prod_config.txt"
-  
-  tags = {
-    Environment = "Production"
-    ManagedBy   = "Terraform"
-  }
-}
-
-resource "local_file" "dev_config" {
-  provider = local.dev   # Määra, millist provider'it kasutada
-  content  = "Development configuration"
-  filename = "dev_config.txt"
-  
-  tags = {
-    Environment = "Development"
-    ManagedBy   = "Terraform"
-  }
+resource "local_file" "nginx_config" {
+  content = templatefile("${path.module}/templates/nginx.conf.tpl", {
+    server_name = var.server_name
+    port        = var.port
+    ssl_enabled = var.ssl_enabled
+  })
+  filename = "${path.module}/config/nginx.conf"
 }
 ```
 
-**4. Provider konfiguratsiooni valideerimine:**
+### Ressursside Sõltuvused
+
+**Automaatsed sõltuvused:**
 
 ```hcl
-# ==========================================
-# PROVIDER VALIDATION - provider'i kontroll
-# ==========================================
-# Lisage valideerimine, et kontrollida provider'i seadeid
+resource "local_file" "database_config" {
+  content = jsonencode({
+    host = "db.example.com"
+    port = 5432
+  })
+  filename = "${path.module}/config/database.json"
+}
 
-provider "local" {
-  # Kohalik provider ei vaja valideerimist
-  # Töötab kõikides keskkondades
+resource "local_file" "app_config" {
+  content = templatefile("${path.module}/templates/app.conf.tpl", {
+    database_config = local_file.database_config.filename
+  })
+  filename = "${path.module}/config/app.conf"
 }
 ```
 
----
-
-## Resources ja Data Sources
-
-### Terraform Resources
-
-**Resource** on Terraform'i põhiline üksus - see kirjeldab, mida soovid luua, muuta või kustutada.
-
-### Põhilised resource tüübid
-
-**1. Local resources:**
+**Explicit sõltuvused:**
 
 ```hcl
-# Local File
-resource "local_file" "web_config" {
-  content  = "Web server configuration"
-  filename = var.config_filename
+resource "local_file" "readme" {
+  content  = "Application documentation"
+  filename = "${path.module}/README.md"
   
-  # Local configuration dependencies
-content = data.local_file.template.content
-  
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y nginx
-              systemctl start nginx
-              EOF
-  
-  tags = {
-    Name = "Web Server"
-  }
+  depends_on = [
+    local_file.app_config,
+    local_file.database_config
+  ]
 }
+```
 
-# Auto Scaling Group (Local equivalent)
-resource "local_file" "web_config" {
-  content  = "Web application configuration with scaling settings"
-  filename = "web_config.txt"
+### Lifecycle Rules
+
+```hcl
+resource "local_file" "important_config" {
+  content  = var.config_content
+  filename = "${path.module}/config/important.conf"
   
   lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [content]
     create_before_destroy = true
-  }
-}
-```
-
-**2. Local configuration resources:**
-
-```hcl
-# Main configuration directory
-resource "local_directory" "main" {
-  path = "./config"
-}
-
-# Configuration file
-resource "local_file" "config" {
-  content  = "Main configuration file"
-  filename = "${local_directory.main.path}/main.conf"
-  
-  tags = {
-    Name = "Main Config"
-  }
-}
-
-# Template file
-resource "local_file" "template" {
-  content  = "Configuration template"
-  filename = "${local_directory.main.path}/template.conf"
-  
-  tags = {
-    Name = "Config Template"
-  }
-}
-
-# Settings file
-resource "local_file" "settings" {
-  content  = "Application settings"
-  filename = "${local_directory.main.path}/settings.conf"
-  
-  tags = {
-    Name = "Settings"
-  }
-}
-```
-
-**3. Local storage resources:**
-
-```hcl
-# Data directory
-resource "local_directory" "data" {
-  path = "./data"
-}
-
-# Random ID for unique names
-resource "random_id" "file_suffix" {
-  byte_length = 4
-}
-
-# Database configuration file
-resource "local_file" "db_config" {
-  content  = "Database configuration for local development"
-  filename = "${local_directory.data.path}/database.conf"
-  
-  tags = {
-    Name = "Database Config"
-  }
-}
-```
-
-### Data Sources
-
-**Data source** võimaldab lugeda olemasolevat infot, mida saab kasutada resource'ide konfiguratsioonis.
-
-**1. Local data sources:**
-
-```hcl
-# File lookup
-data "local_file" "template" {
-  filename = "template.txt"
-}
-  
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
-# Availability zones
-data "local_file" "available_config" {
-  filename = "available_config.txt"
-}
-
-# Local configuration data
-data "local_file" "default_config" {
-  filename = "default_config.txt"
-}
-
-# Configuration files
-data "local_file" "configs" {
-  filename = "configs.txt"
-}
-```
-
-**2. Local data sources:**
-
-```hcl
-# File content
-data "local_file" "config" {
-  filename = "${path.module}/config.json"
-}
-
-# Directory listing
-data "local_file" "script" {
-  filename = "${path.module}/scripts/startup.sh"
-}
-```
-
-### Resource dependencies
-
-**Terraform automaatselt tuvastab sõltuvused, aga mõnikord pead neid selgesõnaliselt määrama:**
-
-```hcl
-# Implicit dependency (recommended)
-resource "local_file" "web_config" {
-  content  = data.local_file.template.content
-  filename = "web_config.txt"
-}
-
-# Explicit dependency
-resource "local_file" "web_config" {
-  content  = data.local_file.template.content
-  filename = "web_config.txt"
-  
-  depends_on = [local_directory.config, local_file.template]
-}
-```
-
-### Resource lifecycle
-
-**Lifecycle rules võimaldavad kontrollida, kuidas Terraform hallab ressurssi:**
-
-```hcl
-resource "local_file" "web_config" {
-  content  = data.local_file.template.content
-  filename = "web_config.txt"
-  
-  lifecycle {
-    # Prevent recreation when content changes
-    ignore_changes = [content]
-    
-    # Create new resource before destroying old
-    create_before_destroy = true
-    
-    # Prevent accidental deletion
-    prevent_destroy = false
   }
 }
 ```
 
 ---
 
-## Task 4: State Management
+## 4. State Management
 
 ### Mis on Terraform State?
 
-**Terraform state** on fail, mis sisaldab teavet teie infrastruktuuri kohta - mis ressursid on olemas, nende ID-d, atribuudid ja sõltuvused.
-
-### State faili roll
+Terraform state on andmebaas, mis sisaldab teavet teie infrastruktuuri kohta. See on Terraform'i "mälu" - kuidas ta teab, mis ressursid on olemas ja kuidas neid hallata.
 
 ```mermaid
 graph TB
-    subgraph "Terraform Workflow"
-        Code[📝 Terraform Code]
-        State[🗄 State File]
-        Cloud[☁ Cloud Infrastructure]
+    subgraph "Terraform State Workflow"
+        A[Terraform Configuration] --> B[terraform plan]
+        B --> C[Compare with State]
+        C --> D[Create Plan]
+        D --> E[terraform apply]
+        E --> F[Update State]
+        F --> G[Real Infrastructure]
     end
     
-    Code -->|terraform plan| State
-    State -->|terraform apply| Cloud
-    Cloud -->|terraform refresh| State
+    H[terraform.tfstate] -.-> C
+    F -.-> H
     
-    style State fill:#ffcc99
-    style Cloud fill:#99ccff
+    style H fill:#fff3e0
+    style G fill:#e8f5e8
 ```
 
 **State fail sisaldab:**
-- **Resource metadata** - ID-d, atribuudid, sõltuvused
-- **Current state** - mis on praegu olemas
-- **Desired state** - mis peaks olema
-- **Dependencies** - milline järjekord
+- Ressursside ID-d ja metaandmeid
+- Sõltuvuste graafi
+- Providerite informatsiooni
+- Ressursside praegust olekut
 
-### State faili näide
+**State faili näide:**
 
 ```json
 {
   "version": 4,
-  "terraform_version": "1.5.0",
-  "serial": 1,
-  "lineage": "abc123",
-  "outputs": {
-    "public_ip": {
-      "value": "52.23.45.67",
-      "type": "string"
-    }
-  },
+  "terraform_version": "1.6.0",
   "resources": [
     {
       "mode": "managed",
       "type": "local_file",
-      "name": "web_server",
-      "provider": "provider[\"registry.terraform.io/hashicorp/local\"]",
+      "name": "example",
       "instances": [
         {
-          "schema_version": 1,
           "attributes": {
-            "id": "i-1234567890abcdef0",
-            "instance_type": "t2.micro",
-            "public_ip": "52.23.45.67",
-            "tags": {
-              "Name": "Web Server"
-            }
+            "content": "Hello, Terraform!",
+            "filename": "hello.txt",
+            "id": "4b5d1e7c8f9a2b3c"
           }
         }
       ]
@@ -915,201 +410,371 @@ graph TB
 }
 ```
 
-### State management probleemid
+### State'i Parimad Praktikad
 
-**1. Local state faili probleemid:**
-
-```bash
-# State fail on kohalikus failisüsteemis
-terraform.tfstate
-
-# Probleemid:
-# - Ei tööta meeskonnaga
-# - Ei ole backup'i
-# - Ei ole concurrent access
-# - Ei ole versioning
-```
-
-**2. Remote state lahendused:**
+**1. Remote State kasutamine:**
 
 ```hcl
-# Terraform Cloud
 terraform {
-  cloud {
-    organization = "my-org"
-    workspaces {
-      name = "web-app"
+  backend "s3" {
+    bucket = "my-terraform-state"
+    key    = "web-app/terraform.tfstate"
+    region = "us-west-2"
+  }
+}
+```
+
+**2. State Locking:**
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket         = "my-terraform-state"
+    key            = "web-app/terraform.tfstate"
+    region         = "us-west-2"
+    dynamodb_table = "terraform-locks"
+  }
+}
+```
+
+**3. Sensitive andmete käsitlemine:**
+
+```hcl
+variable "database_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
+}
+
+output "database_password" {
+  value     = var.database_password
+  sensitive = true
+}
+```
+
+### State'i Haldamise Käsud
+
+```bash
+# State'i info vaatamine
+terraform state list
+terraform state show local_file.example
+
+# Ressursi liigutamine
+terraform state mv local_file.old local_file.new
+
+# Ressursi eemaldamine state'ist
+terraform state rm local_file.example
+
+# Olemasoleva ressursi import
+terraform import local_file.example hello.txt
+
+# State'i värskendamine
+terraform refresh
+```
+
+---
+
+## 5. Praktilised Näited
+
+### Lihtne Web Rakenduse Infrastruktuur
+
+Loome kohaliku arenduskeskkonna failide struktuuri:
+
+```hcl
+# variables.tf
+variable "project_name" {
+  description = "Name of the project"
+  type        = string
+  default     = "web-app"
+}
+
+variable "environment" {
+  description = "Environment (dev, staging, prod)"
+  type        = string
+  default     = "dev"
+}
+
+# main.tf
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
     }
   }
 }
 
-# Local backend
-terraform {
-  backend "local" {
-    path = "terraform.tfstate"
-  }
+# Project structure
+resource "local_file" "project_structure" {
+  for_each = toset([
+    "src/",
+    "config/",
+    "scripts/",
+    "docs/"
+  ])
+  
+  content  = ""
+  filename = "${path.module}/${var.project_name}/${each.key}/.gitkeep"
 }
 
-# Azure Storage backend
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "terraform-rg"
-    storage_account_name = "tfstate12345"
-    container_name       = "tfstate"
-    key                  = "web-app.terraform.tfstate"
-  }
-}
-```
-
-### State management best practices
-
-**1. Remote state kasutamine:**
-
-```hcl
-# Local backend konfiguratsioon
-terraform {
-  backend "local" {
-    path = "terraform.tfstate"
-  }
-}
-```
-
-**2. State locking:**
-
-```hcl
-# Local file for state locking
-resource "local_file" "terraform_locks" {
-  content  = "State lock file"
-  filename = "terraform.lock"
-}
-```
-
-**3. State separation:**
-
-```bash
-# Erinevad keskkonnad erinevates state failides
-environments/
-├── dev/
-│   └── terraform.tfstate
-├── staging/
-│   └── terraform.tfstate
-└── prod/
-    └── terraform.tfstate
-```
-
-**4. State import:**
-
-```bash
-# Import existing resources
-terraform import local_file.web_config web_config.txt
-
-# Import with configuration
-terraform import 'local_file.web_config[0]' web_config.txt
-```
-
-### State security
-
-**1. Encryption:**
-
-```hcl
-terraform {
-  backend "local" {
-    path = "terraform.tfstate"
-  }
-}
-```
-
-**2. Access control:**
-
-```hcl
-# Local file access policy
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "read",
-"write",
-"delete"
-      ],
-      "Resource": "local://terraform.tfstate"
+# Application configuration
+resource "local_file" "app_config" {
+  content = jsonencode({
+    name        = var.project_name
+    environment = var.environment
+    version     = "1.0.0"
+    database = {
+      host = "localhost"
+      port = 5432
+      name = "${var.project_name}_${var.environment}"
     }
+    cache = {
+      provider = "redis"
+      host     = "localhost"
+      port     = 6379
+    }
+    logging = {
+      level = var.environment == "prod" ? "warn" : "debug"
+      file  = "/var/log/${var.project_name}.log"
+    }
+  })
+  filename = "${path.module}/${var.project_name}/config/app.json"
+}
+
+# Environment-specific configuration
+resource "local_file" "env_config" {
+  content = templatefile("${path.module}/templates/env.tpl", {
+    project_name = var.project_name
+    environment  = var.environment
+    debug_mode   = var.environment != "prod"
+  })
+  filename = "${path.module}/${var.project_name}/.env.${var.environment}"
+}
+
+# Docker Compose file
+resource "local_file" "docker_compose" {
+  content = templatefile("${path.module}/templates/docker-compose.yml.tpl", {
+    project_name = var.project_name
+    environment  = var.environment
+  })
+  filename = "${path.module}/${var.project_name}/docker-compose.yml"
+}
+
+# outputs.tf
+output "project_path" {
+  description = "Path to the project directory"
+  value       = "${path.module}/${var.project_name}"
+}
+
+output "config_files" {
+  description = "List of created configuration files"
+  value = [
+    local_file.app_config.filename,
+    local_file.env_config.filename,
+    local_file.docker_compose.filename
   ]
 }
 ```
 
-**3. State backup:**
+**Template failid:**
 
-```bash
-# Regular backups
-cp terraform.tfstate backups/$(date +%Y%m%d)/terraform.tfstate
+```yaml
+# templates/docker-compose.yml.tpl
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${environment}
+      - PROJECT_NAME=${project_name}
+    volumes:
+      - ./src:/app/src
+      
+  database:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=${project_name}_${environment}
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=development_password
+    ports:
+      - "5432:5432"
 ```
 
-### State troubleshooting
+### For_each ja Count kasutamine
 
-**1. State inconsistencies:**
+```hcl
+# Multiple environments
+variable "environments" {
+  type = map(object({
+    debug_enabled = bool
+    replicas     = number
+  }))
+  default = {
+    dev = {
+      debug_enabled = true
+      replicas     = 1
+    }
+    staging = {
+      debug_enabled = false
+      replicas     = 2
+    }
+    prod = {
+      debug_enabled = false
+      replicas     = 3
+    }
+  }
+}
+
+resource "local_file" "env_configs" {
+  for_each = var.environments
+  
+  content = jsonencode({
+    environment   = each.key
+    debug_enabled = each.value.debug_enabled
+    replicas      = each.value.replicas
+    timestamp     = timestamp()
+  })
+  filename = "${path.module}/configs/${each.key}.json"
+}
+
+# Conditional resource creation
+resource "local_file" "debug_config" {
+  count = var.environment == "dev" ? 1 : 0
+  
+  content  = "Debug configuration for development"
+  filename = "${path.module}/debug.conf"
+}
+```
+
+---
+
+## 6. Terraform Käsud ja Workflow
+
+### Põhilised Terraform Käsud
 
 ```bash
-# Refresh state from cloud
-terraform refresh
+# Projekti initsialiseerimine
+terraform init
 
-# Plan to see differences
+# Konfiguratsiooni valideerimine
+terraform validate
+
+# Formattimine
+terraform fmt
+
+# Planeerimine (kuiv käivitus)
 terraform plan
 
-# Force update if needed
-terraform apply -refresh=false
-```
+# Rakendamine
+terraform apply
 
-**2. State corruption:**
+# Ressursside kustutamine
+terraform destroy
 
-```bash
-# Backup current state
-cp terraform.tfstate terraform.tfstate.backup
-
-# Remove from state (careful!)
-terraform state rm local_file.web_config
-
-# Re-import if needed
-terraform import local_file.web_config web_config.txt
-```
-
-**3. State inspection:**
-
-```bash
-# List all resources in state
+# State'i haldamine
 terraform state list
+terraform state show resource_name
+```
 
-# Show specific resource
-terraform state show local_file.web_config
+### Terraform Workflow Näide
 
-# Move resource in state
-terraform state mv local_file.old_name local_file.new_name
+```bash
+# 1. Loo uus Terraform projekt
+mkdir my-terraform-project
+cd my-terraform-project
+
+# 2. Loo main.tf fail
+cat > main.tf << EOF
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
+    }
+  }
+}
+
+resource "local_file" "hello" {
+  content  = "Hello from Terraform!"
+  filename = "hello.txt"
+}
+EOF
+
+# 3. Initialiseeri projekt
+terraform init
+
+# 4. Valideeri konfiguratsioon
+terraform validate
+
+# 5. Planeeri muudatused
+terraform plan
+
+# 6. Rakenda muudatused
+terraform apply
+
+# 7. Kontrolli tulemust
+cat hello.txt
+
+# 8. Kustuta ressursid
+terraform destroy
 ```
 
 ---
 
-## Kokkuvõte
+## Kokkuvõte ja Järgmised Sammud
 
-Täna õppisime:
+### Mida õppisime täna?
 
-**Infrastructure as Code mõistet** - miks ja kuidas kasutada
-**HCL süntaksit** - Terraform'i konfiguratsioonikeel
-**Providers ja resources** - erinevate teenuste kasutamine
-**State management** - infrastruktuuri oleku haldamine  
+1. **Infrastructure as Code kontseptsiooni** - miks infrastruktuuri koodina haldamine on kasulik
+2. **Terraform'i põhialused** - kuidas see töötab ja miks seda kasutada
+3. **HCL süntaksi** - resources, variables, outputs, data sources
+4. **Provider'ite kasutamist** - kuidas erinevate teenustega suhelda
+5. **State management'i** - kuidas Terraform jälgib infrastruktuuri
 
-**Järgmise nädala teemad:**
-- Terraform praktika lab'is
-- Multi-environment infrastruktuur
-- Advanced Terraform features
+### Järgmises laboris
 
-**Kas teil on küsimusi?** 🤔
+Teeme praktilisi harjutusi:
+- Loome kohaliku arenduskeskkonna
+- Kasutame muutujaid ja template'e
+- Harjutame state'i haldamist
+- Töötame meeskonnaga
+
+### Parimad Praktikad
+
+**1. Kood organisatsioon:**
+- Kasutage mooduleid
+- Eraldage keskkonnad
+- Järgige nimede konventsioone
+
+**2. State'i turvalisus:**
+- Kasutage remote state'i
+- Lubage state locking
+- Käsitlege sensitive andmeid õigesti
+
+**3. Meeskonnatöö:**
+- Kasutage versioonihalust
+- Tehke code review'd
+- Dokumenteerige muudatused
+
+Infrastructure as Code ei ole ainult tööriist - see on mõtteviis. See muudab infrastruktuuri haldamise reproducible, scalable ja maintainable protsessiks.
+
+**Järgmises osas** teeme praktilist tööd - deploy'ime tervikliku arenduskeskkonna Terraform'iga!
 
 ---
 
-## Lisaressursid
+## Viited ja Dokumentatsioon
 
-- **Terraform Documentation:** https://www.terraform.io/docs
-- **HCL Language:** https://www.terraform.io/docs/language
-- **Local Provider:** https://registry.terraform.io/providers/hashicorp/local/latest/docs
-- **Terraform Best Practices:** https://www.terraform.io/docs/cloud/guides/recommended-practices
+### Ametlik Dokumentatsioon
+- [Terraform Official Documentation](https://www.terraform.io/docs) - täielik dokumentatsioon
+- [HCL Language Guide](https://www.terraform.io/docs/language) - HCL süntaksi juhend
+- [Terraform Registry](https://registry.terraform.io/) - provider'id ja moodulid
+
+### Provider'ite Dokumentatsioon
+- [Local Provider](https://registry.terraform.io/providers/hashicorp/local/latest/docs) - kohalike ressursside haldamine
+- [Random Provider](https://registry.terraform.io/providers/hashicorp/random/latest/docs) - juhuslike väärtuste genereerimine
+
+### Best Practices
+- [Terraform Best Practices](https://www.terraform.io/docs/cloud/guides/recommended-practices) - soovitatud praktikad
+- [Terraform Style Guide](https://www.terraform.io/docs/language/syntax/style) - koodi stiili juhend

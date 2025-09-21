@@ -1,439 +1,517 @@
-# Git Diff ja Diff Väljundi Lugemine
-
-**Kestus:**utit  
-**Eesmärk:** Õppida lugema diff väljundit ja mõistma, mida iga sümbol tähendab
-
----
-
-## Sissejuhatus Diff'i Lugemisse
-
-Diff on tööriist, mis näitab failide vahelisi erinevusi. Git kasutab sama formaati, mis Unix/Linux `diff` käsk.
-
-### Miks on oluline diff'i lugeda?
-
-- **Code Review** - mõista, mida teised arendajad muutsid
-- **Debugging** - leida, mis muutus ja tekitas vea
-- **Version Control** - jälgida koodi ajalugu
-- **Merge Conflicts** - lahendada konflikte
-
----
-
-## Diff Väljundi Formaat
-
-### Põhiline Struktuur
-
-```
-@@ -algusrida,read +algusrida,read @@
-- eemaldatud rida
-+ lisatud rida
-  muutmata rida
-```
-
-### Sümbolite Tähendused
-
-| Sümbol | Tähendus | Näide |
-|--------|----------|-------|
-| `-` | Eemaldatud rida | `- vana_kood = True` |
-| `+` | Lisatud rida | `+ uus_kood = False` |
-| ` ` (tühi) | Muutmata rida | `  print("tere")` |
-| `@@` | Kontekst marker | `@@ -5,3 +5,4 @@` |
-
----
-
-## Praktilised Näited
-
-### Näide 1: Lihtne Rida Muutmine
-
-**Fail 1 (rearrange1.py):**
-```python
-#!/usr/bin/env python3
-import re
-
-def rearrange_name(name):
-    result = re.search(r"^([\w .]*), ([\w .]*)$", name)
-    if result == None:
-        return name
-    return "{} {}".format(result[2], result[1])
-```
-
-**Fail 2 (rearrange2.py):**
-```python
-#!/usr/bin/env python3
-import re
-
-def rearrange_name(name):
-    result = re.search(r"^([\w .-]*), ([\w .-]*)$", name)
-    if result == None:
-        return name
-    return "{} {}".format(result[2], result[1])
-```
-
-**Diff väljund:**
-```bash
-$ diff rearrange1.py rearrange2.py
-```
-
-```
-6c6
-<     result = re.search(r"^([\w .]*), ([\w .]*)$", name)
----
->     result = re.search(r"^([\w .-]*), ([\w .-]*)$", name)
-```
-
-**Selgitus:**
-- `6c6` = rida 6 esimeses failis muudeti rida 6 teises failis
-- `<` = esimese faili sisu (eemaldatud)
-- `---` = eraldaja
-- `>` = teise faili sisu (lisatud)
-- Muutus: lisati `-` sümbol regex'i `[\w .-]` sisse
-
-### Näide 2: Mitme Rea Muutmine
-
-**Fail 1 (validations1.py):**
-```python
-def validate_user(username,len):
-    assert type(username) == str, "username must be a string"
-    iflen < 1:
-        raise ValueError("minlen must be at least 1")
-    
-    if len(username) <len:
-        return False
-    if not username.isalnum():
-        return False
-    return True
-```
-
-**Fail 2 (validations2.py):**
-```python
-def validate_user(username,len):
-    if type(username) != str:
-        raise TypeError("username must be a string")
-    iflen < 1:
-        raise ValueError("minlen must be at least 1")
-    
-    if len(username) <len:
-        return False
-    if not username.isalnum():
-        return False
-    # Usernames can't begin with a number
-    if username[0].isnumeric():
-        return False
-    return True
-```
-
-**Diff väljund:**
-```bash
-$ diff validations1.py validations2.py
-```
-
-```
-5c5,6
-<	assert (type(username) == str), "username must be a string"
---
->	if type(username != str: 
-> 	    raise TypeError("username must be a string"
-
-11a13,15
->	    return False
->	# Usernames can't begin with a number
->	if username[0].isnumeric():
-```
-
-**Selgitus:**
-- `5c5,6` = rida 5 muudeti ridadeks 5-6
-- `11a13,15` = pärast rida 11 lisati read 13-15
-- `assert` asendati `if` kontrolliga
-- Lisati uus kontroll kasutajanime alguse kohta
-
-### Näide 3: Unified Diff Formaat (-u)
-
-**Sama diff unified formaadis:**
-```bash
-$ diff -u validations1.py validations2.py
-```
-
-```
---- validations1.py	2019-06-06 14:28:49.639209499 +0200
-+++ validations2.py	2019-06-06 14:30:48.019360890 +0200
-@@ -2,7 +2,8 @@
+# Git Diff ja Diff Väljundi Analüüs
  
- def validate_user(username,len):
--    assert type(username) == str, "username must be a string"
-+    if type(username) != str:
-+        raise TypeError("username must be a string")
-     iflen < 1:
-         raise ValueError("minlen must be at least 1")
+**Eesmärk:** Õppida lugema ja analüüsima diff väljundit versioonihalduse kontekstis
+
+---
+
+## Diff'i Roll Versioonihalduses
+
+Diff on fundamentaalne tööriist, mis näitab failide vahelisi erinevusi. Moodsa tarkvaraarenduse kontekstis on diff'i lugemise oskus kriitilise tähtsusega mitmel põhjusel.
+
+Code review protsessis analüüsivad arendajad diff'e, et mõista kolleegide tehtud muudatusi ja anda tagasisidet. Debugging'u käigus aitab diff tuvastada, millised muudatused võisid vea tekitada. Merge konfliktide lahendamisel on vaja täpselt mõista, kus ja miks konfliktid tekivad.
+
+Git kasutab universaalset unified diff formaati, mis pärineb Unix/Linux maailmast ja on saanud de facto standardiks versioonihalduses.
+
+---
+
+## 1. Diff Väljundi Struktuur ja Süntaks
+
+### 1.1 Unified Diff Anatoomia
+
+Unified diff koosneb mitmest erinevast osast, millest igaüks kannab spetsiifilist informatsiooni:
+
+```diff
+--- original_file.py    2023-12-01 10:00:00 +0000
++++ modified_file.py    2023-12-01 10:05:00 +0000
+@@ -5,7 +5,8 @@
+ def process_data(data):
+     if not data:
+         return None
+-    return data.strip()
++    cleaned = data.strip()
++    return cleaned.lower()
      
-@@ -10,5 +11,8 @@
+ def validate_input(input_str):
+```
+
+**Struktuuri komponendid:**
+
+**Faili header (`---` ja `+++` read):** Näitab võrreldavate failide nimesid ja ajatemplit. Konventsiooniliselt `---` märgib "vana" versiooni ja `+++` "uut" versiooni.
+
+**Hunk header (`@@` rida):** Sisaldab kriitist informatsiooni muudatuste asukoha kohta. Formaat `@@ -old_start,old_count +new_start,new_count @@` näitab, et vanas failis algab muudatus realt `old_start` ja hõlmab `old_count` rida, uues failis algab realt `new_start` ja hõlmab `new_count` rida.
+
+**Muudatuste read:** Iga rida algab ühe kolmest sümbolist:
+- `-` (miinus) tähistab vanas failis olnud, kuid uuest eemaldatud rida
+- `+` (pluss) tähistab uues failis lisatud rida
+- ` ` (tühik) tähistab mõlemas failis muutumatuna säilinud kontekstirida
+
+### 1.2 Konteksti Mõistmine
+
+Unified diff sisaldab tavaliselt kolm kontekstirida enne ja pärast iga muudatust. See kontekst aitab:
+- Täpselt lokaliseerida muudatuse asukohta
+- Mõista muudatuse konteksti koodis
+- Patch'ide rakendamisel õiges kohas paigutada
+
+---
+
+## 2. Praktilised Diff Analüüsi Näited
+
+### 2.1 Lihtne Funktsiooni Täiustamine
+
+Vaatleme järgmist näidet, kus täiustatakse kasutajanime valideerimise funktsiooni:
+
+**Algne versioon (user_validator.py):**
+```python
+def validate_username(username):
+    if len(username) < 3:
+        return False
+    if not username.isalnum():
+        return False
+    return True
+```
+
+**Täiustatud versioon:**
+```python
+def validate_username(username):
+    if not isinstance(username, str):
+        raise TypeError("Username must be a string")
+    if len(username) < 3:
+        return False
+    if len(username) > 20:
+        return False
+    if not username.isalnum():
+        return False
+    if username[0].isdigit():
+        return False
+    return True
+```
+
+**Unified diff:**
+```diff
+--- user_validator.py	2023-12-01 10:00:00 +0000
++++ user_validator.py	2023-12-01 10:15:00 +0000
+@@ -1,6 +1,12 @@
+ def validate_username(username):
++    if not isinstance(username, str):
++        raise TypeError("Username must be a string")
+     if len(username) < 3:
          return False
++    if len(username) > 20:
++        return False
      if not username.isalnum():
          return False
-+    # Usernames can't begin with a number
-+    if username[0].isnumeric():
++    if username[0].isdigit():
 +        return False
      return True
 ```
 
-**Selgitus:**
-- `---` ja `+++` = failide nimed ja ajamärgid
-- `@@ -2,7 +2,8 @@` = kontekst: 7 rida esimesest failist, 8 rida teisest
-- `-` ja `+` = eemaldatud ja lisatud read
-- Tühjad read = kontekst (muutmata)
+**Analüüs:**
+Diff näitab kolme olulist täiustust: tüübi kontroll, pikkuse ülempiiri kontroll ja numbriga algavate kasutajanimede keelamine. Muudatused on loogiliselt järjestatud ja ei mõjuta olemasolevat loogikat.
 
----
+### 2.2 Keerukas Refaktoreerimine
 
-## Git Diff Näited
+Vaatleme keerukama näite puhul, kuidas diff aitab mõista arhitektuurilisi muudatusi:
 
-### Git Diff Töökausta vs Staging
+**Algne versioon (data_manager.py):**
+```python
+import json
 
-```bash
-$ git diff
+class DataManager:
+    def __init__(self, filename):
+        self.filename = filename
+        self.data = self.load_data()
+    
+    def load_data(self):
+        try:
+            with open(self.filename, 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {}
+    
+    def save_data(self):
+        with open(self.filename, 'w') as f:
+            json.dump(self.data, f)
+    
+    def get_value(self, key):
+        return self.data.get(key)
+    
+    def set_value(self, key, value):
+        self.data[key] = value
+        self.save_data()
 ```
 
-```
-diff --git a/app.py b/app.py
-index a1b2c3d..e4f5g6h 100644
---- a/app.py
-+++ b/app.py
-@@ -10,7 +10,7 @@ def main():
-     print("Tere maailm!")
-     
-     # Lisa uus funktsioon
--    old_function()
-+    new_function()
-     
-     return 0
-```
+**Refaktoreeritud versioon koos error handling'u ja logging'iga:**
 
-**Selgitus:**
-- `diff --git` = Git'i diff formaat
-- `index a1b2c3d..e4f5g6h` = Git'i sisemised hash'id
-- `100644` = faili õigused
-- `a/app.py` ja `b/app.py` = võrdlusfailid
-
-### Git Diff Staging vs Commit
-
-```bash
-$ git diff --staged
-```
-
-```
-diff --git a/config.py b/config.py
-index f7g8h9i..j1k2l3m 100644
---- a/config.py
-+++ b/config.py
-@@ -5,6 +5,7 @@
- DATABASE_URL = "postgresql://localhost/mydb"
- DEBUG = True
- LOG_LEVEL = "INFO"
-+API_KEY = "secret123"
+**Diff väljund:**
+```diff
+--- data_manager.py	2023-12-01 10:00:00 +0000
++++ data_manager.py	2023-12-01 10:30:00 +0000
+@@ -1,24 +1,42 @@
+ import json
++import logging
++from pathlib import Path
  
- # Server settings
- PORT = 8000
+ class DataManager:
+     def __init__(self, filename):
+-        self.filename = filename
++        self.filename = Path(filename)
+         self.data = self.load_data()
++        self.logger = logging.getLogger(__name__)
+     
+     def load_data(self):
+         try:
+-            with open(self.filename, 'r') as f:
++            if not self.filename.exists():
++                self.logger.info(f"File {self.filename} does not exist, creating empty dataset")
++                return {}
++            
++            with self.filename.open('r') as f:
+                 return json.load(f)
+-        except FileNotFoundError:
++        except json.JSONDecodeError as e:
++            self.logger.error(f"Invalid JSON in {self.filename}: {e}")
+             return {}
++        except PermissionError as e:
++            self.logger.error(f"Permission denied accessing {self.filename}: {e}")
++            raise
+     
+     def save_data(self):
+-        with open(self.filename, 'w') as f:
+-            json.dump(self.data, f)
++        try:
++            with self.filename.open('w') as f:
++                json.dump(self.data, f, indent=2)
++            self.logger.debug(f"Data saved to {self.filename}")
++        except PermissionError as e:
++            self.logger.error(f"Cannot save to {self.filename}: {e}")
++            raise
+     
+     def get_value(self, key):
+         return self.data.get(key)
+     
+     def set_value(self, key, value):
++        old_value = self.data.get(key)
+         self.data[key] = value
++        self.logger.debug(f"Updated {key}: {old_value} -> {value}")
+         self.save_data()
 ```
 
-**Selgitus:**
-- `--staged` = võrdleb staging area'ga viimase commit'iga
-- Lisati uus rida `API_KEY = "secret123"`
+**Analüüsi sammud:**
 
-### Git Diff Kahe Commit'i Vahel
+Importide muudatused näitavad uute sõltuvuste lisamist - `logging` ja `pathlib.Path`.
 
-```bash
-$ git diff HEAD~1 HEAD
+Error handling on märkimisväärselt täiustatud - lihtne `FileNotFoundError` käsitlus on asendatud detailsema lähenemisega, mis käsitleb JSON decode vigu ja õiguste probleeme.
+
+Logging funktsioonid on lisatud läbivalt kogu klassi, andes ülevaate operatsioonidest ja võimalikest probleemidest.
+
+### 2.3 Merge Conflict Diff
+
+Merge konfliktide puhul näeb diff teistsugune välja:
+
+```diff
+<<<<<<< HEAD
+def calculate_total(items):
+    return sum(item.price for item in items)
+=======
+def calculate_total(items):
+    total = 0
+    for item in items:
+        total += item.price * (1 - item.discount)
+    return total
+>>>>>>> feature/discount-calculation
 ```
 
-```
-diff --git a/main.py b/main.py
-index x1y2z3a..b4c5d6e 100644
---- a/main.py
-+++ b/main.py
-@@ -15,8 +15,9 @@ def process_data(data):
-     for item in data:
-         if item.is_valid():
-             processed.append(item)
--        else:
--            print(f"Invalid item: {item}")
-+        elif item.has_warning():
-+            print(f"Warning for item: {item}")
-+            processed.append(item)
-     return processed
-```
-
-**Selgitus:**
-- `HEAD~1` = eelmine commit
-- `HEAD` = praegune commit
-- Muudeti `else` tingimus `elif` tingimuseks
+See näitab konflikti, kus üks branch kasutab lihtsat `sum()` funktsiooni, teine arvestab allahindlustega.
 
 ---
 
-## Diff'i Lugemise Sammud
+## 3. Git Diff Käsud ja Variandid
 
-#### Vaata Konteksti
-```
-@@ -5,3 +5,4 @@
-```
-- Mitu rida on muudetud?
-- Millised read on kontekstis?
-
-#### Tuvasta Muudatuste Tüübid
-- **Eemaldamine** (`-`): vana kood
-- **Lisamine** (`+`): uus kood
-- **Kontekst** (tühi): muutmata read
-
-#### Mõista Loogikat
-- Miks tehti muudatus?
-- Kas on breaking change?
-- Kas on bug fix või feature?
-
-#### Kontrolli Järgnevust
-- Kas kõik muudatused on seotud?
-- Kas on puuduvaid muudatusi?
-
----
-
-## Harjutused
-
-### Harjutus 1: Loe Diff'i
+### 3.1 Töökataloog vs Staging Area
 
 ```bash
-$ git diff
+git diff
 ```
 
-```
-diff --git a/utils.py b/utils.py
-index a1b2c3d..e4f5g6h 100644
---- a/utils.py
-+++ b/utils.py
-@@ -20,5 +20,6 @@ def format_name(first, last):
-     if not first or not last:
-         return "Unknown"
--    return f"{first} {last}"
-+    return f"{first.capitalize()} {last.capitalize()}"
-```
+See käsk näitab muudatusi, mis on tehtud töökataloogi failides, kuid pole veel staging area'sse lisatud:
 
-**Küsimused:**
-1. Mida muudeti?
-2. Miks tehti muudatus?
-3. Kas on breaking change?
-
-### Harjutus 2: Analüüsi Suuremat Diff'i
-
-```bash
-$ git diff HEAD~2
-```
-
-```
+```diff
 diff --git a/app.py b/app.py
-index x1y2z3a..b4c5d6e 100644
+index 1a2b3c4..5d6e7f8 100644
 --- a/app.py
 +++ b/app.py
-@@ -10,12 +10,15 @@ def main():
-     config = load_config()
+@@ -15,7 +15,8 @@ def main():
+     config = load_configuration()
      
--    if config.debug:
--        print("Debug mode enabled")
--    
-     try:
-         app = create_app(config)
-+        if config.debug:
-+            print("Debug mode enabled")
-+            app.debug = True
-+        
-         app.run(host='0.0.0.0', port=config.port)
-+    except Exception as e:
-+        print(f"Error starting app: {e}")
-+        return 1
+     if config.debug_mode:
+-        print("Debug mode is enabled")
++        logger = setup_logging(config.log_level)
++        logger.info("Debug mode is enabled")
      
-     return 0
+     app = create_application(config)
+     return app.run()
 ```
 
-**Küsimused:**
-1. Mitu muudatust tehti?
-2. Millised on peamised muudatused?
-3. Kas on lisatud error handling?
+### 3.2 Staging Area vs Viimane Commit
+
+```bash
+git diff --staged
+# või
+git diff --cached
+```
+
+Näitab, millised muudatused on staging area's ja lähevad järgmisse commit'i:
+
+```diff
+diff --git a/requirements.txt b/requirements.txt
+index abcd123..efgh456 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -5,3 +5,4 @@ requests==2.28.1
+ flask==2.2.2
+ sqlalchemy==1.4.41
+ pytest==7.1.3
++black==22.8.0
+```
+
+### 3.3 Commit'ide Võrdlus
+
+```bash
+# Viimase kahe commit'i võrdlus
+git diff HEAD~1 HEAD
+
+# Konkreetsete commit'ide võrdlus
+git diff abc123..def456
+
+# Branch'ide võrdlus
+git diff main..feature/new-api
+```
+
+Näide branch'ide võrdlusest:
+
+```diff
+diff --git a/api/endpoints.py b/api/endpoints.py
+index 1234567..890abcd 100644
+--- a/api/endpoints.py
++++ b/api/endpoints.py
+@@ -20,6 +20,15 @@ def get_user(user_id):
+     except UserNotFound:
+         return jsonify({'error': 'User not found'}), 404
+
++@app.route('/api/users', methods=['POST'])
++def create_user():
++    data = request.get_json()
++    try:
++        user = User.create(data)
++        return jsonify(user.to_dict()), 201
++    except ValidationError as e:
++        return jsonify({'error': str(e)}), 400
++
+ @app.route('/api/health')
+ def health_check():
+     return jsonify({'status': 'healthy'})
+```
 
 ---
 
-## Kasulikud Diff Käsud
+## 4. Diff Analüüsi Strateegia
 
-### Git Diff Variandid
+### 4.1 Süstemaatiline Lähenemise Metoodika
+
+**Esimene samm - Ülevaate saamine:** Alustage hunk header'ite vaatamisest, et mõista muudatuste mahu ja asukohta. Küsige endalt: kui palju faile on mõjutatud ja kui suured on muudatused?
+
+**Teine samm - Konteksti mõistmine:** Vaadake kontekstiridu, et mõista, millises funktsioonis või meetodis muudatused toimuvad. See aitab mõista muudatuste eesmärki.
+
+**Kolmas samm - Muudatuste tüüpide tuvastamine:** Eristage, kas tegemist on:
+- Bug fix'iga (tavaliselt väikesed, fokuseeritud muudatused)
+- Uue feature'i lisamisega (tavaliselt suuremad, mitut funktsiooni mõjutavad muudatused)
+- Refaktoreerimisega (struktuuri muutused ilma funktsionaalsust muutmata)
+- Performance optimiseerimisega
+
+**Neljas samm - Mõju hindamine:** Analüüsige, kas muudatused võivad:
+- Muuta API'd (breaking changes)
+- Mõjutada performance'i
+- Tuua kaasa uusi sõltuvusi
+- Nõuda dokumentatsiooni uuendamist
+
+### 4.2 Code Review Kontekstis
+
+Code review käigus diff analüüsimisel keskenduge järgmistele aspektidele:
+
+**Funktsionaalsus:** Kas kood teeb seda, mida peaks? Kas loogiline voog on õige?
+
+**Loetavus:** Kas muudatused teevad koodi selgemaks või keerulisemaks?
+
+**Testimine:** Kas on vaja lisada uusi teste? Kas olemasolevad testid vajavad uuendamist?
+
+**Turvalisus:** Kas muudatused võivad tuua kaasa turvaprobleeme?
+
+---
+
+## 5. Tavalisemad Diff Mustrid
+
+### 5.1 Import'ide Muudatused
+
+```diff
+ import os
+ import sys
++import logging
++from datetime import datetime
+ from pathlib import Path
+-from typing import List
++from typing import List, Dict, Optional
+```
+
+Selline muster näitab tavaliselt funktsionaalsuse laiendamist.
+
+### 5.2 Konfiguratsiooni Muudatused
+
+```diff
+ config = {
+     'database_url': 'postgresql://localhost/mydb',
+     'debug': True,
+-    'log_level': 'INFO'
++    'log_level': 'DEBUG',
++    'cache_timeout': 300,
++    'api_rate_limit': 1000
+ }
+```
+
+### 5.3 Error Handling Täiustamine
+
+```diff
+ def process_file(filename):
+-    with open(filename, 'r') as f:
+-        return f.read()
++    try:
++        with open(filename, 'r') as f:
++            return f.read()
++    except FileNotFoundError:
++        logger.error(f"File {filename} not found")
++        return None
++    except PermissionError:
++        logger.error(f"Permission denied for {filename}")
++        raise
+```
+
+---
+
+## 6. Harjutused ja Praktilised Ülesanded
+
+### 6.1 Diff Analüüsi Harjutus
+
+Analüüsige järgmist diff'i:
+
+```diff
+--- calculator.py	2023-12-01 10:00:00 +0000
++++ calculator.py	2023-12-01 10:15:00 +0000
+@@ -1,12 +1,19 @@
++import math
++
+ def add(a, b):
+     return a + b
+
+ def subtract(a, b):
+     return a - b
+
+-def multiply(a, b):
+-    return a * b
++def multiply(*args):
++    result = 1
++    for num in args:
++        result *= num
++    return result
+
+-def divide(a, b):
+-    return a / b
++def divide(a, b):
++    if b == 0:
++        raise ValueError("Cannot divide by zero")
++    return a / b
+
++def power(base, exponent):
++    return math.pow(base, exponent)
+```
+
+**Analüüsi küsimused:**
+
+1. Millised on peamised muudatused?
+2. Kas mõni muudatus on breaking change?
+3. Millised on turva- või vigade seisukohast olulised parandused?
+4. Kas kood on muutunud paremaks?
+
+### 6.2 Merge Conflict Analüüs
+
+```diff
+<<<<<<< HEAD
+def send_notification(user, message):
+    if user.email_enabled:
+        send_email(user.email, message)
+=======
+def send_notification(user, message):
+    if user.notification_preferences.email:
+        email_service.send(user.email, message)
+    if user.notification_preferences.sms:
+        sms_service.send(user.phone, message)
+>>>>>>> feature/multi-channel-notifications
+```
+
+Analüüsige konflikti ja kirjeldage, kuidas seda lahendada.
+
+---
+
+## 7. Täiendavad Diff Tööriistad ja Tehnikad
+
+### 7.1 Graafilised Diff Tööriistad
+
+Käsurea kõrval on kasulikud ka graafilised tööriistad:
+
+- **VS Code** built-in diff viewer
+- **GitKraken** visuaalne Git klient
+- **Meld** cross-platform diff tööriist
+- **Beyond Compare** kommertsiaal diff tööriist
+
+### 7.2 Spetsialiseeritud Git Diff Käsud
 
 ```bash
-# Töökausta vs staging
-git diff
+# Ainult failide nimed
+git diff --name-only
 
-# Staging vs viimane commit
-git diff --staged
+# Statistika muudatuste kohta
+git diff --stat
 
-# Töökausta vs viimane commit
-git diff HEAD
-
-# Kahe commit'i vahel
-git diff commit1..commit2
-
-# Kahe branch'i vahel
-git diff main..feature
-
-# Konkreetse faili muudatused
-git diff -- app.py
-
-# Word-level diff (sõnade tasemel)
+# Sõnade tasemel diff
 git diff --word-diff
 
-# Side-by-side diff
-git diff --side-by-side
+# Ignore whitespace muudatused
+git diff -w
+
+# Show function context
+git diff --function-context
 ```
 
-### Regulaar Diff Käsud
+### 7.3 Custom Diff Drivers
+
+Git võimaldab seadistada erinevaid diff driver'eid konkreetsete failitüüpide jaoks:
 
 ```bash
-# Unified diff
-diff -u fail1.txt fail2.txt
-
-# Context diff (3 rida konteksti)
-diff -c fail1.txt fail2.txt
-
-# Ignore whitespace
-diff -w fail1.txt fail2.txt
-
-# Ignore case
-diff -i fail1.txt fail2.txt
-
-# Recursive diff kaustadele
-diff -r kaust1/ kaust2/
+# .gitattributes failis
+*.py diff=python
+*.md diff=markdown
 ```
 
 ---
 
 ## Kokkuvõte
 
-### Olulised Punktid
+Diff'i lugemise oskus on fundamentaalne versioonihalduses. See võimaldab:
 
-1. **Diff formaat** on standardne Unix/Linux maailmas
-2. **Git diff** kasutab sama formaati
-3. **Sümbolid** `-`, `+`, ` ` on võtmed lugemiseks
-4. **Kontekst** aitab mõista muudatuste tähendust
-5. **Unified diff** (-u) on kõige loetavam
+**Mõista muudatuste konteksti** - näha, miks ja kuidas kood muutus
+**Teha kvaliteetseid code review'sid** - analüüsida kolleegide tööd
+**Lahendada merge konflikte** - mõista konfliktide põhjuseid
+**Debug'ida efektiivselt** - leida, millised muudatused vigu tekitasid
+**Jälgida projekti arengut** - mõista koodi evolusiooni
 
-### Parimad Praktikad
+Regulaarne harjutamine erinevate diff'ide analüüsimisega arendab intuitsiooni koodi muudatuste mõistmisel ja teeb tööst versioonihaldussüsteemidega palju efektiivsema.
 
-- **Alusta kontekstist** - vaata @@ rida
-- **Tuvasta muudatuste tüübid** - lisamine/eemaldamine
-- **Mõista loogikat** - miks tehti muudatus
-- **Kontrolli järgnevust** - kas kõik on seotud
-- **Kasuta graafilisi tööriistu** - vajaduse korral
-
-### Järgmised Sammud
-
-Pärast seda materjali peaksite oskama:
-- Lugeda diff väljundit
-- Mõista muudatuste tähendust
-- Analüüsida koodi muudatusi
-- Kasutada erinevaid diff käske
-- Teha code review'e
-
-**Harjutage diff'i lugemist iga päev - see on oluline oskus arendaja karjääris!**
-
----
-
-*Materjal põhineb Unix diff standarditel ja Git'i dokumentatsioonil*
+Diff'i lugemise oskus on investeering, mis tasub end ära kogu programmeerimiskarjääri vältel.

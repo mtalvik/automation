@@ -1,5 +1,4 @@
 # CI/CD Advanced Lab: Täielik Automatiseerimine
-*ITS-24 DevOps Automatiseerimine | Praktiline lõppprojekt*
 
 ## Lab'i eesmärk
 
@@ -146,7 +145,7 @@ resource "null_resource" "local_setup" {
   }
   
   provisioner "local-exec" {
-    command = "echo '✅ Infrastructure ready for ${var.project_name}'"
+    command = "echo 'Infrastructure ready for ${var.project_name}'"
   }
 }
 ```
@@ -790,7 +789,7 @@ test:docker:
   script:
     - cd app
     - docker build -t test-image .
-    - docker run --rm test-image python -c "import app; print('✅ Import successful')"
+    - docker run --rm test-image python -c "import app; print('Import successful')"
   only:
     - merge_requests
     - main
@@ -809,7 +808,7 @@ build:docker:
     - docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
     - docker push $IMAGE_NAME:$IMAGE_TAG
     - docker push $IMAGE_NAME:latest
-    - echo "✅ Image pushed: $IMAGE_NAME:$IMAGE_TAG"
+    - echo "Image pushed: $IMAGE_NAME:$IMAGE_TAG"
   only:
     - main
 
@@ -820,7 +819,7 @@ deploy:staging:
   before_script:
     - apk add --no-cache curl docker-cli
   script:
-    - echo "🚀 Deploying to staging..."
+    - echo "Deploying to staging..."
     - docker pull $IMAGE_NAME:$IMAGE_TAG
     - docker stop techshop-staging || true
     - docker rm techshop-staging || true
@@ -832,7 +831,7 @@ deploy:staging:
         $IMAGE_NAME:$IMAGE_TAG
     - sleep 10
     - curl -f http://localhost:5001/health || exit 1
-    - echo "✅ Staging deployment successful!"
+    - echo "Staging deployment successful!"
   environment:
     name: staging
     url: http://localhost:5001
@@ -845,11 +844,11 @@ deploy:production:
   before_script:
     - apk add --no-cache curl docker-cli ansible
   script:
-    - echo "🚀 Deploying to production..."
+    - echo "Deploying to production..."
     - cd ansible
     - ansible-playbook -i inventory.yml deploy.yml
     - curl -f http://localhost/health || exit 1
-    - echo "✅ Production deployment successful!"
+    - echo "Production deployment successful!"
   environment:
     name: production
     url: http://localhost
@@ -982,7 +981,7 @@ def metrics_prometheus():
 
 Complete DevOps automation project demonstrating modern CI/CD practices.
 
-## 🏗 Architecture
+## Architecture
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -997,7 +996,7 @@ Complete DevOps automation project demonstrating modern CI/CD practices.
 └─────────────┘     └──────────────┘     └──────────────┘
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Local Development
 ```bash
@@ -1110,7 +1109,7 @@ netstat -tulpn | grep 5000
 
 ## Lab'i kokkuvõte
 
-### ✅ Saavutatud tulemused
+### Saavutatud tulemused
 
 1. **Täielik automatiseerimine** - nullist production'ini
 2. **Kõik oskused kasutatud** - Git, Ansible, Docker, Terraform, CI/CD
@@ -1134,8 +1133,8 @@ netstat -tulpn | grep 5000
 - [ ] Automatiseeri load testing
 - [ ] Lisa disaster recovery
 
-### 🎉 Õnnitleme!
+### Õnnitleme!
 
-Olete edukalt lõpetanud DevOps automatiseerimise kursuse lõppprojekti! See projekt demonstreerib kõiki olulisi DevOps praktikaid ja on valmis kasutamiseks päris projektides.
+Olete edukalt lõpetanud automatiseerimise kursuse lõppprojekti! See projekt demonstreerib kõiki olulisi DevOps praktikaid ja on valmis kasutamiseks päris projektides.
 
 **Portfolio väärtus:** See projekt on suurepärane lisand teie portfolio'sse ja demonstreerib oskusi, mida tööandjad otsivad!

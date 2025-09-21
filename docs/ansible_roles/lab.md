@@ -1,14 +1,12 @@
 # Ansible Roles Lab: Nginx Role
 
-**Aeg:** 2 tundi  
-**Eeldused:** Ansible basics läbitud  
 **Eesmärk:** Luua töötav Ansible role
 
 ---
 
 ## Lab ülesanded
 
-### Ülesanne 1: Role struktuuri loomine (10 min)
+### Ülesanne 1: Role struktuuri loomine
 
 ```bash
 # Looge töökataloog
@@ -22,11 +20,11 @@ ansible-galaxy init nginx-custom
 cd nginx-custom
 ```
 
-**✅ Checkpoint:** `ls -la` peaks näitama 8 kausta/faili
+**Checkpoint:** `ls -la` peaks näitama 8 kausta/faili
 
 ---
 
-### Ülesanne 2: Defaults seadistamine (15 min)
+### Ülesanne 2: Defaults seadistamine
 
 **Fail:** `defaults/main.yml`
 
@@ -37,14 +35,14 @@ cd nginx-custom
 
 **Vihje:** Mõelge portidele, kasutajatele, SSL-ile
 
-**✅ Test:**
+**Test:**
 ```bash
 ansible -m debug -a "var=nginx_port" localhost -e "@defaults/main.yml"
 ```
 
 ---
 
-### Ülesanne 3: Installation tasks (20 min)
+### Ülesanne 3: Installation tasks
 
 **Fail:** `tasks/install.yml`
 
@@ -60,14 +58,14 @@ ansible -m debug -a "var=nginx_port" localhost -e "@defaults/main.yml"
 - include_tasks: install.yml
 ```
 
-**✅ Test:**
+**Test:**
 ```bash
 ansible-playbook --syntax-check tasks/main.yml
 ```
 
 ---
 
-### Ülesanne 4: Nginx template (20 min)
+### Ülesanne 4: Nginx template
 
 **Fail:** `templates/nginx.conf.j2`
 
@@ -101,11 +99,11 @@ http {
   notify: restart nginx
 ```
 
-**✅ Test:** Template peab genereeruma ilma vigadeta
+**Test:** Template peab genereeruma ilma vigadeta
 
 ---
 
-### Ülesanne 5: Handlers (10 min)
+### Ülesanne 5: Handlers
 
 **Fail:** `handlers/main.yml`
 
@@ -113,11 +111,11 @@ http {
 1. Handler "restart nginx"
 2. Handler "reload nginx"
 
-**✅ Test:** Handler peab olema `service` mooduliga
+**Test:** Handler peab olema `service` mooduliga
 
 ---
 
-### Ülesanne 6: Virtual hosts (25 min)
+### Ülesanne 6: Virtual hosts
 
 **Fail:** `templates/vhost.conf.j2`
 
@@ -150,7 +148,7 @@ nginx_vhosts: []
 
 ---
 
-### Ülesanne 7: SSL sertifikaadid (20 min)
+### Ülesanne 7: SSL sertifikaadid
 
 **Fail:** `tasks/ssl.yml`
 
@@ -169,7 +167,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 ---
 
-### Ülesanne 8: Idempotency test (10 min)
+### Ülesanne 8: Idempotency test
 
 **Fail:** `tasks/main.yml`
 
@@ -184,7 +182,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   when: nginx_vhosts | length > 0
 ```
 
-**✅ Test:** Käivitage 2x järjest, teine kord ei tohi midagi muuta
+**Test:** Käivitage 2x järjest, teine kord ei tohi midagi muuta
 ```bash
 ansible-playbook test.yml
 ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
@@ -192,7 +190,7 @@ ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
 
 ---
 
-### Ülesanne 9: Test playbook (10 min)
+### Ülesanne 9: Test playbook
 
 **Fail:** `~/ansible-roles-lab/test.yml`
 
@@ -220,7 +218,7 @@ ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
       ignore_errors: yes
 ```
 
-**✅ Lõpptest:**
+**Lõpptest:**
 ```bash
 ansible-playbook test.yml --ask-become-pass
 sudo systemctl status nginx
@@ -271,5 +269,3 @@ ansible -m template -a "src=nginx.conf.j2 dest=/tmp/test.conf" localhost
 1. Push GitHub'i: `ansible-roles-lab/` kaust
 2. README.md peab sisaldama kasutamise näidet
 3. Role peab töötama Ubuntu 20.04/22.04
-
-**Tähtaeg:** Järgmise nädala algus

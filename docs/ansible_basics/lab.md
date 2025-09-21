@@ -1,6 +1,5 @@
 # Ansible Basics Lab: Setup ja Esimene Playbook
 
-**Kestus:** 2 tundi  
 **Eesmärk:** Õppida Ansible'i alused ja luua esimesed automatiseerimise skriptid
 
 ## Õpiväljundid
@@ -141,7 +140,7 @@ ansible -i inventory.ini --list-hosts all
 ansible -i inventory.ini test -m ping
 ```
 
-💡 **Mõtelge:** Miks kasutame `test` mitte `localhost`? (Vastus: test on grupi nimi!)
+**Mõtelge:** Miks kasutame `test` mitte `localhost`? (Vastus: test on grupi nimi!)
 
 ---
 
@@ -252,7 +251,7 @@ python3 -c "import yaml; print(yaml.safe_load(open('test.yml')))"
 ansible-playbook --syntax-check test.yml
 ```
 
-💡 **Harjutus:** Muutke `debug: true` väärtuseks `false` ja kontrollige uuesti!
+**Harjutus:** Muutke `debug: true` väärtuseks `false` ja kontrollige uuesti!
 
 ### 3.2 Esimene lihtne playbook - Sammhaaval ehitamine
 
@@ -367,7 +366,7 @@ nano mu-esimene-playbook.yml
    - Kas kõik taskid õnnestusid (roheline)?
    - Kontrollige, kas fail tekkis: `ls -la /tmp/ansible-praktikum/`
 
-💡 **Debugimise küsimused:**
+**Debugimise küsimused:**
 - Mida tähendab "changed" vs "ok"?
 - Miks mõned taskid on "changed" ja teised "ok"?
 - Käivitage playbook uuesti - mis muutub?
@@ -446,7 +445,7 @@ nano playbook-muutujatega.yml
 ansible-playbook -i inventory.ini playbook-muutujatega.yml
 ```
 
-💡 **Harjutus:**
+**Harjutus:**
 1. Muutke `rakenduse_nimi` muutujat
 2. Käivitage playbook uuesti
 3. Vaadake, kuidas tulemus muutub

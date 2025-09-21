@@ -1,5 +1,4 @@
 # Kodutöö - Projekti Lõpetamine
-*ITS-24 DevOps Automatiseerimine | 1 tund*
 
 ## Ülesanne 1: Kodutöö Eesmärk
 
@@ -87,7 +86,7 @@ projekt/
 
 ## Autorid
 - **Nimi:** [Sinu nimi]
-- **Kursus:** ITS-24 DevOps Automatiseerimine
+- **Kursus:** Automatiseerimine
 - **Aasta:** 2025
 ```
 
@@ -252,10 +251,10 @@ Thumbs.db
 **Palju õnne! Oled edukalt lõpetanud automatiseerimise kursuse!**
 
 ### Mida Sa Nüüd Oskad
-- ✅ **Git** - versioonihaldus ja koostöö
-- ✅ **Docker** - rakenduste pakendamine
-- ✅ **Ansible** - serverite konfigureerimine  
-- ✅ **Terraform** - infrastruktuuri kood
+- **Git** - versioonihaldus ja koostöö
+- **Docker** - rakenduste pakendamine
+- **Ansible** - serverite konfigureerimine  
+- **Terraform** - infrastruktuuri kood
 - ✅ **CI/CD** - automaatne testimine ja rakendamine
 
 ### Su Järgmised Võimalused

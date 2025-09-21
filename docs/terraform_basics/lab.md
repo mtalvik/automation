@@ -1,29 +1,18 @@
-# Terraform Basics Lab: Infrastructure Automation
+# Terraform Basics Labor
 
-**Kestus:**   
-**Eesmärk:** Õppida Terraform'i praktilist kasutamist ja luua lihtsa infrastruktuuri
-
-## Task 1: Õpiväljundid
-
-Pärast laborit oskate:
-- **Kirjutada lihtsaid Terraform faile** - HCL süntaks ja põhilised ressursid
-- **Kasutada local provider'it** - failide ja kataloogide loomine
-- **Mõista Terraform workflow** - init, plan, apply, destroy
-- **Debugida probleeme** - logide vaatamine ja veateadete mõistmine
-- **Kasutada dokumentatsiooni** - abi leidmine ja näidete kasutamine
+**Eesmärk:** Praktiliselt õppida Terraform'i kasutamist ja luua infrastruktuuri koodi abil
 
 ---
 
-## Task 2: Terraform'i installimine ja seadistamine
+## 1. Ettevalmistus ja Installatsioon
 
-### Ülesanne 1.1: Terraform'i installimine
+### 1.1 Terraform'i Installeerimine
 
-**Valige oma operatsioonisüsteem ja järgige juhiseid:**
+Valige oma operatsioonisüsteem ja installige Terraform:
 
 **macOS:**
 ```bash
 brew install terraform
-terraform --version
 ```
 
 **Linux (Ubuntu/Debian):**
@@ -31,51 +20,35 @@ terraform --version
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update && sudo apt install terraform
-terraform --version
 ```
 
 **Windows:**
 ```powershell
 choco install terraform
-terraform --version
 ```
 
-### Ülesanne 1.2: Projekti struktuuri loomine
-
+**Kontrollige installatsiooni:**
 ```bash
-# Projekti kataloogi loomine
-mkdir ~/terraform-basics-lab
-cd ~/terraform-basics-lab
-
-# Lihtne struktuur
-mkdir -p configs scripts
-```
-
-### Ülesanne 1.3: Terraform'i seadistamine
-
-**Kontrollige, et Terraform töötab:**
-```bash
-# Check Terraform version
 terraform version
-
-# Check available commands
-terraform --help
 ```
+
+### 1.2 Projekti Struktuuri Loomine
+
+```bash
+mkdir terraform-lab
+cd terraform-lab
+mkdir -p {config,scripts,templates}
+```
+
+**Kontrollpunkt:** `terraform version` näitab versiooni numbrit.
 
 ---
 
-## Task 3: Lihtsa Terraform projekti loomine
+## 2. Esimene Terraform Projekt
 
-### Ülesanne 2.1: Põhilise Terraform faili loomine
+### 2.1 Põhilise Konfiguratsiooni Loomine
 
-**Kasutage valmis näidet teacher_repo'st:**
-
-```bash
-# Kopeerige lihtne näide
-cp teacher_repo/terraform-basics-starter/examples/simple-local/main.tf main.tf
-```
-
-**Või looge oma fail:**
+Looge fail `main.tf`:
 
 ```hcl
 terraform {
@@ -87,235 +60,82 @@ terraform {
   }
 }
 
-# Looge lihtne tekstifail
-resource "local_file" "hello" {
-  content  = "Tere! See fail on loodud Terraform'i abil."
-  filename = "hello.txt"
+# Loo lihtne tekstifail
+resource "local_file" "welcome" {
+  content  = "Tere tulemast Terraform'i maailma!"
+  filename = "${path.module}/welcome.txt"
 }
 
-# Looge kataloog
-resource "local_directory" "example" {
-  path = "example_dir"
+# Loo konfiguratsioonikaust
+resource "local_file" "config_dir" {
+  content  = ""
+  filename = "${path.module}/config/.gitkeep"
 }
 ```
 
-**Mida see teeb?**
-- `local_file` - loob faili
-- `local_directory` - loob kataloogi
-- `content` - faili sisu
-- `filename` - faili nimi
-- `path` - kataloogi tee
+### 2.2 Terraform Workflow
 
-### Ülesanne 2.2: Terraform'i käivitamine
-
-Terraform'i kasutamine koosneb kolmest põhilises sammust: **init**, **plan**, ja **apply**. Kujutage ette neid kui "valmistamine", "kontrollimine" ja "tegemine".
-
-**1. Initialize Terraform (init) - valmistamine:**
+**1. Projekti initsialiseerimine:**
 ```bash
-# Initialize the project - valmista ette töökeskkond
 terraform init
 ```
 
-**Mida see teeb?**
-- **Allalaadib vajalikud provider'id** - nagu "tõlgi" installimine
-- **Seadistab backend'i** - kus state fail salvestatakse (praegu kohalik)
-- **Valmistab ette töökeskkonna** - kontrollib, et kõik vajalik on olemas
-- **Loob .terraform kausta** - sisaldab allalaaditud faile
+Terraform laadib alla vajalikud provider'id ja seadistab töökeskkonna.
 
-**Miks see vajalik?**
-- Esimest korda, kui kasutad uut provider'it
-- Kui muudad provider'i versiooni
-- Kui muudad backend'i konfiguratsiooni
-
-**2. Plan the changes (plan) - kontrollimine:**
+**2. Muudatuste planeerimine:**
 ```bash
-# See what Terraform will do - vaata, mida Terraform teeb
 terraform plan
 ```
 
-**Mida see teeb?**
-- **Analüüsib koodi** - kontrollib süntaksit ja loogikat
-- **Võrdleb praeguse olekuga** - mis on juba olemas vs mida soovid
-- **Näitab muudatusi** - mida luuakse, muudetakse või kustutatakse
-- **Ei tee midagi** - ainult näitab, mida teeks
+Terraform näitab, mida kavatseb teha. Lugege väljund läbi ja veenduge, et see vastab ootustele.
 
-**Miks see oluline?**
-- **Turvalisus** - näed, mida tehakse enne tegemist
-- **Debugging** - leiad probleemid enne rakendamist
-- **Dokumentatsioon** - näed, mis muudatused toimuvad
-
-**3. Apply the changes (apply) - tegemine:**
+**3. Muudatuste rakendamine:**
 ```bash
-# Apply the configuration - rakenda konfiguratsioon
 terraform apply
 ```
 
-**Mida see teeb?**
-- **Loob ressursid** - teeb tegelikud muudatused
-- **Salvestab state faili** - märgib, mis on loodud
-- **Näitab väljundit** - tagastab loodud ressursside infot
-- **Küsib kinnitust** - "Do you want to perform these actions?"
+Terraform küsib kinnitust. Sisestage `yes` jätkamiseks.
 
-**Miks see kriitiline?**
-- **Tegelikud muudatused** - see teeb päris asju
-- **State management** - jälgib, mis on olemas
-- **Idempotent** - sama käsk teeb sama tulemuse
-```
+### 2.3 Tulemuste Kontrollimine
 
-### Ülesanne 2.3: Tulemuste kontrollimine
-
-**Kontrollige loodud faile:**
 ```bash
-# List created files
+# Kontrollige loodud faile
 ls -la
+cat welcome.txt
 
-# Check the content of hello.txt
-cat hello.txt
-
-# Check the JSON config
-cat config.json
-
-# Check the directory
-ls -la example_dir/
-```
-
-**Kontrollige state faili:**
-```bash
-# Show state
+# Vaadake Terraform state'i
 terraform show
-
-# List resources in state
 terraform state list
 ```
 
----
-
-## Task 4: Muudatuste tegemine ja haldamine
-
-### Ülesanne 3.1: Konfiguratsiooni muutmine
-
-**Muutke `main.tf` faili:**
-
-```hcl
-# Configure Terraform
-terraform {
-  required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.0"
-    }
-  }
-}
-
-# Create a simple text file
-resource "local_file" "hello" {
-  content  = "Hello, Terraform! This file was created by Terraform. Updated content!"
-  filename = "${path.module}/hello.txt"
-}
-
-# Create a directory
-resource "local_directory" "example" {
-  path = "${path.module}/example_dir"
-}
-
-# Create a configuration file
-resource "local_file" "config" {
-  content = jsonencode({
-    project_name = "Week 23 Lab"
-    environment  = "development"
-    created_by   = "Terraform"
-    timestamp    = timestamp()
-    version      = "2.0"
-  })
-  filename = "${path.module}/config.json"
-}
-
-# Add a new resource - a script file
-resource "local_file" "script" {
-  content = <<-EOF
-    #!/bin/bash
-    echo "This is a script created by Terraform"
-    echo "Current time: $(date)"
-    echo "Projekt: Terraform Alused"
-  EOF
-  filename = "${path.module}/scripts/startup.sh"
-}
-```
-
-### Ülesanne 2.1: Muudatuste rakendamine
-
-```bash
-# Plan the changes
-terraform plan
-
-# Apply the changes
-terraform apply
-```
-
-**Mida märkate?**
-- Terraform näitab, mis muudetakse
-- Ainult muudetud ressursid uuendatakse
-- Uus ressurss lisatakse
-
-### Ülesanne 3.1: Ressursside kustutamine
-
-```bash
-# Destroy all resources
-terraform destroy
-```
-
-**Mida see teeb?**
-- Kustutab kõik loodud ressursid
-- Säilitab state faili (kui soovite)
+**Kontrollpunkt:** Kaust sisaldab faile `welcome.txt`, `terraform.tfstate` ja `.terraform` kataloogi.
 
 ---
 
-## Task 5: Variables ja Outputs
+## 3. Muutujad ja Väljundid
 
-### Ülesanne 4.1: Variables faili loomine
+### 3.1 Muutujate Defineerimine
 
-**Looge fail `variables.tf`:**
-
-Variables (muutujad) võimaldavad teha koodi dünaamiliseks ja taaskasutatavaks. Kujutage ette neid kui "seadistusi", mida saab muuta ilma koodi muutmata.
-
-#### Projekti nimi muutuja
+Looge fail `variables.tf`:
 
 ```hcl
 variable "project_name" {
-  description = "Name of the project"
+  description = "Projekti nimi"
   type        = string
-  default     = "Terraform Alused"
+  default     = "terraform-lab"
 }
-```
 
-**Mida see teeb?**
-- `description` - kirjeldus, mida muutuja teeb
-- `type` - andmetüüp (string, number, bool, list, map)
-- `default` - vaikeväärtus, kui midagi pole määratud
-
-#### Keskkond muutuja
-
-```hcl
 variable "environment" {
-  description = "Keskkond (arendus, test, toodang)"
+  description = "Keskkond (dev, test, prod)"
   type        = string
-  default     = "arendus"
+  default     = "dev"
   
   validation {
-    condition     = contains(["arendus", "test", "toodang"], var.environment)
-    error_message = "Keskkond peab olema arendus, test või toodang."
+    condition     = contains(["dev", "test", "prod"], var.environment)
+    error_message = "Keskkond peab olema dev, test või prod."
   }
 }
-```
 
-**Mida see teeb?**
-- `validation` - kontrollib, et väärtus oleks korrektne
-- `contains()` - funktsioon, mis kontrollib, kas väärtus on nimekirjas
-- Lubatud väärtused: "development", "staging", "production"
-
-#### Failide arv muutuja
-
-```hcl
 variable "file_count" {
   description = "Loodavate failide arv"
   type        = number
@@ -326,108 +146,45 @@ variable "file_count" {
     error_message = "Failide arv peab olema vahemikus 1-10."
   }
 }
-```
-
-**Mida see teeb?**
-- `type = number` - andmetüüp on arv
-- `validation` - kontrollib, et arv oleks vahemikus 1-10
-- Lubatud väärtused: 1, 2, 3, ..., 10
-
-#### Täiendavad muutujad
-
-Võite lisada rohkem muutujaid vastavalt vajadusele:
-
-```hcl
-variable "file_prefix" {
-  description = "Failide nimede prefiks"
-  type        = string
-  default     = "fail"
-}
 
 variable "enable_backup" {
-  description = "Luba varukoopia failid"
+  description = "Kas luua varukoopiafailid"
   type        = bool
   default     = false
 }
 ```
 
-### Ülesanne 4.2: Outputs faili loomine
+### 3.2 Väljundite Defineerimine
 
-**Looge fail `outputs.tf`:**
-
-Outputs (väljundid) võimaldavad näha loodud ressursside infot ja tagastada väärtusi. Kujutage ette neid kui "vastuseid" - mida Terraform tagastab pärast töö lõpetamist.
+Looge fail `outputs.tf`:
 
 ```hcl
-# ==========================================
-# OUTPUTS - väljundid
-# ==========================================
-# Outputs võimaldavad näha loodud ressursside infot
-# See on nagu "vastus" - mida Terraform tagastab pärast töö lõpetamist
-
-# ==========================================
-# PROJECT INFO OUTPUT - projekti info
-# ==========================================
-# Tagastab projekti kohta üldist infot
 output "project_info" {
-  description = "Projekti kohta info"  # Kirjeldus
-  
-  # value määrab, mida tagastada
+  description = "Projekti üldinfo"
   value = {
-    name        = var.project_name    # Projekti nimi
-    environment = var.environment     # Keskkond
-    file_count  = var.file_count      # Failide arv
-    created_at  = timestamp()         # Loomise aeg
+    name        = var.project_name
+    environment = var.environment
+    file_count  = var.file_count
+    created_at  = timestamp()
   }
-  
-  # Kasutamine: terraform output project_info
-  # Tulemus: JSON objekt projekti infoga
 }
 
-# ==========================================
-# FILES CREATED OUTPUT - loodud failid
-# ==========================================
-# Tagastab kõikide loodud failide nimed
-output "files_created" {
-  description = "Loodud failide nimekiri"  # Kirjeldus
-  
-  # [*] tähendab "kõik" - võta kõik local_file.example ressursid
-  # .filename tähendab "võta filename atribuut"
-  value = local_file.example[*].filename
-  
-  # Kasutamine: terraform output files_created
-  # Tulemus: nimekiri failide nimedest
+output "created_files" {
+  description = "Loodud failide nimekiri"
+  value       = local_file.examples[*].filename
 }
 
-# ==========================================
-# ADDITIONAL OUTPUTS - täiendavad väljundid
-# ==========================================
-# Võite lisada rohkem väljundeid vastavalt vajadusele
-
-# Tagasta kataloogi tee
-output "directory_path" {
-  description = "Loodud kataloogi tee"
-  value       = local_directory.example.path
-}
-
-# Tagasta konfiguratsioonifaili tee
-output "config_file_path" {
-  description = "Konfiguratsioonifaili tee"
-  value       = local_file.config.filename
-}
-
-# Tagasta projekti kokkuvõte
-output "project_summary" {
-  description = "Projekti kokkuvõte"
-  value = "Projekt '${var.project_name}' ${var.environment} keskkonnas ${var.file_count} failiga loodud ${timestamp()}"
+output "config_summary" {
+  description = "Konfiguratsiooni kokkuvõte"
+  value       = "Projekt '${var.project_name}' ${var.environment} keskkonnas, ${var.file_count} faili loodud"
 }
 ```
 
-### Ülesanne 4.3: Main faili uuendamine
+### 3.3 Main.tf Uuendamine
 
-**Uuendage `main.tf` faili:**
+Uuendage `main.tf` faili:
 
 ```hcl
-# Configure Terraform
 terraform {
   required_providers {
     local = {
@@ -437,475 +194,414 @@ terraform {
   }
 }
 
-# Loo mitu faili kasutades count
-resource "local_file" "example" {
-  count    = var.file_count
-  content  = "See on fail number ${count.index + 1} projektile ${var.project_name} ${var.environment} keskkonnas."
-  filename = "${path.module}/fail_${count.index + 1}.txt"
+# Locals plokk arvutatud väärtuste jaoks
+locals {
+  timestamp = formatdate("YYYY-MM-DD-hhmm", timestamp())
+  file_prefix = "${var.project_name}-${var.environment}"
 }
 
-# Loo konfiguratsioonifail
+# Loo mitu faili kasutades count
+resource "local_file" "examples" {
+  count = var.file_count
+  
+  content = templatefile("${path.module}/templates/file_template.txt", {
+    file_number  = count.index + 1
+    project_name = var.project_name
+    environment  = var.environment
+    timestamp    = local.timestamp
+  })
+  
+  filename = "${path.module}/${local.file_prefix}-${count.index + 1}.txt"
+}
+
+# Konfiguratsioonifail JSON formaadis
 resource "local_file" "config" {
   content = jsonencode({
-    projekt_nimi = var.project_name
-    keskkond     = var.environment
-    failide_arv  = var.file_count
-    loodud_poolt = "Terraform"
-    ajatempel    = timestamp()
+    project = {
+      name        = var.project_name
+      environment = var.environment
+      created_at  = local.timestamp
+    }
+    settings = {
+      file_count     = var.file_count
+      backup_enabled = var.enable_backup
+    }
+    metadata = {
+      terraform_version = terraform.version
+      created_by       = "Terraform Lab"
+    }
   })
-  filename = "${path.module}/konfiguratsioon.json"
+  
+  filename = "${path.module}/config/project.json"
+}
+
+# Tinglik ressurss - luuakse ainult kui backup on lubatud
+resource "local_file" "backup_config" {
+  count = var.enable_backup ? 1 : 0
+  
+  content  = "Backup configuration for ${var.project_name}"
+  filename = "${path.module}/config/backup.conf"
 }
 ```
 
-### Ülesanne 4.4: Muudatuste rakendamine
+### 3.4 Template Faili Loomine
+
+Looge fail `templates/file_template.txt`:
+
+```
+==================================================
+TERRAFORM LAB FAIL #${file_number}
+==================================================
+
+Projekt: ${project_name}
+Keskkond: ${environment}
+Faili number: ${file_number}
+Loodud: ${timestamp}
+
+See fail loodi Terraform'i abil automaatselt.
+Terraform on Infrastructure as Code tööriist.
+
+--------------------------------------------------
+Terraform Lab - IT-süsteemide automatiseerimine
+==================================================
+```
+
+### 3.5 Uue Konfiguratsiooni Rakendamine
 
 ```bash
-# Plan the changes
+# Planeeri muudatused
 terraform plan
 
-# Apply the changes
+# Rakenda muudatused
 terraform apply
 
-# Check outputs
+# Vaata väljundeid
 terraform output
+
+# Vaata konkreetset väljundit
+terraform output project_info
 ```
+
+**Kontrollpunkt:** Näete loodud faile ja väljundeid, mis kasutavad muutujaid.
 
 ---
 
-## Task 6: Advanced Features
+## 4. Täpsemad Funktsioonid
 
-### Ülesanne 5.1: Data sources kasutamine
+### 4.1 Data Source'ide Kasutamine
 
-**Lisage `main.tf` faili:**
+Lisage `main.tf` faili:
 
 ```hcl
 # Loe olemasoleva faili sisu
 data "local_file" "existing_config" {
-  filename = "${path.module}/konfiguratsioon.json"
+  filename = "${path.module}/config/project.json"
+  depends_on = [local_file.config]
 }
 
-# Loo kokkuvõttefail kasutades data source
+# Loo kokkuvõttefail data source'i põhjal
 resource "local_file" "summary" {
-  content = <<-EOF
-    Projekti Kokkuvõte:
-    - Projekt: ${var.project_name}
-    - Keskkond: ${var.environment}  
-    - Loodud failid: ${var.file_count}
-    - Konfiguratsioonifail olemas: ${data.local_file.existing_config.content != "" ? "Jah" : "Ei"}
-    - Loodud: ${timestamp()}
-  EOF
-  filename = "${path.module}/kokkuvote.txt"
+  content = templatefile("${path.module}/templates/summary.txt", {
+    config_content = data.local_file.existing_config.content
+    total_files    = length(local_file.examples)
+    project_name   = var.project_name
+  })
+  
+  filename = "${path.module}/project_summary.txt"
 }
 ```
 
-### Ülesanne 5.2: Local values kasutamine
+Looge fail `templates/summary.txt`:
 
-**Lisage `locals.tf` faili:**
+```
+PROJEKTI KOKKUVÕTE
+==================
+
+Projekti nimi: ${project_name}
+Loodud failide arv: ${total_files}
+
+Konfiguratsiooni sisu:
+${config_content}
+
+Kokkuvõte genereeritud: ${timestamp()}
+```
+
+### 4.2 For_each Kasutamine
+
+Lisage `main.tf` faili erinevat tüüpi failide loomiseks:
 
 ```hcl
-# Define local values
+# Teenuste konfiguratsioonid
 locals {
-  common_tags = {
-    Project     = var.project_name
-    Environment = var.environment
-    CreatedBy   = "Terraform"
-    CreatedAt   = timestamp()
-  }
-  
-  file_prefix = "${var.project_name}-${var.environment}"
-}
-```
-
-### Ülesanne 5.3: Conditional logic
-
-**Uuendage `main.tf` faili:**
-
-```hcl
-# Create environment-specific file
-resource "local_file" "env_specific" {
-  content = var.environment == "production" ? "PRODUCTION ENVIRONMENT - BE CAREFUL!" : "Development environment - safe to test"
-  filename = "${path.module}/${local.file_prefix}-env.txt"
-  
-  tags = local.common_tags
-}
-
-# Create backup file only in production
-resource "local_file" "backup" {
-  count    = var.environment == "production" ? 1 : 0
-  content  = "This is a backup file for production environment."
-  filename = "${path.module}/backup.txt"
-}
-```
-
-### Ülesanne 5.4: Final test
-
-```bash
-# Plan and apply
-terraform plan
-terraform apply
-
-# Check all outputs
-terraform output
-
-# List all files
-ls -la
-
-# Check summary
-cat summary.txt
-```
-
----
-
-## Kokkuvõte
-
-Täna õppisime:
-
-**Terraform'i installimist ja seadistamist** - töökeskkonna valmistamine
-**Põhilise Terraform workflow** - init, plan, apply, destroy
-**HCL süntaksit** - ressursid, muutujad, väljundid
-**Local provider'i kasutamist** - failide ja kataloogide haldamine
-**Advanced features** - data sources, locals, conditional logic  
-
-**Järgmise nädala teemad:**
-- Multi-environment Terraform
-- Kohalikud provider'id (local, null, random)
-- State management best practices
-
----
-
-## Task 8: **BOONUSÜLESANDED** (Terraform'i oskajatele)
-
-### Ülesanne Advanced Local Infrastructure
-
-```hcl
-# locals.tf - Advanced local values
-locals {
-  timestamp = formatdate("YYYY-MM-DD-hhmm", timestamp())
-  project_prefix = "${var.project_name}-${var.environment}"
-  
-  # Complex data structures
-  service_configs = {
+  services = {
     web = {
       port = 8080
-      replicas = var.environment == "production" ? 3 : 1
-      memory = "512M"
+      replicas = var.environment == "prod" ? 3 : 1
     }
     api = {
       port = 3000
       replicas = 2
-      memory = "256M"
     }
-    worker = {
-      port = null
+    database = {
+      port = 5432
       replicas = 1
-      memory = "1G"
     }
   }
-  
-  # Conditional resources
-  monitoring_enabled = var.environment != "development"
-  backup_enabled = var.environment == "production"
 }
 
-# Service configuration files
+# Loo konfiguratsioonifail iga teenuse jaoks
 resource "local_file" "service_configs" {
-  for_each = local.service_configs
+  for_each = local.services
   
-  content = templatefile("${path.module}/templates/service.tpl", {
+  content = templatefile("${path.module}/templates/service.conf", {
     service_name = each.key
     port         = each.value.port
     replicas     = each.value.replicas
-    memory       = each.value.memory
     environment  = var.environment
   })
   
-  filename = "${local_directory.config.path}/${each.key}-service.yaml"
+  filename = "${path.module}/config/${each.key}-service.conf"
 }
 ```
 
-### Ülesanne Template Files ja Functions
+Looge fail `templates/service.conf`:
 
-```hcl
-# templates/nginx.conf.tpl
-upstream ${service_name} {
-%{ for i in range(replicas) ~}
-    server ${service_name}-${i}:${port};
-%{ endfor ~}
-}
+```
+# ${service_name} teenuse konfiguratsioon
+# Keskkond: ${environment}
 
-server {
-    listen 80;
-    server_name ${domain};
-    
-    location / {
-        proxy_pass http://${service_name};
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-    
-%{ if ssl_enabled ~}
-    listen 443 ssl;
-    ssl_certificate /etc/ssl/certs/${domain}.crt;
-    ssl_certificate_key /etc/ssl/private/${domain}.key;
-%{ endif ~}
-}
+[service]
+name = ${service_name}
+port = ${port}
+replicas = ${replicas}
+environment = ${environment}
 
-# Use template
-resource "local_file" "nginx_config" {
-  content = templatefile("${path.module}/templates/nginx.conf.tpl", {
-    service_name = "webapp"
-    replicas     = 3
-    port         = 8080
-    domain       = "myapp.local"
-    ssl_enabled  = var.environment == "production"
-  })
-  
-  filename = "${local_directory.config.path}/nginx.conf"
-}
+[health]
+check_interval = 30s
+timeout = 5s
+
+[logging]
+level = ${environment == "prod" ? "info" : "debug"}
 ```
 
-### Ülesanne Modules ja Code Organization
+### 4.3 Lifecycle Rules
+
+Lisage faili, mis on kaitstud tahtmatu kustutamise eest:
 
 ```hcl
-# modules/webapp/main.tf
-resource "local_directory" "app_dir" {
-  path = "${var.base_path}/${var.app_name}"
-}
-
-resource "local_file" "app_config" {
+resource "local_file" "important_data" {
   content = jsonencode({
-    app_name    = var.app_name
-    environment = var.environment
-    database_url = var.database_url
-    api_key     = var.api_key
-    features    = var.features
+    critical_info = "See on oluline konfiguratsioon"
+    created_at    = timestamp()
+    protected     = true
   })
-  filename = "${local_directory.app_dir.path}/config.json"
-}
-
-resource "local_file" "docker_compose" {
-  content = templatefile("${path.module}/docker-compose.tpl", {
-    app_name     = var.app_name
-    image_tag    = var.image_tag
-    environment  = var.environment
-    replicas     = var.replicas
-  })
-  filename = "${local_directory.app_dir.path}/docker-compose.yml"
-}
-
-# modules/webapp/variables.tf
-variable "app_name" {
-  description = "Application name"
-  type        = string
-}
-
-variable "environment" {
-  description = "Environment"
-  type        = string
-  validation {
-    condition     = contains(["dev", "staging", "prod"], var.environment)
-    error_message = "Environment must be dev, staging, or prod."
-  }
-}
-
-variable "replicas" {
-  description = "Number of replicas"
-  type        = number
-  default     = 1
-  validation {
-    condition     = var.replicas > 0 && var.replicas <= 10
-    error_message = "Replicas must be between 1 and 10."
-  }
-}
-
-# Use module
-module "frontend" {
-  source = "./modules/webapp"
   
-  app_name    = "frontend"
-  environment = var.environment
-  replicas    = var.environment == "prod" ? 3 : 1
-  base_path   = local_directory.project_root.path
+  filename = "${path.module}/config/critical.json"
   
-  database_url = "postgres://user:pass@db:5432/frontend"
-  api_key      = var.frontend_api_key
-  features = {
-    analytics = var.environment == "prod"
-    debug     = var.environment != "prod"
-  }
-}
-
-module "backend" {
-  source = "./modules/webapp"
-  
-  app_name    = "backend"
-  environment = var.environment
-  replicas    = 2
-  base_path   = local_directory.project_root.path
-  
-  database_url = "postgres://user:pass@db:5432/backend"
-  api_key      = var.backend_api_key
-  features = {
-    worker_mode = true
-    cache       = var.environment == "prod"
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [content]
   }
 }
 ```
 
-### Ülesanne Terraform Workspaces ja State Management
+### 4.4 Muudatuste Rakendamine
 
 ```bash
-# Create workspaces for different environments
+terraform plan
+terraform apply
+
+# Kontrollige loodud faile
+ls -la config/
+cat project_summary.txt
+```
+
+**Kontrollpunkt:** Näete erinevat tüüpi konfiguratsioone ja template'e.
+
+---
+
+## 5. Keskkonnapõhine Konfiguratsioon
+
+### 5.1 Terraform Variable Failide Loomine
+
+Looge erinevate keskkondade jaoks muutujate failid:
+
+**`dev.tfvars`:**
+```hcl
+project_name = "my-terraform-project"
+environment  = "dev"
+file_count   = 2
+enable_backup = false
+```
+
+**`prod.tfvars`:**
+```hcl
+project_name = "my-terraform-project"
+environment  = "prod"
+file_count   = 5
+enable_backup = true
+```
+
+### 5.2 Erinevate Keskkondade Testimine
+
+```bash
+# Testi development konfiguratsiooni
+terraform plan -var-file="dev.tfvars"
+
+# Rakenda development konfiguratsioon
+terraform apply -var-file="dev.tfvars"
+
+# Kustuta ressursid
+terraform destroy
+
+# Testi production konfiguratsiooni
+terraform plan -var-file="prod.tfvars"
+terraform apply -var-file="prod.tfvars"
+```
+
+### 5.3 Workspace'ide Kasutamine
+
+```bash
+# Loo uued workspace'd
 terraform workspace new development
-terraform workspace new staging
 terraform workspace new production
 
-# Switch between workspaces
+# Lülitu development workspace'i
 terraform workspace select development
-terraform plan -var-file="environments/dev.tfvars"
-terraform apply
+terraform apply -var-file="dev.tfvars"
 
+# Lülitu production workspace'i
 terraform workspace select production
-terraform plan -var-file="environments/prod.tfvars"
-terraform apply
+terraform apply -var-file="prod.tfvars"
 
-# List workspaces
+# Vaata workspace'e
 terraform workspace list
-
-# Workspace-specific variables
-variable "workspace_configs" {
-  description = "Workspace-specific configurations"
-  type = map(object({
-    replicas     = number
-    memory_limit = string
-    disk_size    = number
-  }))
-  
-  default = {
-    development = {
-      replicas     = 1
-      memory_limit = "256M"
-      disk_size    = 10
-    }
-    staging = {
-      replicas     = 2
-      memory_limit = "512M"
-      disk_size    = 20
-    }
-    production = {
-      replicas     = 5
-      memory_limit = "1G"
-      disk_size    = 100
-    }
-  }
-}
-
-locals {
-  workspace_config = var.workspace_configs[terraform.workspace]
-}
 ```
 
-### Ülesanne Advanced Data Sources ja External Integration
-
-```hcl
-# External data source
-data "external" "git_info" {
-  program = ["bash", "-c", <<-EOT
-    echo '{"branch":"'$(git branch --show-current)'","commit":"'$(git rev-parse --short HEAD)'","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}'
-  EOT
-  ]
-}
-
-# HTTP data source (for external APIs)
-data "http" "service_discovery" {
-  url = "https://api.internal.com/services"
-  request_headers = {
-    Accept = "application/json"
-    Authorization = "Bearer ${var.api_token}"
-  }
-}
-
-locals {
-  services = jsondecode(data.http.service_discovery.body)
-  git_info = data.external.git_info.result
-}
-
-# Generate deployment metadata
-resource "local_file" "deployment_info" {
-  content = jsonencode({
-    deployment_id   = random_uuid.deployment.result
-    git_branch     = local.git_info.branch
-    git_commit     = local.git_info.commit
-    deployed_at    = local.git_info.timestamp
-    environment    = var.environment
-    terraform_version = "v${terraform.version}"
-    services       = local.services
-  })
-  
-  filename = "${local_directory.project_root.path}/deployment-info.json"
-}
-
-resource "random_uuid" "deployment" {}
-
-# Integration with external systems
-resource "local_file" "monitoring_config" {
-  content = templatefile("${path.module}/templates/monitoring.yml.tpl", {
-    services    = local.services
-    environment = var.environment
-    alerts = {
-      cpu_threshold    = var.environment == "production" ? 80 : 90
-      memory_threshold = var.environment == "production" ? 85 : 95
-      disk_threshold   = 90
-    }
-  })
-  
-  filename = "${local_directory.config.path}/monitoring.yml"
-}
-```
-
-**Kas teil on küsimusi?** 🤔
+**Kontrollpunkt:** Erinevates workspace'ides on erinevad failid ja konfiguratsioonid.
 
 ---
 
-## Lisaressursid
+## 6. State Management ja Troubleshooting
 
-- **Terraform CLI Commands:** https://www.terraform.io/docs/cli
-- **Local Provider:** https://registry.terraform.io/providers/hashicorp/local/latest/docs
-- **HCL Language:** https://www.terraform.io/docs/language
-- **Terraform Best Practices:** https://www.terraform.io/docs/cloud/guides/recommended-practices
+### 6.1 State'i Haldamine
 
----
-
-## Troubleshooting
-
-### Levinumad probleemid ja lahendused:
-
-**1. Provider not found:**
 ```bash
-# Solution: Run terraform init
-terraform init
-```
-
-**2. State file issues:**
-```bash
-# Check state
+# Vaata kõiki ressursse state'is
 terraform state list
 
-# Refresh state
+# Vaata konkreetse ressursi detaile
+terraform state show local_file.config
+
+# Liiguta ressurss state'is
+terraform state mv local_file.examples[0] local_file.renamed_file
+
+# Eemalda ressurss state'ist (ei kustuta tegelikku faili)
+terraform state rm local_file.backup_config[0]
+
+# Impordi olemasolev fail state'i
+terraform import local_file.imported_file welcome.txt
+```
+
+### 6.2 Tõrkeotsing
+
+**State'i probleemide lahendamine:**
+```bash
+# Värskenda state olukordadega
 terraform refresh
+
+# Kontrolli state'i terviklikkust
+terraform validate
+
+# Formateeri kood
+terraform fmt
 ```
 
-**3. Permission issues:**
+**Logide vaatamine:**
 ```bash
-# Check file permissions
-ls -la
+# Detailne väljund
+TF_LOG=DEBUG terraform apply
 
-# Fix permissions if needed
-chmod 644 *.txt
+# Salvestage logid faili
+TF_LOG=INFO TF_LOG_PATH=terraform.log terraform apply
 ```
 
-**4. Variable validation errors:**
+### 6.3 State'i Backup ja Taastamine
+
 ```bash
-# Check variable values
-terraform plan -var="environment=development"
+# Tee state'i koopia
+cp terraform.tfstate terraform.tfstate.backup
+
+# Kui state on katki, taasta varukoopia
+cp terraform.tfstate.backup terraform.tfstate
 ```
+
+**Kontrollpunkt:** Oskate hallata state'i ja lahendada tavalisi probleeme.
+
+---
+
+## 7. Cleanup ja Kokkuvõte
+
+### 7.1 Ressursside Kustutamine
+
+```bash
+# Kustuta kõik workspace'i ressursid
+terraform destroy
+
+# Lülitu teise workspace'i ja kustuta sealsed ressursid
+terraform workspace select development
+terraform destroy
+
+terraform workspace select production  
+terraform destroy
+
+# Kustuta workspace'd
+terraform workspace select default
+terraform workspace delete development
+terraform workspace delete production
+```
+
+### 7.2 Projekti Puhastamine
+
+```bash
+# Kustuta kõik loodud failid (valikuline)
+rm -f *.txt *.json
+rm -rf config/ .terraform/
+rm -f terraform.tfstate*
+```
+
+---
+
+## Labor Kokkuvõte
+
+**Mida õppisite:**
+
+1. **Terraform'i installeerimine ja seadistamine** - töökeskkonna ettevalmistamine
+2. **Põhiline Terraform workflow** - init, plan, apply, destroy
+3. **HCL süntaksi kasutamine** - muutujad, ressursid, väljundid
+4. **Template'id ja funktsioonid** - dünaamiline sisu genereerimine
+5. **Keskkonnapõhine konfiguratsioon** - erinevad seadistused erinevateks keskkondadeks
+6. **State management** - infrastruktuuri oleku jälgimine
+7. **Tõrkeotsimine** - probleemide tuvastamine ja lahendamine
+
+**Järgmised sammud:**
+- Uurige cloud provider'eid (AWS, Azure, GCP)
+- Õppige Terraform module'eid
+- Tutvuge CI/CD integratsiooniga
+- Uurige Terraform Cloud'i
+
+**Praktilised oskused:**
+- Infrastruktuuri kirjeldamine koodina
+- Versioonihaldus infrastruktuuri jaoks
+- Automatiseeritud ja korduvkasutatav deploy
+- Keskkondade vaheliste erinevuste haldamine
+
+---
+
+## Viited ja Dokumentatsioon
+
+- [Terraform Official Documentation](https://www.terraform.io/docs) - täielik dokumentatsioon
+- [Local Provider Documentation](https://registry.terraform.io/providers/hashicorp/local/latest/docs) - local provider'i dokumentatsioon
+- [HCL Language Reference](https://www.terraform.io/docs/language) - HCL keele käsiraamat
+- [Terraform CLI Commands](https://www.terraform.io/docs/cli) - käsurea liidese juhend
+- [Terraform Best Practices](https://www.terraform.io/docs/cloud/guides/recommended-practices) - parimad praktikad

@@ -1,109 +1,339 @@
-# Lab: Docker Compose Praktika
+# Docker Compose Lab
 
-**Kestus:**   
-**Eesmärk:** Õppida Docker Compose'i praktilist kasutamist ja luua lihtsa multi-container rakenduse
+## Mida õpid
 
-## Õpiväljundid
+Selle labi lõpuks oskad:
+- Luua Dockerfile Python rakenduse jaoks
+- Kirjutada docker-compose.yml faili mitme teenusega
+- Käivitada ja hallata multi-container rakendusi
+- Debugida tavalisemaid container'ite probleeme
 
-Pärast laborit oskate:
-- **Kirjutada lihtsa Docker Compose faili** - põhilised teenused
-- **Käivitada multi-container rakendust** - ühe käsuga
-- **Mõista teenuste sõltuvusi** - mis käivitub enne
-- **Debugida probleeme** - logide vaatamine
-- **Kasutada dokumentatsiooni** - abi leidmine
+## Eeldused
+
+- Docker ja Docker Compose on installitud
+- Põhimõisted container'itest on teada
 
 ---
 
-## Task 1: Lihtsa rakenduse loomine
+## Samm 1: Projekti struktuuri loomine
 
-### Ülesanne 1.1: Projekti struktuuri loomine
-
-**Loome lihtsa web rakenduse, mis koosneb kahest osast:**
-- **Web server** - kuvab veebilehte
-- **Database** - salvestab andmeid
+Loo järgmine kataloogide struktuur:
 
 ```bash
-# Projekti kataloogi loomine
-mkdir ~/docker-orchestration-lab
-cd ~/docker-orchestration-lab
-
-# Lihtne struktuur
-mkdir app
+mkdir docker-compose-lab
+cd docker-compose-lab
+mkdir backend
+mkdir frontend
 ```
 
-### Ülesanne 1.2: Lihtsa web rakenduse loomine
-
-**Kopeerime valmis HTML faili teacher_repo'st:**
-
-```bash
-# Kopeerige valmis HTML fail
-cp teacher_repo/docker-orchestration-starter/templates/app/frontend/index.html.example app/index.html
+Sinu projekt peaks välja nägema nii:
+```
+docker-compose-lab/
+├── backend/
+├── frontend/
+└── docker-compose.yml (loome hiljem)
 ```
 
-**Mida see teeb?**
-- Kuvab lihtsa veebilehe
-- Näitab, et rakendus töötab
-- Kuvab praeguse aja
+Igal teenus (backend, frontend) on oma failid ja seadistused. See hoiab projekti korrastatuna.
 
-**Miks me ei kirjuta HTML koodi?**
-See on automation kursus, mitte veebiarenduse kursus. Me keskendume Docker Compose'i õppimisele, mitte HTML kirjutamisele.
+---
 
-### Ülesanne 1.3: Docker Compose faili loomine
+## Samm 2: Backend rakenduse loomine
 
-**Kopeerime valmis Docker Compose faili teacher_repo'st:**
+### 2.1 Python rakenduse loomine
 
-```bash
-# Kopeerige valmis Docker Compose fail
-cp teacher_repo/docker-orchestration-starter/templates/docker-compose.yml.example docker-compose.yml
-```
+Loo fail `backend/app.py`:
 
-**Mida see teeb?**
-- **Web teenus** - kuvab HTML faili brauseris
-- **Database teenus** - salvestab andmeid (praegu ei kasuta)
+```python
+from flask import Flask, jsonify
+import os
 
-**Miks me ei kirjuta Docker Compose faili?**
-See on lihtne lab, kus õpime Docker Compose'i kasutamist. Hiljem õpite ka failide kirjutamist.
-- **Volumes** - püsivad andmed andmebaasi jaoks
-            host=os.getenv('REDIS_HOST', 'redis'),
-            port=int(os.getenv('REDIS_PORT', 6379)),
-            decode_responses=True
-        )
-        r.ping()
-        return r
-    except Exception as e:
-        return None
+# Flask rakenduse loomine
+app = Flask(__name__)
 
-@app.route('/api/status')
-def status():
-    db_status = "Connected" if get_db_connection() else "Disconnected"
-    redis_status = "Connected" if get_redis_connection() else "Disconnected"
-    
+# Tervisekontrolli endpoint - kontrollib, kas teenus töötab
+@app.route('/api/health')
+def health():
     return jsonify({
-        'status': 'OK',
-        'environment': os.getenv('NODE_ENV', 'development'),
-        'database': db_status,
-        'cache': redis_status,
-        'timestamp': datetime.now().isoformat()
+        'status': 'healthy',
+        'service': 'backend'
     })
+
+# Info endpoint - tagastab põhiinfot
+@app.route('/api/info')
+def info():
+    return jsonify({
+        'message': 'Tere Docker Compose\'ist!',
+        'environment': os.getenv('APP_ENV', 'development')  # Loeb keskkonnamuutujat
+    })
+
+# Käivitab serveri kõigil IP-del (vajalik Docker'is)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+```
+
+Container'is peab rakendus kuulama kõiki võrguliidesesid (`host='0.0.0.0'`), et välispoolt oleks ligipääsetav.
+
+### 2.2 Sõltuvuste faili loomine
+
+Loo fail `backend/requirements.txt`:
+
+```
+Flask==2.3.3
+```
+
+Docker peab teadma, milliseid Python pakette installida. See fail loetleb kõik vajalikud sõltuvused.
+
+### 2.3 Dockerfile loomine
+
+Loo fail `backend/Dockerfile`:
+
+```dockerfile
+# Alustame Python base image'iga - sisaldab Python'i ja Linux'i
+FROM python:3.9-slim
+
+# Määrame töökausts container'is - kõik käsud toimuvad siin
+WORKDIR /app
+
+# Kopeerime sõltuvuste faili esimesena (optimiseerimise jaoks)
+COPY requirements.txt .
+
+# Installime Python pakette
+RUN pip install -r requirements.txt
+
+# Kopeerime kogu rakenduse koodi
+COPY . .
+
+# Dokumenteerime, et rakendus kasutab porti 5000
+EXPOSE 5000
+
+# Määrame, mis käsk käivitub container'i käivitamisel
+CMD ["python", "app.py"]
+```
+
+Docker'i layer caching toimib nii, et kui kopeerime `requirements.txt` eraldi, siis koodi muutmisel ei pea sõltuvusi uuesti installima.
+
+---
+
+## Samm 3: Frontend failide loomine
+
+### 3.1 Lihtsa HTML loomine
+
+Loo fail `frontend/index.html`:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Compose Demo</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 50px; 
+            background-color: #f5f5f5; 
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 10px; 
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .result { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: #fff; 
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Docker Compose Lab</h1>
+    <p>See leht töötab Nginx container'is</p>
+    
+    <button onclick="testAPI()">Testi Backend API</button>
+    <div id="result" class="result">Klõpsa nuppu API testimiseks</div>
+
+    <script>
+        // Funktsioon backend API testimiseks
+        function testAPI() {
+            fetch('/api/info')  // Päring backend'ile
+                .then(response => response.json())
+                .then(data => {
+                    // Näita vastust lehel
+                    document.getElementById('result').innerHTML = 
+                        'API vastus: ' + JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Näita viga
+                    document.getElementById('result').innerHTML = 'Viga: ' + error;
+                });
+        }
+    </script>
+</body>
+</html>
+```
+
+Fetch() on moodne viis API-ga suhtlemiseks ilma lehe uuesti laadimata.
+
+---
+
+## Samm 4: Docker Compose faili loomine
+
+Loo fail `docker-compose.yml` projekti juurkaustas:
+
+```yaml
+version: '3.8'  # Compose faili formaat
+
+services:  # Määrame kõik teenused
+  frontend:
+    image: nginx:alpine          # Kasutame valmis Nginx image'i
+    ports:
+      - "8080:80"               # Host port 8080 -> Container port 80
+    volumes:
+      - ./frontend:/usr/share/nginx/html  # Meie HTML failid Nginx'i
+    depends_on:
+      - backend                 # Frontend vajab backend'i
+
+  backend:
+    build: ./backend            # Ehitame oma image Dockerfile'ist
+    ports:
+      - "5000:5000"            # API kättesaadav port 5000 kaudu
+```
+
+See fail kirjeldab kogu rakenduse arhitektuuri - millised teenused, kuidas nad omavahel suhtlevad, millised pordid.
+
+`depends_on` ütleb Docker'ile, et frontend vajab backend'i töötamist, seega backend käivitatakse esimesena.
+
+---
+
+## Samm 5: Rakenduse käivitamine
+
+### 5.1 Kõikide teenuste käivitamine
+
+```bash
+docker-compose up --build
+```
+
+`--build` ehitab image'd uuesti enne käivitamist. Vajalik, kui Dockerfile või kood on muutunud.
+
+Sa näed logisid mõlemast teenusest. Oota, kuni näed:
+```
+backend_1   |  * Running on all addresses (0.0.0.0)
+frontend_1  | ... nginx started
+```
+
+### 5.2 Rakenduse testimine
+
+Ava brauser ja mine: `http://localhost:8080`
+
+Klõpsa nuppu "Testi Backend API" - peaksid nägema JSON vastust backend'ilt.
+
+Nginx forwording päringud `/api/*` backend container'ile, tänu Docker'i sisemisele võrgule.
+
+### 5.3 Rakenduse peatamine
+
+Vajuta `Ctrl+C` terminalis või käivita:
+
+```bash
+docker-compose down
+```
+
+---
+
+## Samm 6: Andmebaasi lisamine
+
+### 6.1 Backend'i uuendamine andmebaasi kasutamiseks
+
+Päris rakendused vajavad andmete salvestamist. PostgreSQL on populaarne ja töökindel andmebaas.
+
+Uuenda `backend/app.py`:
+
+```python
+from flask import Flask, jsonify
+import psycopg2
+import os
+from datetime import datetime
+
+app = Flask(__name__)
+
+# Funktsioon andmebaasi ühenduse loomiseks
+def get_db_connection():
+    try:
+        conn = psycopg2.connect(
+            host=os.getenv('DB_HOST', 'localhost'),     # Andmebaasi host
+            database=os.getenv('DB_NAME', 'app'),       # Andmebaasi nimi
+            user=os.getenv('DB_USER', 'postgres'),      # Kasutajanimi
+            password=os.getenv('DB_PASSWORD', 'password')  # Salasõna
+        )
+        return conn
+    except:
+        return None  # Ühendus ebaõnnestus
 
 @app.route('/api/health')
 def health():
     return jsonify({'status': 'healthy'})
 
+@app.route('/api/info')
+def info():
+    return jsonify({
+        'message': 'Tere Docker Compose\'ist!',
+        'timestamp': datetime.now().isoformat()
+    })
+
+# Uus endpoint andmebaasi staatuse kontrolliks
+@app.route('/api/db-status')
+def db_status():
+    conn = get_db_connection()
+    status = 'connected' if conn else 'disconnected'
+    if conn:
+        conn.close()  # Sulge ühendus
+    
+    return jsonify({
+        'database': status,
+        'timestamp': datetime.now().isoformat()
+    })
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=os.getenv('DEBUG', 'false').lower() == 'true')
+    app.run(host='0.0.0.0', port=5000, debug=True)
 ```
 
-**Backend requirements (app/backend/requirements.txt):**
+### 6.2 Sõltuvuste uuendamine
+
+Uuenda `backend/requirements.txt`:
+
 ```
 Flask==2.3.3
-psycopg2-binary==2.9.7
-redis==4.6.0
+psycopg2-binary==2.9.7   # PostgreSQL driver Python'i jaoks
 ```
 
-### Ülesanne 1.4: Docker Compose konfiguratsioon
+`psycopg2-binary` on PostgreSQL adapter Python'i jaoks, mis võimaldab andmebaasiga suhelda.
 
-**Base configuration (docker-compose.yml):**
+### 6.3 Environment faili loomine
+
+Esmalt loome `.env` faili turvaliste seadistuste jaoks.
+
+Loo `.env` fail projekti juurkaustas:
+
+```env
+# Andmebaasi seadistused
+POSTGRES_DB=app
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=supersecretpassword123
+
+# Rakenduse seadistused
+APP_ENV=development
+```
+
+`.env` fail hoiab tundlikud andmed eraldi koodist. See on standardne viis konfiguratsioonide haldamiseks.
+
+### 6.4 Docker Compose uuendamine
+
+Peame lisama andmebaasi teenuse ja ühendama kõik teenused omavahel.
+
+Uuenda `docker-compose.yml`:
+
 ```yaml
 version: '3.8'
 
@@ -111,357 +341,210 @@ services:
   frontend:
     image: nginx:alpine
     ports:
-      - "${FRONTEND_PORT:-80}:80"
+      - "8080:80"
     volumes:
-      - ./app/frontend:/usr/share/nginx/html:ro
+      - ./frontend:/usr/share/nginx/html
     depends_on:
       - backend
-    networks:
-      - frontend
 
   backend:
-    build:
-      context: ./app/backend
-      dockerfile: Dockerfile
+    build: ./backend
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - DEBUG=${DEBUG:-false}
-      - DB_HOST=db
-      - DB_NAME=${DB_NAME:-app}
-      - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-secret}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - APP_ENV=${APP_ENV}      # Loeb .env failist
+      - DB_HOST=db              # Andmebaasi host nimi
+      - DB_NAME=${POSTGRES_DB}  # Loeb .env failist
+      - DB_USER=${POSTGRES_USER}        # Loeb .env failist
+      - DB_PASSWORD=${POSTGRES_PASSWORD} # Loeb .env failist
+    ports:
+      - "5000:5000"
     depends_on:
-      - db
-      - redis
-    networks:
-      - frontend
-      - backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - db                      # Backend vajab andmebaasi
 
-  db:
-    image: postgres:13
+  db:                           # UUS: Andmebaasi teenus
+    image: postgres:13          # PostgreSQL 13 image
     environment:
-      - POSTGRES_DB=${DB_NAME:-app}
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+      - POSTGRES_DB=${POSTGRES_DB}       # Loeb .env failist
+      - POSTGRES_USER=${POSTGRES_USER}   # Loeb .env failist
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  # Loeb .env failist
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:alpine
-    volumes:
-      - redis_data:/data
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
+      - postgres_data:/var/lib/postgresql/data  # Andmete püsivus
 
 volumes:
-  postgres_data:
-  redis_data:
-
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
-    internal: true
+  postgres_data:                # Named volume andmete jaoks
 ```
 
-**Backend Dockerfile (app/backend/Dockerfile):**
-```dockerfile
-FROM python:3.9-slim
+Docker Compose loeb automaatselt `.env` faili ja asendab `${MUUTUJA}` väärtused.
 
-WORKDIR /app
+---
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+## Samm 7: Täieliku rakenduse testimine
 
-COPY . .
+### 7.1 Uuesti ehitamine ja käivitamine
 
-EXPOSE 5000
-
-CMD ["python", "app.py"]
-```
-
-### Ülesanne 1.5: Rakenduse käivitamine
-
-**Käivitage rakendus:**
 ```bash
-# Käivita kõik teenused
-docker-compose up -d
+docker-compose up --build
+```
 
-# Vaata, kas kõik töötab
+Nüüd käivitub kolm teenust: frontend, backend ja andmebaas.
+
+### 7.2 Andmebaasi ühenduse testimine
+
+Ava `http://localhost:5000/api/db-status` otse brauseris - peaksid nägema:
+
+```json
+{
+  "database": "connected",
+  "timestamp": "2025-01-15T10:30:00"
+}
+```
+
+### 7.3 Frontend'i uuendamine andmebaasi testimiseks
+
+Uuenda `frontend/index.html`, lisa uus nupp:
+
+```html
+<!-- Lisa see teiste nuppude kõrvale -->
+<button onclick="testDatabase()">Testi andmebaasi</button>
+
+<script>
+// Lisa see teiste funktsioonide kõrvale
+function testDatabase() {
+    fetch('/api/db-status')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('result').innerHTML = 
+                'Andmebaasi staatus: ' + JSON.stringify(data, null, 2);
+        });
+}
+</script>
+```
+
+---
+
+## Samm 8: Kasulikud käsud ja debugimine
+
+### 8.1 Docker Compose käsud
+
+```bash
+# Vaata töötavaid container'eid
 docker-compose ps
 
-# Vaata logisid
-docker-compose logs web
-```
+# Vaata logisid kõigist teenustest
+docker-compose logs
 
-**Testige rakendust:**
-- Avage brauser jage aadressile: `http://localhost:8080`
-- Peaksite nägema veebilehte "🚀 Week 21 Lab"
+# Vaata konkreetse teenuse logisid
+docker-compose logs backend
 
-**Peatage rakendus:**
-```bash
+# Jälgi logisid reaalajas
+docker-compose logs -f
+
+# Käivita käsk container'is
+docker-compose exec backend bash
+
 # Peata kõik teenused
 docker-compose down
+
+# Eemalda ka volume'id
+docker-compose down -v
 ```
+
+### 8.2 Container'ite probleemide lahendamine
+
+**Kontrolli, kas container'id töötavad:**
+```bash
+docker-compose ps
+```
+
+Peaksid nägema:
+```
+Name               State           Ports
+backend_1          Up              0.0.0.0:5000->5000/tcp
+db_1              Up              5432/tcp
+frontend_1        Up              0.0.0.0:8080->80/tcp
+```
+
+**Kontrolli container'i logisid:**
+```bash
+docker-compose logs backend
+```
+
+**Ligipääs container'i shell'ile:**
+```bash
+docker-compose exec backend bash
+```
+
+**Testi võrguühendust:**
+```bash
+docker-compose exec backend ping db
+```
+
+### 8.3 Levinud probleemid
+
+**Port on juba kasutusel:**
+- Muuda host porti docker-compose.yml failis (nt "8081:80")
+
+**Container ei käivitu:**
+- Kontrolli logisid: `docker-compose logs [teenus]`
+- Kontrolli Dockerfile süntaksit
+- Veendu, et kõik vajalikud failid eksisteerivad
+
+**Ei saa andmebaasiga ühendust:**
+- Kontrolli keskkonnamuutujaid
+- Veendu, et andmebaasi container töötab
+- Kontrolli, et teenused on samas võrgus
 
 ---
 
-## Task 2: Probleemide lahendamine
+## Samm 9: Production kaalutlused
 
-### Ülesanne 2.1: Levinud probleemid ja lahendused
+### 9.1 .env faili turvalisus
 
-**Probleem: Port on juba kasutusel**
-```bash
-# Vea sõnum: "port is already allocated"
-# Lahendus: Muutke porti docker-compose.yml failis
-ports:
-  - "8081:80"  # 8080 asemel 8081
-```
-
-**Probleem: Container ei käivitu**
-```bash
-# Vaata logisid
-docker-compose logs web
-
-# Vaata kõiki logisid
-docker-compose logs
-```
-
-**Probleem: Fail ei leia**
-```bash
-# Kontrollige, kas fail eksisteerib
-ls -la app/index.html
-
-# Kontrollige faili õigused
-chmod 644 app/index.html
-```
-
-### Ülesanne 2.2: Debugimise käsud
+`.env` fail sisaldab tundlikke andmeid, seega:
 
 ```bash
-# Vaata kõiki container'eid
-docker ps
-
-# Vaata container'i sisu
-docker exec -it docker-orchestration-lab_web_1 sh
-
-# Vaata faili sisu container'is
-docker exec docker-orchestration-lab_web_1 cat /usr/share/nginx/html/index.html
+# Lisa .gitignore faili
+echo ".env" >> .gitignore
 ```
 
-### Ülesanne 2.3: Podman Compose konfiguratsioon
+Loo eraldi `.env.example` fail:
 
-**Podman-specific docker-compose.yml:**
+```env
+# Andmebaasi seadistused
+POSTGRES_DB=app
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_secure_password_here
+
+# Rakenduse seadistused
+APP_ENV=production
+```
+
+Production keskkonnas kasuta tugevaid salasõnu ja eraldi `.env` faili.
+
+### 9.2 Health check'id
+
+Health check'id ütlevad Docker'ile, kas teenus on tõesti valmis töötama, mitte ainult käivitatud.
+
+Lisa health check'id teenustele:
+
 ```yaml
-version: '3.8'
-
-services:
-  frontend:
-    image: nginx:alpine
-    ports:
-      - "${FRONTEND_PORT:-80}:80"
-    volumes:
-      - ./app/frontend:/usr/share/nginx/html:ro
-    depends_on:
-      - backend
-    networks:
-      - frontend
+  db:
+    image: postgres:13
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s     # Kontrollib iga 30 sekundi järel
+      timeout: 10s      # Aeg välja, kui 10s pärast pole vastust
+      retries: 5        # Proovib 5 korda enne "unhealthy" märkimist
+    # ... ülejäänud konfiguratsioon
 
   backend:
-    build:
-      context: ./app/backend
-      dockerfile: Dockerfile
-    environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - DEBUG=${DEBUG:-false}
-      - DB_HOST=db
-      - DB_NAME=${DB_NAME:-app}
-      - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-secret}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    depends_on:
-      - db
-      - redis
-    networks:
-      - frontend
-      - backend
+    build: ./backend
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=${DB_NAME:-app}
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:alpine
-    volumes:
-      - redis_data:/data
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-
-volumes:
-  postgres_data:
-  redis_data:
-
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
-    internal: true
+    # ... ülejäänud konfiguratsioon
 ```
-
-### Ülesanne 2.4: Podman Compose käivitamine
-
-```bash
-# Peatage Docker Compose teenused
-docker-compose down
-
-# Käivitage Podman Compose
-podman-compose --env-file .env.development up -d
-
-# Kontrollige teenuseid
-podman-compose ps
-
-# Vaadake logisid
-podman-compose logs -f backend
-
-# Testige rakendust
-curl http://localhost:8080/api/status
-```
-
----
-
-## Task 3: Võrdlus ja Analüüs
-
-### Ülesanne 3.1: Performance võrdlus
-
-```bash
-# Docker Compose resource usage
-docker stats
-
-# Podman resource usage
-podman stats
-
-# Võrdle mälu ja CPU kasutust
-```
-
-### Ülesanne 3.2: Security võrdlus
-
-```bash
-# Docker process info
-ps aux | grep docker
-
-# Podman process info
-ps aux | grep podman
-
-# User context
-docker ps
-podman ps
-```
-
-### Ülesanne 3.3: Logide ja monitoring
-
-```bash
-# Docker Compose logid
-docker-compose logs --tail=50
-
-# Podman Compose logid
-podman-compose logs --tail=50
-
-# Võrdle logide formaati ja sisu
-```
-
----
-
-## Labori Kokkuvõte
-
-### Õpitud kontseptsioonid:
-
-**Docker Compose faili kirjutamine** - lihtne YAML süntaks
-**Multi-container rakenduse käivitamine** - ühe käsuga
-**Teenuste haldamine** - käivitamine, peatamine, logide vaatamine
-**Probleemide lahendamine** - debugimise oskused
-**Dokumentatsiooni kasutamine** - abi leidmine  
-
-### Järgmised sammud:
-
-1. **Rohkem teenuseid** - lisage backend ja cache
-2. **Environment variables** - erinevate keskkondade haldamine
-3. **Production setup** - turvaline ja skaleeritav konfiguratsioon
-4. **Kubernetes** - kui vajate rohkem funktsionaalsust
-
----
-
-## Troubleshooting
-
-### Levinud probleemid:
-
-**Probleem:** Teenused ei käivitu õiges järjekorras
-```bash
-# Lahendus: Lisa health checks ja depends_on
-depends_on:
-  db:
-    condition: service_healthy
-```
-
-**Probleem:** Podman network error
-```bash
-# Lahendus: Lisa selgesõnaline network konfiguratsioon
-networks:
-  default:
-    driver: bridge
-```
-
-**Probleem:** Volume permissions
-```bash
-# Lahendus: Lisa user mapping
-services:
-  db:
-    user: "1000:1000"
-```
-
 ---
 
 ## Lisaressursid ja abi

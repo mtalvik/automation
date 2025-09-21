@@ -1,188 +1,177 @@
-# Ansible lugemismaterjalid (Kodutöö ülesanne 2)
+# Ansible süvakäsitlus
 
-**Eeldatav lugemisaeg:** 2-3 tundi  
-**Tähtaeg:** Enne järgmist tundi
+Ansible'i agentless arhitektuur erineb fundamentaalselt teistest konfiguratsioonihalduse tööriistadest. Selle mõistmine on kriitiline, sest see mõjutab kõike - alates jõudlusest kuni turvalisuseni.
 
----
-
-## Kohustuslik lugemine (1,5 tundi)
-
-#### Ansible arhitektuuri süvaanalüüs
-**Allikas:** Ansible dokumentatsioon ja arhitektuuri juhend
-
-**Põhiteemad:**
-- Agentless arhitektuur ja selle eelised
-- Control node vs hallatavad sõlmed
-- SSH-põhine kommunikatsioon
-- Ansible'i täitmismudel
-- Inventory haldamise kontseptsioonid
-
-**Lugemisküsimused:**
-- Miks kasutab Ansible agentless arhitektuuri?
-- Millised on agentless vs agent-põhiste süsteemide eelised ja puudused?
-- Kuidas käsitleb Ansible autentimist ja autoriseerimist?
-- Mis juhtub Ansible playbook'i täitmise ajal?
-
-#### YAML süntaks ja parimad praktikad
-**Allikas:** YAML dokumentatsioon ja Ansible stiili juhend
-
-**Põhiteemad:**
-- YAML andmetüübid ja struktuurid
-- Taandrimise ja vormindamise reeglid
-- Ansible-spetsiifilised YAML konventsioonid
-- Levinud YAML lõksud ja kuidas neid vältida
-- YAML valideerimise tööriistad
-
-**Lugemisküsimused:**
-- Millised on peamised erinevused YAML'i ja JSON'i vahel?
-- Miks on taandrimine YAML'is nii oluline?
-- Millised on levinud YAML süntaksivead?
-- Kuidas saab YAML süntaksit valideerida?
-
-#### Ansible moodulite ökosüsteem
-**Allikas:** Ansible moodulite dokumentatsioon
-
-**Põhiteemad:**
-- Põhimoodulid vs kogukonna moodulid
-- Moodulite kategooriad (süsteem, võrk, pilv jne)
-- Mooduli parameetrid ja tagastusväärtused
-- Idempotentsus Ansible moodulites
-- Kohandatud moodulite arendamise alused
-
-**Lugemisküsimused:**
-- Mis teeb moodulist "idempotentse"?
-- Kuidas leida ülesandele õige moodul?
-- Mis vahe on põhi- ja kogukonna moodulitel?
-- Millal võib vaja minna kohandatud moodulit?
-
----
-
-## Valikuline lugemine (1 tund)
-
-#### Ansible parimad praktikad
-**Allikas:** Ansible parimate praktikate juhend
-
-**Põhiteemad:**
-- Playbook'i organisatsioon ja struktuur
-- Muutujate nimetamise konventsioonid
-- Vigade käsitlemise strateegiad
-- Jõudluse optimeerimise tehnikad
-- Turvalisuse kaalutlused
-
-#### Ansible vs muud konfiguratsioonihalduse tööriistad
-**Allikas:** Tööstuse võrdlused ja dokumentatsioon
-
-**Põhiteemad:**
-- Ansible vs Puppet vs Chef vs Salt
-- Iga tööriista kasutusjuhud
-- Õppimiskõvera võrdlused
-- Kogukonna ja ökosüsteemi erinevused
-- Millal valida Ansible alternatiivide asemel
-
----
-
-## Viitematerjalid (hoidke käepärast)
-
-### Ansible käskude kiirülevaade
-```bash
-# Põhikäsud
-ansible --version              # Kontrolli Ansible versiooni
-ansible all -m ping            # Testi ühenduvust kõigi hostidega
-ansible all -m setup           # Kogu fakte kõigist hostidest
-ansible-playbook playbook.yml  # Käivita playbook
-
-# Inventory haldamine
-ansible-inventory --list       # Näita inventory struktuuri
-ansible-inventory --graph      # Näita inventory graafiliselt
-
-# Ad-hoc käsud
-ansible webservers -m copy -a "src=/local/file dest=/remote/file"
-ansible dbservers -m service -a "name=mysql state=started"
-ansible all -m shell -a "uptime"
-```
-
-### Levinud YAML mustrid Ansible'is
-```yaml
-# Põhiline playbook'i struktuur
----
-- name: Näidis playbook
-  hosts: webservers
-  become: yes
-  vars:
-    app_name: myapp
-    app_port: 8080
-  
-  tasks:
-    - name: Installi paketid
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - nginx
-        - python3
-        - git
+```mermaid
+graph TD
+    A[Control Node] -->|SSH| B[Web Server 1]
+    A -->|SSH| C[Web Server 2]
+    A -->|SSH| D[Database Server]
+    A -->|SSH| E[Load Balancer]
     
-    - name: Käivita teenus
-      service:
-        name: nginx
-        state: started
-        enabled: yes
+    F[Puppet Master] -->|Pull Request| G[Puppet Agent 1]
+    F -->|Pull Request| H[Puppet Agent 2]
+    F -->|Pull Request| I[Puppet Agent 3]
+    
+    subgraph "Ansible Architecture"
+        A
+        B
+        C
+        D
+        E
+    end
+    
+    subgraph "Traditional Agent-based"
+        F
+        G
+        H
+        I
+    end
 ```
 
-### Ansible faktid ja muutujad
-```yaml
-# Faktide kasutamine
-- name: Kuva süsteemi info
-  debug:
-    msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+Traditsiooniline agent-põhine lähenemine nõuab iga hallatava süsteemi jaoks spetsiaalse tarkvara installimist. Puppet agent, Chef client, Salt minion - kõik need peavad töötama taustal, tarbima ressursse ja olema pidevalt ajakohased. Ansible'i SSH-põhine kommunikatsioon kasutab aga infrastruktuuri, mis juba eksisteerib igas Unix-põhises süsteemis.
 
-# Kohandatud muutujad
-- name: Seadista kohandatud muutuja
-  set_fact:
-    app_path: "/opt/{{ app_name }}"
+| Aspekt | Ansible (Agentless) | Puppet/Chef (Agent-based) |
+|--------|---------------------|---------------------------|
+| Installatsioon | Ainult control node'il | Igal hallatav süsteemil |
+| Ressursikasutus | Minimalne | Agent tarbib RAM/CPU |
+| Turvalisus | SSH (standard protokoll) | Spetsiaalne agent port |
+| Skaleeritavus | Paralleelne SSH | Agent pull interval |
+| Võrguliiklus | Push-based | Pull-based |
+| Offline töö | Võimalik | Piiratud |
 
-# Muutujate prioriteedid
-## extra vars (käsurida)
-## task vars
-## block vars
-## role ja include vars
-## play vars
-## host faktid
-## host vars
-## group vars
-## inventory vars
-## role defaults
+SSH-protokoll pole juhuslik valik. See on kõige laialdasemalt kasutatav ja hästi testitud remote access protokoll enterprise keskkonnas. SSH võtmed on juba hallatud, port 22 on juba avatud, logid juba konfiguratsiooni jaoks olemas. Ansible lihtsalt kasutab seda, mis juba seal on.
+
+## Playbook'i täitmise tsükkel
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Ansible
+    participant SSH
+    participant Target
+    
+    User->>Ansible: ansible-playbook site.yml
+    Ansible->>Ansible: Parse YAML
+    Ansible->>Ansible: Build task list
+    
+    loop For each host
+        Ansible->>SSH: Establish connection
+        SSH->>Target: Connect
+        
+        loop For each task
+            Ansible->>Target: Transfer module
+            Target->>Target: Execute module
+            Target->>Ansible: Return results
+            Ansible->>Ansible: Check idempotency
+        end
+        
+        SSH->>SSH: Close connection
+    end
+    
+    Ansible->>User: Report results
 ```
 
----
+Arhitektuuri teine oluline aspekt on push vs pull mudel. Puppet ja Chef kasutavad pull mudelit - agendid küsivad regulaarselt serverilt, kas on midagi uut teha. Ansible kasutab push mudelit - käivitad playbook'i siis, kui tahad muudatust. See annab täpse kontrolli selle üle, millal ja kuidas muudatused rakendatakse.
 
-## Lugemise refleksioon ülesanne
+## YAML kui konfiguratsioonikeel
 
-Pärast lugemise lõpetamist esitage lühike refleksioon (200-300 sõna), mis katab:
+YAML pole lihtsalt data formaat - see on konfiguratsioonikeel, mis peegeldab hirarhilisi seoseid viisil, mida JSON või XML ei suuda sama intuitiivselt edastada. Ansible'is muutub YAML struktuuri mõistmine eriti oluliseks, sest see määrab täitmise järjekorra ja konteksti.
 
-1. **Peamised avastused:** Mis oli Ansible'i kohta kõige üllatavam või olulisem, mida õppisite?
-2. **Küsimused:** Millised Ansible kontseptsioonid on veel ebaselged või vajavad rohkem selgitust?
-3. **Rakendamine:** Kuidas arvate, et Ansible'i agentless arhitektuur aitab teie automatiseerimistööd?
-4. **Edasine õppimine:** Milliseid Ansible teemasid sooviksite rohkem uurida?
+| YAML Element | Ansible Kontekst | Näide |
+|--------------|------------------|--------|
+| Document | Playbook algus | `---` |
+| List | Tasks, hosts, vars | `- name: Install nginx` |
+| Dictionary | Task parameetrid | `apt: name=nginx state=present` |
+| String | Väärtused | `name: "My task"` |
+| Boolean | Flags | `become: yes` |
+| Variable | Jinja2 template | `{{ ansible_hostname }}` |
 
-**Esitamise formaat:** Lisage oma GitHub repositooriumisse failina `ansible_basics_reading_reflection.md`
+```mermaid
+graph LR
+    A[YAML Document] --> B[Play 1]
+    A --> C[Play 2]
+    
+    B --> D[hosts: webservers]
+    B --> E[vars: app_name]
+    B --> F[tasks]
+    
+    F --> G[Task 1: Install]
+    F --> H[Task 2: Configure]
+    F --> I[Task 3: Start]
+    
+    G --> J[Module: apt]
+    H --> K[Module: template]
+    I --> L[Module: service]
+```
 
----
+YAML'i range taandrimise süsteem pole bürokraatia - see on funktsioon. Taandrimine määrab andmete hierarhia ja seeläbi ka Ansible'i käitumise. Vale taandrimine võib tähendada, et task käivitatakse vale host'i vastu või üldse vahele jäetakse.
 
-## 🔗 Lisamaterjalid
+## Moodulite ökosüsteem ja idempotentsus
 
-- [Ansible dokumentatsioon](https://docs.ansible.com/)
-- [Ansible parimad praktikad](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html)
-- [Ansible moodulite indeks](https://docs.ansible.com/ansible/latest/modules/modules_by_category.html)
-- [YAML dokumentatsioon](https://yaml.org/spec/)
-- [Ansible Galaxy](https://galaxy.ansible.com/)
+Ansible'i jõud peitub selle laialdases moodulite kogumikus. Iga moodul pole lihtsalt funktsioon - see on abstraktsioon konkreetse tehnoloogia või süsteemi haldamiseks. Mooduli valik mõjutab otseselt seda, kui hooldatav ja turvalisne teie automatiseering on.
 
----
+| Mooduli kategooria | Näited | Kasutusjuhud |
+|-------------------|--------|--------------|
+| System | `service`, `user`, `cron` | OS taseme haldus |
+| Package | `apt`, `yum`, `pip` | Tarkvara installimine |
+| File | `copy`, `template`, `lineinfile` | Failide haldus |
+| Network | `uri`, `get_url`, `firewalld` | Võrgu konfigureerimine |
+| Cloud | `ec2`, `azure_rm_*`, `gcp_*` | Pilve ressursid |
+| Database | `mysql_user`, `postgresql_db` | Andmebaasi haldus |
 
-## Märkused järgmiseks tunniks
+```mermaid
+flowchart TD
+    A[Ansible Task] --> B{Check Current State}
+    B -->|State OK| C[Skip - No Change]
+    B -->|State Different| D[Apply Change]
+    D --> E[Verify New State]
+    E -->|Success| F[Report Changed]
+    E -->|Failure| G[Report Error]
+    
+    style C fill:#90EE90
+    style F fill:#FFD700
+    style G fill:#FF6B6B
+```
 
-Tulge valmistatud:
-- Küsimustega lugemisest
-- Mis tahes Ansible stsenaariumidega, mida soovite harjutada
-- Ideedega oma Ansible automatiseerimisprojektile
-- YAML süntaksi ja struktuuri mõistmisega
+Idempotentsus on Ansible'i südames. See tähendab, et sama playbook'i korduvad käivitamised ei muuda süsteemi olukorda, kui soovitud olek on juba saavutatud. See pole automaatne - iga moodul peab seda toetama oma loogikaga.
+
+Idempotentse mooduli kirjutamine nõuab kolme sammu: kontrollida praegust olukorda, võrrelda soovitud olukorraga, ja muuta ainult vajadusel. Halvasti kirjutatud moodul võib iga käivitamisel midagi muuta, isegi kui pole vaja.
+
+## Inventory haldamise strateegiad
+
+Inventory pole lihtsalt hostide nimekiri - see on abstraktsioon teie infrastruktuuri kohta. Hästi disainitud inventory peegeldab teie organisatsiooni struktuuri ja muudab automatiseerimise intuitiivseks.
+
+| Inventory tüüp | Struktuur | Sobivus |
+|----------------|-----------|---------|
+| Static (INI) | `[webservers]` | Väikesed, stabiilsed keskkonnad |
+| Static (YAML) | Hierarhiline | Komplekssed grupid ja muutujad |
+| Dynamic | Script/plugin | Pilve keskkonnad |
+| Mixed | Static + dynamic | Hübriid infrastruktuur |
+
+```mermaid
+graph TD
+    A[Inventory Root] --> B[Production]
+    A --> C[Staging]
+    A --> D[Development]
+    
+    B --> E[Web Tier]
+    B --> F[App Tier]
+    B --> G[DB Tier]
+    
+    E --> H[web-prod-01]
+    E --> I[web-prod-02]
+    
+    F --> J[app-prod-01]
+    F --> K[app-prod-02]
+    
+    G --> L[db-prod-01]
+    
+    style B fill:#FF6B6B
+    style C fill:#FFD700
+    style D fill:#90EE90
+```
+
+Grupi muutujad (`group_vars`) võimaldavad defineerida konfiguratsiooni, mis rakendub kõigile grupi liikmetele. Host muutujad (`host_vars`) alistavad grupi muutujad konkreetse hosti jaoks. See hierarhia loob paindliku süsteemi, kus saate määrata üldseid reegleid ja teha erandeid vajadusel.
+
+Dynamic inventory muutub oluliseks pilve keskkonnas, kus serverid tulevad ja lähevad. AWS EC2 plugin võib automaatselt avastada instance'id, grupeerida neid tagide järgi ja pakkuda metadata't muutujatena. See tähendab, et teie Ansible kood töötab sõltumata sellest, mitu instance'i parasjagu töötab.

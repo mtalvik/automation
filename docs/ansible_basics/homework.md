@@ -1,6 +1,5 @@
 # LAMP Stack Playbook
 
-**Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Ansible playbook'i loomist praktiliselt ja iseseisvalt lahendamist ja uurimist
 
 ---
@@ -35,7 +34,7 @@ ansible-lamp/
 
 **Kontroll:** `tree ansible-lamp` peaks näitama õiget struktuuri
 
-💡 **Küsimus:** Miks kasutame group_vars/ kausta? (Vastake README.md'sse)
+**Küsimus:** Miks kasutame group_vars/ kausta? (Vastake README.md'sse)
 
 ---
 
@@ -69,7 +68,7 @@ ansible-lamp/
 - Document root tee
 - Rakenduse nimi ja versioon
 
-💡 **Näpunäide:** Vaadake lab'i näiteid muutujate kohta
+**Näpunäide:** Vaadake lab'i näiteid muutujate kohta
 
 🤔 **Mõelge:** Millised muutujad peaksid olema "salajased"? Kuidas neid hiljem kaitsta?
 
@@ -143,7 +142,7 @@ ansible-lamp/
 - `mysql_user`
 - `mysql_db`
 
-💡 **Nõuanded:**
+**Nõuanded:**
 - MySQL root parooli seadistamine on keeruline - uurige `login_unix_socket` parameetrit
 - `mysql_user` moodul vajab `login_user` ja `login_password` parameetrit
 - Kasutage `priv: "database_name.*:ALL"` õigusteks
@@ -201,7 +200,7 @@ try {
 3. Lisage proper error handling
 4. Lisage phpinfo() väljund
 
-💡 **Nõuanded:**
+**Nõuanded:**
 - Vaadake lab'i template näiteid
 - Ansible faktid: `{{ ansible_hostname }}`, `{{ ansible_default_ipv4.address }}`
 - PHP PDO: `new PDO("mysql:host=$host;dbname=$database", $username, $password)`
@@ -396,34 +395,5 @@ Esitage **GitHub repository link** kursuse süsteemi järgmiste nõuetega:
 - Juhendite järgi setup teha
 - Playbook edukalt käivitada
 - Tulemust valideerida
-
-📅 **Tähtaeg:** Nädal 13 esimese loengu alguseks
-
----
-
-## 10. Õnnestumise nipid
-
-### 10.1 Alustamise strateegia
-
-1. **Alustage väikselt** - tehke esmalt Apache töötama
-2. **Testige sageli** - iga komponendi järel kontrollige
-3. **Kasutage lab'i materjale** - sealtsed näited aitavad
-4. **Uurige dokumentatsiooni** - `ansible-doc <module_name>`
-5. **Debugige süstemaatiliselt** - `-v` flag ja logide kontroll
-
-### 10.2 Kui midagi ei tööta
-
-1. **Kontrollige süntaksit** - `--syntax-check`
-2. **Kasutage verbose mode'i** - `-v`, `-vv`, `-vvv`
-3. **Vaadake teenuste logisid** - `journalctl -u apache2`
-4. **Kontrollige failide õiguseid** - `ls -la`
-5. **Testige käsitsi** - tehke samme käsitsi läbi
-
-### 10.3 Ajakasutus
-
-- **1. päev:** Projekti setup ja Apache
-- **2. päev:** MySQL ja PHP
-- **3. päev:** Template'id ja testimine
-- **4. päev:** Dokumenteerimine ja viimistlus
 
 **🎯 Edu!** Alustage kohe ja küsige abi, kui jääte kinni!

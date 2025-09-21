@@ -1,79 +1,28 @@
-# Kubernetes Overview Kodutöö: Kohalik Container Orchestration
-
-## Task 1: Ülesande Kirjeldus
-
-**Projekt:** "TechShop" E-commerce Kubernetes Deployment
-
-**Eesmärk:** Deploy'ida lihtne e-commerce rakendus Kubernetes'i kasutades kohalikku Minikube keskkonda.
-
-**Aeg:** 2-
+# Kubernetes Kodutöö: BookStore E-commerce Rakendus
+ 
+**Eesmärk:** Deploy'ida kolmeosaline web rakendus Kubernetes'i kasutades
 
 ---
 
-## Task 2: Ülesande Nõuded
+## Ülesande Kirjeldus
 
-#### Rakenduse Arhitektuur
+Teie ülesanne on luua Kubernetes deployment lihtsa e-commerce rakenduse jaoks nimega "BookStore". Fork'ige antud repositoorium, parandage vigased failid ja lisage puuduvad komponendid.
 
-**TechShop koosneb kolmest komponendist:**
-
-```yaml
-# Arhitektuur:
-Frontend (React) → Backend (Node.js) → Database (PostgreSQL)
-     ↓                    ↓                    ↓
-  nginx:alpine      node:16-alpine      postgres:13
+### Arhitektuur
+```
+Internet → Frontend (nginx) → Backend API → PostgreSQL Database
 ```
 
-#### Vajalikud Ressursid
+### Repository Link
+**Starter Repository:** `https://github.com/your-instructor/bookstore-k8s-starter`
 
-**Kubernetes ressursid:**
-- **3 Deployment'i** - frontend, backend, database
-- **3 Service'i** - frontend, backend, database
-- **1 ConfigMap** - rakenduse konfiguratsioon
-- **1 Secret** - andmebaasi parool
-- **1 PersistentVolumeClaim** - andmebaasi andmete salvestamine
+**Fork'ige see repo ja töötage oma koopias!**
 
 ---
 
-## Task 3: Projekti Struktuuri Loomine
+## Praegused Failid Repo's (Vigased/Mittetäielikud!)
 
-### Ülesanne 1.1: Loo projekt struktuur
-
-```bash
-# Loo projekt kaust
-mkdir techshop-kubernetes
-cd techshop-kubernetes
-
-# Loo faili struktuur
-mkdir -p {frontend,backend,database,config}
-touch README.md
-```
-
-### Ülesanne 1.2: Loo README.md
-
-```markdown
-# TechShop Kubernetes Deployment
-
-## Task 4: Projekt kirjeldus
-Lihtne e-commerce rakendus Kubernetes'i kasutades.
-
-## Task 5: Komponendid
-- Frontend: React (nginx:alpine)
-- Backend: Node.js API
-- Database: PostgreSQL
-
-## Task 6: Kuidas kasutada
-1. `kubectl apply -f config/`
-2. `kubectl get all`
-3. `minikube service frontend-service`
-```
-
----
-
-## Task 7: Database Setup
-
-### Ülesanne 2.1: Loo PostgreSQL Secret
-
-**`database/postgres-secret.yaml`:**
+### 📁 `/database/postgres-secret.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -81,56 +30,24 @@ metadata:
   name: postgres-secret
 type: Opaque
 data:
-  username: dGVjaHNob3A=  # techshop (base64)
-  password: cGFzc3dvcmQxMjM=  # password123 (base64)
-  database: dGVjaHNob3BkYg==  # techshopdb (base64)
+  username: YWRtaW4=
+  password: ""           # ❌ PUUDU: lisa base64 encoded "mypassword123"
+  database: ""           # ❌ PUUDU: lisa base64 encoded "bookstore"
 ```
 
-### Ülesanne 2.2: Loo PostgreSQL ConfigMap
-
-**`database/postgres-config.yaml`:**
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-config
-data:
-  POSTGRES_DB: techshopdb
-  POSTGRES_USER: techshop
-  POSTGRES_PASSWORD: password123
-```
-
-### Ülesanne 2.3: Loo PostgreSQL PersistentVolumeClaim
-
-**`database/postgres-pvc.yaml`:**
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-```
-
-### Ülesanne 2.4: Loo PostgreSQL Deployment
-
-**`database/postgres-deployment.yaml`:**
+### 📁 `/database/postgres-deployment.yaml`
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: postgres-db
   labels:
-    app: postgres
+    app: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres      # ❌ VIGA: ei vasta metadata labels'iga
   template:
     metadata:
       labels:
@@ -138,80 +55,32 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:13
+        image: postgres:13-alpine
         ports:
         - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          valueFrom:
-            configMapKeyRef:
-              name: postgres-config
-              key: POSTGRES_DB
-        - name: POSTGRES_USER
-          valueFrom:
-            configMapKeyRef:
-              name: postgres-config
-              key: POSTGRES_USER
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: postgres-config
-              key: POSTGRES_PASSWORD
-        volumeMounts:
-        - name: postgres-storage
-          mountPath: /var/lib/postgresql/data
-      volumes:
-      - name: postgres-storage
-        persistentVolumeClaim:
-          claimName: postgres-pvc
+        # ❌ PUUDUVAD: environment variables Secret'ist
+        # ❌ PUUDUVAD: resource limits
 ```
 
-### Ülesanne 2.5: Loo PostgreSQL Service
-
-**`database/postgres-service.yaml`:**
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-service
-spec:
-  selector:
-    app: postgres
-  ports:
-  - port: 5432
-    targetPort: 5432
-  type: ClusterIP
-```
-
----
-
-## Task 8: Backend Setup
-
-### Ülesanne 3.1: Loo Backend ConfigMap
-
-**`backend/backend-config.yaml`:**
+### 📁 `/backend/backend-config.yaml`
 ```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: backend-config
 data:
-  NODE_ENV: "development"
-  PORT: "3000"
-  DATABASE_URL: "postgresql://techshop:password123@postgres-service:5432/techshopdb"
-  JWT_SECRET: "development-secret"
+  NODE_ENV: "development"     # ❌ VALE: peaks olema "production"
+  PORT: "8080"               # ❌ VALE: peaks olema "3000"
+  DATABASE_HOST: "localhost" # ❌ VALE: peaks olema Kubernetes service nimi
+  API_ENDPOINT: "/health"    # ✅ ÕKE
 ```
 
-### Ülesanne 3.2: Loo Backend Deployment
-
-**`backend/backend-deployment.yaml`:**
+### 📁 `/backend/backend-deployment.yaml`
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
-  labels:
-    app: backend
+  name: backend-api
 spec:
   replicas: 2
   selector:
@@ -223,375 +92,247 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: node:16-alpine
+      - name: api
+        image: hashicorp/http-echo:0.2.3
+        args:
+        - -text=Hello from BookStore API
+        - -listen=:3000
         ports:
         - containerPort: 3000
-        env:
-        - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: NODE_ENV
-        - name: PORT
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: PORT
-        - name: DATABASE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: DATABASE_URL
-        - name: JWT_SECRET
-          valueFrom:
-            configMapKeyRef:
-              name: backend-config
-              key: JWT_SECRET
-        command: ["sh", "-c"]
-        args:
-        - |
-          echo "Starting backend server..."
-          echo "Database URL: $DATABASE_URL"
-          echo "Port: $PORT"
-          echo "Environment: $NODE_ENV"
-          sleep 3600
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        # ❌ PUUDUVAD: ConfigMap environment variables
+        # ❌ PUUDUVAD: health checks (liveness/readiness probes)
+        # ❌ PUUDUVAD: resource requests/limits
 ```
 
-### Ülesanne 3.3: Loo Backend Service
-
-**`backend/backend-service.yaml`:**
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend-service
-spec:
-  selector:
-    app: backend
-  ports:
-  - port: 3000
-    targetPort: 3000
-  type: ClusterIP
-```
-
----
-
-## Task 9: 🎨 Samm 4: Frontend Setup
-
-### Ülesanne 4.1: Loo Frontend ConfigMap
-
-**`frontend/frontend-config.yaml`:**
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: frontend-config
-data:
-  REACT_APP_API_URL: "http://backend-service:3000"
-  REACT_APP_ENVIRONMENT: "development"
-```
-
-### Ülesanne 4.2: Loo Frontend Deployment
-
-**`frontend/frontend-deployment.yaml`:**
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend-deployment
-  labels:
-    app: frontend
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-      - name: frontend
-        image: nginx:alpine
-        ports:
-        - containerPort: 80
-        env:
-        - name: REACT_APP_API_URL
-          valueFrom:
-            configMapKeyRef:
-              name: frontend-config
-              key: REACT_APP_API_URL
-        - name: REACT_APP_ENVIRONMENT
-          valueFrom:
-            configMapKeyRef:
-              name: frontend-config
-              key: REACT_APP_ENVIRONMENT
-        command: ["sh", "-c"]
-        args:
-        - |
-          echo "Starting frontend server..."
-          echo "API URL: $REACT_APP_API_URL"
-          echo "Environment: $REACT_APP_ENVIRONMENT"
-          echo "<html><body><h1>TechShop Frontend</h1><p>API: $REACT_APP_API_URL</p></body></html>" > /usr/share/nginx/html/index.html
-          nginx -g "daemon off;"
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
-```
-
-### Ülesanne 4.3: Loo Frontend Service
-
-**`frontend/frontend-service.yaml`:**
+### 📁 `/frontend/frontend-service.yaml`
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
 spec:
+  type: ClusterIP          # ❌ VIGA: peaks olema NodePort või LoadBalancer
   selector:
     app: frontend
   ports:
   - port: 80
-    targetPort: 80
-  type: NodePort
+    targetPort: 8080       # ❌ VIGA: nginx kuulab port 80
+```
+
+### 📁 `/frontend/nginx-config.yaml`
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+        listen 80;
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+        location /api/ {
+            proxy_pass http://backend-service:8080/;  # ❌ VIGA: vale port
+        }
+    }
+  # ❌ PUUDU: index.html sisu
+```
+
+### 📁 `/README.md` (Mittetäielik)
+```markdown
+# BookStore Kubernetes App
+
+## What this does
+Simple e-commerce app on Kubernetes
+
+## How to run
+```bash
+kubectl apply -f .
+```
+
+# ❌ PUUDUVAD:
+# - Detailed setup instructions
+# - Prerequisites
+# - Troubleshooting
+# - Architecture diagram
 ```
 
 ---
 
-## Task 10: Deployment ja Testimine
+## Teie Ülesanded
 
-### Ülesanne 5.1: Deploy'i kõik ressursid
+### 1. Fork Repository
+```bash
+# Fork GitHub'is, seejärel:
+git clone https://github.com/YOUR-USERNAME/bookstore-k8s-starter
+cd bookstore-k8s-starter
+```
+
+### 2. Parandage Vigased Failid
+
+**postgres-secret.yaml:**
+- [ ] Lisa puuduv `password` base64 väärtus
+- [ ] Lisa puuduv `database` base64 väärtus
+
+**postgres-deployment.yaml:**
+- [ ] Paranda labels selector match
+- [ ] Lisa environment variables Secret'ist
+- [ ] Lisa resource limits (memory: 256Mi, cpu: 200m)
+
+**backend-config.yaml:**
+- [ ] Muuda NODE_ENV → "production"
+- [ ] Muuda PORT → "3000"
+- [ ] Muuda DATABASE_HOST õigeks service nimeks
+
+**backend-deployment.yaml:**
+- [ ] Lisa ConfigMap environment variables
+- [ ] Lisa liveness probe (HTTP GET :3000/)
+- [ ] Lisa readiness probe (HTTP GET :3000/)
+- [ ] Lisa resource limits
+
+**frontend-service.yaml:**
+- [ ] Muuda type NodePort või LoadBalancer'iks
+- [ ] Paranda targetPort → 80
+
+**nginx-config.yaml:**
+- [ ] Paranda proxy_pass port number
+- [ ] Lisa index.html sisu (lihtne HTML leht)
+
+### 3. Looge Puuduvad Failid
+
+**Puuduvad failid, mida te peate looma:**
+
+- [ ] `/database/postgres-service.yaml`
+- [ ] `/backend/backend-service.yaml`  
+- [ ] `/frontend/frontend-deployment.yaml`
+
+### 4. Täiendage README.md
+
+Lisa järgmised sektsioonid:
+- [ ] Prerequisites (Minikube, kubectl)
+- [ ] Detailed deployment steps
+- [ ] Testing instructions
+- [ ] Troubleshooting common issues
+- [ ] Architecture explanation
+
+### 5. Testimine
 
 ```bash
-# Deploy'i database
+# Deploy kõik
 kubectl apply -f database/
-
-# Deploy'i backend
 kubectl apply -f backend/
-
-# Deploy'i frontend
 kubectl apply -f frontend/
 
-# Vaata kõiki ressursse
+# Kontrolli
 kubectl get all
-```
-
-### Ülesanne 5.2: Kontrolli deployment'i
-
-```bash
-# Vaata Pod'ide staatust
-kubectl get pods
-
-# Vaata Service'e
-kubectl get services
-
-# Vaata ConfigMap'e
-kubectl get configmaps
-
-# Vaata Secret'e
-kubectl get secrets
-
-# Vaata PVC'e
-kubectl get pvc
-```
-
-### Ülesanne 5.3: Testi rakendust
-
-```bash
-# Testi frontend'i
 minikube service frontend-service
-
-# Testi backend'i
-kubectl port-forward service/backend-service 3000:3000
-
-# Testi database'i
-kubectl exec -it $(kubectl get pods -l app=postgres -o jsonpath='{.items[0].metadata.name}') -- psql -U techshop -d techshopdb
 ```
 
 ---
 
-## Task 11: Monitoring ja Scaling
+## Näited Õigetest Väärtustest
 
-### Ülesanne 6.1: Scaling
-
+### Base64 Encoding Examples
 ```bash
-# Skaleeri frontend'i üles
-kubectl scale deployment frontend-deployment --replicas=5
+echo -n "mypassword123" | base64
+# Väljund: bXlwYXNzd29yZDEyMw==
 
-# Skaleeri backend'i üles
-kubectl scale deployment backend-deployment --replicas=3
+echo -n "bookstore" | base64  
+# Väljund: Ym9va3N0b3Jl
+```
 
-# Vaata tulemust
+### Environment Variables Example
+```yaml
+env:
+- name: POSTGRES_USER
+  valueFrom:
+    secretKeyRef:
+      name: postgres-secret
+      key: username
+```
+
+### Health Probe Example
+```yaml
+livenessProbe:
+  httpGet:
+    path: /
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+```
+
+### Resource Limits Example
+```yaml
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "200m"
+```
+
+---
+
+## Esitamine
+
+### Git Workflow
+```bash
+# Tehke muudatused
+git add .
+git commit -m "Fix Kubernetes deployments and add missing files"
+git push origin main
+
+# Saatke mulle repo link
+```
+
+**Esitamisviis:** Saatke email'iga oma GitHub repo link koos lühikese kirjeldusega, mida muutsite.
+
+### Nõutud Commit'id
+Teie git history peaks näitama:
+- [ ] Initial fork
+- [ ] Fix secret values  
+- [ ] Fix deployment configurations
+- [ ] Add missing service files
+- [ ] Complete frontend setup
+- [ ] Update documentation
+
+---
+
+## Hindamiskriteeriumid
+
+### Git ja Kood (40 punkti)
+- [ ] Repository korrektselt fork'itud (5p)
+- [ ] Kõik vead parandatud (20p)  
+- [ ] Puuduvad failid lisatud (15p)
+
+### Funktsionaalsus (40 punkti)
+- [ ] Kõik pod'id käivituvad (15p)
+- [ ] Service'id töötavad (10p)
+- [ ] Väline ligipääs toimib (15p)
+
+### Dokumentatsioon (20 punkti)
+- [ ] README.md täielik (10p)
+- [ ] Git commit message'id kirjeldavad muudatusi (10p)
+
+---
+
+## Abi ja Ressursid
+
+### Kubernetes Dokumentatsioon
+- [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/)
+- [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+### Debug Käsud
+```bash
 kubectl get pods
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+kubectl get services
 ```
 
-### Ülesanne 6.2: Monitoring
-
-```bash
-# Vaata Pod'ide log'e
-kubectl logs -l app=frontend
-kubectl logs -l app=backend
-kubectl logs -l app=postgres
-
-# Vaata ressursi kasutust
-kubectl top pods
-
-# Vaata event'e
-kubectl get events
-```
-
----
-
-## Task 12: 🧹 Samm 7: Cleanup
-
-```bash
-# Kustuta kõik ressursid
-kubectl delete -f frontend/
-kubectl delete -f backend/
-kubectl delete -f database/
-
-# Kontrolli, et kõik on kustutatud
-kubectl get all
-kubectl get pvc
-kubectl get configmaps
-kubectl get secrets
-```
-
----
-
-## Task 13: HARJUTUS 8: Bonus Ülesanded
-
-### Ülesanne 8.1: Ingress Setup
-
-**Loo Ingress controller ja Ingress:**
-```yaml
-# ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: techshop-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-  - host: techshop.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-service
-            port:
-              number: 80
-```
-
-### Ülesanne 8.2: Horizontal Pod Autoscaler
-
-**Loo HPA backend'ile:**
-```yaml
-# hpa.yaml
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: backend-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: backend-deployment
-Replicas: 2
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-```
-
-### Ülesanne 8.3: Job ja CronJob
-
-**Loo backup Job:**
-```yaml
-# backup-job.yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: database-backup
-spec:
-  template:
-    spec:
-      containers:
-      - name: backup
-        image: postgres:13
-        command: ["pg_dump"]
-        args: ["-h", "postgres-service", "-U", "techshop", "-d", "techshopdb"]
-        env:
-        - name: PGPASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: password
-      restartPolicy: Never
-  backoffLimit: 3
-```
-
----
-
-## Task 14: Kodutöö Kokkuvõte
-
-### **Õpitud kontseptsioonid:**
-1. **Multi-tier application** - frontend, backend, database
-2. **Service discovery** - teenuste vahelised ühendused
-3. **Configuration management** - ConfigMap ja Secret'id
-4. **Persistent storage** - PVC ja PV
-5. **Scaling** - horizontal scaling
-6. **Health checks** - liveness ja readiness probe'id
-
-### **Järgmised sammud:**
-- Lisa Ingress controller
-- Seadista monitoring (Prometheus/Grafana)
-- Lisa CI/CD pipeline
-- Optimeeri resource kasutust
-- Lisa security policies
-
-** Palju õnne! Oled nüüd valmis keerukate rakenduste deploy'imiseks Kubernetes'i!**
+**Edu tööga!** Push'ige oma töö GitHub'i ja saatke link 📧

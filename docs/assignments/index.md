@@ -1,4 +1,4 @@
-# 🎯 Ülesanded - Infrastructure Automation
+# Ülesanded - Infrastructure Automation
 
 Tere tulemast infrastruktuuri automatiseerimise kursuse ülesannete lehele! Siin leiad kõik praktilised ülesanded DevOps tööriistade kohta.
 
@@ -15,7 +15,7 @@ Kursus koosneb 6 peamisest moodulist:
 
 ## Aktiivsed ülesanded
 
-### 📦 Moodul 1: Git & Versioonihaldus
+### Moodul 1: Git & Versioonihaldus
 **[Rain Pickles Website](../git_version_control/homework.md)**
 - Versioonihaldus veebilehe jaoks
 - Branching, merging, konfliktide lahendamine
@@ -27,7 +27,7 @@ Kursus koosneb 6 peamisest moodulist:
 - Docker Compose kasutamine
 - **Tähtaeg:** Nädal 12
 
-### ⚙ Moodul 3: Ansible
+### Moodul 3: Ansible
 **[NGINX + SSL + PostgreSQL](classroom.md#nadal-13-15-ansible-automation)**
 - Automatiseeri LAMP stack
 - SSL sertifikaadid, andmebaas
@@ -39,14 +39,14 @@ Kursus koosneb 6 peamisest moodulist:
 - Docker build & push
 - **Tähtaeg:** Nädal 19
 
-### ☸ Moodul 5: Kubernetes
+### Moodul 5: Kubernetes
 **[3-Tier App Deploy](../kubernetes_overview/homework.md)**
 - Deploy frontend, backend, database
 - Services, ConfigMaps, Secrets
 - **Tähtaeg:** Nädal 21
 
-### 🏗 Moodul 6: Terraform
-**[AWS Infrastructure](../terraform_basics/homework.md)**
+### Moodul 6: Terraform
+**[Terraform Põhitõed](../terraform_basics/homework1.md)** | **[Terraform Moodulid](../terraform_basics/homework2.md)**
 - VPC, EC2, RDS provisioning
 - State management
 - **Tähtaeg:** Nädal 23
@@ -99,11 +99,11 @@ brew install git docker ansible terraform kubectl
 ## ⚡ Quick Links
 
 - [🎓 GitHub Classroom](classroom.md) - Automatiseeritud ülesanded
-- [🏆 Leaderboard](leaderboard.md) - Tulemuste tabel
-- [💭 Discussions](https://github.com/mtalvik/automation/discussions) - Küsi abi
+- [Leaderboard](leaderboard.md) - Tulemuste tabel
+- [Discussions](https://github.com/mtalvik/automation/discussions) - Küsi abi
 - [📖 Materjalid](../ansible_basics/reading_materials.md) - Lisalugemine
 
-## 🆘 Abi ja tugi
+## Abi ja tugi
 
 ### Kui jääd hätta:
 1. **Vaata lecture materjale** - Iga mooduli `lecture.md`
@@ -117,15 +117,15 @@ brew install git docker ansible terraform kubectl
 - **Module not found** → Paigalda puuduvad sõltuvused
 - **Timeout** → Suurenda timeout väärtusi
 
-## 🎮 Gamification & Achievements
+## Gamification & Achievements
 
 Teeni badge'e:
-- 🚀 **Speed Demon** - Esita ülesanne 24h jooksul
-- 🔒 **Security First** - Implementeeri SSL/TLS õigesti
-- 📦 **Container Master** - Docker multi-stage build < 100MB
+- **Speed Demon** - Esita ülesanne 24h jooksul
+- **Security First** - Implementeeri SSL/TLS õigesti
+- **Container Master** - Docker multi-stage build < 100MB
 -  **CI/CD Hero** - 0 failed pipeline runs
-- ☸ **K8s Navigator** - Deploy ilma kubectl edit'ita
-- 🏗 **Terraform Architect** - 0 drift detected
+- **K8s Navigator** - Deploy ilma kubectl edit'ita
+- **Terraform Architect** - 0 drift detected
 
 ---
 

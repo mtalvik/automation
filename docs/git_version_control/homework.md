@@ -1,23 +1,35 @@
-# Git Projekti Portfolio
+# Git Projekti Portfolio - Kodutöö
 
-**Tähtaeg:** Järgmise nädala alguseks  
-**Eesmärk:** Demonstreerida Git'i ja GitHub'i oskusi  
-praktilist tööd
+**Eesmärk:** Demonstreerida Git'i ja GitHub'i oskusi praktilise töö kaudu  
 
 ---
 
-## Task 1: Ülesande Kirjeldus
+## Ülesande Kirjeldus
 
-Looge lihtne projekt, mis demonstreerib kõiki Git'i ja GitHub'i peamisi oskusi. **Fookus on Git workflow'l, mitte koodi keerukusel.**
+Looge lihtne projekt, mis demonstreerib kõiki Git'i ja GitHub'i peamisi oskusi. **Fookus on Git workflow'l, mitte koodi keerukusel.** Teie ülesanne on luua töötav Git/GitHub repositoorium koos õige branching strateegiaga.
 
-## Task 2: OLULINE: Õige Git Flow
+## Oluline: Õige Git Flow
 
-```
-main (toodang)        ●─────────●─────────●
-                       \         \         \  
-develop (test)          ●─────●───●─────●───●
-                         \     \ /     /
-feature branch'id        ●─────●─────●
+```mermaid
+gitgraph
+    commit id: "Initial"
+    
+    branch develop
+    checkout develop
+    commit id: "Setup"
+    
+    branch feature/system-info
+    checkout feature/system-info
+    commit id: "Add script"
+    commit id: "Add docs"
+    
+    checkout develop
+    merge feature/system-info
+    commit id: "Feature merged"
+    
+    checkout main
+    merge develop
+    commit id: "Release v1.0"
 ```
 
 **ALATI järgige:** feature → develop → main
@@ -26,238 +38,462 @@ feature branch'id        ●─────●─────●
 
 ---
 
-## Task 3: Juhend
+## 1. Repository Loomine ja Seadistamine
 
-### Ülesanne 1.1: Repository Loomine
+### 1.1 GitHub Repository Loomine
 
-1. **GitHub'is looge uus repository**
-   - Nimi: `its-git-demo` (või sarnane)
-   - Public, README, MIT license
+Minge GitHub'i ja looge uus repository:
 
-2. **Kloonige repository**
-   ```bash
-   git clone https://github.com/teie-nimi/its-git-demo.git
-   cd its-git-demo
-   ```
+1. Klikkige rohelist "New" nuppu
+2. Repository nimi: `its-git-demo` (või oma valik)
+3. Tehke repository Public
+4. Märkige "Add a README file"
+5. Märkige "Add .gitignore" ja valige "Node" template
+6. Märkige "Choose a license" ja valige "MIT License"
+7. Klikkige "Create repository"
 
-3. **Looge põhilised failid**
-   - Muutke README.md
-   - Looge .gitignore: `echo "*.log\n*.tmp" > .gitignore`
+### 1.2 Repository Kloonimine
 
-4. **Esimene commit**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+Kloonige repositoorium oma arvutisse:
 
-### Ülesanne 2.1: Lihtne Script
+```bash
+git clone https://github.com/TEIE-KASUTAJANIMI/its-git-demo.git
+cd its-git-demo
+```
 
-1. **Looge develop branch**
-   - Minge main branch'ilt develop branch'ile
-   - Push'ige develop branch GitHub'i
+### 1.3 Põhifailide Loomine
 
-2. **Looge feature branch**
-   - Develop branch'ilt looge uus branch, näiteks "feature/system-info"
-   - Vahetage sellele branch'ile
+Muutke README.md faili ja lisage lõppu:
 
-3. **Kirjutage lihtne script**
-   - Looge bash script fail (näiteks system_info.sh)
-   - **Kopeerige see kood:**
-     ```bash
-     #!/bin/bash
-     echo "=== System Information ==="
-     echo "Date: $(date)"
-     echo "User: $(whoami)"
-     echo "Current directory: $(pwd)"
-     echo "Home directory: $HOME"
-     echo ""
-     echo "=== Disk Usage ==="
-     df -h | head -5
-     echo ""
-     echo "=== Memory Info ==="
-     free -h 2>/dev/null || echo "Memory info not available"
-     echo ""
-     echo "Script completed successfully!"
-     ```
-   - Tehke script käivitatavaks: `chmod +x system_info.sh`
-   - Testige script'i: `./system_info.sh`
+```markdown
 
-4. **Looge dokumentatsioon**
-   - Looge USAGE.md fail
-   - **Kopeerige see sisu:**
-     ```markdown
-     # Usage Guide
-     
-     ## System Info Script
-     
-     ### Purpose
-     Shows basic system information.
-     
-     ### Usage
-     ```bash
-     ./system_info.sh
-     ```
-     
-     ### Output
-     Script displays:
-     - Current date and time
-     - Current user name
-     - Current directory path
-     - Disk usage information
-     - Memory information
-     
-     ### Requirements
-     - Bash shell
-     - Unix/Linux system
-     ```
+## Projekti eesmärk
+See projekt demonstreerib Git'i ja GitHub'i oskusi.
+```
 
-5. **Seadistage GitHub Actions**
-   - Looge `.github/workflows` kaust
-   - Looge test.yml fail:
-   ```yaml
-   name: Test
-   on: [push, pull_request]
-   jobs:
-     test:
-       runs-on: ubuntu-latest
-       steps:
-       - uses: actions/checkout@v4
-       - run: |
-           bash -n system_info.sh
-           chmod +x system_info.sh
-           ./system_info.sh
-   ```
+Muutke .gitignore faili - lisage lõppu:
 
-6. **Commit ja push kõik muudatused**
-   - **Staging area selgitus:** Git'is on 3 ala:
-     - Working Directory (teie failid)
-     - Staging Area (failid valmis commit'iks) ⬅ SIIN
-     - Repository (commit'itud failid)
-   - Lisage kõik failid staging area'le: `git add .`
-   - Vaadake olekut: `git status` (rohelised failid on staging area's)
-   - Tehke commit selge sõnumiga: `git commit -m "feat: add system info script and docs"`
-   - Push'ige feature branch GitHub'i: `git push origin feature/system-info`
+```
+*.log
+*.tmp
+.env
+```
 
-### Ülesanne 3.1: GitHub Features
+Tehke esimene commit:
 
-1. **Looge Issues GitHub'is**
-   - Issue #1: "Add system info script" - märgistage label'iga "enhancement"
-   - Issue #2: "Improve documentation" - märgistage label'iga "documentation"
+```bash
+git add .
+git commit -m "docs: update README and gitignore"
+git push origin main
+```
 
-2. **Tehke Pull Request**
-   - GitHub'is looge PR: feature/system-info → develop
-   - **OLULINE:** PR PEABema develop branch'i, MITTE main'i
-   - Kirjutage hea pealkiri ja kirjeldus
-   - Mainige, et see lahendab Issue #1 ("Closes #1")
-   - Merge'ige PR (ise endale)
-
-3. **Cleanup pärast PR merge'it**
-   - Minge develop branch'ile: `git checkout develop`
-   - Pull'ige muudatused: `git pull origin develop`
-   - Kustutage feature branch: `git branch -d feature/system-info`
-   - Kustutage remote feature branch: `git push origin --delete feature/system-info`
-
-4. **Testige GitHub Actions**
-   - Vaadake GitHub'is Actions tab'is
-   - Veenduge, et workflow töötab
-   - Kui ei tööta, parandage vead
-
-### Ülesanne 4.1: Git Advanced Features
-
-1. **Looge tahtlikult merge conflict**
-   - Minge develop branch'ile: `git checkout develop`
-   - Muutke README.md faili (lisage rida lõppu): "Develop branch versioon"
-   - Commit'ige: `git commit -am "docs: update from develop"`
-   
-   - Minge main branch'ile: `git checkout main`  
-   - Muutke README.md SAMA KOHTA teisiti: "Main branch versioon"
-   - Commit'ige: `git commit -am "docs: update from main"`
-   
-   - Nüüd merge develop → main: `git merge develop`
-   - Git ütleb konflikt! ✅
-
-2. **Lahendage merge conflict**
-   - Avage README.md ja näete konflikti märke
-   - **Konflikti näide:**
-     ```
-     <<<<<<< HEAD
-     Main branch versioon
-     =======
-     Develop branch versioon
-     >>>>>>> develop
-     ```
-   - Otsustage, kumba versiooni hoida või kombineerige
-   - Eemaldage konflikti märgid (<<<<, ====, >>>>)
-   - Lisage fail staging area'le
-   - Lõpetage merge commit'iga
-
-3. **Näidake rebase kasutamist**
-   - Looge uus feature branch develop'ist: `git checkout -b feature/rebase-demo`
-   - Tehke seal mõni muudatus ja commit
-   - Kasutage git rebase käsku main branch'i peale: `git rebase main`
-   - Merge'ige muudatus develop'i
-
-4. **TÄHTIS: Merge develop → main (toodangusse)**
-   - Kui develop on valmis: `git checkout main`
-   - Merge develop: `git merge develop`
-   - Push toodangusse: `git push origin main`
-
-5. **Looge tagged release'd**
-   - Tag'ige praegune main versioon v1.0.0: `git tag v1.0.0`
-   - Push'ige tag'id GitHub'i: `git push origin v1.0.0`
-   - GitHub'is looge Release v1.0.0 tag'i põhjal
-
-### Ülesanne 5.1: Finalize
-
-1. **Uuendage README.md**
-   - **Kopeerige see sisu README.md faili:**
-     ```markdown
-     # Git Demo Project
-     
-     Lihtne projekt Git ja GitHub oskuste demonstreerimiseks.
-     
-     ## Eesmärk
-     See projekt näitab:
-     - Git branching ja merging
-     - GitHub collaboration
-     - Automatiseeritud testimine
-     - Dokumentatsiooni haldus
-     
-     ## Git Oskused
-     - ✅ Repository seadistamine
-     - ✅ Feature branch workflow
-     - ✅ Merge conflict lahendamine
-     - ✅ Pull Request'id
-     - ✅ GitHub Actions
-     - ✅ Tagged release'id
-     
-     ## Failid
-     - `system_info.sh` - Süsteemi info script
-     - `USAGE.md` - Kasutamise juhend
-     - `.github/workflows/test.yml` - Automaatne testimine
-     
-     ## Kasutamine
-     ```bash
-     ./system_info.sh
-     ```
-     
-     See on õppeprojekt Git workflow demonstreerimiseks.
-     ```
-
-2. **Tehke teine release**
-   - Commit'ige README muudatused develop branch'is
-   - Merge develop → main
-   - Tag'ige versioon v1.1.0
-   - Push'ige kõik muudatused ja tag'id
-
-3. **Lõplik kontroll**
-   - Veenduge, et GitHub'is on näha:
-     - Vähemalt 10 commit'i
-     - Mitu branch'i
-     - Issues ja PR
-     - GitHub Actions töötab
-     - 2 tag'i/release'i
+**Kontrollpunkt:** GitHub'is peaks näha teie commit'i.
 
 ---
 
+## 2. Branching Strateegia Seadistamine
+
+### 2.1 Develop Branch Loomine
+
+Looge develop branch main'ist:
+
+```bash
+git checkout -b develop
+```
+
+Push'ige develop branch GitHub'i:
+
+```bash
+git push origin develop
+```
+
+### 2.2 Feature Branch Loomine
+
+Looge feature branch develop'ist:
+
+```bash
+git checkout -b feature/system-info
+```
+
+**Kontrollpunkt:** Teil peaks olema 3 branch'i: main, develop, feature/system-info.
+
+---
+
+## 3. Põhifunktsionaalsuse Arendamine
+
+### 3.1 System Info Script Loomine
+
+Looge fail nimega `system_info.sh`:
+
+```bash
+touch system_info.sh
+```
+
+Avage fail tekstiredaktoris ja sisestage:
+
+```bash
+#!/bin/bash
+echo "=== System Information ==="
+echo "Date: $(date)"
+echo "User: $(whoami)"
+echo "Current directory: $(pwd)"
+echo "Home directory: $HOME"
+echo ""
+echo "=== Disk Usage ==="
+df -h | head -5
+echo ""
+echo "=== Memory Info ==="
+free -h 2>/dev/null || echo "Memory info not available"
+echo ""
+echo "Script completed successfully!"
+```
+
+Salvestage fail.
+
+Tehke script käivitatavaks:
+
+```bash
+chmod +x system_info.sh
+```
+
+Testige script'i:
+
+```bash
+./system_info.sh
+```
+
+### 3.2 Dokumentatsiooni Loomine
+
+Looge fail nimega `USAGE.md`:
+
+```bash
+touch USAGE.md
+```
+
+Avage fail ja sisestage:
+
+```markdown
+# Usage Guide
+
+## System Info Script
+
+### Purpose
+Shows basic system information.
+
+### Usage
+```bash
+./system_info.sh
+```
+
+### Output
+Script displays:
+- Current date and time
+- Current user name
+- Current directory path
+- Disk usage information
+- Memory information
+
+### Requirements
+- Bash shell
+- Unix/Linux system
+```
+
+Salvestage fail.
+
+### 3.3 GitHub Actions Seadistamine
+
+Looge kataloogid:
+
+```bash
+mkdir -p .github/workflows
+```
+
+Looge fail `.github/workflows/test.yml`:
+
+```bash
+touch .github/workflows/test.yml
+```
+
+Avage fail ja sisestage:
+
+```yaml
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        bash -n system_info.sh
+        chmod +x system_info.sh
+        ./system_info.sh
+```
+
+Salvestage fail.
+
+### 3.4 Muudatuste Commit'imine
+
+Lisage kõik failid:
+
+```bash
+git add .
+```
+
+Kontrollige olukorda:
+
+```bash
+git status
+```
+
+Tehke commit:
+
+```bash
+git commit -m "feat: add system info script and documentation"
+```
+
+Push'ige feature branch:
+
+```bash
+git push origin feature/system-info
+```
+
+**Kontrollpunkt:** GitHub'is peaks näha teie feature branch'i.
+
+---
+
+## 4. GitHub Features Kasutamine
+
+### 4.1 Issues Loomine
+
+Minge GitHub'i oma repository lehele:
+
+1. Klikkige "Issues" tab'i
+2. Klikkige "New issue"
+3. Pealkiri: "Add system info script"
+4. Kirjeldus: "Need to create a script that shows system information"
+5. Lisage label "enhancement"
+6. Create issue
+
+Looge teine issue:
+
+1. Pealkiri: "Improve documentation"
+2. Kirjeldus: "Add usage documentation for the scripts"
+3. Lisage label "documentation"
+4. Create issue
+
+### 4.2 Pull Request Loomine
+
+GitHub'is:
+
+1. Klikkige "Pull requests" tab'i
+2. Klikkige "New pull request"
+3. Base branch: `develop` (OLULINE!)
+4. Compare branch: `feature/system-info`
+5. Pealkiri: "feat: add system info script and docs"
+6. Kirjeldus: "This PR adds system information script with documentation. Closes #1"
+7. Create pull request
+8. Merge pull request
+9. Delete branch
+
+### 4.3 Cleanup pärast Merge'i
+
+Kohalikult:
+
+```bash
+git checkout develop
+git pull origin develop
+git branch -d feature/system-info
+git push origin --delete feature/system-info
+```
+
+### 4.4 GitHub Actions Kontrollimine
+
+Minge GitHub'is "Actions" tab'ile ja kontrollige, et workflow töötab.
+
+**Kontrollpunkt:** Actions peaks näitama rohelist checkmark'i.
+
+---
+
+## 5. Advanced Git Features
+
+### 5.1 Merge Conflict Loomine ja Lahendamine
+
+Develop branch'is:
+
+```bash
+git checkout develop
+```
+
+Avage `README.md` ja lisage lõppu:
+
+```markdown
+
+## Status
+Development version - active work in progress.
+```
+
+Commit'ige:
+
+```bash
+git commit -am "docs: update status in develop"
+```
+
+Main branch'is:
+
+```bash
+git checkout main
+```
+
+Avage `README.md` ja lisage sama koha lähedale:
+
+```markdown
+
+## Status
+Stable release version.
+```
+
+Commit'ige:
+
+```bash
+git commit -am "docs: update status in main"
+```
+
+Proovige merge'ida develop → main:
+
+```bash
+git merge develop
+```
+
+Git teeb konflikti! Avage `README.md` ja lahendage konflikt:
+
+1. Leidke konfliktimärgid (`<<<<<<<`, `=======`, `>>>>>>>`)
+2. Otsustage, millist versiooni hoida
+3. Eemaldage konfliktimärgid
+4. Salvestage fail
+
+Lõpetage merge:
+
+```bash
+git add README.md
+git commit
+```
+
+### 5.2 Tagged Release Loomine
+
+Tag'ige praegune versioon:
+
+```bash
+git tag v1.0.0
+```
+
+Push'ige tag:
+
+```bash
+git push origin v1.0.0
+```
+
+GitHub'is looge Release:
+
+1. Minge "Releases" → "Create a new release"
+2. Tag: v1.0.0
+3. Title: "Version 1.0.0"
+4. Kirjeldus: "First stable release with system info script"
+5. Publish release
+
+**Kontrollpunkt:** GitHub'is peaks näha v1.0.0 release'i.
+
+---
+
+## 6. Projekti Lõpetamine
+
+### 6.1 README Uuendamine
+
+Minge develop branch'ile:
+
+```bash
+git checkout develop
+```
+
+Avage `README.md` ja asendage kogu sisu:
+
+```markdown
+# Git Demo Project
+
+Lihtne projekt Git ja GitHub oskuste demonstreerimiseks.
+
+## Eesmärk
+See projekt näitab:
+- Git branching ja merging
+- GitHub collaboration
+- Automatiseeritud testimine
+- Dokumentatsiooni haldus
+
+## Git Oskused
+- ✅ Repository seadistamine
+- ✅ Feature branch workflow
+- ✅ Merge conflict lahendamine
+- ✅ Pull Request'id
+- ✅ GitHub Actions
+- ✅ Tagged release'id
+
+## Failid
+- `system_info.sh` - Süsteemi info script
+- `USAGE.md` - Kasutamise juhend
+- `.github/workflows/test.yml` - Automaatne testimine
+
+## Kasutamine
+```bash
+./system_info.sh
+```
+
+See on õppeprojekt Git workflow demonstreerimiseks.
+```
+
+Commit'ige:
+
+```bash
+git commit -am "docs: update project README"
+```
+
+### 6.2 Lõplik Release
+
+Merge develop → main:
+
+```bash
+git checkout main
+git merge develop
+```
+
+Tag'ige uus versioon:
+
+```bash
+git tag v1.1.0
+```
+
+Push'ige kõik:
+
+```bash
+git push origin main
+git push origin develop
+git push origin v1.1.0
+```
+
+GitHub'is looge v1.1.0 release.
+
+---
+
+## Esitamine
+
+**Esitage GitHub repository link:**
+
+`https://github.com/TEIE-KASUTAJANIMI/its-git-demo`
+
+**Repository peab sisaldama:**
+- ✅ Vähemalt 10 commit'i
+- ✅ Mitut branch'i (main, develop, feature)
+- ✅ Issues ja Pull Request'id
+- ✅ Töötavat GitHub Actions workflow'd
+- ✅ Vähemalt 2 tagged release'i
+- ✅ Merge conflict'i lahendamist commit'ides
+- ✅ Kvaliteetseid commit sõnumeid

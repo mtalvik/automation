@@ -1,84 +1,175 @@
-# Kubernetes Overview: Container Orchestration
-*ITS-24 DevOps Automatiseerimine |  (ülevaade)*
+# Kubernetes Põhialused: Container Orchestration
 
-## Task 1: Õpiväljundid
+**Eesmärk:** Mõista Kubernetes'i rolli moodsas tarkvaraarenduses ja õppida selle põhifunktsionaalsust
 
-Pärast loengut oskate:
-- Mõista Kubernetes'i põhilisi kontseptsioone
-- Kasutada kubectl käsklusi
-- Deploy'ida lihtsaid rakendusi
-- Mõista Kubernetes'i arhitektuuri
 
----
+## Sissejuhatus
 
-## Mis on Kubernetes?
+Tere tulemast Kubernetes'i maailma! Enne kui me sukeldume tehniliste detailide sügavusse, tahaksin teilt küsida: kes on kunagi proovinud käivitada rohkem kui üht Docker konteinerit korraga? Tõstke käsi!
 
-### Miks vajame Container Orchestration?
+Näete, just siin peitub probleem. Üks kontainer on lihtne. Kaks konteinerit - veel okei. Aga mis juhtub, kui teil on vaja 50 konteinerit? Või 500? Või 5000? Äkki kukub üks kontainer? Kuidas te seda märkate? Kuidas te selle asendage?
 
-**Docker probleemid suurel skaalal:**
+Täna õpime tööriista kohta, mis lahendab need probleemid. Aga esmalt - mis see Kubernetes üldse on?
+
+### Kubernetes'i Päritolu ja Tähendus
+
+Kubernetes tuleneb kreeka keelsest sõnast "κυβερνήτης" - kybernētēs. Keegi oskab öelda, mida see tähendab? Täpselt - "roolimees" või "laevajuht". Miks on see oluline? Sest Kubernetes on justnagu laevajuht teie konteinerite laevastikule.
+
+Google lõi selle 2014. aastal oma sisemise Borg süsteemi põhjal. Huvitav fakt: Google on kasutanud konteinerite orkestreerimist juba üle 15 aasta - nad käivitavad umbes 2 miljardit konteinerit nädalas!
+
+## 1. Probleemi Seadmine - Miks Vajame Orkestreerimist?
+
+Ette kujutage, et olete startup'i CTO. Teie rakendus kasvab kiiresti. Eile oli teil 100 kasutajat, täna 10 000. Homme võib olla 100 000. 
+
+Praegu teie arhitektuur näeb välja selline:
+
 ```bash
-## Käsitsi container management
-docker run -d --name web1 nginx:latest
-docker run -d --name web2 nginx:latest
-docker run -d --name web3 nginx:latest
+# Üks veebiserver
+docker run -d nginx
 
-## Käsitsi networking
-docker network create web-network
-docker network connect web-network web1
-docker network connect web-network web2
+# Üks andmebaas  
+docker run -d postgres
 
-## Käsitsi scaling
-docker stop web1  # Kui üks container kukub
-docker run -d --name web1-new nginx:latest
-
-## Käsitsi load balancing
-# Peate ise seadistama reverse proxy
+# Üks API server
+docker run -d myapi
 ```
 
-**Kubernetes lahendab:**
-- **Automaatne scaling** - lisab/eemaldab container'eid vastavalt koormusele
-- **Automaatne failover** - kui container kukub, taaskäivitub automaatselt
-- **Load balancing** - jaotab liiklust container'ite vahel
-- **Service discovery** - container'id leiavad üksteist automaatselt
-- **Configuration management** - keskkonnamuutujad, secret'id, config map'id
+Kõik töötab. Aga mis juhtub kell kolm öösel, kui teie API server kukub? Keegi ei märka enne hommikut. Kasutajad on pahased. Müük langeb.
 
----
+Või mis juhtub, kui äkki tuleb suur koormus? Teil on vaja kiiresti käivitada 10 API serverit. Käsitsi. Ükshaaval. Stressis.
 
-## Task 2: 🏗 Kubernetes Arhitektuur
+**Siin tuleb appi Container Orchestration.**
 
-### Control Plane (Master Node)
-
-**Kubernetes'i "aju" - teeb otsused:**
-
-```yaml
-# Control Plane komponendid:
-- kube-apiserver      # API server - kõik käsud lähevad siia
-- etcd                # Andmebaas - salvestab kõik andmed
-- kube-scheduler      # Planeerija - otsustab, kuhu container'id panna
-- kube-controller-manager  # Kontroller - jälgib ja parandab olukordi
+```mermaid
+graph TD
+    A[Traditsiooniline Lähenemine] --> B[Käsitsi skalerimine]
+    A --> C[Käsitsi monitoring]
+    A --> D[Käsitsi failover]
+    A --> E[Käsitsi võrgustik]
+    
+    F[Kubernetes Lähenemine] --> G[Automaatne skalerimine]
+    F --> H[Automaatne taastamine]
+    F --> I[Automaatne koormuse jaotus]
+    F --> J[Deklaratiivne konfiguratsioon]
+    
+    style A fill:#ffcccc
+    style F fill:#ccffcc
 ```
 
-### Worker Nodes
+Nüüd küsimus: mis on Container Orchestration? Keegi oskab vastata?
 
-**Kus teie rakendused jooksevad:**
+Container Orchestration on nagu dirigent orkestris. Dirigent ei mängi instrumente ise, aga ta koordineerib kõiki muusikuid, et nad mängiks koos harmooniliselt. Samamoodi koordineerib Kubernetes teie konteinereid.
 
-```yaml
-# Worker Node komponendid:
-- kubelet             # Agent - kommunikeerib Control Plane'iga
-- kube-proxy          # Networking - teenuste vahelised ühendused
-- Container Runtime   # Docker/containerd - container'ite käivitamine
+## 2. Kubernetes'i Arhitektuur - Kuidas See Töötab?
+
+Enne kui hakkame käske tippima, peame mõistma, kuidas Kubernetes ehitatud on. See aitab teil hiljem probleeme diagnoosida.
+
+### Control Plane - Klastri "Aju"
+
+Kubernetes koosneb kahest osast. Esimene on Control Plane - klastri "aju". See teeb otsuseid, aga ei käivita teie rakendusi.
+
+```mermaid
+graph TB
+    subgraph "Control Plane"
+        API[API Server<br/>"Sissepääs"]
+        ETCD[etcd<br/>"Mälu"]
+        SCHED[Scheduler<br/>"Planeerija"]
+        CM[Controller Manager<br/>"Jälgija"]
+    end
+    
+    subgraph "Mis iga komponent teeb?"
+        API --> A1[Võtab vastu kõik käsud]
+        ETCD --> A2[Salvestab kogu oleku]
+        SCHED --> A3[Otsustab kuhu pod'id panna]
+        CM --> A4[Jälgib ja parandab]
+    end
+    
+    style API fill:#e1f5fe
+    style ETCD fill:#fff3e0
+    style SCHED fill:#e8f5e8
+    style CM fill:#fce4ec
 ```
 
----
+Mõelge sellele nagu ettevõtte juhatusele:
+- **API Server** on nagu sekretär - kõik päringud lähevad tema kaudu
+- **etcd** on nagu ettevõtte andmebaas - hoiab kogu olulist infot
+- **Scheduler** on nagu HR - otsustab, kes mida teeb
+- **Controller Manager** on nagu juhatuse esimees - jälgib, et kõik läheks plaani järgi
 
-## Task 3: Kubernetes Põhikontseptsioonid
+### Worker Node'id - Kus Tegelik Töö Toimub
 
-#### Pod - Väikseim üksus
+Teine osa on Worker Node'id. Siin jooksevad teie rakendused.
 
-**Pod on nagu "logistiline üksus" - võib sisaldada ühte või mitut container'it:**
+```mermaid
+graph TB
+    subgraph "Worker Node"
+        KUBELET[kubelet<br/>"Kohalik juht"]
+        PROXY[kube-proxy<br/>"Võrguliikluse juht"]
+        RUNTIME[Container Runtime<br/>"Konteinerite käivitaja"]
+        
+        subgraph "Pods"
+            POD1[Pod 1]
+            POD2[Pod 2]
+            POD3[Pod 3]
+        end
+    end
+    
+    CP[Control Plane] -.-> KUBELET
+    KUBELET --> RUNTIME
+    RUNTIME --> POD1
+    RUNTIME --> POD2
+    RUNTIME --> POD3
+    
+    PROXY --> POD1
+    PROXY --> POD2
+    PROXY --> POD3
+    
+    style KUBELET fill:#e3f2fd
+    style PROXY fill:#f3e5f5
+    style RUNTIME fill:#e8f5e8
+```
+
+- **kubelet** on nagu vahetuse juhataja tehases - täidab control plane'i korraldusi
+- **kube-proxy** on nagu postkäitja - toimetab sõnumeid õigesse kohta
+- **Container Runtime** on nagu tööline - teeb tegeliku töö
+
+## 3. Kubernetes'i Põhiobjektid - Ehituskivid
+
+Nüüd tuleme huvitava osa juurde. Kubernetes töötab objektidega. Need on nagu LEGO klotsid - igaühel on oma eesmärk.
+
+### Pod - Kõige Väiksem Üksus
+
+Esimene ja kõige olulisem on Pod. Nimi tuleneb inglise keelsest sõnast "pod" - nagu vaalade kari või hernekaunad kaunas.
+
+```mermaid
+graph LR
+    subgraph "Pod"
+        direction TB
+        C1[Container 1<br/>nginx]
+        C2[Container 2<br/>logging]
+        VOL[Jagatud failisüsteem]
+        NET[Jagatud võrk<br/>IP: 10.244.1.5]
+    end
+    
+    C1 -.-> VOL
+    C2 -.-> VOL
+    C1 -.-> NET
+    C2 -.-> NET
+    
+    style NET fill:#e1f5fe
+    style VOL fill:#fff3e0
+```
+
+Miks pole nimi "Container"? Sest pod võib sisaldada mitut konteinerit! Mõelge sellele nagu korterile - tavaliselt elab seal üks perekond, aga võib olla ka kaks.
+
+Oluline: pod'i kõik konteinerid:
+- Jagavad sama IP aadressi
+- Saavad suhelda localhost kaudu  
+- Elavad ja surevad koos
+
+Näitame lihtsat pod'i:
 
 ```yaml
-# Lihtne Pod
 apiVersion: v1
 kind: Pod
 metadata:
@@ -86,321 +177,328 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: nginx:latest
+    image: nginx:1.20
     ports:
     - containerPort: 80
 ```
 
-**Praktiline näide:**
-```bash
-# Loo Pod
-kubectl run nginx-pod --image=nginx:latest --port=80
+Aga oodate! Ärge kirjutage üksikuid pod'e käsitsi. Miks? Sest kui pod sureb, see ei tule tagasi. Teil on vaja midagi, mis hoolitseb pod'ide eest.
 
-# Vaata Pod'i staatust
-kubectl get pods
+### Deployment - Rakenduse Haldur
 
-# Vaata Pod'i detaile
-kubectl describe pod nginx-pod
+Siin tuleb mängu Deployment. See on nagu hea manager - ta hoiab silma peal oma töötajatel (pod'idel).
 
-# Kustuta Pod
-kubectl delete pod nginx-pod
+```mermaid
+graph TD
+    DEPLOY[Deployment<br/>"Ma tahan 3 nginx pod'i"] --> RS[ReplicaSet<br/>"Ma hoian 3 pod'i töös"]
+    RS --> POD1[Pod 1]
+    RS --> POD2[Pod 2] 
+    RS --> POD3[Pod 3]
+    
+    POD2 -->|kukub| DEAD[💀]
+    RS -->|märkab puudujääki| NEW[Uus Pod 4]
+    
+    style DEPLOY fill:#e8f5e8
+    style RS fill:#fff3e0
+    style DEAD fill:#ffebee
+    style NEW fill:#e8f5e8
 ```
 
-#### Deployment - Rakenduse juhtimine
-
-**Deployment haldab Pod'e - scaling, updates, rollbacks:**
+Deployment on nutikas:
+- Kui pod kukub, loob kohe uue
+- Kui tahate skaleerida, muudab pod'ide arvu
+- Kui tahate uuendada, teeb seda järk-järgult
 
 ```yaml
-# Nginx Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 3  # Kolm koopiat
+  replicas: 3  # Tahan 3 koopiat
   selector:
     matchLabels:
       app: nginx
-  template:
+  template:  # Kuidas pod välja näeb
     metadata:
       labels:
         app: nginx
     spec:
       containers:
       - name: nginx
-        image: nginx:1.19
-        ports:
-        - containerPort: 80
+        image: nginx:1.20
 ```
 
-**Praktiline näide:**
-```bash
-# Loo Deployment
-kubectl create deployment nginx --image=nginx:latest --replicas=3
+Näeme ka rolling update'i toimumist:
 
-# Vaata Deployment'i
-kubectl get deployments
-
-# Skaleeri üles
-kubectl scale deployment nginx --replicas=5
-
-# Uuenda image'i
-kubectl set image deployment/nginx nginx=nginx:1.20
-
-# Vaata rollback ajalugu
-kubectl rollout history deployment/nginx
-
-# Tee rollback
-kubectl rollout undo deployment/nginx
+```mermaid
+sequenceDiagram
+    participant Dev as Arendaja
+    participant Deploy as Deployment
+    participant Old as Vanad Pod'id
+    participant New as Uued Pod'id
+    
+    Dev->>Deploy: "Uuenda nginx:1.21-le"
+    Deploy->>New: Loo 1 uus pod
+    New->>Deploy: "Olen valmis!"
+    Deploy->>Old: Kustuta 1 vana pod
+    Note over Deploy: Korda kuni kõik uuendatud
 ```
 
-#### Service - Networking
+### Service - Stabiilne Sissepääs
 
-**Service pakub stabiilset IP ja DNS nime Pod'idele:**
+Aga nüüd on probleem: pod'ide IP aadressid muutuvad! Kuidas teie frontend leiab backend'i?
+
+Vastus on Service. Mõelge sellele nagu ettevõtte peareceptsioonile - kuigi töötajad tulevad ja lähevad, receptsioon on alati samas kohas.
+
+```mermaid
+graph TB
+    subgraph "Service tüübid"
+        subgraph "ClusterIP - Sisemine"
+            SVC1[Service: my-backend<br/>IP: 10.96.1.100]
+            SVC1 --> POD1[Backend Pod 1]
+            SVC1 --> POD2[Backend Pod 2]
+            SVC1 --> POD3[Backend Pod 3]
+        end
+        
+        subgraph "NodePort - Väljapoole"
+            SVC2[Service: my-frontend<br/>Port: 30080]
+            OUTSIDE[Väljastpoolt<br/>http://server:30080] --> SVC2
+            SVC2 --> POD4[Frontend Pod 1]
+            SVC2 --> POD5[Frontend Pod 2]
+        end
+    end
+    
+    POD4 -.->|"Otsi my-backend"| SVC1
+    POD5 -.->|"Otsi my-backend"| SVC1
+    
+    style SVC1 fill:#e3f2fd
+    style SVC2 fill:#fff3e0
+```
+
+Service teeb kaht asja:
+1. Annab stabiilse IP aadressi
+2. Jaotab liiklust pod'ide vahel (load balancing)
+
+## 4. Praktiline Näide - Ehitame Rakenduse
+
+Nüüd ehitame koos lihtsa rakenduse. Meil on:
+- Frontend (React)
+- Backend (Node.js API)  
+- Andmebaas (PostgreSQL)
+
+```mermaid
+graph TB
+    subgraph "Meie rakendus"
+        INTERNET[Internet] --> FE_SVC[Frontend Service<br/>LoadBalancer]
+        FE_SVC --> FE1[Frontend Pod]
+        FE_SVC --> FE2[Frontend Pod]
+        
+        FE1 --> BE_SVC[Backend Service<br/>ClusterIP]
+        FE2 --> BE_SVC
+        
+        BE_SVC --> BE1[Backend Pod]
+        BE_SVC --> BE2[Backend Pod]
+        
+        BE1 --> DB_SVC[Database Service<br/>ClusterIP]
+        BE2 --> DB_SVC
+        
+        DB_SVC --> DB[PostgreSQL Pod]
+    end
+    
+    style FE_SVC fill:#e3f2fd
+    style BE_SVC fill:#fff3e0
+    style DB_SVC fill:#e8f5e8
+```
+
+Alustame backend'ist:
 
 ```yaml
-# ClusterIP Service (vaikimisi)
-apiVersion: v1
-kind: Service
+# Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: nginx-service
+  name: backend
 spec:
+  replicas: 2
   selector:
-    app: nginx
-  ports:
-  - port: 80
-    targetPort: 80
-  type: ClusterIP
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: myapp/backend:v1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://postgres:5432/mydb"
 ```
 
-**Service tüübid:**
-- **ClusterIP** - sisemine ligipääs (vaikimisi)
-- **NodePort** - ligipääs node'ide kaudu
-- **LoadBalancer** - väline ligipääs (cloud provider'id)
-- **ExternalName** - DNS alias
+Kuidas backend leiab andmebaasi? DNS-i kaudu! Kubernetes loob automaatselt DNS kirje `postgres-service` nimega.
 
-**Praktiline näide:**
-```bash
-# Loo Service
-kubectl expose deployment nginx --port=80 --target-port=80
+## 5. Konfiguratsioon ja Saladused
 
-# Vaata Service'e
-kubectl get services
+Aga oodake - me ei saa panna andmebaasi parooli otse YAML faili! See läheb versioonihalduse! Siin tulevad appi ConfigMap ja Secret.
 
-# Testi Service'i
-kubectl run test-pod --image=busybox --rm -it --restart=Never -- wget -O- nginx-service
+```mermaid
+graph TB
+    subgraph "Konfiguratsiooni haldamine"
+        CM[ConfigMap<br/>"Avalik konfiguratsioon"]
+        SECRET[Secret<br/>"Saladused"]
+        
+        subgraph "Pod"
+            CONTAINER[Rakendus]
+            ENV[Keskkonnamuutujad]
+            FILES[Failid]
+        end
+        
+        CM -->|Seadistused| ENV
+        CM -->|Config failid| FILES
+        SECRET -->|Paroolid| ENV
+        SECRET -->|Sertifikaadid| FILES
+    end
+    
+    style CM fill:#e8f5e8
+    style SECRET fill:#ffebee
 ```
 
-#### ConfigMap ja Secret - Konfiguratsioon
-
-**ConfigMap - mittekrüpteeritud konfiguratsioon:**
+ConfigMap avalikele seadistustele:
 
 ```yaml
-# ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
 data:
-  database_url: "localhost:5432"
-  api_key: "development-key"
-  log_level: "INFO"
+  database.host: "postgres-service"
+  database.port: "5432"
+  api.timeout: "30"
 ```
 
-**Secret - krüpteeritud andmed:**
+Secret saladuste jaoks:
 
 ```yaml
-# Secret
 apiVersion: v1
 kind: Secret
 metadata:
   name: app-secret
 type: Opaque
 data:
-  username: YWRtaW4=  # base64 encoded
-  password: cGFzc3dvcmQ=  # base64 encoded
+  username: cG9zdGdyZXM=  # "postgres" base64 kodeeringus
+  password: bXlwYXNzd29yZA==  # "mypassword" base64 kodeeringus
 ```
 
-**Kasutamine Pod'is:**
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-pod
-spec:
-  containers:
-  - name: app
-    image: myapp:latest
-    env:
-    - name: DB_URL
-      valueFrom:
-        configMapKeyRef:
-          name: app-config
-          key: database_url
-    - name: DB_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: app-secret
-          key: password
+## 6. Monitoring ja Probleemide Lahendamine
+
+Mis juhtub, kui midagi läheb valesti? Kubernetes annab meile tööriistad jälgimiseks.
+
+```mermaid
+graph TD
+    PROBLEM[Rakendus ei tööta] --> CHECK1{Pod'id töötavad?}
+    CHECK1 -->|Ei| DESCRIBE[kubectl describe pod]
+    CHECK1 -->|Jah| CHECK2{Service ligipääsetav?}
+    
+    DESCRIBE --> EVENTS[Vaata sündmusi]
+    EVENTS --> LOGS[kubectl logs]
+    
+    CHECK2 -->|Ei| SERVICE_DEBUG[Kontrolli Service'e]
+    CHECK2 -->|Jah| APP_DEBUG[Rakenduse debug]
+    
+    SERVICE_DEBUG --> ENDPOINTS[kubectl get endpoints]
+    APP_DEBUG --> APP_LOGS[Rakenduse logid]
+    
+    style PROBLEM fill:#ffebee
+    style LOGS fill:#e8f5e8
+    style APP_LOGS fill:#e8f5e8
 ```
 
----
-
-## Praktiline Kubernetes
-
-### Kohalik Kubernetes Setup
-
-**Minikube - kohalik Kubernetes keskkond:**
+Põhilised debug käsud:
 
 ```bash
-# Install Minikube
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo installikube-linux-amd64 /usr/local/bin/minikube
-
-# Käivita Minikube
-minikube start
-
-# Kontrolli staatust
-kubectl cluster-info
-kubectl get nodes
-```
-
-### Lihtne Web Application
-
-**1. Loo Deployment:**
-```yaml
-# web-app.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: web-app
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: web-app
-  template:
-    metadata:
-      labels:
-        app: web-app
-    spec:
-      containers:
-      - name: web-app
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-        env:
-        - name: ENVIRONMENT
-          value: "development"
-```
-
-**2. Loo Service:**
-```yaml
-# web-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: web-service
-spec:
-  selector:
-    app: web-app
-  ports:
-  - port: 80
-    targetPort: 80
-  type: NodePort
-```
-
-**3. Deploy'i rakendus:**
-```bash
-# Loo ressursid
-kubectl apply -f web-app.yaml
-kubectl apply -f web-service.yaml
-
-# Vaata staatust
+# Vaata pod'ide olekut
 kubectl get pods
-kubectl get services
 
-# Testi rakendust
-minikube service web-service
-```
-
-### Monitoring ja Debugging
-
-**Põhilised kubectl käsud:**
-```bash
-# Pod'ide vaatamine
-kubectl get pods
-kubectl get pods -o wide
+# Detailne info probleemse pod'i kohta
 kubectl describe pod <pod-name>
 
-# Log'ide vaatamine
-kubectl logs <pod-name>
-kubectl logs -f <pod-name>  # järgi reaalajas
+# Vaata logisid
+kubectl logs <pod-name> -f
 
-# Container'i sisseemine
+# Mine pod'i sisse
 kubectl exec -it <pod-name> -- /bin/bash
 
-# Ressursside kasutamine
-kubectl top pods
-kubectl top nodes
-
-# Event'ide vaatamine
-kubectl get events
+# Vaata service'eid
+kubectl get services
+kubectl get endpoints
 ```
 
----
+## 7. Millal Kasutada Kubernetes'i?
 
-## Task 4: Kubernetes vs Docker
+Nüüd küsimus: millal peaksite Kubernetes'i kasutama?
 
-### Võrdlus
+```mermaid
+graph LR
+    subgraph "Docker piisab"
+        SIMPLE[Lihtsad rakendused]
+        DEV[Arenduskeskkond]
+        SMALL[Väike meeskond]
+    end
+    
+    subgraph "Kubernetes vaja"
+        COMPLEX[Keerukad süsteemid]
+        PROD[Tootmiskeskkond]
+        SCALE[Suur skaala]
+        HA[High Availability]
+    end
+    
+    style SIMPLE fill:#fff3e0
+    style KUBERNETES fill:#e8f5e8
+```
 
-| Aspekt | Docker | Kubernetes |
-|--------|--------|------------|
-| **Skope** | Üksik container | Container orchestration |
-| **Scaling** | Käsitsi | Automaatne |
-| **Failover** | Käsitsi | Automaatne |
-| **Load Balancing** | Käsitsi | Sisseehitatud |
-| **Service Discovery** | Käsitsi | Automaatne |
-| **Configuration** | Environment variables | ConfigMap/Secret |
-| **Updates** | Käsitsi | Rolling updates |
-| **Monitoring** | Basic | Comprehensive |
+**Kubernetes sobib kui:**
+- Teil on rohkem kui 10-20 konteinerit
+- Vajate automaatset skaleerimist
+- Downtime on kulukas
+- Meeskond oskab Kubernetes'i
 
-### Millal kasutada mida?
-
-**Docker sobib:**
+**Docker Compose piisab kui:**
+- Lihtne rakendus
 - Arenduskeskkond
-- Lihtsad rakendused
-- Prototüübid
-- Üksikud serverid
+- Väike meeskond
+- Ressursside kokkuhoid on oluline
 
-**Kubernetes sobib:**
-- Production keskkonnad
-- Suured rakendused
-- Microservices
-- High availability
+## Kokkuvõte ja Järgmised Sammud
 
----
+Mis me täna õppisime?
 
-## Kokkuvõte
+1. **Kubernetes lahendab konteinerite orkestreerimise probleeme**
+2. **Control Plane teeb otsuseid, Worker Node'id teevad tööd**
+3. **Pod'id, Deployment'id ja Service'id on põhiehituskivid**
+4. **ConfigMap ja Secret hoiavad konfiguratsiooni turvaliselt**
+5. **Monitoring ja debugging on kriitilised oskused**
 
-### Kubernetes'i eelised:
-✅ **Automaatne scaling** - vastavalt koormusele  
-✅ **High availability** - automaatne failover  
-✅ **Service discovery** - container'id leiavad üksteist  
-✅ **Configuration management** - keskkonnamuutujad ja secret'id  
-✅ **Rolling updates** - null downtime deployment'id  
-✅ **Resource management** - CPU ja mälu piirangud  
+Teie kodutööks: installige Minikube ja proovige täna näidatud näiteid. Järgmises tunnis teeme praktilist lab'i - deploy'ime päris rakenduse!
 
-### Järgmised sammud:
-- Õppige Helm (package manager)
-- Uurige Ingress (väline ligipääs)
-- Õppige Persistent Volumes
-- Uurige Kubernetes Dashboard
-- Õppige monitoring (Prometheus/Grafana)
-
-### Praktiline soovitus:
-**Alustage Docker'iga, siis liikuge Kubernetes'i juurde!**
+Küsimused?
 
 ---
 
-**Järgmises osas:** Praktiline lab - deploy'ime tervikliku rakenduse Kubernetes'i!
+## Viited ja Dokumentatsioon
+
+### Ametlik Dokumentatsioon
+- [Kubernetes Official Documentation](https://kubernetes.io/docs/) - põhiline dokumentatsioon
+- [kubectl Reference](https://kubernetes.io/docs/reference/kubectl/) - käskude справочник
+- [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/) - API dokumentatsioon
+
+### Õppematerjalid
+- [Kubernetes Basics Tutorial](https://kubernetes.io/docs/tutorials/kubernetes-basics/) - interaktiivne õpetus
+- [CNCF Kubernetes Fundamentals](https://www.cncf.io/certification/training/) - ametlik koolitus
+
+### Praktilised Tööriistad
+- [Minikube](https://minikube.sigs.k8s.io/docs/) - kohalik Kubernetes
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) - kasulikud käsud

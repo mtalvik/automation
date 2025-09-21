@@ -1,369 +1,348 @@
-# 🏠 Kodu Masina Ehitus Juhend
+# Lihtne VM Setup Docker/Kubernetes Õppimiseks
 
-**Eesmärk:** Seadistada arenduskeskkond kodus Kubernetes ja Docker õppimiseks
+## 1. Kõik Virtualization Valikud
+
+### Local Solutions
+
+| Variant | OS Support | Setup Aeg | Keerukus | Maksumus | Sobib |
+|---------|------------|-----------|----------|----------|-------|
+| **Multipass** | Win/Mac/Linux | 5 min | Madal | Tasuta | Algajatele |
+| **VirtualBox** | Win/Mac/Linux | 20 min | Keskmine | Tasuta | Õppimiseks |
+| **Vagrant + VirtualBox** | Win/Mac/Linux | 15 min | Keskmine | Tasuta | Reproducible |
+| **WSL2** | Ainult Windows | 10 min | Madal | Tasuta | Windows dev |
+| **VMware** | Win/Mac/Linux | 25 min | Keskmine | Tasuline | Professional |
+
+### Cloud Solutions
+
+| Platvorm | Setup Aeg | Keerukus | Maksumus/kuu | **Free Trial** | Sobib |
+|----------|-----------|----------|--------------|----------------|-------|
+| **GitHub Codespaces** | 2 min | Madal | 0-36€ | 120 CPU-h/kuu | Students/Teams |
+| **GitPod** | 2 min | Madal | 0-25€ | 50h/kuu | Git workflows |
+| **AWS EC2** | 10 min | Kõrge | 15-50€ | **12 kuud tasuta** | Enterprise |
+| **Azure VM** | 10 min | Kõrge | 20-60€ | **12 kuud + $200** | Microsoft stack |
+| **Google Cloud VM** | 10 min | Kõrge | 10-40€ | **90 päeva + $300** | Google services |
+
+### Tasuta Trial'ide detailid
+
+| Platvorm | Free Credit | Kestus | VM Specs | Piirangud |
+|----------|-------------|--------|----------|-----------|
+| **AWS Free Tier** | - | 12 kuud | t2.micro (1 vCPU, 1GB) | 750h/kuu |
+| **Azure Free** | $200 | 12 kuud | B1s (1 vCPU, 1GB) | Krediidi piires |
+| **Google Cloud** | $300 | 90 päeva | e2-micro (1 vCPU, 1GB) | Krediidi piires |
+| **GitHub Education** | - | Õpingute ajal | 2-4 core, 8GB | 120 CPU-h/kuu |
+
+## VM Network Setup
+
+### Multipass Network
+```bash
+# Vaata VM IP aadressi
+multipass list
+# või
+multipass info dev-lab
+
+# VM sees kontrolli network'i
+ip addr show
+ping google.com
+
+# Host'ist ühenda VM'iga
+ssh ubuntu@VM_IP_ADDRESS
+```
+
+### VirtualBox Network (Täpsemad seaded)
+
+| Network Mode | Host Access | Internet | VM-VM | Sobib |
+|--------------|-------------|----------|-------|-------|
+| **NAT** | Port forward | ✅ | ❌ | Lihtne setup |
+| **Bridged** | Direct IP | ✅ | ✅ | Production-like |
+| **Host-Only** | Direct IP | ❌ | ✅ | Isolated dev |
+
+**Soovitatav setup - Bridged:**
+```bash
+# VirtualBox'is:
+# Settings > Network > Adapter 1
+# Attached to: Bridged Adapter
+# Name: [Your network card]
+
+# VM käivitamise järel:
+ip addr show  # Näed VM IP aadressi
+```
 
 ---
 
-## Sisukord
+## VSCode Setup ja Extensions
 
-1. [Virtuaalse masina loomine](#virtuaalse-masina-loomine)
-2. [VSCode seadistamine](#vscode-seadistamine)
-3. [SSH ühenduse seadistamine](#ssh-ühenduse-seadistamine)
-4. [Docker ja Kubernetes installimine](#docker-ja-kubernetes-installimine)
-5. [Probleemide lahendamine](#probleemide-lahendamine)
+### 1. VSCode Installimine + Essential Extensions
+
+```bash
+# Kohustuslikud extensions:
+- Remote - SSH (Microsoft)
+- Docker (Microsoft)  
+- Kubernetes (Microsoft)
+- YAML (Red Hat)
+
+# Kasulikud development extensions:
+- GitLens (Git history)
+- Auto Rename Tag
+- Bracket Pair Colorizer
+- Material Icon Theme
+```
+
+### 2. SSH Connection Setup
+
+**Host masinas (Windows PowerShell/macOS Terminal):**
+```bash
+# 1. Genereeri SSH key
+ssh-keygen -t ed25519 -C "your.email@example.com"
+
+# 2. Kopeeri public key VM'i
+# Multipass:
+multipass transfer ~/.ssh/id_ed25519.pub dev-lab:/home/ubuntu/.ssh/authorized_keys
+
+# VirtualBox (pärast bridged network setup):
+ssh-copy-id ubuntu@VM_IP_ADDRESS
+```
+
+**SSH Config (～/.ssh/config):**
+```bash
+Host dev-lab
+    HostName VM_IP_ADDRESS  # Asenda tegeliku IP'ga
+    User ubuntu
+    IdentityFile ~/.ssh/id_ed25519
+    Port 22
+```
+
+### 3. VSCode Remote Connection
+
+```bash
+# 1. VSCode's vajuta F1
+# 2. Tüübi: "Remote-SSH: Connect to Host"
+# 3. Vali "dev-lab" või lisa uus host
+# 4. Sisesta SSH command: ssh ubuntu@VM_IP_ADDRESS
+# 5. VSCode avaneb connected mode's
+```
+
+**Test connection:**
+```bash
+# VSCode terminal's (VM sees):
+docker --version
+kubectl version --client
+git --version
+```
+
+## Süsteeminõuded
+
+| Komponent | Minimaalne | Soovitatav |
+|-----------|------------|------------|
+| **RAM** | 8GB | 16GB |
+| **CPU** | 4 tuuma | 6+ tuuma |
+| **Storage** | 50GB SSD | 100GB SSD |
+| **Internet** | 10 Mbps | 50+ Mbps |
+
+## Valige variant:
+
+### Variant A: Multipass (soovitatud)
+```bash
+# Windows/macOS/Linux
+multipass launch --name dev-lab --memory 8G --disk 50G --cpus 4
+multipass shell dev-lab
+```
+
+### Variant B: VirtualBox
+```bash
+# Manual setup:
+# 1. Download Ubuntu Server 22.04 LTS
+# 2. Create VM: 8GB RAM, 4 CPU, 50GB disk  
+# 3. Install Ubuntu
+# 4. SSH into VM
+```
+
+### Variant C: WSL2 (ainult Windows)
+```bash
+wsl --install -d Ubuntu
+# Restart required, then open Ubuntu terminal
+```
 
 ---
 
-## Virtuaalse masina loomine
-
-### **Süsteemi nõuded:**
-- **RAM:** Vähemalt 8GB (soovituslik 16GB)
-- **CPU:** Vähemalt 4 tuuma (soovituslik 8 tuuma)
-- **Ketas:** Vähemalt 50GB vaba ruumi
-- **OS:** Windows 10/11, macOS, või Linux
-
-### **1. Multipass (soovituslik - Ubuntu)**
+## OS-spetsiifilised seadistamise juhendid
 
 ### Windows Setup {#windows-setup}
+
+**Windows 10/11:**
 ```bash
-## Laadige alla: https://multipass.run/download/windows
-## Installige ja taaskäivitage arvuti
-## Avage PowerShell ja käivitage:
+# 1. Install Multipass
+# Download from: https://multipass.run/install
 
-# Looge virtuaalne masin
-multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
+# 2. Enable WSL2 (alternative)
+wsl --install -d Ubuntu
 
-# Ühenduge masinaga
-multipass shell dev-lab
+# 3. Install Docker Desktop
+# Download from: https://www.docker.com/products/docker-desktop
+
+# 4. Install VSCode
+# Download from: https://code.visualstudio.com/
+```
+
+**Windows PowerShell setup:**
+```powershell
+# Enable developer mode
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Install Chocolatey (optional)
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 ```
 
 ### macOS Setup {#macos-setup}
+
+**macOS (Intel/Apple Silicon):**
 ```bash
-# Installige Homebrew'iga
+# 1. Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Install Multipass
 brew install --cask multipass
 
-# Looge virtuaalne masin
-multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
-multipass shell dev-lab
+# 3. Install Docker Desktop
+brew install --cask docker
+
+# 4. Install VSCode
+brew install --cask visual-studio-code
+```
+
+**Apple Silicon specific:**
+```bash
+# For Apple Silicon Macs, use ARM64 images
+multipass launch --name dev-lab --memory 8G --disk 50G --cpus 4 --cloud-init cloud-config.yaml
 ```
 
 ### Linux Setup {#linux-setup}
+
+**Ubuntu/Debian:**
 ```bash
-# Installige Snap'iga
-sudo snap install multipass
+# 1. Update system
+sudo apt update && sudo apt upgrade -y
 
-# Looge virtuaalne masin
-multipass launch --name dev-lab --memory 8G --disk 30G --cpus 4
-multipass shell dev-lab
-```
+# 2. Install Multipass
+sudo snap install multipass --classic
 
-### **2. VirtualBox + Ubuntu Server**
-
-**1. VirtualBox installimine:**
-- Laadige alla: https://www.virtualbox.org/
-- Installige ja taaskäivitage arvuti
-
-**2. Ubuntu Server allalaadimine:**
-- Laadige alla: https://ubuntu.com/download/server
-- Valige LTS versioon (22.04 LTS)
-
-**3. Virtuaalse masina loomine:**
-```bash
-# VirtualBox'is:
-## "New" → "Expert mode"
-## Nimi: "Dev-Lab"
-## OS: Ubuntu 64-bit
-## RAM: 8192 MB (8GB)
-## CPU: 4 tuuma
-## Ketas: 50GB
-## Käivitage ja installige Ubuntu Server
-```
-
-### **3. WSL2 (Windows 10/11)**
-
-```bash
-# Avage PowerShell administraatorina
-wsl --install -d Ubuntu
-
-# Taaskäivitage arvuti
-# Avage Ubuntu terminal ja seadistage kasutaja
-```
-
----
-
-## 💻 VSCode seadistamine
-
-### **1. VSCode installimine**
-
-**Windows/macOS/Linux:**
-- Laadige alla: https://code.visualstudio.com/
-- Installige ja avage
-
-### **2. Kasulikud laiendused**
-
-**Kubernetes ja Docker:**
-```bash
-# Installige järgmised laiendused:
-## "Docker" - Microsoft
-## "Kubernetes" - Microsoft
-## "YAML" - Red Hat
-## "Remote - SSH" - Microsoft
-## "Remote - WSL" - Microsoft (Windows)
-```
-
-**Arenduskeskkond:**
-```bash
-## "GitLens" - Git integreerimine
-## "Auto Rename Tag" - HTML/XML
-## "Bracket Pair Colorizer" - koodi lugemine
-## "Material Icon Theme" - failide ikoonid
-## "One Dark Pro" - tumm teema
-```
-
-### **3. VSCode seaded**
-
-**settings.json:**
-```json
-{
-    "editor.fontSize": 14,
-    "editor.fontFamily": "Consolas, 'Courier New', monospace",
-    "editor.tabSize": 2,
-    "editor.insertSpaces": true,
-    "editor.wordWrap": "on",
-    "files.autoSave": "onFocusChange",
-    "terminal.integrated.fontSize": 14,
-    "workbench.colorTheme": "One Dark Pro",
-    "workbench.iconTheme": "material-icon-theme"
-}
-```
-
----
-
-## 🔐 SSH ühenduse seadistamine {#ssh-ühenduse-seadistamine}
-
-### **1. SSH võtmete loomine (host masinal)**
-
-**Windows:**
-```bash
-# Avage PowerShell
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-# Salvestage: C:\Users\YourName\.ssh\id_rsa
-```
-
-**macOS/Linux:**
-```bash
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-# Salvestage: ~/.ssh/id_rsa
-```
-
-### **2. SSH võtme kopeerimine VM'i**
-
-**Multipass:**
-```bash
-# Kopeerige avalik võti VM'i
-multipass exec dev-lab -- bash -c 'mkdir -p ~/.ssh'
-multipass transfer ~/.ssh/id_rsa.pub dev-lab:/home/ubuntu/.ssh/authorized_keys
-multipass exec dev-lab -- bash -c 'chmod 600 ~/.ssh/authorized_keys'
-```
-
-**VirtualBox/WSL2:**
-```bash
-# Kopeerige avalik võti käsitsi või kasutage ssh-copy-id
-ssh-copy-id username@vm-ip-address
-```
-
-### **3. SSH konfiguratsioon**
-
-**~/.ssh/config (host masinal):**
-```bash
-Host dev-lab
-    HostName 192.168.1.100  # VM'i IP aadress
-    User ubuntu
-    Port 22
-    IdentityFile ~/.ssh/id_rsa
-    ServerAliveInterval 60
-    ServerAliveCountMax 3
-```
-
-### **4. VSCode Remote SSH seadistamine**
-
-**1. Avage VSCode**
-**2. Vajutage `Ctrl+Shift+P` (Windows/Linux) või `Cmd+Shift+P` (macOS)**
-**3. Otsige "Remote-SSH: Connect to Host"**
-**4. Valige "Add New SSH Host"**
-**5. Sisestage: `ssh ubuntu@192.168.1.100`**
-**6. Ühenduge ja avage kaust**
-
----
-
-## Docker ja Kubernetes installimine
-
-### **1. Docker installimine VM's**
-
-```bash
-# Ühenduge VM'iga
-ssh dev-lab
-
-# Docker installimine
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Lisa kasutaja docker gruppi
+# 3. Install Docker
+curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 
-# Taaskäivitage terminal
+# 4. Install VSCode
+sudo snap install code --classic
+```
+
+**CentOS/RHEL/Fedora:**
+```bash
+# 1. Install Multipass
+sudo dnf install snapd
+sudo snap install multipass --classic
+
+# 2. Install Docker
+sudo dnf install docker
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+
+# 3. Install VSCode
+sudo dnf install code
+```
+
+---
+
+## 2. Post-Install Setup (VM sees)
+
+Kui VM töötab, käivitage need käsud:
+
+```bash
+# Süsteemi uuendamine
+sudo apt update && sudo apt upgrade -y
+
+# Development tools
+sudo apt install -y git curl wget vim tree htop
+
+# Docker install
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
 newgrp docker
 
-# Kontrollige installimist
-docker --version
-docker run hello-world
-```
-
-### **2. Minikube installimine**
-
-```bash
-# Kubectl installimine
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-# Minikube installimine
+# Minikube install
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo installikube-linux-amd64 /usr/local/bin/minikube
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-# Minikube käivitamine
+# Kubectl install  
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install kubectl /usr/local/bin/kubectl
+
+# Start Minikube
 minikube start --driver=docker --memory=4096 --cpus=2
-
-# Kontrollige
-kubectl get nodes
-```
-
-### **3. Kubernetes Dashboard**
-
-```bash
-# Dashboard installimine
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-
-# Proxy käivitamine
-kubectl proxy --address='0.0.0.0' --port=8001 --accept-hosts='.*'
-
-# Avage brauser: http://vm-ip:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
 
 ---
 
-## Probleemide lahendamine
+## 3. Git Setup
 
-### **1. SSH ühenduse probleemid**
-
-**Ühendus ei tööta:**
 ```bash
-# Kontrollige VM'i IP aadressi
-ip addr show
+# Configure Git
+git config --global user.name "Sinu Nimi"
+git config --global user.email "sinu.email@example.com"
 
-# Kontrollige SSH teenust
-sudo systemctl status ssh
+# Generate SSH key for GitHub
+ssh-keygen -t ed25519 -C "sinu.email@example.com"
+cat ~/.ssh/id_ed25519.pub
 
-# Käivitage SSH teenus
-sudo systemctl start ssh
-sudo systemctl enable ssh
+# Copy output and add to GitHub Settings > SSH Keys
 ```
 
-**Võtme probleemid:**
-```bash
-# Kontrollige võtmete õigusi
-chmod 600 ~/.ssh/id_rsa
-chmod 644 ~/.ssh/id_rsa.pub
+---
 
-# Kontrollige VM'i võtmete õigusi
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
+## 4. Test Everything
+
+```bash
+# Test Docker
+docker run hello-world
+
+# Test Kubernetes
+kubectl get nodes
+
+# Test Git
+git clone https://github.com/your-username/your-repo.git
 ```
 
-### **2. Docker probleemid**
+---
 
-**Docker ei käivitu:**
+## 5. Daily Workflow
+
 ```bash
-# Kontrollige Docker teenust
-sudo systemctl status docker
+# Start VM
+multipass shell dev-lab  # või VirtualBox/WSL2
 
-# Käivitage Docker
-sudo systemctl start docker
-sudo systemctl enable docker
+# Work in projects directory
+mkdir -p ~/projects
+cd ~/projects
 
-# Kontrollige kasutaja gruppi
-groups $USER
+# Use git normally
+git clone <repository>
+cd <project>
+# Edit files, commit, push
 ```
 
-**Minikube probleemid:**
-```bash
-# Minikube logid
-minikube logs
+---
 
-# Minikube taaskäivitamine
-minikube stop
+## Kui midagi ei tööta
+
+**Docker permission error:**
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+**Minikube ei käivitu:**
+```bash
 minikube delete
 minikube start --driver=docker
-
-# Ressursi kontroll
-free -h
-df -h
 ```
 
-### **3. VSCode probleemid**
-
-**Remote SSH ei ühendu:**
-```bash
-# Kontrollige SSH konfiguratsiooni
-ssh -T dev-lab
-
-# Kontrollige VSCode Remote SSH laiendust
-# Vajutage Ctrl+Shift+P ja otsige "Remote-SSH: Show Log"
-```
-
-**Failide sünkroniseerimise probleemid:**
-```bash
-# Kontrollige faili õigusi
-ls -la
-
-# Muutke faili omanikku
-sudo chown -R $USER:$USER /path/to/project
-```
-
----
-
-## Lisaressursid
-
-### **Dokumentatsioon:**
-- [Multipass Documentation](https://multipass.run/docs)
-- [VSCode Remote Development](https://code.visualstudio.com/docs/remote/remote-overview)
-- [Docker Installation](https://docs.docker.com/engine/install/)
-- [Minikube Documentation](https://minikube.sigs.k8s.io/docs/)
-
-### **Video juhendid:**
-- [VSCode Remote SSH Setup](https://www.youtube.com/watch?v=5qjqoqfV7hI)
-- [Docker Installation on Ubuntu](https://www.youtube.com/watch?v=3c-iBn73dDE)
-- [Minikube Quick Start](https://www.youtube.com/watch?v=7uA1wJq8pzE)
-
-### **Kasulikud käsud:**
-```bash
-# VM'i info
-multipass info dev-lab
-
-# Ressursi kasutus
-htop
-free -h
-df -h
-
-# Võrgu info
-ip addr show
-netstat -tulpn
-
-# Logide vaatamine
-journalctl -f
-docker logs <container>
-kubectl logs <pod>
-```
-
----
-
- 
+**VM aeglane:**
+- Suurendage RAM vähemalt 8GB-le
+- Veenduge, et SSD on kasutusel

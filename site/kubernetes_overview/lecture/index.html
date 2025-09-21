@@ -1,215 +1,2381 @@
-<!doctype html><html lang=et class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Infrastruktuuri automatiseerimine ja haldus - praktilised oskused"><meta name=author content="Maria Talvik"><link href=https://mtalvik.github.io/automation/kubernetes_overview/lecture/ rel=canonical><link href=../../ci_cd_advanced/homework/ rel=prev><link href=../lab/ rel=next><link rel=icon href=../../assets/images/favicon.png><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.6.20"><title>Teooria - Automatiseerimine</title><link rel=stylesheet href=../../assets/stylesheets/main.e53b48f4.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.06af60db.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script><script>if("undefined"!=typeof __md_analytics){var consent=__md_get("__consent");consent&&consent.analytics&&__md_analytics()}</script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#kubernetes-overview-container-orchestration class=md-skip> Keri sisuni </a> </div> <div data-md-component=announce> </div> <div data-md-color-scheme=default data-md-component=outdated hidden> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Päis> <a href=../.. title=Automatiseerimine class="md-header__button md-logo" aria-label=Automatiseerimine data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Automatiseerimine </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Teooria </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media=(prefers-color-scheme) data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Vaheta tumele režiimile" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Vaheta tumele režiimile" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Vaheta tumele režiimile" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Vaheta tumele režiimile" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=indigo aria-label="Vaheta heledasse režiimi" type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Vaheta heledasse režiimi" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg> </label> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Otsi placeholder=Otsi autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg> </label> <nav class=md-search__options aria-label=Otsing> <a href=javascript:void(0) class="md-search__icon md-icon" title=Jaga aria-label=Jaga data-clipboard data-clipboard-text data-md-component=search-share tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg> </a> <button type=reset class="md-search__icon md-icon" title=Lähtesta aria-label=Lähtesta tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Otsingu lähtestamine </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/mtalvik/automation title="Ava repositooriumis" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg> </div> <div class=md-source__repository> mtalvik/automation </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Vaheleht data-md-component=tabs> <div class=md-grid> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class=md-tabs__link> Avaleht </a> </li> <li class=md-tabs__item> <a href=../../curriculum/ class=md-tabs__link> Õppekava </a> </li> <li class=md-tabs__item> <a href=../../git_version_control/lab/ class=md-tabs__link> Git </a> </li> <li class=md-tabs__item> <a href=../../docker_fundamentals/lecture/ class=md-tabs__link> Docker </a> </li> <li class=md-tabs__item> <a href=../../ansible_basics/lecture/ class=md-tabs__link> Ansible </a> </li> <li class=md-tabs__item> <a href=../../ci_cd_advanced/lecture/ class=md-tabs__link> CI/CD </a> </li> <li class="md-tabs__item md-tabs__item--active"> <a href=./ class=md-tabs__link> Kubernetes </a> </li> <li class=md-tabs__item> <a href=../../terraform_basics/lecture/ class=md-tabs__link> Terraform </a> </li> <li class=md-tabs__item> <a href=../../assignments/ class=md-tabs__link> Ülesanded </a> </li> <li class=md-tabs__item> <a href=https://github.com/mtalvik/automation/discussions class=md-tabs__link> Foorum </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigatsioon data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title=Automatiseerimine class="md-nav__button md-logo" aria-label=Automatiseerimine data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg> </a> Automatiseerimine </label> <div class=md-nav__source> <a href=https://github.com/mtalvik/automation title="Ava repositooriumis" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg> </div> <div class=md-source__repository> mtalvik/automation </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../.. class=md-nav__link> <span class=md-ellipsis> Avaleht </span> </a> </li> <li class=md-nav__item> <a href=../../curriculum/ class=md-nav__link> <span class=md-ellipsis> Õppekava </span> </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3 id=__nav_3_label tabindex=0> <span class=md-ellipsis> Git </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_3_label aria-expanded=false> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> Git </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../git_version_control/lab/ class=md-nav__link> <span class=md-ellipsis> Praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../git_version_control/homework/ class=md-nav__link> <span class=md-ellipsis> Kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../git_version_control/reading_materials/ class=md-nav__link> <span class=md-ellipsis> Materjalid </span> </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_4> <label class=md-nav__link for=__nav_3_4 id=__nav_3_4_label tabindex=0> <span class=md-ellipsis> Näited </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_3_4_label aria-expanded=false> <label class=md-nav__title for=__nav_3_4> <span class="md-nav__icon md-icon"></span> Näited </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../git_version_control/examples/git_diff_examples/ class=md-nav__link> <span class=md-ellipsis> Git Diff </span> </a> </li> <li class=md-nav__item> <a href=../../git_version_control/examples/git_apply_changes/ class=md-nav__link> <span class=md-ellipsis> Muudatuste rakendamine </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_5> <label class=md-nav__link for=__nav_3_5 id=__nav_3_5_label tabindex=0> <span class=md-ellipsis> Spikker </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_3_5_label aria-expanded=false> <label class=md-nav__title for=__nav_3_5> <span class="md-nav__icon md-icon"></span> Spikker </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../git_version_control/reference/git_commands_reference/ class=md-nav__link> <span class=md-ellipsis> Käsud </span> </a> </li> <li class=md-nav__item> <a href=../../git_version_control/reference/vscode/ class=md-nav__link> <span class=md-ellipsis> VS Code </span> </a> </li> <li class=md-nav__item> <a href=../../git_version_control/reference/whatthecommit_guide/ class=md-nav__link> <span class=md-ellipsis> WTC Guide </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4 id=__nav_4_label tabindex=0> <span class=md-ellipsis> Docker </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_4_label aria-expanded=false> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> Docker </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../docker_fundamentals/lecture/ class=md-nav__link> <span class=md-ellipsis> Docker alused </span> </a> </li> <li class=md-nav__item> <a href=../../docker_fundamentals/lab/ class=md-nav__link> <span class=md-ellipsis> Docker praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../docker_fundamentals/homework/ class=md-nav__link> <span class=md-ellipsis> Docker kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../docker_orchestration/lecture/ class=md-nav__link> <span class=md-ellipsis> Orkestreerimine </span> </a> </li> <li class=md-nav__item> <a href=../../docker_orchestration/lab/ class=md-nav__link> <span class=md-ellipsis> Orkestreerimise praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../docker_orchestration/homework/ class=md-nav__link> <span class=md-ellipsis> Orkestreerimise kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../docker_orchestration/kodu_masina_ehitus_juhend/ class=md-nav__link> <span class=md-ellipsis> Kodulabor </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5 id=__nav_5_label tabindex=0> <span class=md-ellipsis> Ansible </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_5_label aria-expanded=false> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Ansible </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ansible_basics/lecture/ class=md-nav__link> <span class=md-ellipsis> Ansible alused </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_basics/lab/ class=md-nav__link> <span class=md-ellipsis> Ansible praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_basics/homework/ class=md-nav__link> <span class=md-ellipsis> Ansible kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_basics/reading_materials/ class=md-nav__link> <span class=md-ellipsis> Ansible materjalid </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_advanced/lecture/ class=md-nav__link> <span class=md-ellipsis> Advanced teooria </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_advanced/lab/ class=md-nav__link> <span class=md-ellipsis> Advanced praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_advanced/homework/ class=md-nav__link> <span class=md-ellipsis> Advanced kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_roles/lecture/ class=md-nav__link> <span class=md-ellipsis> Rollide teooria </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_roles/lab/ class=md-nav__link> <span class=md-ellipsis> Rollide praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../ansible_roles/homework/ class=md-nav__link> <span class=md-ellipsis> Rollide kodutöö </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_6> <label class=md-nav__link for=__nav_6 id=__nav_6_label tabindex=0> <span class=md-ellipsis> CI/CD </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_6_label aria-expanded=false> <label class=md-nav__title for=__nav_6> <span class="md-nav__icon md-icon"></span> CI/CD </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ci_cd_advanced/lecture/ class=md-nav__link> <span class=md-ellipsis> Teooria </span> </a> </li> <li class=md-nav__item> <a href=../../ci_cd_advanced/lab/ class=md-nav__link> <span class=md-ellipsis> Praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../ci_cd_advanced/homework/ class=md-nav__link> <span class=md-ellipsis> Kodutöö </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_7 checked> <label class=md-nav__link for=__nav_7 id=__nav_7_label tabindex> <span class=md-ellipsis> Kubernetes </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_7_label aria-expanded=true> <label class=md-nav__title for=__nav_7> <span class="md-nav__icon md-icon"></span> Kubernetes </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> <span class=md-ellipsis> Teooria </span> <span class="md-nav__icon md-icon"></span> </label> <a href=./ class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> Teooria </span> </a> <nav class="md-nav md-nav--secondary" aria-label=Sisukord> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Sisukord </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#task-1-opivaljundid class=md-nav__link> <span class=md-ellipsis> Task 1: Õpiväljundid </span> </a> </li> <li class=md-nav__item> <a href=#mis-on-kubernetes class=md-nav__link> <span class=md-ellipsis> Mis on Kubernetes? </span> </a> <nav class=md-nav aria-label="Mis on Kubernetes?"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#miks-vajame-container-orchestration class=md-nav__link> <span class=md-ellipsis> Miks vajame Container Orchestration? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-2-kubernetes-arhitektuur class=md-nav__link> <span class=md-ellipsis> Task 2: 🏗 Kubernetes Arhitektuur </span> </a> <nav class=md-nav aria-label="Task 2: 🏗 Kubernetes Arhitektuur"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#control-plane-master-node class=md-nav__link> <span class=md-ellipsis> Control Plane (Master Node) </span> </a> </li> <li class=md-nav__item> <a href=#worker-nodes class=md-nav__link> <span class=md-ellipsis> Worker Nodes </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-3-kubernetes-pohikontseptsioonid class=md-nav__link> <span class=md-ellipsis> Task 3: Kubernetes Põhikontseptsioonid </span> </a> <nav class=md-nav aria-label="Task 3: Kubernetes Põhikontseptsioonid"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#pod-vaikseim-uksus class=md-nav__link> <span class=md-ellipsis> Pod - Väikseim üksus </span> </a> </li> <li class=md-nav__item> <a href=#deployment-rakenduse-juhtimine class=md-nav__link> <span class=md-ellipsis> Deployment - Rakenduse juhtimine </span> </a> </li> <li class=md-nav__item> <a href=#service-networking class=md-nav__link> <span class=md-ellipsis> Service - Networking </span> </a> </li> <li class=md-nav__item> <a href=#configmap-ja-secret-konfiguratsioon class=md-nav__link> <span class=md-ellipsis> ConfigMap ja Secret - Konfiguratsioon </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#praktiline-kubernetes class=md-nav__link> <span class=md-ellipsis> Praktiline Kubernetes </span> </a> <nav class=md-nav aria-label="Praktiline Kubernetes"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#kohalik-kubernetes-setup class=md-nav__link> <span class=md-ellipsis> Kohalik Kubernetes Setup </span> </a> </li> <li class=md-nav__item> <a href=#lihtne-web-application class=md-nav__link> <span class=md-ellipsis> Lihtne Web Application </span> </a> </li> <li class=md-nav__item> <a href=#monitoring-ja-debugging class=md-nav__link> <span class=md-ellipsis> Monitoring ja Debugging </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-4-kubernetes-vs-docker class=md-nav__link> <span class=md-ellipsis> Task 4: Kubernetes vs Docker </span> </a> <nav class=md-nav aria-label="Task 4: Kubernetes vs Docker"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#vordlus class=md-nav__link> <span class=md-ellipsis> Võrdlus </span> </a> </li> <li class=md-nav__item> <a href=#millal-kasutada-mida class=md-nav__link> <span class=md-ellipsis> Millal kasutada mida? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#kokkuvote class=md-nav__link> <span class=md-ellipsis> Kokkuvõte </span> </a> <nav class=md-nav aria-label=Kokkuvõte> <ul class=md-nav__list> <li class=md-nav__item> <a href=#kubernetesi-eelised class=md-nav__link> <span class=md-ellipsis> Kubernetes'i eelised: </span> </a> </li> <li class=md-nav__item> <a href=#jargmised-sammud class=md-nav__link> <span class=md-ellipsis> Järgmised sammud: </span> </a> </li> <li class=md-nav__item> <a href=#praktiline-soovitus class=md-nav__link> <span class=md-ellipsis> Praktiline soovitus: </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../lab/ class=md-nav__link> <span class=md-ellipsis> Praktikum </span> </a> </li> <li class=md-nav__item> <a href=../homework/ class=md-nav__link> <span class=md-ellipsis> Kodutöö </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_8> <label class=md-nav__link for=__nav_8 id=__nav_8_label tabindex=0> <span class=md-ellipsis> Terraform </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_8_label aria-expanded=false> <label class=md-nav__title for=__nav_8> <span class="md-nav__icon md-icon"></span> Terraform </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../terraform_basics/lecture/ class=md-nav__link> <span class=md-ellipsis> Teooria </span> </a> </li> <li class=md-nav__item> <a href=../../terraform_basics/lab/ class=md-nav__link> <span class=md-ellipsis> Praktikum </span> </a> </li> <li class=md-nav__item> <a href=../../terraform_basics/homework/ class=md-nav__link> <span class=md-ellipsis> Kodutöö </span> </a> </li> <li class=md-nav__item> <a href=../../terraform_basics/homework_aws_backup/ class=md-nav__link> <span class=md-ellipsis> AWS Backup </span> </a> </li> <li class=md-nav__item> <a href=../../terraform_basics/homework_simple/ class=md-nav__link> <span class=md-ellipsis> Lihtne kodutöö </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_9> <div class="md-nav__link md-nav__container"> <a href=../../assignments/ class="md-nav__link "> <span class=md-ellipsis> Ülesanded </span> </a> <label class="md-nav__link " for=__nav_9 id=__nav_9_label tabindex=0> <span class="md-nav__icon md-icon"></span> </label> </div> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_9_label aria-expanded=false> <label class=md-nav__title for=__nav_9> <span class="md-nav__icon md-icon"></span> Ülesanded </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../assignments/classroom/ class=md-nav__link> <span class=md-ellipsis> GitHub Classroom </span> </a> </li> <li class=md-nav__item> <a href=../../assignments/leaderboard/ class=md-nav__link> <span class=md-ellipsis> Leaderboard </span> </a> </li> <li class=md-nav__item> <a href=../../assignments/google-classroom-setup/ class=md-nav__link> <span class=md-ellipsis> Google Classroom Setup </span> </a> </li> <li class=md-nav__item> <a href=../../assignments/github-education-setup/ class=md-nav__link> <span class=md-ellipsis> GitHub Education Setup </span> </a> </li> <li class=md-nav__item> <a href=../../assignments/github-discussions-setup/ class=md-nav__link> <span class=md-ellipsis> GitHub Discussions Setup </span> </a> </li> <li class=md-nav__item> <a href=../../assignments/student-guide/ class=md-nav__link> <span class=md-ellipsis> Student Guide </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=https://github.com/mtalvik/automation/discussions class=md-nav__link> <span class=md-ellipsis> Foorum </span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=Sisukord> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Sisukord </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#task-1-opivaljundid class=md-nav__link> <span class=md-ellipsis> Task 1: Õpiväljundid </span> </a> </li> <li class=md-nav__item> <a href=#mis-on-kubernetes class=md-nav__link> <span class=md-ellipsis> Mis on Kubernetes? </span> </a> <nav class=md-nav aria-label="Mis on Kubernetes?"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#miks-vajame-container-orchestration class=md-nav__link> <span class=md-ellipsis> Miks vajame Container Orchestration? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-2-kubernetes-arhitektuur class=md-nav__link> <span class=md-ellipsis> Task 2: 🏗 Kubernetes Arhitektuur </span> </a> <nav class=md-nav aria-label="Task 2: 🏗 Kubernetes Arhitektuur"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#control-plane-master-node class=md-nav__link> <span class=md-ellipsis> Control Plane (Master Node) </span> </a> </li> <li class=md-nav__item> <a href=#worker-nodes class=md-nav__link> <span class=md-ellipsis> Worker Nodes </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-3-kubernetes-pohikontseptsioonid class=md-nav__link> <span class=md-ellipsis> Task 3: Kubernetes Põhikontseptsioonid </span> </a> <nav class=md-nav aria-label="Task 3: Kubernetes Põhikontseptsioonid"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#pod-vaikseim-uksus class=md-nav__link> <span class=md-ellipsis> Pod - Väikseim üksus </span> </a> </li> <li class=md-nav__item> <a href=#deployment-rakenduse-juhtimine class=md-nav__link> <span class=md-ellipsis> Deployment - Rakenduse juhtimine </span> </a> </li> <li class=md-nav__item> <a href=#service-networking class=md-nav__link> <span class=md-ellipsis> Service - Networking </span> </a> </li> <li class=md-nav__item> <a href=#configmap-ja-secret-konfiguratsioon class=md-nav__link> <span class=md-ellipsis> ConfigMap ja Secret - Konfiguratsioon </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#praktiline-kubernetes class=md-nav__link> <span class=md-ellipsis> Praktiline Kubernetes </span> </a> <nav class=md-nav aria-label="Praktiline Kubernetes"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#kohalik-kubernetes-setup class=md-nav__link> <span class=md-ellipsis> Kohalik Kubernetes Setup </span> </a> </li> <li class=md-nav__item> <a href=#lihtne-web-application class=md-nav__link> <span class=md-ellipsis> Lihtne Web Application </span> </a> </li> <li class=md-nav__item> <a href=#monitoring-ja-debugging class=md-nav__link> <span class=md-ellipsis> Monitoring ja Debugging </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#task-4-kubernetes-vs-docker class=md-nav__link> <span class=md-ellipsis> Task 4: Kubernetes vs Docker </span> </a> <nav class=md-nav aria-label="Task 4: Kubernetes vs Docker"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#vordlus class=md-nav__link> <span class=md-ellipsis> Võrdlus </span> </a> </li> <li class=md-nav__item> <a href=#millal-kasutada-mida class=md-nav__link> <span class=md-ellipsis> Millal kasutada mida? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#kokkuvote class=md-nav__link> <span class=md-ellipsis> Kokkuvõte </span> </a> <nav class=md-nav aria-label=Kokkuvõte> <ul class=md-nav__list> <li class=md-nav__item> <a href=#kubernetesi-eelised class=md-nav__link> <span class=md-ellipsis> Kubernetes'i eelised: </span> </a> </li> <li class=md-nav__item> <a href=#jargmised-sammud class=md-nav__link> <span class=md-ellipsis> Järgmised sammud: </span> </a> </li> <li class=md-nav__item> <a href=#praktiline-soovitus class=md-nav__link> <span class=md-ellipsis> Praktiline soovitus: </span> </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <a href=https://github.com/mtalvik/automation/edit/main/kubernetes_overview/lecture.md title="Muuda seda lehte" class="md-content__button md-icon" rel=edit> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg> </a> <a href=https://github.com/mtalvik/automation/raw/main/kubernetes_overview/lecture.md title="Vaata lehe lähtekoodi" class="md-content__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg> </a> <h1 id=kubernetes-overview-container-orchestration>Kubernetes Overview: Container Orchestration<a class=headerlink href=#kubernetes-overview-container-orchestration title="Permanent link">&para;</a></h1> <p><em>ITS-24 DevOps Automatiseerimine | (ülevaade)</em></p> <h2 id=task-1-opivaljundid>Task 1: Õpiväljundid<a class=headerlink href=#task-1-opivaljundid title="Permanent link">&para;</a></h2> <p>Pärast loengut oskate: - Mõista Kubernetes'i põhilisi kontseptsioone - Kasutada kubectl käsklusi - Deploy'ida lihtsaid rakendusi - Mõista Kubernetes'i arhitektuuri</p> <hr> <h2 id=mis-on-kubernetes>Mis on Kubernetes?<a class=headerlink href=#mis-on-kubernetes title="Permanent link">&para;</a></h2> <h3 id=miks-vajame-container-orchestration>Miks vajame Container Orchestration?<a class=headerlink href=#miks-vajame-container-orchestration title="Permanent link">&para;</a></h3> <p><strong>Docker probleemid suurel skaalal:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-0-1><a id=__codelineno-0-1 name=__codelineno-0-1 href=#__codelineno-0-1></a><span class=c1>## Käsitsi container management</span>
-</span><span id=__span-0-2><a id=__codelineno-0-2 name=__codelineno-0-2 href=#__codelineno-0-2></a>docker<span class=w> </span>run<span class=w> </span>-d<span class=w> </span>--name<span class=w> </span>web1<span class=w> </span>nginx:latest
-</span><span id=__span-0-3><a id=__codelineno-0-3 name=__codelineno-0-3 href=#__codelineno-0-3></a>docker<span class=w> </span>run<span class=w> </span>-d<span class=w> </span>--name<span class=w> </span>web2<span class=w> </span>nginx:latest
-</span><span id=__span-0-4><a id=__codelineno-0-4 name=__codelineno-0-4 href=#__codelineno-0-4></a>docker<span class=w> </span>run<span class=w> </span>-d<span class=w> </span>--name<span class=w> </span>web3<span class=w> </span>nginx:latest
-</span><span id=__span-0-5><a id=__codelineno-0-5 name=__codelineno-0-5 href=#__codelineno-0-5></a>
-</span><span id=__span-0-6><a id=__codelineno-0-6 name=__codelineno-0-6 href=#__codelineno-0-6></a><span class=c1>## Käsitsi networking</span>
-</span><span id=__span-0-7><a id=__codelineno-0-7 name=__codelineno-0-7 href=#__codelineno-0-7></a>docker<span class=w> </span>network<span class=w> </span>create<span class=w> </span>web-network
-</span><span id=__span-0-8><a id=__codelineno-0-8 name=__codelineno-0-8 href=#__codelineno-0-8></a>docker<span class=w> </span>network<span class=w> </span>connect<span class=w> </span>web-network<span class=w> </span>web1
-</span><span id=__span-0-9><a id=__codelineno-0-9 name=__codelineno-0-9 href=#__codelineno-0-9></a>docker<span class=w> </span>network<span class=w> </span>connect<span class=w> </span>web-network<span class=w> </span>web2
-</span><span id=__span-0-10><a id=__codelineno-0-10 name=__codelineno-0-10 href=#__codelineno-0-10></a>
-</span><span id=__span-0-11><a id=__codelineno-0-11 name=__codelineno-0-11 href=#__codelineno-0-11></a><span class=c1>## Käsitsi scaling</span>
-</span><span id=__span-0-12><a id=__codelineno-0-12 name=__codelineno-0-12 href=#__codelineno-0-12></a>docker<span class=w> </span>stop<span class=w> </span>web1<span class=w>  </span><span class=c1># Kui üks container kukub</span>
-</span><span id=__span-0-13><a id=__codelineno-0-13 name=__codelineno-0-13 href=#__codelineno-0-13></a>docker<span class=w> </span>run<span class=w> </span>-d<span class=w> </span>--name<span class=w> </span>web1-new<span class=w> </span>nginx:latest
-</span><span id=__span-0-14><a id=__codelineno-0-14 name=__codelineno-0-14 href=#__codelineno-0-14></a>
-</span><span id=__span-0-15><a id=__codelineno-0-15 name=__codelineno-0-15 href=#__codelineno-0-15></a><span class=c1>## Käsitsi load balancing</span>
-</span><span id=__span-0-16><a id=__codelineno-0-16 name=__codelineno-0-16 href=#__codelineno-0-16></a><span class=c1># Peate ise seadistama reverse proxy</span>
-</span></code></pre></div></p> <p><strong>Kubernetes lahendab:</strong> - <strong>Automaatne scaling</strong> - lisab/eemaldab container'eid vastavalt koormusele - <strong>Automaatne failover</strong> - kui container kukub, taaskäivitub automaatselt - <strong>Load balancing</strong> - jaotab liiklust container'ite vahel - <strong>Service discovery</strong> - container'id leiavad üksteist automaatselt - <strong>Configuration management</strong> - keskkonnamuutujad, secret'id, config map'id</p> <hr> <h2 id=task-2-kubernetes-arhitektuur>Task 2: 🏗 Kubernetes Arhitektuur<a class=headerlink href=#task-2-kubernetes-arhitektuur title="Permanent link">&para;</a></h2> <h3 id=control-plane-master-node>Control Plane (Master Node)<a class=headerlink href=#control-plane-master-node title="Permanent link">&para;</a></h3> <p><strong>Kubernetes'i "aju" - teeb otsused:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-1-1><a id=__codelineno-1-1 name=__codelineno-1-1 href=#__codelineno-1-1></a><span class=c1># Control Plane komponendid:</span>
-</span><span id=__span-1-2><a id=__codelineno-1-2 name=__codelineno-1-2 href=#__codelineno-1-2></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">kube-apiserver</span><span class=w>      </span><span class=c1># API server - kõik käsud lähevad siia</span>
-</span><span id=__span-1-3><a id=__codelineno-1-3 name=__codelineno-1-3 href=#__codelineno-1-3></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">etcd</span><span class=w>                </span><span class=c1># Andmebaas - salvestab kõik andmed</span>
-</span><span id=__span-1-4><a id=__codelineno-1-4 name=__codelineno-1-4 href=#__codelineno-1-4></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">kube-scheduler</span><span class=w>      </span><span class=c1># Planeerija - otsustab, kuhu container&#39;id panna</span>
-</span><span id=__span-1-5><a id=__codelineno-1-5 name=__codelineno-1-5 href=#__codelineno-1-5></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">kube-controller-manager</span><span class=w>  </span><span class=c1># Kontroller - jälgib ja parandab olukordi</span>
-</span></code></pre></div> <h3 id=worker-nodes>Worker Nodes<a class=headerlink href=#worker-nodes title="Permanent link">&para;</a></h3> <p><strong>Kus teie rakendused jooksevad:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-2-1><a id=__codelineno-2-1 name=__codelineno-2-1 href=#__codelineno-2-1></a><span class=c1># Worker Node komponendid:</span>
-</span><span id=__span-2-2><a id=__codelineno-2-2 name=__codelineno-2-2 href=#__codelineno-2-2></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">kubelet</span><span class=w>             </span><span class=c1># Agent - kommunikeerib Control Plane&#39;iga</span>
-</span><span id=__span-2-3><a id=__codelineno-2-3 name=__codelineno-2-3 href=#__codelineno-2-3></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">kube-proxy</span><span class=w>          </span><span class=c1># Networking - teenuste vahelised ühendused</span>
-</span><span id=__span-2-4><a id=__codelineno-2-4 name=__codelineno-2-4 href=#__codelineno-2-4></a><span class="p p-Indicator">-</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Container Runtime</span><span class=w>   </span><span class=c1># Docker/containerd - container&#39;ite käivitamine</span>
-</span></code></pre></div> <hr> <h2 id=task-3-kubernetes-pohikontseptsioonid>Task 3: Kubernetes Põhikontseptsioonid<a class=headerlink href=#task-3-kubernetes-pohikontseptsioonid title="Permanent link">&para;</a></h2> <h4 id=pod-vaikseim-uksus>Pod - Väikseim üksus<a class=headerlink href=#pod-vaikseim-uksus title="Permanent link">&para;</a></h4> <p><strong>Pod on nagu "logistiline üksus" - võib sisaldada ühte või mitut container'it:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-3-1><a id=__codelineno-3-1 name=__codelineno-3-1 href=#__codelineno-3-1></a><span class=c1># Lihtne Pod</span>
-</span><span id=__span-3-2><a id=__codelineno-3-2 name=__codelineno-3-2 href=#__codelineno-3-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-3-3><a id=__codelineno-3-3 name=__codelineno-3-3 href=#__codelineno-3-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
-</span><span id=__span-3-4><a id=__codelineno-3-4 name=__codelineno-3-4 href=#__codelineno-3-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-3-5><a id=__codelineno-3-5 name=__codelineno-3-5 href=#__codelineno-3-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx-pod</span>
-</span><span id=__span-3-6><a id=__codelineno-3-6 name=__codelineno-3-6 href=#__codelineno-3-6></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-3-7><a id=__codelineno-3-7 name=__codelineno-3-7 href=#__codelineno-3-7></a><span class=w>  </span><span class=nt>containers</span><span class=p>:</span>
-</span><span id=__span-3-8><a id=__codelineno-3-8 name=__codelineno-3-8 href=#__codelineno-3-8></a><span class=w>  </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</span><span id=__span-3-9><a id=__codelineno-3-9 name=__codelineno-3-9 href=#__codelineno-3-9></a><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx:latest</span>
-</span><span id=__span-3-10><a id=__codelineno-3-10 name=__codelineno-3-10 href=#__codelineno-3-10></a><span class=w>    </span><span class=nt>ports</span><span class=p>:</span>
-</span><span id=__span-3-11><a id=__codelineno-3-11 name=__codelineno-3-11 href=#__codelineno-3-11></a><span class=w>    </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span></code></pre></div> <p><strong>Praktiline näide:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-4-1><a id=__codelineno-4-1 name=__codelineno-4-1 href=#__codelineno-4-1></a><span class=c1># Loo Pod</span>
-</span><span id=__span-4-2><a id=__codelineno-4-2 name=__codelineno-4-2 href=#__codelineno-4-2></a>kubectl<span class=w> </span>run<span class=w> </span>nginx-pod<span class=w> </span>--image<span class=o>=</span>nginx:latest<span class=w> </span>--port<span class=o>=</span><span class=m>80</span>
-</span><span id=__span-4-3><a id=__codelineno-4-3 name=__codelineno-4-3 href=#__codelineno-4-3></a>
-</span><span id=__span-4-4><a id=__codelineno-4-4 name=__codelineno-4-4 href=#__codelineno-4-4></a><span class=c1># Vaata Pod&#39;i staatust</span>
-</span><span id=__span-4-5><a id=__codelineno-4-5 name=__codelineno-4-5 href=#__codelineno-4-5></a>kubectl<span class=w> </span>get<span class=w> </span>pods
-</span><span id=__span-4-6><a id=__codelineno-4-6 name=__codelineno-4-6 href=#__codelineno-4-6></a>
-</span><span id=__span-4-7><a id=__codelineno-4-7 name=__codelineno-4-7 href=#__codelineno-4-7></a><span class=c1># Vaata Pod&#39;i detaile</span>
-</span><span id=__span-4-8><a id=__codelineno-4-8 name=__codelineno-4-8 href=#__codelineno-4-8></a>kubectl<span class=w> </span>describe<span class=w> </span>pod<span class=w> </span>nginx-pod
-</span><span id=__span-4-9><a id=__codelineno-4-9 name=__codelineno-4-9 href=#__codelineno-4-9></a>
-</span><span id=__span-4-10><a id=__codelineno-4-10 name=__codelineno-4-10 href=#__codelineno-4-10></a><span class=c1># Kustuta Pod</span>
-</span><span id=__span-4-11><a id=__codelineno-4-11 name=__codelineno-4-11 href=#__codelineno-4-11></a>kubectl<span class=w> </span>delete<span class=w> </span>pod<span class=w> </span>nginx-pod
-</span></code></pre></div></p> <h4 id=deployment-rakenduse-juhtimine>Deployment - Rakenduse juhtimine<a class=headerlink href=#deployment-rakenduse-juhtimine title="Permanent link">&para;</a></h4> <p><strong>Deployment haldab Pod'e - scaling, updates, rollbacks:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-5-1><a id=__codelineno-5-1 name=__codelineno-5-1 href=#__codelineno-5-1></a><span class=c1># Nginx Deployment</span>
-</span><span id=__span-5-2><a id=__codelineno-5-2 name=__codelineno-5-2 href=#__codelineno-5-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-</span><span id=__span-5-3><a id=__codelineno-5-3 name=__codelineno-5-3 href=#__codelineno-5-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-</span><span id=__span-5-4><a id=__codelineno-5-4 name=__codelineno-5-4 href=#__codelineno-5-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-5-5><a id=__codelineno-5-5 name=__codelineno-5-5 href=#__codelineno-5-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
-</span><span id=__span-5-6><a id=__codelineno-5-6 name=__codelineno-5-6 href=#__codelineno-5-6></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-5-7><a id=__codelineno-5-7 name=__codelineno-5-7 href=#__codelineno-5-7></a><span class=w>  </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class=w>  </span><span class=c1># Kolm koopiat</span>
-</span><span id=__span-5-8><a id=__codelineno-5-8 name=__codelineno-5-8 href=#__codelineno-5-8></a><span class=w>  </span><span class=nt>selector</span><span class=p>:</span>
-</span><span id=__span-5-9><a id=__codelineno-5-9 name=__codelineno-5-9 href=#__codelineno-5-9></a><span class=w>    </span><span class=nt>matchLabels</span><span class=p>:</span>
-</span><span id=__span-5-10><a id=__codelineno-5-10 name=__codelineno-5-10 href=#__codelineno-5-10></a><span class=w>      </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</span><span id=__span-5-11><a id=__codelineno-5-11 name=__codelineno-5-11 href=#__codelineno-5-11></a><span class=w>  </span><span class=nt>template</span><span class=p>:</span>
-</span><span id=__span-5-12><a id=__codelineno-5-12 name=__codelineno-5-12 href=#__codelineno-5-12></a><span class=w>    </span><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-5-13><a id=__codelineno-5-13 name=__codelineno-5-13 href=#__codelineno-5-13></a><span class=w>      </span><span class=nt>labels</span><span class=p>:</span>
-</span><span id=__span-5-14><a id=__codelineno-5-14 name=__codelineno-5-14 href=#__codelineno-5-14></a><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</span><span id=__span-5-15><a id=__codelineno-5-15 name=__codelineno-5-15 href=#__codelineno-5-15></a><span class=w>    </span><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-5-16><a id=__codelineno-5-16 name=__codelineno-5-16 href=#__codelineno-5-16></a><span class=w>      </span><span class=nt>containers</span><span class=p>:</span>
-</span><span id=__span-5-17><a id=__codelineno-5-17 name=__codelineno-5-17 href=#__codelineno-5-17></a><span class=w>      </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</span><span id=__span-5-18><a id=__codelineno-5-18 name=__codelineno-5-18 href=#__codelineno-5-18></a><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.19</span>
-</span><span id=__span-5-19><a id=__codelineno-5-19 name=__codelineno-5-19 href=#__codelineno-5-19></a><span class=w>        </span><span class=nt>ports</span><span class=p>:</span>
-</span><span id=__span-5-20><a id=__codelineno-5-20 name=__codelineno-5-20 href=#__codelineno-5-20></a><span class=w>        </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span></code></pre></div> <p><strong>Praktiline näide:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-6-1><a id=__codelineno-6-1 name=__codelineno-6-1 href=#__codelineno-6-1></a><span class=c1># Loo Deployment</span>
-</span><span id=__span-6-2><a id=__codelineno-6-2 name=__codelineno-6-2 href=#__codelineno-6-2></a>kubectl<span class=w> </span>create<span class=w> </span>deployment<span class=w> </span>nginx<span class=w> </span>--image<span class=o>=</span>nginx:latest<span class=w> </span>--replicas<span class=o>=</span><span class=m>3</span>
-</span><span id=__span-6-3><a id=__codelineno-6-3 name=__codelineno-6-3 href=#__codelineno-6-3></a>
-</span><span id=__span-6-4><a id=__codelineno-6-4 name=__codelineno-6-4 href=#__codelineno-6-4></a><span class=c1># Vaata Deployment&#39;i</span>
-</span><span id=__span-6-5><a id=__codelineno-6-5 name=__codelineno-6-5 href=#__codelineno-6-5></a>kubectl<span class=w> </span>get<span class=w> </span>deployments
-</span><span id=__span-6-6><a id=__codelineno-6-6 name=__codelineno-6-6 href=#__codelineno-6-6></a>
-</span><span id=__span-6-7><a id=__codelineno-6-7 name=__codelineno-6-7 href=#__codelineno-6-7></a><span class=c1># Skaleeri üles</span>
-</span><span id=__span-6-8><a id=__codelineno-6-8 name=__codelineno-6-8 href=#__codelineno-6-8></a>kubectl<span class=w> </span>scale<span class=w> </span>deployment<span class=w> </span>nginx<span class=w> </span>--replicas<span class=o>=</span><span class=m>5</span>
-</span><span id=__span-6-9><a id=__codelineno-6-9 name=__codelineno-6-9 href=#__codelineno-6-9></a>
-</span><span id=__span-6-10><a id=__codelineno-6-10 name=__codelineno-6-10 href=#__codelineno-6-10></a><span class=c1># Uuenda image&#39;i</span>
-</span><span id=__span-6-11><a id=__codelineno-6-11 name=__codelineno-6-11 href=#__codelineno-6-11></a>kubectl<span class=w> </span><span class=nb>set</span><span class=w> </span>image<span class=w> </span>deployment/nginx<span class=w> </span><span class=nv>nginx</span><span class=o>=</span>nginx:1.20
-</span><span id=__span-6-12><a id=__codelineno-6-12 name=__codelineno-6-12 href=#__codelineno-6-12></a>
-</span><span id=__span-6-13><a id=__codelineno-6-13 name=__codelineno-6-13 href=#__codelineno-6-13></a><span class=c1># Vaata rollback ajalugu</span>
-</span><span id=__span-6-14><a id=__codelineno-6-14 name=__codelineno-6-14 href=#__codelineno-6-14></a>kubectl<span class=w> </span>rollout<span class=w> </span><span class=nb>history</span><span class=w> </span>deployment/nginx
-</span><span id=__span-6-15><a id=__codelineno-6-15 name=__codelineno-6-15 href=#__codelineno-6-15></a>
-</span><span id=__span-6-16><a id=__codelineno-6-16 name=__codelineno-6-16 href=#__codelineno-6-16></a><span class=c1># Tee rollback</span>
-</span><span id=__span-6-17><a id=__codelineno-6-17 name=__codelineno-6-17 href=#__codelineno-6-17></a>kubectl<span class=w> </span>rollout<span class=w> </span>undo<span class=w> </span>deployment/nginx
-</span></code></pre></div></p> <h4 id=service-networking>Service - Networking<a class=headerlink href=#service-networking title="Permanent link">&para;</a></h4> <p><strong>Service pakub stabiilset IP ja DNS nime Pod'idele:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-7-1><a id=__codelineno-7-1 name=__codelineno-7-1 href=#__codelineno-7-1></a><span class=c1># ClusterIP Service (vaikimisi)</span>
-</span><span id=__span-7-2><a id=__codelineno-7-2 name=__codelineno-7-2 href=#__codelineno-7-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-7-3><a id=__codelineno-7-3 name=__codelineno-7-3 href=#__codelineno-7-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
-</span><span id=__span-7-4><a id=__codelineno-7-4 name=__codelineno-7-4 href=#__codelineno-7-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-7-5><a id=__codelineno-7-5 name=__codelineno-7-5 href=#__codelineno-7-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx-service</span>
-</span><span id=__span-7-6><a id=__codelineno-7-6 name=__codelineno-7-6 href=#__codelineno-7-6></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-7-7><a id=__codelineno-7-7 name=__codelineno-7-7 href=#__codelineno-7-7></a><span class=w>  </span><span class=nt>selector</span><span class=p>:</span>
-</span><span id=__span-7-8><a id=__codelineno-7-8 name=__codelineno-7-8 href=#__codelineno-7-8></a><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</span><span id=__span-7-9><a id=__codelineno-7-9 name=__codelineno-7-9 href=#__codelineno-7-9></a><span class=w>  </span><span class=nt>ports</span><span class=p>:</span>
-</span><span id=__span-7-10><a id=__codelineno-7-10 name=__codelineno-7-10 href=#__codelineno-7-10></a><span class=w>  </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span><span id=__span-7-11><a id=__codelineno-7-11 name=__codelineno-7-11 href=#__codelineno-7-11></a><span class=w>    </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span><span id=__span-7-12><a id=__codelineno-7-12 name=__codelineno-7-12 href=#__codelineno-7-12></a><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
-</span></code></pre></div> <p><strong>Service tüübid:</strong> - <strong>ClusterIP</strong> - sisemine ligipääs (vaikimisi) - <strong>NodePort</strong> - ligipääs node'ide kaudu - <strong>LoadBalancer</strong> - väline ligipääs (cloud provider'id) - <strong>ExternalName</strong> - DNS alias</p> <p><strong>Praktiline näide:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-8-1><a id=__codelineno-8-1 name=__codelineno-8-1 href=#__codelineno-8-1></a><span class=c1># Loo Service</span>
-</span><span id=__span-8-2><a id=__codelineno-8-2 name=__codelineno-8-2 href=#__codelineno-8-2></a>kubectl<span class=w> </span>expose<span class=w> </span>deployment<span class=w> </span>nginx<span class=w> </span>--port<span class=o>=</span><span class=m>80</span><span class=w> </span>--target-port<span class=o>=</span><span class=m>80</span>
-</span><span id=__span-8-3><a id=__codelineno-8-3 name=__codelineno-8-3 href=#__codelineno-8-3></a>
-</span><span id=__span-8-4><a id=__codelineno-8-4 name=__codelineno-8-4 href=#__codelineno-8-4></a><span class=c1># Vaata Service&#39;e</span>
-</span><span id=__span-8-5><a id=__codelineno-8-5 name=__codelineno-8-5 href=#__codelineno-8-5></a>kubectl<span class=w> </span>get<span class=w> </span>services
-</span><span id=__span-8-6><a id=__codelineno-8-6 name=__codelineno-8-6 href=#__codelineno-8-6></a>
-</span><span id=__span-8-7><a id=__codelineno-8-7 name=__codelineno-8-7 href=#__codelineno-8-7></a><span class=c1># Testi Service&#39;i</span>
-</span><span id=__span-8-8><a id=__codelineno-8-8 name=__codelineno-8-8 href=#__codelineno-8-8></a>kubectl<span class=w> </span>run<span class=w> </span>test-pod<span class=w> </span>--image<span class=o>=</span>busybox<span class=w> </span>--rm<span class=w> </span>-it<span class=w> </span>--restart<span class=o>=</span>Never<span class=w> </span>--<span class=w> </span>wget<span class=w> </span>-O-<span class=w> </span>nginx-service
-</span></code></pre></div></p> <h4 id=configmap-ja-secret-konfiguratsioon>ConfigMap ja Secret - Konfiguratsioon<a class=headerlink href=#configmap-ja-secret-konfiguratsioon title="Permanent link">&para;</a></h4> <p><strong>ConfigMap - mittekrüpteeritud konfiguratsioon:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-9-1><a id=__codelineno-9-1 name=__codelineno-9-1 href=#__codelineno-9-1></a><span class=c1># ConfigMap</span>
-</span><span id=__span-9-2><a id=__codelineno-9-2 name=__codelineno-9-2 href=#__codelineno-9-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-9-3><a id=__codelineno-9-3 name=__codelineno-9-3 href=#__codelineno-9-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
-</span><span id=__span-9-4><a id=__codelineno-9-4 name=__codelineno-9-4 href=#__codelineno-9-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-9-5><a id=__codelineno-9-5 name=__codelineno-9-5 href=#__codelineno-9-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
-</span><span id=__span-9-6><a id=__codelineno-9-6 name=__codelineno-9-6 href=#__codelineno-9-6></a><span class=nt>data</span><span class=p>:</span>
-</span><span id=__span-9-7><a id=__codelineno-9-7 name=__codelineno-9-7 href=#__codelineno-9-7></a><span class=w>  </span><span class=nt>database_url</span><span class=p>:</span><span class=w> </span><span class=s>&quot;localhost:5432&quot;</span>
-</span><span id=__span-9-8><a id=__codelineno-9-8 name=__codelineno-9-8 href=#__codelineno-9-8></a><span class=w>  </span><span class=nt>api_key</span><span class=p>:</span><span class=w> </span><span class=s>&quot;development-key&quot;</span>
-</span><span id=__span-9-9><a id=__codelineno-9-9 name=__codelineno-9-9 href=#__codelineno-9-9></a><span class=w>  </span><span class=nt>log_level</span><span class=p>:</span><span class=w> </span><span class=s>&quot;INFO&quot;</span>
-</span></code></pre></div> <p><strong>Secret - krüpteeritud andmed:</strong></p> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-10-1><a id=__codelineno-10-1 name=__codelineno-10-1 href=#__codelineno-10-1></a><span class=c1># Secret</span>
-</span><span id=__span-10-2><a id=__codelineno-10-2 name=__codelineno-10-2 href=#__codelineno-10-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-10-3><a id=__codelineno-10-3 name=__codelineno-10-3 href=#__codelineno-10-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-</span><span id=__span-10-4><a id=__codelineno-10-4 name=__codelineno-10-4 href=#__codelineno-10-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-10-5><a id=__codelineno-10-5 name=__codelineno-10-5 href=#__codelineno-10-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app-secret</span>
-</span><span id=__span-10-6><a id=__codelineno-10-6 name=__codelineno-10-6 href=#__codelineno-10-6></a><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-</span><span id=__span-10-7><a id=__codelineno-10-7 name=__codelineno-10-7 href=#__codelineno-10-7></a><span class=nt>data</span><span class=p>:</span>
-</span><span id=__span-10-8><a id=__codelineno-10-8 name=__codelineno-10-8 href=#__codelineno-10-8></a><span class=w>  </span><span class=nt>username</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">YWRtaW4=</span><span class=w>  </span><span class=c1># base64 encoded</span>
-</span><span id=__span-10-9><a id=__codelineno-10-9 name=__codelineno-10-9 href=#__codelineno-10-9></a><span class=w>  </span><span class=nt>password</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">cGFzc3dvcmQ=</span><span class=w>  </span><span class=c1># base64 encoded</span>
-</span></code></pre></div> <p><strong>Kasutamine Pod'is:</strong> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-11-1><a id=__codelineno-11-1 name=__codelineno-11-1 href=#__codelineno-11-1></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-11-2><a id=__codelineno-11-2 name=__codelineno-11-2 href=#__codelineno-11-2></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
-</span><span id=__span-11-3><a id=__codelineno-11-3 name=__codelineno-11-3 href=#__codelineno-11-3></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-11-4><a id=__codelineno-11-4 name=__codelineno-11-4 href=#__codelineno-11-4></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app-pod</span>
-</span><span id=__span-11-5><a id=__codelineno-11-5 name=__codelineno-11-5 href=#__codelineno-11-5></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-11-6><a id=__codelineno-11-6 name=__codelineno-11-6 href=#__codelineno-11-6></a><span class=w>  </span><span class=nt>containers</span><span class=p>:</span>
-</span><span id=__span-11-7><a id=__codelineno-11-7 name=__codelineno-11-7 href=#__codelineno-11-7></a><span class=w>  </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
-</span><span id=__span-11-8><a id=__codelineno-11-8 name=__codelineno-11-8 href=#__codelineno-11-8></a><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">myapp:latest</span>
-</span><span id=__span-11-9><a id=__codelineno-11-9 name=__codelineno-11-9 href=#__codelineno-11-9></a><span class=w>    </span><span class=nt>env</span><span class=p>:</span>
-</span><span id=__span-11-10><a id=__codelineno-11-10 name=__codelineno-11-10 href=#__codelineno-11-10></a><span class=w>    </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">DB_URL</span>
-</span><span id=__span-11-11><a id=__codelineno-11-11 name=__codelineno-11-11 href=#__codelineno-11-11></a><span class=w>      </span><span class=nt>valueFrom</span><span class=p>:</span>
-</span><span id=__span-11-12><a id=__codelineno-11-12 name=__codelineno-11-12 href=#__codelineno-11-12></a><span class=w>        </span><span class=nt>configMapKeyRef</span><span class=p>:</span>
-</span><span id=__span-11-13><a id=__codelineno-11-13 name=__codelineno-11-13 href=#__codelineno-11-13></a><span class=w>          </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
-</span><span id=__span-11-14><a id=__codelineno-11-14 name=__codelineno-11-14 href=#__codelineno-11-14></a><span class=w>          </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">database_url</span>
-</span><span id=__span-11-15><a id=__codelineno-11-15 name=__codelineno-11-15 href=#__codelineno-11-15></a><span class=w>    </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">DB_PASSWORD</span>
-</span><span id=__span-11-16><a id=__codelineno-11-16 name=__codelineno-11-16 href=#__codelineno-11-16></a><span class=w>      </span><span class=nt>valueFrom</span><span class=p>:</span>
-</span><span id=__span-11-17><a id=__codelineno-11-17 name=__codelineno-11-17 href=#__codelineno-11-17></a><span class=w>        </span><span class=nt>secretKeyRef</span><span class=p>:</span>
-</span><span id=__span-11-18><a id=__codelineno-11-18 name=__codelineno-11-18 href=#__codelineno-11-18></a><span class=w>          </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">app-secret</span>
-</span><span id=__span-11-19><a id=__codelineno-11-19 name=__codelineno-11-19 href=#__codelineno-11-19></a><span class=w>          </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
-</span></code></pre></div></p> <hr> <h2 id=praktiline-kubernetes>Praktiline Kubernetes<a class=headerlink href=#praktiline-kubernetes title="Permanent link">&para;</a></h2> <h3 id=kohalik-kubernetes-setup>Kohalik Kubernetes Setup<a class=headerlink href=#kohalik-kubernetes-setup title="Permanent link">&para;</a></h3> <p><strong>Minikube - kohalik Kubernetes keskkond:</strong></p> <div class="language-bash highlight"><pre><span></span><code><span id=__span-12-1><a id=__codelineno-12-1 name=__codelineno-12-1 href=#__codelineno-12-1></a><span class=c1># Install Minikube</span>
-</span><span id=__span-12-2><a id=__codelineno-12-2 name=__codelineno-12-2 href=#__codelineno-12-2></a>curl<span class=w> </span>-LO<span class=w> </span>https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-</span><span id=__span-12-3><a id=__codelineno-12-3 name=__codelineno-12-3 href=#__codelineno-12-3></a>sudo<span class=w> </span>installikube-linux-amd64<span class=w> </span>/usr/local/bin/minikube
-</span><span id=__span-12-4><a id=__codelineno-12-4 name=__codelineno-12-4 href=#__codelineno-12-4></a>
-</span><span id=__span-12-5><a id=__codelineno-12-5 name=__codelineno-12-5 href=#__codelineno-12-5></a><span class=c1># Käivita Minikube</span>
-</span><span id=__span-12-6><a id=__codelineno-12-6 name=__codelineno-12-6 href=#__codelineno-12-6></a>minikube<span class=w> </span>start
-</span><span id=__span-12-7><a id=__codelineno-12-7 name=__codelineno-12-7 href=#__codelineno-12-7></a>
-</span><span id=__span-12-8><a id=__codelineno-12-8 name=__codelineno-12-8 href=#__codelineno-12-8></a><span class=c1># Kontrolli staatust</span>
-</span><span id=__span-12-9><a id=__codelineno-12-9 name=__codelineno-12-9 href=#__codelineno-12-9></a>kubectl<span class=w> </span>cluster-info
-</span><span id=__span-12-10><a id=__codelineno-12-10 name=__codelineno-12-10 href=#__codelineno-12-10></a>kubectl<span class=w> </span>get<span class=w> </span>nodes
-</span></code></pre></div> <h3 id=lihtne-web-application>Lihtne Web Application<a class=headerlink href=#lihtne-web-application title="Permanent link">&para;</a></h3> <p><strong>1. Loo Deployment:</strong> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-13-1><a id=__codelineno-13-1 name=__codelineno-13-1 href=#__codelineno-13-1></a><span class=c1># web-app.yaml</span>
-</span><span id=__span-13-2><a id=__codelineno-13-2 name=__codelineno-13-2 href=#__codelineno-13-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-</span><span id=__span-13-3><a id=__codelineno-13-3 name=__codelineno-13-3 href=#__codelineno-13-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-</span><span id=__span-13-4><a id=__codelineno-13-4 name=__codelineno-13-4 href=#__codelineno-13-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-13-5><a id=__codelineno-13-5 name=__codelineno-13-5 href=#__codelineno-13-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-app</span>
-</span><span id=__span-13-6><a id=__codelineno-13-6 name=__codelineno-13-6 href=#__codelineno-13-6></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-13-7><a id=__codelineno-13-7 name=__codelineno-13-7 href=#__codelineno-13-7></a><span class=w>  </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-</span><span id=__span-13-8><a id=__codelineno-13-8 name=__codelineno-13-8 href=#__codelineno-13-8></a><span class=w>  </span><span class=nt>selector</span><span class=p>:</span>
-</span><span id=__span-13-9><a id=__codelineno-13-9 name=__codelineno-13-9 href=#__codelineno-13-9></a><span class=w>    </span><span class=nt>matchLabels</span><span class=p>:</span>
-</span><span id=__span-13-10><a id=__codelineno-13-10 name=__codelineno-13-10 href=#__codelineno-13-10></a><span class=w>      </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-app</span>
-</span><span id=__span-13-11><a id=__codelineno-13-11 name=__codelineno-13-11 href=#__codelineno-13-11></a><span class=w>  </span><span class=nt>template</span><span class=p>:</span>
-</span><span id=__span-13-12><a id=__codelineno-13-12 name=__codelineno-13-12 href=#__codelineno-13-12></a><span class=w>    </span><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-13-13><a id=__codelineno-13-13 name=__codelineno-13-13 href=#__codelineno-13-13></a><span class=w>      </span><span class=nt>labels</span><span class=p>:</span>
-</span><span id=__span-13-14><a id=__codelineno-13-14 name=__codelineno-13-14 href=#__codelineno-13-14></a><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-app</span>
-</span><span id=__span-13-15><a id=__codelineno-13-15 name=__codelineno-13-15 href=#__codelineno-13-15></a><span class=w>    </span><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-13-16><a id=__codelineno-13-16 name=__codelineno-13-16 href=#__codelineno-13-16></a><span class=w>      </span><span class=nt>containers</span><span class=p>:</span>
-</span><span id=__span-13-17><a id=__codelineno-13-17 name=__codelineno-13-17 href=#__codelineno-13-17></a><span class=w>      </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-app</span>
-</span><span id=__span-13-18><a id=__codelineno-13-18 name=__codelineno-13-18 href=#__codelineno-13-18></a><span class=w>        </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">nginx:latest</span>
-</span><span id=__span-13-19><a id=__codelineno-13-19 name=__codelineno-13-19 href=#__codelineno-13-19></a><span class=w>        </span><span class=nt>ports</span><span class=p>:</span>
-</span><span id=__span-13-20><a id=__codelineno-13-20 name=__codelineno-13-20 href=#__codelineno-13-20></a><span class=w>        </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span><span id=__span-13-21><a id=__codelineno-13-21 name=__codelineno-13-21 href=#__codelineno-13-21></a><span class=w>        </span><span class=nt>env</span><span class=p>:</span>
-</span><span id=__span-13-22><a id=__codelineno-13-22 name=__codelineno-13-22 href=#__codelineno-13-22></a><span class=w>        </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">ENVIRONMENT</span>
-</span><span id=__span-13-23><a id=__codelineno-13-23 name=__codelineno-13-23 href=#__codelineno-13-23></a><span class=w>          </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=s>&quot;development&quot;</span>
-</span></code></pre></div></p> <p><strong>2. Loo Service:</strong> <div class="language-yaml highlight"><pre><span></span><code><span id=__span-14-1><a id=__codelineno-14-1 name=__codelineno-14-1 href=#__codelineno-14-1></a><span class=c1># web-service.yaml</span>
-</span><span id=__span-14-2><a id=__codelineno-14-2 name=__codelineno-14-2 href=#__codelineno-14-2></a><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id=__span-14-3><a id=__codelineno-14-3 name=__codelineno-14-3 href=#__codelineno-14-3></a><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
-</span><span id=__span-14-4><a id=__codelineno-14-4 name=__codelineno-14-4 href=#__codelineno-14-4></a><span class=nt>metadata</span><span class=p>:</span>
-</span><span id=__span-14-5><a id=__codelineno-14-5 name=__codelineno-14-5 href=#__codelineno-14-5></a><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-service</span>
-</span><span id=__span-14-6><a id=__codelineno-14-6 name=__codelineno-14-6 href=#__codelineno-14-6></a><span class=nt>spec</span><span class=p>:</span>
-</span><span id=__span-14-7><a id=__codelineno-14-7 name=__codelineno-14-7 href=#__codelineno-14-7></a><span class=w>  </span><span class=nt>selector</span><span class=p>:</span>
-</span><span id=__span-14-8><a id=__codelineno-14-8 name=__codelineno-14-8 href=#__codelineno-14-8></a><span class=w>    </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">web-app</span>
-</span><span id=__span-14-9><a id=__codelineno-14-9 name=__codelineno-14-9 href=#__codelineno-14-9></a><span class=w>  </span><span class=nt>ports</span><span class=p>:</span>
-</span><span id=__span-14-10><a id=__codelineno-14-10 name=__codelineno-14-10 href=#__codelineno-14-10></a><span class=w>  </span><span class="p p-Indicator">-</span><span class=w> </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span><span id=__span-14-11><a id=__codelineno-14-11 name=__codelineno-14-11 href=#__codelineno-14-11></a><span class=w>    </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
-</span><span id=__span-14-12><a id=__codelineno-14-12 name=__codelineno-14-12 href=#__codelineno-14-12></a><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class="l l-Scalar l-Scalar-Plain">NodePort</span>
-</span></code></pre></div></p> <p><strong>3. Deploy'i rakendus:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-15-1><a id=__codelineno-15-1 name=__codelineno-15-1 href=#__codelineno-15-1></a><span class=c1># Loo ressursid</span>
-</span><span id=__span-15-2><a id=__codelineno-15-2 name=__codelineno-15-2 href=#__codelineno-15-2></a>kubectl<span class=w> </span>apply<span class=w> </span>-f<span class=w> </span>web-app.yaml
-</span><span id=__span-15-3><a id=__codelineno-15-3 name=__codelineno-15-3 href=#__codelineno-15-3></a>kubectl<span class=w> </span>apply<span class=w> </span>-f<span class=w> </span>web-service.yaml
-</span><span id=__span-15-4><a id=__codelineno-15-4 name=__codelineno-15-4 href=#__codelineno-15-4></a>
-</span><span id=__span-15-5><a id=__codelineno-15-5 name=__codelineno-15-5 href=#__codelineno-15-5></a><span class=c1># Vaata staatust</span>
-</span><span id=__span-15-6><a id=__codelineno-15-6 name=__codelineno-15-6 href=#__codelineno-15-6></a>kubectl<span class=w> </span>get<span class=w> </span>pods
-</span><span id=__span-15-7><a id=__codelineno-15-7 name=__codelineno-15-7 href=#__codelineno-15-7></a>kubectl<span class=w> </span>get<span class=w> </span>services
-</span><span id=__span-15-8><a id=__codelineno-15-8 name=__codelineno-15-8 href=#__codelineno-15-8></a>
-</span><span id=__span-15-9><a id=__codelineno-15-9 name=__codelineno-15-9 href=#__codelineno-15-9></a><span class=c1># Testi rakendust</span>
-</span><span id=__span-15-10><a id=__codelineno-15-10 name=__codelineno-15-10 href=#__codelineno-15-10></a>minikube<span class=w> </span>service<span class=w> </span>web-service
-</span></code></pre></div></p> <h3 id=monitoring-ja-debugging>Monitoring ja Debugging<a class=headerlink href=#monitoring-ja-debugging title="Permanent link">&para;</a></h3> <p><strong>Põhilised kubectl käsud:</strong> <div class="language-bash highlight"><pre><span></span><code><span id=__span-16-1><a id=__codelineno-16-1 name=__codelineno-16-1 href=#__codelineno-16-1></a><span class=c1># Pod&#39;ide vaatamine</span>
-</span><span id=__span-16-2><a id=__codelineno-16-2 name=__codelineno-16-2 href=#__codelineno-16-2></a>kubectl<span class=w> </span>get<span class=w> </span>pods
-</span><span id=__span-16-3><a id=__codelineno-16-3 name=__codelineno-16-3 href=#__codelineno-16-3></a>kubectl<span class=w> </span>get<span class=w> </span>pods<span class=w> </span>-o<span class=w> </span>wide
-</span><span id=__span-16-4><a id=__codelineno-16-4 name=__codelineno-16-4 href=#__codelineno-16-4></a>kubectl<span class=w> </span>describe<span class=w> </span>pod<span class=w> </span>&lt;pod-name&gt;
-</span><span id=__span-16-5><a id=__codelineno-16-5 name=__codelineno-16-5 href=#__codelineno-16-5></a>
-</span><span id=__span-16-6><a id=__codelineno-16-6 name=__codelineno-16-6 href=#__codelineno-16-6></a><span class=c1># Log&#39;ide vaatamine</span>
-</span><span id=__span-16-7><a id=__codelineno-16-7 name=__codelineno-16-7 href=#__codelineno-16-7></a>kubectl<span class=w> </span>logs<span class=w> </span>&lt;pod-name&gt;
-</span><span id=__span-16-8><a id=__codelineno-16-8 name=__codelineno-16-8 href=#__codelineno-16-8></a>kubectl<span class=w> </span>logs<span class=w> </span>-f<span class=w> </span>&lt;pod-name&gt;<span class=w>  </span><span class=c1># järgi reaalajas</span>
-</span><span id=__span-16-9><a id=__codelineno-16-9 name=__codelineno-16-9 href=#__codelineno-16-9></a>
-</span><span id=__span-16-10><a id=__codelineno-16-10 name=__codelineno-16-10 href=#__codelineno-16-10></a><span class=c1># Container&#39;i sisseemine</span>
-</span><span id=__span-16-11><a id=__codelineno-16-11 name=__codelineno-16-11 href=#__codelineno-16-11></a>kubectl<span class=w> </span><span class=nb>exec</span><span class=w> </span>-it<span class=w> </span>&lt;pod-name&gt;<span class=w> </span>--<span class=w> </span>/bin/bash
-</span><span id=__span-16-12><a id=__codelineno-16-12 name=__codelineno-16-12 href=#__codelineno-16-12></a>
-</span><span id=__span-16-13><a id=__codelineno-16-13 name=__codelineno-16-13 href=#__codelineno-16-13></a><span class=c1># Ressursside kasutamine</span>
-</span><span id=__span-16-14><a id=__codelineno-16-14 name=__codelineno-16-14 href=#__codelineno-16-14></a>kubectl<span class=w> </span>top<span class=w> </span>pods
-</span><span id=__span-16-15><a id=__codelineno-16-15 name=__codelineno-16-15 href=#__codelineno-16-15></a>kubectl<span class=w> </span>top<span class=w> </span>nodes
-</span><span id=__span-16-16><a id=__codelineno-16-16 name=__codelineno-16-16 href=#__codelineno-16-16></a>
-</span><span id=__span-16-17><a id=__codelineno-16-17 name=__codelineno-16-17 href=#__codelineno-16-17></a><span class=c1># Event&#39;ide vaatamine</span>
-</span><span id=__span-16-18><a id=__codelineno-16-18 name=__codelineno-16-18 href=#__codelineno-16-18></a>kubectl<span class=w> </span>get<span class=w> </span>events
-</span></code></pre></div></p> <hr> <h2 id=task-4-kubernetes-vs-docker>Task 4: Kubernetes vs Docker<a class=headerlink href=#task-4-kubernetes-vs-docker title="Permanent link">&para;</a></h2> <h3 id=vordlus>Võrdlus<a class=headerlink href=#vordlus title="Permanent link">&para;</a></h3> <table> <thead> <tr> <th>Aspekt</th> <th>Docker</th> <th>Kubernetes</th> </tr> </thead> <tbody> <tr> <td><strong>Skope</strong></td> <td>Üksik container</td> <td>Container orchestration</td> </tr> <tr> <td><strong>Scaling</strong></td> <td>Käsitsi</td> <td>Automaatne</td> </tr> <tr> <td><strong>Failover</strong></td> <td>Käsitsi</td> <td>Automaatne</td> </tr> <tr> <td><strong>Load Balancing</strong></td> <td>Käsitsi</td> <td>Sisseehitatud</td> </tr> <tr> <td><strong>Service Discovery</strong></td> <td>Käsitsi</td> <td>Automaatne</td> </tr> <tr> <td><strong>Configuration</strong></td> <td>Environment variables</td> <td>ConfigMap/Secret</td> </tr> <tr> <td><strong>Updates</strong></td> <td>Käsitsi</td> <td>Rolling updates</td> </tr> <tr> <td><strong>Monitoring</strong></td> <td>Basic</td> <td>Comprehensive</td> </tr> </tbody> </table> <h3 id=millal-kasutada-mida>Millal kasutada mida?<a class=headerlink href=#millal-kasutada-mida title="Permanent link">&para;</a></h3> <p><strong>Docker sobib:</strong> - Arenduskeskkond - Lihtsad rakendused - Prototüübid - Üksikud serverid</p> <p><strong>Kubernetes sobib:</strong> - Production keskkonnad - Suured rakendused - Microservices - High availability</p> <hr> <h2 id=kokkuvote>Kokkuvõte<a class=headerlink href=#kokkuvote title="Permanent link">&para;</a></h2> <h3 id=kubernetesi-eelised>Kubernetes'i eelised:<a class=headerlink href=#kubernetesi-eelised title="Permanent link">&para;</a></h3> <p>✅ <strong>Automaatne scaling</strong> - vastavalt koormusele<br> ✅ <strong>High availability</strong> - automaatne failover<br> ✅ <strong>Service discovery</strong> - container'id leiavad üksteist<br> ✅ <strong>Configuration management</strong> - keskkonnamuutujad ja secret'id<br> ✅ <strong>Rolling updates</strong> - null downtime deployment'id<br> ✅ <strong>Resource management</strong> - CPU ja mälu piirangud </p> <h3 id=jargmised-sammud>Järgmised sammud:<a class=headerlink href=#jargmised-sammud title="Permanent link">&para;</a></h3> <ul> <li>Õppige Helm (package manager)</li> <li>Uurige Ingress (väline ligipääs)</li> <li>Õppige Persistent Volumes</li> <li>Uurige Kubernetes Dashboard</li> <li>Õppige monitoring (Prometheus/Grafana)</li> </ul> <h3 id=praktiline-soovitus>Praktiline soovitus:<a class=headerlink href=#praktiline-soovitus title="Permanent link">&para;</a></h3> <p><strong>Alustage Docker'iga, siis liikuge Kubernetes'i juurde!</strong></p> <hr> <p><strong>Järgmises osas:</strong> Praktiline lab - deploy'ime tervikliku rakenduse Kubernetes'i!</p> <aside class=md-source-file> <span class=md-source-file__fact> <span class=md-icon title="Viimane uuendus"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="21. september 2025 06:58:04 UTC">21. september 2025</span> </span> <span class=md-source-file__fact> <span class=md-icon title=Loodud> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="18. september 2025 11:24:29 UTC">18. september 2025</span> </span> </aside> <form class=md-feedback name=feedback hidden> <fieldset> <legend class=md-feedback__title> Kas see leht oli kasulik? </legend> <div class=md-feedback__inner> <div class=md-feedback__list> <button class="md-feedback__icon md-icon" type=submit title="See leht oli kasulik" data-md-value=1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg> </button> <button class="md-feedback__icon md-icon" type=submit title="See leht vajab täiendamist" data-md-value=0> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg> </button> </div> <div class=md-feedback__note> <div data-md-value=1 hidden> Aitäh tagasiside eest! </div> <div data-md-value=0 hidden> Aitäh tagasiside eest! Kasuta <a href="https://github.com/mtalvik/automation/issues/new/?title=[Feedback]+Teooria" target=_blank rel=noopener>GitHub issues</a> täpsema tagasiside andmiseks. </div> </div> </div> </fieldset> </form> </article> </div> <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button type=button class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg> Üles </button> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Jalus> <a href=../../ci_cd_advanced/homework/ class="md-footer__link md-footer__link--prev" aria-label="Eelmine: Kodutöö"> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg> </div> <div class=md-footer__title> <span class=md-footer__direction> Eelmine </span> <div class=md-ellipsis> Kodutöö </div> </div> </a> <a href=../lab/ class="md-footer__link md-footer__link--next" aria-label="Järgmine: Praktikum"> <div class=md-footer__title> <span class=md-footer__direction> Järgmine </span> <div class=md-ellipsis> Praktikum </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> <div class=md-copyright__highlight> Copyright &copy; 2025 Maria Talvik </div> </div> <div class=md-social> <a href=https://github.com/mtalvik target=_blank rel=noopener title=GitHub class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg> </a> <a href=https://linkedin.com/in/maria-talvik target=_blank rel=noopener title=LinkedIn class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg> </a> <a href=https://mariatalvik.ee target=_blank rel=noopener title=Blogi class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <div class=md-progress data-md-component=progress role=progressbar></div> <div class=md-consent data-md-component=consent id=__consent hidden> <div class=md-consent__overlay></div> <aside class=md-consent__inner> <form class="md-consent__form md-grid md-typeset" name=consent> <h4>Küpsiste nõusolek</h4> <p>Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust. Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.</p> <input class=md-toggle type=checkbox id=__settings> <div class=md-consent__settings> <ul class=task-list> <li class=task-list-item> <label class=task-list-control> <input type=checkbox name=analytics checked> <span class=task-list-indicator></span> Google Analytics </label> </li> <li class=task-list-item> <label class=task-list-control> <input type=checkbox name=github checked> <span class=task-list-indicator></span> GitHub </label> </li> </ul> </div> <div class=md-consent__controls> <button class="md-button md-button--primary">Nõustu</button> <button type=reset class="md-button md-button--primary">Keeldu</button> <label class=md-button for=__settings>Halda seadeid</label> </div> </form> </aside> </div> <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script> <script id=__config type=application/json>{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": {"Ansible": "ansible", "CI/CD": "cicd", "Docker": "docker", "Git": "git", "Kodut\u00f6\u00f6": "homework", "Kubernetes": "k8s", "Praktikum": "lab", "Teooria": "lecture", "Terraform": "terraform"}, "translations": {"clipboard.copied": "Kopeeritud", "clipboard.copy": "Kopeeri l\u00f5ikelauale", "search.result.more.one": "1 veel sellel lehel", "search.result.more.other": "# veel sellel lehel", "search.result.none": "Otsingule ei leitud \u00fchtegi vastet", "search.result.one": "Leiti \u00fcks tulemus", "search.result.other": "Leiti # tulemust", "search.result.placeholder": "Otsimiseks kirjuta siia", "search.result.term.missing": "Puudub", "select.version": "Vali versioon"}, "version": {"default": "stable", "provider": "mike"}}</script> <script src=../../assets/javascripts/bundle.f55a23d4.min.js></script> </body> </html>
+
+<!doctype html>
+<html lang="et" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Automatiseerimise praktikad ja tööriistad - versioonihaldusest orkestratsioonini">
+      
+      
+        <meta name="author" content="Maria Talvik">
+      
+      
+        <link rel="canonical" href="https://mtalvik.github.io/automation/kubernetes_overview/lecture/">
+      
+      
+        <link rel="prev" href="../../ci_cd_advanced/homework/">
+      
+      
+        <link rel="next" href="../lab1/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Kubernetes Teooria - IT Automatiseerimise Kursus</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>if("undefined"!=typeof __md_analytics){var consent=__md_get("__consent");consent&&consent.analytics&&__md_analytics()}</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kubernetes-pohialused-container-orchestration" class="md-skip">
+          Keri sisuni
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Päis">
+    <a href="../.." title="IT Automatiseerimise Kursus" class="md-header__button md-logo" aria-label="IT Automatiseerimise Kursus" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-7zM4 3h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m5 4h1V5H9zm0 8h1v-2H9zM5 5v2h2V5zm0 8v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            IT Automatiseerimise Kursus
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Kubernetes Teooria
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="pink"  aria-label="Vaheta tumele režiimile"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Vaheta tumele režiimile" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="pink"  aria-label="Vaheta tumele režiimile"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Vaheta tumele režiimile" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="pink"  aria-label="Vaheta heledasse režiimi"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Vaheta heledasse režiimi" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Otsi" placeholder="Otsi" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Otsing">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Jaga" aria-label="Jaga" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Lähtesta" aria-label="Lähtesta" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Otsingu lähtestamine
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mtalvik/automation" title="Ava repositooriumis" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mtalvik/automation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Vaheleht" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Avaleht
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../curriculum/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  📚 Õppekava
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../git_version_control/lab/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🔧 Git Versioonihaldus
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ansible_basics/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ Ansible Alused
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../docker_fundamentals/1lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🐳 Docker Alused
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../docker_orchestration/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🚀 Docker Orkestratsioon
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ansible_advanced/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🎯 Ansible Edasijõudnud
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ansible_roles/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🎭 Ansible Rollid
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../terraform_basics/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🏗️ Terraform Alused
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../ci_cd_advanced/lecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ☸️ CI/CD + Kubernetes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../assignments/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📋 Ülesanded
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://github.com/mtalvik/automation/discussions" class="md-tabs__link">
+        
+  
+  
+    
+  
+  💬 Foorum
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigatsioon" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="IT Automatiseerimise Kursus" class="md-nav__button md-logo" aria-label="IT Automatiseerimise Kursus" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-7zM4 3h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m5 4h1V5H9zm0 8h1v-2H9zM5 5v2h2V5zm0 8v2h2v-2z"/></svg>
+
+    </a>
+    IT Automatiseerimise Kursus
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mtalvik/automation" title="Ava repositooriumis" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mtalvik/automation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Avaleht
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../curriculum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📚 Õppekava
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../git_version_control/lab/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Git Versioonihaldus
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../ansible_basics/lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ Ansible Alused
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../docker_fundamentals/1lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🐳 Docker Alused
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../docker_orchestration/lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🚀 Docker Orkestratsioon
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../ansible_advanced/lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🎯 Ansible Edasijõudnud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../ansible_roles/lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🎭 Ansible Rollid
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../terraform_basics/lecture/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🏗️ Terraform Alused
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    ☸️ CI/CD + Kubernetes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            ☸️ CI/CD + Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci_cd_advanced/lecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD Teooria
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci_cd_advanced/lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD Praktikum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ci_cd_advanced/homework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD Kodutöö
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes Teooria
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes Teooria
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Sisukord">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Sisukord
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sissejuhatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sissejuhatus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sissejuhatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kubernetesi-paritolu-ja-tahendus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes'i Päritolu ja Tähendus
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-probleemi-seadmine-miks-vajame-orkestreerimist" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Probleemi Seadmine - Miks Vajame Orkestreerimist?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kubernetesi-arhitektuur-kuidas-see-tootab" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Kubernetes'i Arhitektuur - Kuidas See Töötab?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Kubernetes&#39;i Arhitektuur - Kuidas See Töötab?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#control-plane-klastri-aju" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Plane - Klastri "Aju"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-nodeid-kus-tegelik-too-toimub" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worker Node'id - Kus Tegelik Töö Toimub
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kubernetesi-pohiobjektid-ehituskivid" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Kubernetes'i Põhiobjektid - Ehituskivid
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Kubernetes&#39;i Põhiobjektid - Ehituskivid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pod-koige-vaiksem-uksus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pod - Kõige Väiksem Üksus
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-rakenduse-haldur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment - Rakenduse Haldur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-stabiilne-sissepaas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service - Stabiilne Sissepääs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-praktiline-naide-ehitame-rakenduse" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Praktiline Näide - Ehitame Rakenduse
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-konfiguratsioon-ja-saladused" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Konfiguratsioon ja Saladused
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-monitoring-ja-probleemide-lahendamine" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Monitoring ja Probleemide Lahendamine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-millal-kasutada-kubernetesi" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Millal Kasutada Kubernetes'i?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kokkuvote-ja-jargmised-sammud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kokkuvõte ja Järgmised Sammud
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viited-ja-dokumentatsioon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viited ja Dokumentatsioon
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Viited ja Dokumentatsioon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ametlik-dokumentatsioon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ametlik Dokumentatsioon
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oppematerjalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Õppematerjalid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#praktilised-tooriistad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Praktilised Tööriistad
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes Labor 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes Labor 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../homework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes Kodutöö
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../assignments/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📋 Ülesanded
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/mtalvik/automation/discussions" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    💬 Foorum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/mtalvik/automation/edit/main/kubernetes_overview/lecture.md" title="Muuda seda lehte" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/mtalvik/automation/raw/main/kubernetes_overview/lecture.md" title="Vaata lehe lähtekoodi" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+    </a>
+  
+
+
+<h1 id="kubernetes-pohialused-container-orchestration">Kubernetes Põhialused: Container Orchestration<a class="headerlink" href="#kubernetes-pohialused-container-orchestration" title="Permanent link">&para;</a></h1>
+<p><strong>Eesmärk:</strong> Mõista Kubernetes'i rolli moodsas tarkvaraarenduses ja õppida selle põhifunktsionaalsust</p>
+<h2 id="sissejuhatus">Sissejuhatus<a class="headerlink" href="#sissejuhatus" title="Permanent link">&para;</a></h2>
+<p>Tere tulemast Kubernetes'i maailma! Enne kui me sukeldume tehniliste detailide sügavusse, tahaksin teilt küsida: kes on kunagi proovinud käivitada rohkem kui üht Docker konteinerit korraga? Tõstke käsi!</p>
+<p>Näete, just siin peitub probleem. Üks kontainer on lihtne. Kaks konteinerit - veel okei. Aga mis juhtub, kui teil on vaja 50 konteinerit? Või 500? Või 5000? Äkki kukub üks kontainer? Kuidas te seda märkate? Kuidas te selle asendage?</p>
+<p>Täna õpime tööriista kohta, mis lahendab need probleemid. Aga esmalt - mis see Kubernetes üldse on?</p>
+<h3 id="kubernetesi-paritolu-ja-tahendus">Kubernetes'i Päritolu ja Tähendus<a class="headerlink" href="#kubernetesi-paritolu-ja-tahendus" title="Permanent link">&para;</a></h3>
+<p>Kubernetes tuleneb kreeka keelsest sõnast "κυβερνήτης" - kybernētēs. Keegi oskab öelda, mida see tähendab? Täpselt - "roolimees" või "laevajuht". Miks on see oluline? Sest Kubernetes on justnagu laevajuht teie konteinerite laevastikule.</p>
+<p>Google lõi selle 2014. aastal oma sisemise Borg süsteemi põhjal. Huvitav fakt: Google on kasutanud konteinerite orkestreerimist juba üle 15 aasta - nad käivitavad umbes 2 miljardit konteinerit nädalas!</p>
+<h2 id="1-probleemi-seadmine-miks-vajame-orkestreerimist">1. Probleemi Seadmine - Miks Vajame Orkestreerimist?<a class="headerlink" href="#1-probleemi-seadmine-miks-vajame-orkestreerimist" title="Permanent link">&para;</a></h2>
+<p>Ette kujutage, et olete startup'i CTO. Teie rakendus kasvab kiiresti. Eile oli teil 100 kasutajat, täna 10 000. Homme võib olla 100 000. </p>
+<p>Praegu teie arhitektuur näeb välja selline:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Üks veebiserver</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>nginx
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Üks andmebaas  </span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>postgres
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># Üks API server</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>myapi
+</span></code></pre></div></td></tr></table></div>
+<p>Kõik töötab. Aga mis juhtub kell kolm öösel, kui teie API server kukub? Keegi ei märka enne hommikut. Kasutajad on pahased. Müük langeb.</p>
+<p>Või mis juhtub, kui äkki tuleb suur koormus? Teil on vaja kiiresti käivitada 10 API serverit. Käsitsi. Ükshaaval. Stressis.</p>
+<p><strong>Siin tuleb appi Container Orchestration.</strong></p>
+<pre class="mermaid"><code>graph TD
+    A[Traditsiooniline Lähenemine] --&gt; B[Käsitsi skalerimine]
+    A --&gt; C[Käsitsi monitoring]
+    A --&gt; D[Käsitsi failover]
+    A --&gt; E[Käsitsi võrgustik]
+
+    F[Kubernetes Lähenemine] --&gt; G[Automaatne skalerimine]
+    F --&gt; H[Automaatne taastamine]
+    F --&gt; I[Automaatne koormuse jaotus]
+    F --&gt; J[Deklaratiivne konfiguratsioon]
+
+    style A fill:#ffcccc
+    style F fill:#ccffcc</code></pre>
+<p>Nüüd küsimus: mis on Container Orchestration? Keegi oskab vastata?</p>
+<p>Container Orchestration on nagu dirigent orkestris. Dirigent ei mängi instrumente ise, aga ta koordineerib kõiki muusikuid, et nad mängiks koos harmooniliselt. Samamoodi koordineerib Kubernetes teie konteinereid.</p>
+<h2 id="2-kubernetesi-arhitektuur-kuidas-see-tootab">2. Kubernetes'i Arhitektuur - Kuidas See Töötab?<a class="headerlink" href="#2-kubernetesi-arhitektuur-kuidas-see-tootab" title="Permanent link">&para;</a></h2>
+<p>Enne kui hakkame käske tippima, peame mõistma, kuidas Kubernetes ehitatud on. See aitab teil hiljem probleeme diagnoosida.</p>
+<h3 id="control-plane-klastri-aju">Control Plane - Klastri "Aju"<a class="headerlink" href="#control-plane-klastri-aju" title="Permanent link">&para;</a></h3>
+<p>Kubernetes koosneb kahest osast. Esimene on Control Plane - klastri "aju". See teeb otsuseid, aga ei käivita teie rakendusi.</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "Control Plane"
+        API[API Server&lt;br/&gt;"Sissepääs"]
+        ETCD[etcd&lt;br/&gt;"Mälu"]
+        SCHED[Scheduler&lt;br/&gt;"Planeerija"]
+        CM[Controller Manager&lt;br/&gt;"Jälgija"]
+    end
+
+    subgraph "Mis iga komponent teeb?"
+        API --&gt; A1[Võtab vastu kõik käsud]
+        ETCD --&gt; A2[Salvestab kogu oleku]
+        SCHED --&gt; A3[Otsustab kuhu pod'id panna]
+        CM --&gt; A4[Jälgib ja parandab]
+    end
+
+    style API fill:#e1f5fe
+    style ETCD fill:#fff3e0
+    style SCHED fill:#e8f5e8
+    style CM fill:#fce4ec</code></pre>
+<p>Mõelge sellele nagu ettevõtte juhatusele:
+- <strong>API Server</strong> on nagu sekretär - kõik päringud lähevad tema kaudu
+- <strong>etcd</strong> on nagu ettevõtte andmebaas - hoiab kogu olulist infot
+- <strong>Scheduler</strong> on nagu HR - otsustab, kes mida teeb
+- <strong>Controller Manager</strong> on nagu juhatuse esimees - jälgib, et kõik läheks plaani järgi</p>
+<h3 id="worker-nodeid-kus-tegelik-too-toimub">Worker Node'id - Kus Tegelik Töö Toimub<a class="headerlink" href="#worker-nodeid-kus-tegelik-too-toimub" title="Permanent link">&para;</a></h3>
+<p>Teine osa on Worker Node'id. Siin jooksevad teie rakendused.</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "Worker Node"
+        KUBELET[kubelet&lt;br/&gt;"Kohalik juht"]
+        PROXY[kube-proxy&lt;br/&gt;"Võrguliikluse juht"]
+        RUNTIME[Container Runtime&lt;br/&gt;"Konteinerite käivitaja"]
+
+        subgraph "Pods"
+            POD1[Pod 1]
+            POD2[Pod 2]
+            POD3[Pod 3]
+        end
+    end
+
+    CP[Control Plane] -.-&gt; KUBELET
+    KUBELET --&gt; RUNTIME
+    RUNTIME --&gt; POD1
+    RUNTIME --&gt; POD2
+    RUNTIME --&gt; POD3
+
+    PROXY --&gt; POD1
+    PROXY --&gt; POD2
+    PROXY --&gt; POD3
+
+    style KUBELET fill:#e3f2fd
+    style PROXY fill:#f3e5f5
+    style RUNTIME fill:#e8f5e8</code></pre>
+<ul>
+<li><strong>kubelet</strong> on nagu vahetuse juhataja tehases - täidab control plane'i korraldusi</li>
+<li><strong>kube-proxy</strong> on nagu postkäitja - toimetab sõnumeid õigesse kohta</li>
+<li><strong>Container Runtime</strong> on nagu tööline - teeb tegeliku töö</li>
+</ul>
+<h2 id="3-kubernetesi-pohiobjektid-ehituskivid">3. Kubernetes'i Põhiobjektid - Ehituskivid<a class="headerlink" href="#3-kubernetesi-pohiobjektid-ehituskivid" title="Permanent link">&para;</a></h2>
+<p>Nüüd tuleme huvitava osa juurde. Kubernetes töötab objektidega. Need on nagu LEGO klotsid - igaühel on oma eesmärk.</p>
+<h3 id="pod-koige-vaiksem-uksus">Pod - Kõige Väiksem Üksus<a class="headerlink" href="#pod-koige-vaiksem-uksus" title="Permanent link">&para;</a></h3>
+<p>Esimene ja kõige olulisem on Pod. Nimi tuleneb inglise keelsest sõnast "pod" - nagu vaalade kari või hernekaunad kaunas.</p>
+<pre class="mermaid"><code>graph LR
+    subgraph "Pod"
+        direction TB
+        C1[Container 1&lt;br/&gt;nginx]
+        C2[Container 2&lt;br/&gt;logging]
+        VOL[Jagatud failisüsteem]
+        NET[Jagatud võrk&lt;br/&gt;IP: 10.244.1.5]
+    end
+
+    C1 -.-&gt; VOL
+    C2 -.-&gt; VOL
+    C1 -.-&gt; NET
+    C2 -.-&gt; NET
+
+    style NET fill:#e1f5fe
+    style VOL fill:#fff3e0</code></pre>
+<p>Miks pole nimi "Container"? Sest pod võib sisaldada mitut konteinerit! Mõelge sellele nagu korterile - tavaliselt elab seal üks perekond, aga võib olla ka kaks.</p>
+<p>Oluline: pod'i kõik konteinerid:
+- Jagavad sama IP aadressi
+- Saavad suhelda localhost kaudu<br />
+- Elavad ja surevad koos</p>
+<p>Näitame lihtsat pod'i:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">YAML</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-pod</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.20</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Aga oodate! Ärge kirjutage üksikuid pod'e käsitsi. Miks? Sest kui pod sureb, see ei tule tagasi. Teil on vaja midagi, mis hoolitseb pod'ide eest.</p>
+<h3 id="deployment-rakenduse-haldur">Deployment - Rakenduse Haldur<a class="headerlink" href="#deployment-rakenduse-haldur" title="Permanent link">&para;</a></h3>
+<p>Siin tuleb mängu Deployment. See on nagu hea manager - ta hoiab silma peal oma töötajatel (pod'idel).</p>
+<pre class="mermaid"><code>graph TD
+    DEPLOY[Deployment&lt;br/&gt;"Ma tahan 3 nginx pod'i"] --&gt; RS[ReplicaSet&lt;br/&gt;"Ma hoian 3 pod'i töös"]
+    RS --&gt; POD1[Pod 1]
+    RS --&gt; POD2[Pod 2] 
+    RS --&gt; POD3[Pod 3]
+
+    POD2 --&gt;|kukub| DEAD[💀]
+    RS --&gt;|märkab puudujääki| NEW[Uus Pod 4]
+
+    style DEPLOY fill:#e8f5e8
+    style RS fill:#fff3e0
+    style DEAD fill:#ffebee
+    style NEW fill:#e8f5e8</code></pre>
+<p>Deployment on nutikas:
+- Kui pod kukub, loob kohe uue
+- Kui tahate skaleerida, muudab pod'ide arvu
+- Kui tahate uuendada, teeb seda järk-järgult</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">YAML</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">  </span><span class="c1"># Tahan 3 koopiat</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">  </span><span class="c1"># Kuidas pod välja näeb</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:1.20</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Näeme ka rolling update'i toimumist:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Dev as Arendaja
+    participant Deploy as Deployment
+    participant Old as Vanad Pod'id
+    participant New as Uued Pod'id
+
+    Dev-&gt;&gt;Deploy: "Uuenda nginx:1.21-le"
+    Deploy-&gt;&gt;New: Loo 1 uus pod
+    New-&gt;&gt;Deploy: "Olen valmis!"
+    Deploy-&gt;&gt;Old: Kustuta 1 vana pod
+    Note over Deploy: Korda kuni kõik uuendatud</code></pre>
+<h3 id="service-stabiilne-sissepaas">Service - Stabiilne Sissepääs<a class="headerlink" href="#service-stabiilne-sissepaas" title="Permanent link">&para;</a></h3>
+<p>Aga nüüd on probleem: pod'ide IP aadressid muutuvad! Kuidas teie frontend leiab backend'i?</p>
+<p>Vastus on Service. Mõelge sellele nagu ettevõtte peareceptsioonile - kuigi töötajad tulevad ja lähevad, receptsioon on alati samas kohas.</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "Service tüübid"
+        subgraph "ClusterIP - Sisemine"
+            SVC1[Service: my-backend&lt;br/&gt;IP: 10.96.1.100]
+            SVC1 --&gt; POD1[Backend Pod 1]
+            SVC1 --&gt; POD2[Backend Pod 2]
+            SVC1 --&gt; POD3[Backend Pod 3]
+        end
+
+        subgraph "NodePort - Väljapoole"
+            SVC2[Service: my-frontend&lt;br/&gt;Port: 30080]
+            OUTSIDE[Väljastpoolt&lt;br/&gt;http://server:30080] --&gt; SVC2
+            SVC2 --&gt; POD4[Frontend Pod 1]
+            SVC2 --&gt; POD5[Frontend Pod 2]
+        end
+    end
+
+    POD4 -.-&gt;|"Otsi my-backend"| SVC1
+    POD5 -.-&gt;|"Otsi my-backend"| SVC1
+
+    style SVC1 fill:#e3f2fd
+    style SVC2 fill:#fff3e0</code></pre>
+<p>Service teeb kaht asja:
+1. Annab stabiilse IP aadressi
+2. Jaotab liiklust pod'ide vahel (load balancing)</p>
+<h2 id="4-praktiline-naide-ehitame-rakenduse">4. Praktiline Näide - Ehitame Rakenduse<a class="headerlink" href="#4-praktiline-naide-ehitame-rakenduse" title="Permanent link">&para;</a></h2>
+<p>Nüüd ehitame koos lihtsa rakenduse. Meil on:
+- Frontend (React)
+- Backend (Node.js API)<br />
+- Andmebaas (PostgreSQL)</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "Meie rakendus"
+        INTERNET[Internet] --&gt; FE_SVC[Frontend Service&lt;br/&gt;LoadBalancer]
+        FE_SVC --&gt; FE1[Frontend Pod]
+        FE_SVC --&gt; FE2[Frontend Pod]
+
+        FE1 --&gt; BE_SVC[Backend Service&lt;br/&gt;ClusterIP]
+        FE2 --&gt; BE_SVC
+
+        BE_SVC --&gt; BE1[Backend Pod]
+        BE_SVC --&gt; BE2[Backend Pod]
+
+        BE1 --&gt; DB_SVC[Database Service&lt;br/&gt;ClusterIP]
+        BE2 --&gt; DB_SVC
+
+        DB_SVC --&gt; DB[PostgreSQL Pod]
+    end
+
+    style FE_SVC fill:#e3f2fd
+    style BE_SVC fill:#fff3e0
+    style DB_SVC fill:#e8f5e8</code></pre>
+<p>Alustame backend'ist:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">YAML</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># Backend Deployment</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp/backend:v1.0</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;postgresql://postgres:5432/mydb&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Kuidas backend leiab andmebaasi? DNS-i kaudu! Kubernetes loob automaatselt DNS kirje <code>postgres-service</code> nimega.</p>
+<h2 id="5-konfiguratsioon-ja-saladused">5. Konfiguratsioon ja Saladused<a class="headerlink" href="#5-konfiguratsioon-ja-saladused" title="Permanent link">&para;</a></h2>
+<p>Aga oodake - me ei saa panna andmebaasi parooli otse YAML faili! See läheb versioonihalduse! Siin tulevad appi ConfigMap ja Secret.</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "Konfiguratsiooni haldamine"
+        CM[ConfigMap&lt;br/&gt;"Avalik konfiguratsioon"]
+        SECRET[Secret&lt;br/&gt;"Saladused"]
+
+        subgraph "Pod"
+            CONTAINER[Rakendus]
+            ENV[Keskkonnamuutujad]
+            FILES[Failid]
+        end
+
+        CM --&gt;|Seadistused| ENV
+        CM --&gt;|Config failid| FILES
+        SECRET --&gt;|Paroolid| ENV
+        SECRET --&gt;|Sertifikaadid| FILES
+    end
+
+    style CM fill:#e8f5e8
+    style SECRET fill:#ffebee</code></pre>
+<p>ConfigMap avalikele seadistustele:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">YAML</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nt">data</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="nt">database.host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;postgres-service&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">  </span><span class="nt">database.port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5432&quot;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">  </span><span class="nt">api.timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;30&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Secret saladuste jaoks:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">YAML</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-secret</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nt">data</span><span class="p">:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cG9zdGdyZXM=</span><span class="w">  </span><span class="c1"># &quot;postgres&quot; base64 kodeeringus</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bXlwYXNzd29yZA==</span><span class="w">  </span><span class="c1"># &quot;mypassword&quot; base64 kodeeringus</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="6-monitoring-ja-probleemide-lahendamine">6. Monitoring ja Probleemide Lahendamine<a class="headerlink" href="#6-monitoring-ja-probleemide-lahendamine" title="Permanent link">&para;</a></h2>
+<p>Mis juhtub, kui midagi läheb valesti? Kubernetes annab meile tööriistad jälgimiseks.</p>
+<pre class="mermaid"><code>graph TD
+    PROBLEM[Rakendus ei tööta] --&gt; CHECK1{Pod'id töötavad?}
+    CHECK1 --&gt;|Ei| DESCRIBE[kubectl describe pod]
+    CHECK1 --&gt;|Jah| CHECK2{Service ligipääsetav?}
+
+    DESCRIBE --&gt; EVENTS[Vaata sündmusi]
+    EVENTS --&gt; LOGS[kubectl logs]
+
+    CHECK2 --&gt;|Ei| SERVICE_DEBUG[Kontrolli Service'e]
+    CHECK2 --&gt;|Jah| APP_DEBUG[Rakenduse debug]
+
+    SERVICE_DEBUG --&gt; ENDPOINTS[kubectl get endpoints]
+    APP_DEBUG --&gt; APP_LOGS[Rakenduse logid]
+
+    style PROBLEM fill:#ffebee
+    style LOGS fill:#e8f5e8
+    style APP_LOGS fill:#e8f5e8</code></pre>
+<p>Põhilised debug käsud:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># Vaata pod&#39;ide olekut</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1"># Detailne info probleemse pod&#39;i kohta</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;pod-name&gt;
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1"># Vaata logisid</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>-f
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="c1"># Mine pod&#39;i sisse</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>/bin/bash
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="c1"># Vaata service&#39;eid</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>kubectl<span class="w"> </span>get<span class="w"> </span>services
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints
+</span></code></pre></div></td></tr></table></div>
+<h2 id="7-millal-kasutada-kubernetesi">7. Millal Kasutada Kubernetes'i?<a class="headerlink" href="#7-millal-kasutada-kubernetesi" title="Permanent link">&para;</a></h2>
+<p>Nüüd küsimus: millal peaksite Kubernetes'i kasutama?</p>
+<pre class="mermaid"><code>graph LR
+    subgraph "Docker piisab"
+        SIMPLE[Lihtsad rakendused]
+        DEV[Arenduskeskkond]
+        SMALL[Väike meeskond]
+    end
+
+    subgraph "Kubernetes vaja"
+        COMPLEX[Keerukad süsteemid]
+        PROD[Tootmiskeskkond]
+        SCALE[Suur skaala]
+        HA[High Availability]
+    end
+
+    style SIMPLE fill:#fff3e0
+    style KUBERNETES fill:#e8f5e8</code></pre>
+<p><strong>Kubernetes sobib kui:</strong>
+- Teil on rohkem kui 10-20 konteinerit
+- Vajate automaatset skaleerimist
+- Downtime on kulukas
+- Meeskond oskab Kubernetes'i</p>
+<p><strong>Docker Compose piisab kui:</strong>
+- Lihtne rakendus
+- Arenduskeskkond
+- Väike meeskond
+- Ressursside kokkuhoid on oluline</p>
+<h2 id="kokkuvote-ja-jargmised-sammud">Kokkuvõte ja Järgmised Sammud<a class="headerlink" href="#kokkuvote-ja-jargmised-sammud" title="Permanent link">&para;</a></h2>
+<p>Mis me täna õppisime?</p>
+<ol>
+<li><strong>Kubernetes lahendab konteinerite orkestreerimise probleeme</strong></li>
+<li><strong>Control Plane teeb otsuseid, Worker Node'id teevad tööd</strong></li>
+<li><strong>Pod'id, Deployment'id ja Service'id on põhiehituskivid</strong></li>
+<li><strong>ConfigMap ja Secret hoiavad konfiguratsiooni turvaliselt</strong></li>
+<li><strong>Monitoring ja debugging on kriitilised oskused</strong></li>
+</ol>
+<p>Teie kodutööks: installige Minikube ja proovige täna näidatud näiteid. Järgmises tunnis teeme praktilist lab'i - deploy'ime päris rakenduse!</p>
+<p>Küsimused?</p>
+<hr />
+<h2 id="viited-ja-dokumentatsioon">Viited ja Dokumentatsioon<a class="headerlink" href="#viited-ja-dokumentatsioon" title="Permanent link">&para;</a></h2>
+<h3 id="ametlik-dokumentatsioon">Ametlik Dokumentatsioon<a class="headerlink" href="#ametlik-dokumentatsioon" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://kubernetes.io/docs/">Kubernetes Official Documentation</a> - põhiline dokumentatsioon</li>
+<li><a href="https://kubernetes.io/docs/reference/kubectl/">kubectl Reference</a> - käskude справочник</li>
+<li><a href="https://kubernetes.io/docs/reference/kubernetes-api/">Kubernetes API Reference</a> - API dokumentatsioon</li>
+</ul>
+<h3 id="oppematerjalid">Õppematerjalid<a class="headerlink" href="#oppematerjalid" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/">Kubernetes Basics Tutorial</a> - interaktiivne õpetus</li>
+<li><a href="https://www.cncf.io/certification/training/">CNCF Kubernetes Fundamentals</a> - ametlik koolitus</li>
+</ul>
+<h3 id="praktilised-tooriistad">Praktilised Tööriistad<a class="headerlink" href="#praktilised-tooriistad" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://minikube.sigs.k8s.io/docs/">Minikube</a> - kohalik Kubernetes</li>
+<li><a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">kubectl Cheat Sheet</a> - kasulikud käsud</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Viimane uuendus">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="21. september 2025 06:58:04 UTC">21. september 2025</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Loodud">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="18. september 2025 11:24:29 UTC">18. september 2025</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Kas see leht oli kasulik?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="See leht oli kasulik" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="See leht vajab täiendamist" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Aitäh tagasiside eest! 🚀
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Aitäh tagasiside eest! Kasuta <a href="https://github.com/mtalvik/automation/issues/new/?title=[Feedback]+Kubernetes%20Teooria" target="_blank" rel="noopener">GitHub issues</a> täpsema tagasiside andmiseks.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Üles
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Jalus" >
+        
+          
+          <a href="../../ci_cd_advanced/homework/" class="md-footer__link md-footer__link--prev" aria-label="Eelmine: CI/CD Kodutöö">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Eelmine
+              </span>
+              <div class="md-ellipsis">
+                CI/CD Kodutöö
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab1/" class="md-footer__link md-footer__link--next" aria-label="Järgmine: Kubernetes Labor 1">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Järgmine
+              </span>
+              <div class="md-ellipsis">
+                Kubernetes Labor 1
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Maria Talvik
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/mtalvik" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://linkedin.com/in/maria-talvik" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://mariatalvik.ee" target="_blank" rel="noopener" title="Blogi" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://twitter.com/mariatalvik" target="_blank" rel="noopener" title="Twitter" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+
+<h4>Küpsiste nõusolek</h4>
+<p>Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust.  Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="analytics" checked>
+      <span class="task-list-indicator"></span>
+      Google Analytics
+    </label>
+  </li>
+
+      
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="github" checked>
+      <span class="task-list-indicator"></span>
+      GitHub
+    </label>
+  </li>
+
+      
+    
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Nõustu</button>
+    
+    
+    
+  
+    
+    
+      <button type="reset" class="md-button md-button--primary">Keeldu</button>
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Halda seadeid</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": {"Ansible": "ansible", "Automatiseerimine": "automation", "CI/CD": "cicd", "DevOps": "devops", "Docker": "docker", "Git": "git", "Kodut\u00f6\u00f6": "homework", "Kubernetes": "k8s", "Praktikum": "lab", "Teooria": "lecture", "Terraform": "terraform"}, "translations": {"clipboard.copied": "Kopeeritud", "clipboard.copy": "Kopeeri l\u00f5ikelauale", "search.result.more.one": "1 veel sellel lehel", "search.result.more.other": "# veel sellel lehel", "search.result.none": "Otsingule ei leitud \u00fchtegi vastet", "search.result.one": "Leiti \u00fcks tulemus", "search.result.other": "Leiti # tulemust", "search.result.placeholder": "Otsimiseks kirjuta siia", "search.result.term.missing": "Puudub", "select.version": "Vali versioon"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

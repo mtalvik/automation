@@ -1,8 +1,6 @@
 # Ansible Roles Homework: Ehita sama infrastruktuur nii Ansible kui Puppet'iga
 
-**Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Deploy sama infrastruktuuri mõlema tööriistaga ja võrdle praktikas  
-**Fookus:** Praktiline ehitamine
 
 **Te saate valmis starter kood - fookus on deployment'il ja praktilisel võrdlusel!**
 
@@ -11,11 +9,11 @@
 ## 1. Projekt: Veebserveri + Andmebaasi seadistamine
 
 **Mida te ehitate:**
-- 🌐 **Nginx veebiserver** kohandatud konfiguratsiooniga
-- 🗄 **PostgreSQL andmebaas** algse skeemiga  
-- 🔐 **SSL sertifikaadid** (ise-allkirjastatud testimiseks)
-- 📊 **Süsteemi monitooring** põhiliste tervise kontrollidega
-- 🔧 **Logide pööramise** konfiguratsioon
+- **Nginx veebiserver** kohandatud konfiguratsiooniga
+- **PostgreSQL andmebaas** algse skeemiga  
+- **SSL sertifikaadid** (ise-allkirjastatud testimiseks)
+- **Süsteemi monitooring** põhiliste tervise kontrollidega
+- **Logide pööramise** konfiguratsioon
 
 **Mida te õpite:**
 - Ansible vs Puppet praktilised erinevused
@@ -49,7 +47,7 @@
 
 ---
 
-## 3. Repository seadistamine (15 min)
+## 3. Repository seadistamine
 
 ### 3.1 Klooni starter repository
 
@@ -106,7 +104,7 @@ ls -la
 
 ---
 
-## 4. Ehita Ansible deployment (45 min)
+## 4. Ehita Ansible deployment
 
 ### 4.1 Käivita test keskkond
 
@@ -247,7 +245,7 @@ git commit -m "Lisasin SSL ja virtual hosts Ansible'ile - töötab"
 
 ---
 
-## 5. Ehita Puppet deployment (45 min)
+## 5. Ehita Puppet deployment
 
 ### 5.1 Lülitu Puppet VM'ile
 
@@ -385,7 +383,7 @@ git commit -m "Lisasin samad asjad Puppet'iga - sama tulemus"
 
 ---
 
-## 6. Võrdle ja analüüsi (15 min)
+## 6. Võrdle ja analüüsi
 
 ### 6.1 Mõtle läbi, mis oli erinev
 
@@ -411,7 +409,7 @@ git push origin homework-[your-name]
 
 ---
 
-## 7. Lõpeta ja esita (15 min)
+## 7. Lõpeta ja esita
 
 ### 7.1 Kirjuta põhjalik README.md
 
@@ -469,29 +467,7 @@ echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
 
 ---
 
-## 8. Näpunäited
-
-### 8.1 Ansible näpunäited
-- **Alusta lihtsalt:** Ära proovi kõike korraga
-- **Kasuta YAML validatorit:** Väldi süntaksi vigu
-- **Testi playbook'i:** Kasuta `--check` režiimi
-- **Dokumenteeri muudatused:** Selge commit sõnumid
-
-### 8.2 Puppet näpunäited
-- **Õpi Ruby põhitõdesid:** Aitab süntaksit mõista
-- **Kasuta puppet-lint:** Kontrolli koodi kvaliteeti
-- **Testi modulit:** Kasuta `puppet apply --noop`
-- **Dokumenteeri klassi:** Selge kommentaarid
-
-### 8.3 Üldised näpunäited
-- **Võrdle objektiivselt:** Ära eelista üht või teist
-- **Mõtle praktiliselt:** Millal mida kasutada
-- **Dokumenteeri kogemused:** Aitab hiljem meeles pidada
-- **Küsi abi:** Kui midagi ei tööta, küsi õpetajalt
-
----
-
-## 9. KKK
+## KKK
 
 **Q: Kas pean mõlemad deploymentid tegema?**  
 A: Jah, see on kodutöö eesmärk - võrrelda mõlemat lähenemist.
@@ -505,19 +481,4 @@ A: Ei, piisab lühikest, aga põhjalikust analüüsist.
 **Q: Millal on tähtaeg?**  
 A: Järgmise nädala alguseks. Hilinemine = punktide kaotus.
 
----
-
-## Õnnitleused!
-
-Kui jõuate siia, olete:
-- Ehitanud sama infrastruktuuri kahe erineva tööriistaga
-- Mõistnud praktilisi erinevusi
-- Õppinud debug'ima mõlemat tööriista
-- Teinud informeeritud valiku
-
-**Head konfiguratsioonihaldust! 🚀**
-
----
-
-*Kodutöö koostatud ITS-24 DevOps automatiseerimise kursuse jaoks*  
-*Küsimuste korral: [õpetaja kontakt]*
+**Head konfiguratsioonihaldust!**

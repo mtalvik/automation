@@ -1,16 +1,15 @@
-# Süsteemi Oleku Dashboard Deployment
+# Docker Kodutöö: Süsteemi Oleku Dashboard
 
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Docker ja Podman container'ite kasutamist praktikas  
-(võib olla keeruline, aga jõukohane)
 
 **Te saate valmis veebisaidi - keskenduge container tehnoloogiate õppimisele!**
 
 ---
 
-## Task 1: Projekt: Süsteemi Oleku Dashboard
+## Ülesanne 1: Projekti ülevaade
 
-**Mida see teeb:**
+**Mida see dashboard teeb:**
 - Näitab container informatsiooni
 - Kuvab serveri olekut
 - Võimaldab testida connectivity
@@ -24,9 +23,9 @@
 
 ---
 
-## Task 2: Kloonige starter repository
+## Ülesanne 2: Starter repository kloneerimine
 
-### Ülesanne 2.1: Kloonige kodutöö starter repository
+### 2.1: Kloonige kodutöö starter repository
 
 ```bash
 # Clone valmis starter repository
@@ -35,7 +34,6 @@ cd docker-dashboard-starter
 
 # Loo oma branch
 git checkout -b homework-TEIE-NIMI
-
 # Näiteks: git checkout -b homework-maria-talvik
 ```
 
@@ -46,9 +44,7 @@ git checkout -b homework-TEIE-NIMI
 - nginx.conf konfiguratsioon
 - README dokumentatsioon
 
-**Ei pea ise kirjutama - fookus container'itel!**
-
-#### Tutvuge starter failidega
+### 2.2: Tutvuge starter failidega
 
 **Kontrollige, mis failid on olemas:**
 ```bash
@@ -61,13 +57,7 @@ ls -la
 # README.md - Dokumentatsioon
 ```
 
-**`index.html` on valmis dashboard rakendus** - see näitab:
-- Container runtime info (Docker/Podman)
-- Süsteemi olek ja uptime
-- Interaktiivsed nupud testimiseks
-- Responsive disain
-
-#### Testage starter rakendust brauseris
+### 2.3: Testage starter rakendust
 
 ```bash
 # Avage index.html otse brauseris (ilma container'ita)
@@ -80,17 +70,11 @@ open index.html
 # - Interactive buttons töötavad
 ```
 
-**Mida need failid teevad?**
-- `index.html` - Dashboard rakendus (juba valmis!)
-- `Dockerfile` - Container ehitamise juhised
-- `docker-compose.yml` - Mitme-container haldamine
-- `nginx.conf` - Veebserveri täpsemad seadistused
-
 ---
 
-## Docker container loomine**
+## Ülesanne 3: Docker container loomine
 
-#### Tutvuge Dockerfile'iga
+### 3.1: Tutvuge Dockerfile'iga
 
 **Vaadake olemas olevat `Dockerfile` faili:**
 ```bash
@@ -105,59 +89,36 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf  # Custom config
 EXPOSE 80                      # Container port 80
 ```
 
-**Mida see teeb:**
-- Alustab nginx serveriga (väike Alpine Linux)
-- Kopeerib meie HTML faili õigesse kohta
-- Lisab custom nginx konfiguratsiooni
-- Avab port 80 HTTP liikluseks
-
-#### Testige Docker build
+### 3.2: Testige Docker build
 
 ```bash
 # Ehitage container image
 docker build -t my-dashboard .
 
-# Mida see käsk teeb?
-# - Loeb Dockerfile faili
-# - Laadib nginx:alpine image
-# - Kopeerib index.html faili
-# - Loob uue image nimega "my-dashboard"
-
 # Kontrollige, et image on loodud
 docker images | grep my-dashboard
 ```
 
-#### Esimene commit oma branch'iga
+### 3.3: Esimene commit
 
 ```bash
-# Commit esialgsed muudatused (kui tegite mõnda)
+# Commit esialgsed muudatused
 git add .
 git commit -m "Alustasin kodutööd: kontrollisin starter failid ja Docker build"
 
 # Push oma branch GitHub'i
 git push origin homework-TEIE-NIMI
-
-# Miks me commit'ime?
-# - Salvestame oma töö progressi
-# - Näitame, et alustasime tööd
-# - Saame tagasina kui midagi läheb valesti
 ```
 
 ---
 
-## Task 3: **Samm 3: Container'ite käivitamine**
+## Ülesanne 4: Container'ite käivitamine
 
-#### Docker'iga deploy
+### 4.1: Docker deployment
 
 ```bash
 # Käivitage container
 docker run -d --name my-docker-app -p 8080:80 my-dashboard
-
-# Mida see käsk teeb?
-# -d = detached mode (taustal)
-# --name = anname container'ile nime "my-docker-app"
-# -p 8080:80 = ühendame host port 8080 → container port 80
-# my-dashboard = kasutame meie loodud image't
 
 # Kontrollige, et container töötab
 docker ps
@@ -166,7 +127,7 @@ docker ps
 echo "Avage brauser: http://localhost:8080"
 ```
 
-#### Podman'iga deploy
+### 4.2: Podman deployment
 
 ```bash
 # Ehitage image Podman'iga
@@ -182,15 +143,9 @@ podman ps
 echo "Avage brauser: http://localhost:8081"
 ```
 
-**Docker vs Podman erinevused:**
-- Docker vajab daemon'it (background service)
-- Podman töötab ilma daemon'ita
-- Käsud on peaaegu identilised
-- Mõlemad kasutavad sama container format
+### 4.3: Docker-compose kasutamine
 
-#### Docker-compose kasutamine
-
-**Looge `docker-compose.yml` fail:**
+**Looge/kontrollige `docker-compose.yml` faili:**
 ```yaml
 version: '3.8'
 
@@ -207,19 +162,13 @@ services:
 # Ehitage ja käivitage
 docker-compose up -d
 
-# Mida see teeb?
-# - Loeb docker-compose.yml faili
-# - Ehitab image kui vaja
-# - Käivitab container'i
-# - Seadistab networking automaatselt
-
 # Kontrollige
 docker-compose ps
 
 # Testidige: http://localhost:8080
 ```
 
-#### Commit oma edu
+### 4.4: Commit deployment'i
 
 ```bash
 git add docker-compose.yml
@@ -228,9 +177,9 @@ git commit -m "Docker ja Podman deployment töötab - mõlemad testitud"
 
 ---
 
-## Task 4: Container'ite haldamine**
+## Ülesanne 5: Container'ite haldamine
 
-#### Container'ite info vaatamine
+### 5.1: Container'ite info vaatamine
 
 ```bash
 # Vaadake kõiki töötavaid container'eid
@@ -246,12 +195,7 @@ docker exec -it my-docker-app sh
 exit
 ```
 
-**Mida need käsud teevad?**
-- `docker ps` - näitab töötavaid container'eid
-- `docker logs` - näitab container'i väljundit
-- `docker exec -it` - lubab container'isse siseneda
-
-#### Container'ite peatamine ja kustutamine
+### 5.2: Container'ite peatamine ja cleanup
 
 ```bash
 # Peatage container
@@ -260,14 +204,11 @@ docker stop my-docker-app
 # Kustutage container
 docker rm my-docker-app
 
-# Teha mõlemat korraga
+# Või mõlemat korraga
 docker rm -f my-docker-app
-
-# Kustutage ka image (kui vaja)
-docker rmi my-dashboard
 ```
 
-#### Docker-compose haldamine
+### 5.3: Docker-compose haldamine
 
 ```bash
 # Vaadake docker-compose staatust
@@ -283,124 +224,97 @@ docker-compose down
 docker-compose up -d
 ```
 
-#### Ressursside kasutus
+### 5.4: Ressursside puhastamine
 
 ```bash
 # Vaadake container'ite ressursside kasutust
 docker stats
 
-# Vaadake Docker disk kasutust
-docker system df
-
 # Puhastage unused resources
 docker system prune -f
 ```
 
-**Commit haldamise oskused:**
-```bash
-git add .
-git commit -m "Õppisin container'ite haldamist - start, stop, logs, cleanup"
-```
-
 ---
 
-## Task 5: Lõplik dokumentatsioon ()**
+## Ülesanne 6: Dokumentatsiooni täiendamine
 
-#### Muutke README.md faili
+### 6.1: Muutke README.md faili
 
-**Fail: `README.md`** (kopeerige ja täitke oma andmed):
+**Täitke README.md oma andmetega:**
 ```markdown
 # System Status Dashboard - [TEIE NIMI]
 
 ## Mis see on?
-System Status Dashboard on veebirakendus, mis näitab container informatsiooni,
-süsteemi olekut ja võimaldab testida erinevaid operations.
+System Status Dashboard on veebirakendus, mis näitab container informatsiooni.
 
-## Task 6: Kuidas käivitada?
+## Kuidas käivitada?
 
 ### Docker'iga:
 ```bash
 docker build -t dashboard .
 docker run -d -p 8080:80 dashboard
-# Avage: http://localhost:8080?type=Docker
+# Avage: http://localhost:8080
 ```
 
 ### Podman'iga:
 ```bash
 podman build -t dashboard .
 podman run -d -p 8081:80 dashboard  
-# Avage: http://localhost:8081?type=Podman
+# Avage: http://localhost:8081
 ```
 
 ### Docker-compose'iga:
 ```bash
 docker-compose up -d
-# Docker: http://localhost:8080?type=Docker
-# Podman: http://localhost:8081?type=Podman
+# Avage: http://localhost:8080
 ```
 
-## Funktsioonid
-- System status monitoring
-- Container runtime detection
-- Interactive operations testing
-- Real-time uptime counter
-- Health check endpoint
-- Custom nginx configuration
-
-## Keskkonnamuutujad
-| Muutuja | Kirjeldus |
-|----------|-------------|
-| `CONTAINER_TYPE` | Näitab Docker või Podman |
-| `DEPLOY_DATE` | Millal container deployiti |
-
-## Tervise kontroll
-Külastage `/health` endpoint'i container'i tervise staatuse kontrollimiseks.
-
-## Task 7: Ekraanipildid
-[Lisage oma screenshot'id siia]
-
-## Task 8: Mida ma õppisin
+## Mida ma õppisin
 - [Teie kogemus 1]
 - [Teie kogemus 2] 
 - [Teie kogemus 3]
 
-## Task 9: Probleemid ja lahendused
-**Probleem:** [Kirjeldage probleem mis teil tekkis]  
-**Lahendus:** [Kuidas te selle lahendasite]
+## Probleemid ja lahendused
+**Probleem:** [Kirjeldage probleem]  
+**Lahendus:** [Kuidas lahendasite]
 ```
 
-#### Tehke screenshot'id
+### 6.2: Screenshot'ide tegemine
 
 **Vajalikud screenshot'id:**
-1. Dashboard töötab Docker'is: `http://localhost:8080?type=Docker`
-2. Dashboard töötab Podman'is: `http://localhost:8081?type=Podman`  
+1. Dashboard töötab Docker'is: `http://localhost:8080`
+2. Dashboard töötab Podman'is: `http://localhost:8081`  
 3. Terminal output: `docker ps` ja `podman ps`
-4. Tervise kontrolli test: `curl http://localhost:8082/health`
 
-**Salvestage screenshot'id `screenshots/` kausta.**
+**Salvestage `screenshots/` kausta.**
 
 ---
 
-#### Lõplik push oma branch'iga
+## Ülesanne 7: Lõplik esitamine
+
+### 7.1: Lõplik commit
 
 ```bash
 # Veenduge, et kõik on commit'itud
 git add .
-git commit -m "Lõplik esitamine: Docker kodutöö valmis - kõik containerid testitud"
+git commit -m "Kodutöö valmis: Docker ja Podman deployment testitud"
 
 # Push final version
 git push origin homework-TEIE-NIMI
-
-# GitHub'is saate luua Pull Request õpetajale
-# Teacher repository → Pull Requests → New Pull Request
 ```
+
+### 7.2: Pull Request loomine
+
+GitHub'is looge Pull Request õpetajale:
+1. Minge teacher repository
+2. Pull Requests → New Pull Request
+3. Valige oma branch `homework-TEIE-NIMI`
 
 ---
 
-## Task 10: **Esitamise nõuded**
+## Esitamise nõuded
 
-### **Repository peab sisaldama:**
-
+### Repository struktuur:
 ```
 docker-fundamentals-homework/
 ├── README.md                    # Projekti kirjeldus
@@ -410,15 +324,14 @@ docker-fundamentals-homework/
 └── screenshots/ (valikuline)    # Töötavate container'ite pildid
 ```
 
-### **Esitamine:**
+### Esitamine:
 1. **GitHub Pull Request link** esitage õppetoolis
-2. **Oma branch** teacher repository's: `homework-TEIE-NIMI`
-3. **Töötav demonstratsioon** - õpetaja saab checkout'ida ja testida
+2. **Oma branch:** `homework-TEIE-NIMI`
+3. **Töötav demonstratsioon** - õpetaja saab testida
 
-### **Repository peab näitama:**
-- **Töötav rakendus Docker'is**
-- **Töötav rakendus Podman'is**
-- **docker-compose setup**
-- **Selge dokumentatsioon README.md's**
-- **Git commit history näitab progressi**
-
+### Hindamiskriteeriumid:
+- ✅ Töötav Docker deployment
+- ✅ Töötav Podman deployment  
+- ✅ docker-compose setup
+- ✅ Selge dokumentatsioon
+- ✅ Git commit history näitab progressi

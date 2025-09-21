@@ -1,6 +1,5 @@
 # Ansible Advanced Lab: Template-based Configuration
 
-**Kestus:** 2 tundi  
 **Eesmärk:** Õppida Ansible'i täpsemaid funktsioone ja luua dünaamilisi konfiguratsioone
 
 ## Õpiväljundid
@@ -142,7 +141,7 @@ all:
         ssl_enabled: true
 ```
 
-**💡 Mõelge:** Miks on kasulik grupeerida servereid nii rolli kui keskkonna järgi?
+**Mõelge:** Miks on kasulik grupeerida servereid nii rolli kui keskkonna järgi?
 
 ### 1.3 Variables hierarchy loomine
 
@@ -225,7 +224,7 @@ mysql_users:
     # Parool tuleb vault'ist
 ```
 
-**📝 Märkused:**
+**Märkused:**
 - Kasutame Jinja2 loogikat dünaamilisteks väärtusteks
 - Serverite võimsus mõjutab konfiguratsiooni
 - Keskkond määrab turvalisuse taseme
@@ -662,18 +661,4 @@ Veenduge, et olete lõpetanud:
 - [ ] **Dry run** - --check mode töötab
 - [ ] **Template testing** - konfiguratsioonid genereeruvad õigesti
 
----
-
-## 6. Järgmised sammud
-
-### 6.1 Valmis kodutööks
-- Kasutage siin õpitud advanced pattern'e
-- Rakendage vault'i kõikides tootmise playbook'ides
-- Organiseerige projektide struktuuri professionaalselt
-
-### 6.2 Järgmine nädal
-- Ansible Roles ja Galaxy
-- Automated testing strategies
-- Enterprise deployment patterns
-
-**🎉 Hästi tehtud!** Te oskate nüüd luua production-ready Ansible projekte!
+**Hästi tehtud!** Te oskate nüüd luua production-ready Ansible projekte!

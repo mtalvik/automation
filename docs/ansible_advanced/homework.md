@@ -1,8 +1,6 @@
 # Deploy Web Server with Vault & Templates
 
-**Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Apache serveri juurutamine Ansible Vault salajaste andmete ja Jinja2 mallide abil  
-**Aeg:** 1.5-2h praktilist juurutamist
 
 **Te saate valmis starter failid - fookus on Vault'i ja template'ide õppimisel!**
 
@@ -383,44 +381,3 @@ ansible-advanced-homework/
 2. **Hoidla peab olema avalik** ülevaatamiseks
 3. **Selge esitlus** - puhas, organiseeritud, dokumenteeritud
 4. **Töötav demonstreerimine** - õpetaja saab kloonida ja juurutada
-
----
-
-## 8. Edu nõuanded
-
-1. **Klooni esmalt, koodi hiljem** - Alusta töötava hoidlaga
-2. **Testi iga muudatust** - Juuruta pärast iga muudatust
-3. **Dokumenteeri kõike** - Tee ekraanipildid edenedes
-4. **Mõista vault'i turvalisust** - Ära kunagi commita dekrüptitud salajasi andmeid
-5. **Harjuta käsitlejaid** - Tee muudatusi ja näe teenuse taaskäivitumisi
-6. **Kasuta git'i korrektselt** - Commit pärast iga töötavat sammu
-
----
-
-## 9. Ajakava
-
-```
-15 min: Veebi varade hankimine + automatiseerimisfailide loomine
-20 min: Vault faili loomine ja testimine
-25 min: Playbook'i kirjutamine ja juurutamine
-20 min: Vault'i/käsitleja operatsioonide testimine
-10 min: Lõplik dokumentatsioon ja ekraanipildid
-
-Kokku: 1h 30min (täiuslik 2h labori jaoks piisava varuga!)
-```
-
----
-
-## 10. Põhilised õpiteemad
-
-### Õpilased omandavad:
-- 🔐 **Ansible Vault** - krüpti ja halda salajasi andmeid turvaliselt
-- 📄 **Jinja2 Mallid** - loo dünaamilisi konfiguratsioone
-- 🔧 **Teenuse Käsitlejad** - automatiseeri teenuse haldamine
-- 📁 **Git Töövoog** - hoidla haldamine
-
-### Praktilised Oskused:
-- Turvaline identimisteabe haldamine infrastruktuuri koodis
-- Dünaamiline konfiguratsiooni genereerimine erinevate keskkondade jaoks
-- Teenuse taaskäivituse automatiseerimine konfiguratsiooni muudatuste korral
-- Versioonikontrolli parimad tavad infrastruktuuri jaoks
