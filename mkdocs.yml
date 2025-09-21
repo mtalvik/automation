@@ -81,13 +81,12 @@ plugins:
     type: date
     fallback_to_build_date: false
 
-# Navigation - Organized by Modules
+# Navigation - Clean and organized
 nav:
-- 🏠 Avaleht: index.md
-- 📚 Õppekava: curriculum.md
+- Avaleht: index.md
+- Õppekava: curriculum.md
 
-# Module 1: Git Version Control
-- 🔧 Git Versioonihaldus:
+- Git:
   - Praktikum: git_version_control/lab.md
   - Kodutöö: git_version_control/homework.md
   - Lugemismaterjalid: git_version_control/reading_materials.md
@@ -99,42 +98,32 @@ nav:
     - VS Code: git_version_control/reference/vscode.md
     - WTC Guide: git_version_control/reference/whatthecommit_guide.md
 
-# Module 2: Ansible Basics
-- ⚡ Ansible Alused:
-  - Teooria: ansible_basics/lecture.md
-  - Praktikum: ansible_basics/lab.md
-  - Kodutöö: ansible_basics/homework.md
-  - Lugemismaterjalid: ansible_basics/reading_materials.md
-
-# Module 3: Docker Fundamentals
-- 🐳 Docker Alused:
-  - Loeng 1 - Põhialused: docker_fundamentals/1lecture.md
-  - Loeng 2 - Edasijõudnud: docker_fundamentals/2lecture.md
-  - Teooria (ülevaade): docker_fundamentals/lecture.md
+- Docker:
+  - Teooria: docker_fundamentals/lecture.md
   - Praktikum: docker_fundamentals/lab.md
   - Kodutöö: docker_fundamentals/homework.md
+  - Compose:
+    - Teooria: docker_orchestration/lecture.md
+    - Praktikum: docker_orchestration/lab.md
+    - Kodutöö: docker_orchestration/homework.md
+    - Kodulabor: docker_orchestration/kodu_masina_ehitus_juhend.md
 
-# Module 4: Docker Orchestration
-- 🚀 Docker Orkestratsioon:
-  - Teooria: docker_orchestration/lecture.md
-  - Praktikum: docker_orchestration/lab.md
-  - Kodutöö: docker_orchestration/homework.md
-  - Kodulabor: docker_orchestration/kodu_masina_ehitus_juhend.md
+- Ansible:
+  - Alused:
+    - Teooria: ansible_basics/lecture.md
+    - Praktikum: ansible_basics/lab.md
+    - Kodutöö: ansible_basics/homework.md
+    - Lugemismaterjalid: ansible_basics/reading_materials.md
+  - Edasijõudnud:
+    - Teooria: ansible_advanced/lecture.md
+    - Praktikum: ansible_advanced/lab.md
+    - Kodutöö: ansible_advanced/homework.md
+  - Rollid:
+    - Teooria: ansible_roles/lecture.md
+    - Praktikum: ansible_roles/lab.md
+    - Kodutöö: ansible_roles/homework.md
 
-# Module 5: Ansible Advanced
-- 🎯 Ansible Edasijõudnud:
-  - Teooria: ansible_advanced/lecture.md
-  - Praktikum: ansible_advanced/lab.md
-  - Kodutöö: ansible_advanced/homework.md
-
-# Module 6: Ansible Roles
-- 🎭 Ansible Rollid:
-  - Teooria: ansible_roles/lecture.md
-  - Praktikum: ansible_roles/lab.md
-  - Kodutöö: ansible_roles/homework.md
-
-# Module 7: Terraform Basics
-- 🏗️ Terraform Alused:
+- Terraform:
   - Teooria: terraform_basics/lecture.md
   - Praktikum: terraform_basics/lab.md
   - Kodutööd:
@@ -142,8 +131,7 @@ nav:
     - HW2 - Moodulid: terraform_basics/homework2.md
     - AWS Backup (boonus): terraform_basics/homework_aws_backup.md
 
-# Module 8: CI/CD + Kubernetes
-- ☸️ CI/CD + Kubernetes:
+- CI/CD + Kubernetes:
   - CI/CD Teooria: ci_cd_advanced/lecture.md
   - CI/CD Praktikum: ci_cd_advanced/lab.md
   - CI/CD Kodutöö: ci_cd_advanced/homework.md
@@ -152,17 +140,7 @@ nav:
   - Kubernetes Labor 2: kubernetes_overview/lab2.md
   - Kubernetes Kodutöö: kubernetes_overview/homework.md
 
-# Additional Resources
-- 📋 Ülesanded:
-  - Ülevaade: assignments/index.md
-  - GitHub Classroom: assignments/classroom.md
-  - Leaderboard: assignments/leaderboard.md
-  - Google Classroom Setup: assignments/google-classroom-setup.md
-  - GitHub Education Setup: assignments/github-education-setup.md
-  - GitHub Discussions Setup: assignments/github-discussions-setup.md
-  - Õpilaste juhend: assignments/student-guide.md
-
-- 💬 Foorum: https://github.com/mtalvik/automation/discussions
+- Foorum: https://github.com/mtalvik/automation/discussions
 
 # Markdown extensions
 markdown_extensions:
@@ -263,8 +241,7 @@ extra:
   consent:
     title: Küpsiste nõusolek
     description: >-
-      Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust. 
-      Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.
+      Kasutame küpsiseid, et jälgida kasutusstatistikat ja parandada kasutajakogemust.  Sinu nõusolekuga aitad meil muuta õppematerjale paremaks.
     actions:
     - accept
     - reject

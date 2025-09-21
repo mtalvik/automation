@@ -1,4 +1,4 @@
-# CI/CD Advanced: Ettevõtte-tasemel DevOps Automatiseerimine
+# CI/CD Advanced
 
 ## Sissejuhatus
 
