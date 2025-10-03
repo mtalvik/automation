@@ -1,5 +1,8 @@
 # Terraform Põhitõed Kodutöö
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Terraform'i põhialused praktilist tööd tehes
 
 ## Õpieesmärgid

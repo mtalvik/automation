@@ -1,5 +1,8 @@
 # Git Versioonikontrolli Labor: Git & GitHub Praktiline Rakendamine
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Praktiliselt harjutada kõiki Git'i peamisi funktsioone ja GitHub workflow'd
 
 ---

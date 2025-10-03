@@ -1,5 +1,8 @@
 # IT Automatiseerimise Kursuse Õppekava
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **8 Moodulit**
 
 ---

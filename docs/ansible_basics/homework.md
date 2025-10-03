@@ -1,5 +1,8 @@
 # LAMP Stack Playbook
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Ansible playbook'i loomist praktiliselt ja iseseisvalt lahendamist ja uurimist
 
 ---

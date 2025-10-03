@@ -1,5 +1,8 @@
 # Terraform Basics Kodutöö: Kohalik Infrastruktuur
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Terraform'i praktiline kasutamine ja Infrastructure as Code mõistmine  
 praktilist tööd

@@ -1,5 +1,8 @@
 # Kubernetes Labor - Intermediate
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Kubernetes'i edasijõudnud funktsioone ja tööriistade kompleksset kasutamist
 
 ---

@@ -1,5 +1,8 @@
 # CI/CD Advanced Lab: Täielik Automatiseerimine
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Lab'i eesmärk
 
 **Täna teeme LÕPPPROJEKTI!** Kasutame KÕIKI oskusi, mida õppisime:

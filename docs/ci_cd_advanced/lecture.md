@@ -1,5 +1,8 @@
 # CI/CD Advanced
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Sissejuhatus
 
 Selles peatükis tutvume ettevõtte-tasemel CI/CD automatiseerimisega, mis läheb palju kaugemale lihtsate "Hello World" pipeline'ide. Õpitakse, kuidas ehitada robustseid, turvalisi ja optimeeritud CI/CD süsteeme, mis suudavad toetada tõelist DevOps kultuuri.

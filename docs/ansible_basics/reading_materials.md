@@ -1,5 +1,8 @@
 # Ansible süvakäsitlus
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 Ansible'i agentless arhitektuur erineb fundamentaalselt teistest konfiguratsioonihalduse tööriistadest. Selle mõistmine on kriitiline, sest see mõjutab kõike - alates jõudlusest kuni turvalisuseni.
 
 ```mermaid

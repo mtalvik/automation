@@ -1,5 +1,8 @@
 # Ansible Roles: Roles ja Puppet
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 Tere tulemast tagasi! Eelmisel nädalal õppisime Ansible'i variables, templates ja vault'i kasutamist. Täna astume järgmise suure sammu - õpime kirjutama **professionaalset infrastruktuuri koodi** ja võrdleme erinevaid tööriistu.
 
 ---

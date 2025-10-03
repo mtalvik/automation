@@ -1,5 +1,8 @@
 # Git Projekti Portfolio - Kodutöö
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Demonstreerida Git'i ja GitHub'i oskusi praktilise töö kaudu  
 
 ---

@@ -1,5 +1,8 @@
 # Ansible Roles Lab: Nginx Role
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Luua töötav Ansible role
 
 ---

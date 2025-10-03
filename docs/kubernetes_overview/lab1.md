@@ -1,5 +1,8 @@
 # Kubernetes Labor - Põhialused
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Mõista Kubernetes'i põhikontseptsioone ja teha esimesed sammud
 
 ---

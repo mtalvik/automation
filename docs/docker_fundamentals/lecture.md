@@ -1,5 +1,8 @@
 # Docker konteinerite teooria ja praktika
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 Eelmisel nädalal õppisime Ansible role'e, kuidas automatiseerida serverite konfiguratsiooni. Täna astume järgmisesse dimensiooni - konteinerite maailma. Kui Ansible aitab hallata olemasolevaid servereid, siis Docker muudab selle, kuidas me rakendusi üldse ehitame ja jooksutame.
 
 Mõtle konteineritele kui LEGO klotside süsteemile - iga konteiner on üks klots, mis saab kiiresti kokku panna suuremateks rakendusteks. Aga erinevalt LEGO-st, need "klotsid" sisaldavad terveid rakendusi ja jooksevad igal arvutil täpselt ühesuguselt.

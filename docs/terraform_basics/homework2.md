@@ -1,5 +1,8 @@
 # Terraform Kodutöö: Moodulid ja Korduvkasutus
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Terraform mooduleid ja for_each kasutamist
 
 ## Projekti Kirjeldus

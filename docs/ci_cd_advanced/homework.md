@@ -1,5 +1,8 @@
 # Kodutöö - Projekti Lõpetamine
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Ülesanne 1: Kodutöö Eesmärk
 
 Lõpeta oma automatiseerimise projekt ja dokumenteeri see professionaalselt. See on sinu võimalus näidata kõiki oskusi, mida oled kursuse jooksul õppinud.

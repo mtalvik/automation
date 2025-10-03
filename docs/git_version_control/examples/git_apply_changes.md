@@ -1,5 +1,8 @@
 # Git Apply - Praktilised Patch'ide Rakendamise Oskused
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida rakendama muudatusi patch failidest versioonihalduse kontekstis
 
 ---

@@ -1,5 +1,8 @@
 # WhatTheCommit.com – Commit-sõnumid, mis solvavad sind tagasi 😄
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Mis see *tegelikult* on?
 
 [WhatTheCommit.com](https://whatthecommit.com/) on sait, mis viskab sulle suvalisi commit-sõnumeid, sest sa oled ilmselt liiga laisk, et mõelda ise midagi paremat kui “update” või “asdfasdkjf”.

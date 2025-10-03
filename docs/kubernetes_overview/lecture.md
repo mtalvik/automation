@@ -1,5 +1,8 @@
 # Kubernetes Põhialused: Container Orchestration
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Mõista Kubernetes'i rolli moodsas tarkvaraarenduses ja õppida selle põhifunktsionaalsust
 
 

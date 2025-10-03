@@ -1,5 +1,8 @@
 # Docker Kodutöö: Süsteemi Oleku Dashboard
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Tähtaeg:** Järgmise nädala alguseks  
 **Eesmärk:** Õppida Docker ja Podman container'ite kasutamist praktikas  
 

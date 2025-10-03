@@ -37,3 +37,4 @@ Vaja: Ubuntu, Git, Docker, VS Code. Kõik GitHub'is.
 ## Abi
 
 [Discord](https://discord.gg/gFMNPcrpy5)
+[Discord](https://discord.gg/gFMNPcrpy5)

@@ -1,5 +1,8 @@
 # Git Versioonikontroll
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 #### Giti ajalugu ja areng
 
 Git ei tekkinud vaakumis - see lahendas reaalseid probleeme, millega silmitsi seisis Linux kerneli arendustiim 2005. aastal. Linus Torvalds oli aastatega kasutanud erinevaid versioonikontrolli lahendusi, kuid ükski ei vastanud kerneli arenduse kõrgetele nõudmistele. BitKeeper, mida nad kasutasid, muutus äkitselt tasuliseks ning alternatiivid nagu CVS ja Subversion olid liiga aeglased ja tsentraliseeritud.

@@ -1,5 +1,8 @@
 # Ansible Basics Lab: Setup ja Esimene Playbook
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Ansible'i alused ja luua esimesed automatiseerimise skriptid
 
 ## Õpiväljundid

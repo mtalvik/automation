@@ -1,5 +1,8 @@
 # Docker Orchestration Kodutöö
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Moodul:** Docker Orkestratsioon  
 **Tähtaeg:** Järgmise nädala algus  
 **Hindamine:** 120 punkti

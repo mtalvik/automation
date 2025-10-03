@@ -1,5 +1,8 @@
 # Ansible Advanced Lab: Template-based Configuration
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Õppida Ansible'i täpsemaid funktsioone ja luua dünaamilisi konfiguratsioone
 
 ## Õpiväljundid

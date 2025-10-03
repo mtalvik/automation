@@ -1,4 +1,7 @@
 # Kubernetes Kodutöö: BookStore E-commerce Rakendus
+
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
  
 **Eesmärk:** Deploy'ida kolmeosaline web rakendus Kubernetes'i kasutades
 

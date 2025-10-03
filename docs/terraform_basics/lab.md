@@ -1,5 +1,8 @@
 # Terraform Basics Labor
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Praktiliselt õppida Terraform'i kasutamist ja luua infrastruktuuri koodi abil
 
 ---

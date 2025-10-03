@@ -1,5 +1,8 @@
 # VS Code Seadistamise Juhend
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Mis on IDE (Integrated Development Environment)?
 
 **IDE** on integreeritud arenduskeskkond - üks programm, mis sisaldab kõiki arendamiseks vajalikke tööriistu:

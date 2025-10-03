@@ -1,5 +1,8 @@
 # Terraform Basics: Infrastructure as Code
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Mõista Infrastructure as Code kontseptsiooni ja õppida Terraform'i põhialused
 
 ---

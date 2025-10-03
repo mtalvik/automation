@@ -1,4 +1,7 @@
 # Docker Fundamentals Lab: Esimesed Sammud
+
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
 ## Eesmärk: Docker alused käed-küljes
 
 Täna õpite Docker'i alused **praktikas**. Keskendume ainult Docker'ile - see on teie esimene kord!

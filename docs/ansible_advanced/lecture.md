@@ -1,5 +1,8 @@
 # Ansible Advanced: Edasijõudnud Funktsioonid
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Teemad:** Variables, Templates, Handlers, Vault
 
 ## Õpiväljundid

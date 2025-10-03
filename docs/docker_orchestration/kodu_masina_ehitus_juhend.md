@@ -1,5 +1,8 @@
 # Lihtne VM Setup Docker/Kubernetes Õppimiseks
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## 1. Kõik Virtualization Valikud
 
 ### Local Solutions

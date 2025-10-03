@@ -1,5 +1,8 @@
 # Docker Orkestratsioon
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Sissejuhatus
 
 Kaasaegses IT-maailmas koosneb enamik rakendusi mitmest komponendist. Ettevõtte veebileht vajab tavaliselt veebiserver staatiliste failide jaoks, rakendusserver äriloogika täitmiseks, andmebaas andmete säilitamiseks ja võib-olla veel cache kiiruse parandamiseks. Traditsionaalselt paigaldati need kõik samale serverile või hallati eraldi serverites keeruliste skriptidega.

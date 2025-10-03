@@ -1,5 +1,8 @@
 # Docker Compose Lab
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Mida õpid
 
 Selle labi lõpuks oskad:

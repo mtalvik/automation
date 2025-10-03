@@ -1,5 +1,8 @@
 # Deploy Web Server with Vault & Templates
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Apache serveri juurutamine Ansible Vault salajaste andmete ja Jinja2 mallide abil  
 
 **Te saate valmis starter failid - fookus on Vault'i ja template'ide õppimisel!**

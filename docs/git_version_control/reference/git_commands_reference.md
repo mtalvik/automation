@@ -1,5 +1,8 @@
 # Git Käsud
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## Põhilised Käsud
 
 ### Seadistamine

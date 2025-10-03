@@ -1,4 +1,7 @@
 # Git Diff ja Diff Väljundi Analüüs
+
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
  
 **Eesmärk:** Õppida lugema ja analüüsima diff väljundit versioonihalduse kontekstis
 

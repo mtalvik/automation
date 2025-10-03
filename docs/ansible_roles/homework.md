@@ -1,5 +1,8 @@
 # Ansible Roles Homework: Ehita sama infrastruktuur nii Ansible kui Puppet'iga
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 **Eesmärk:** Deploy sama infrastruktuuri mõlema tööriistaga ja võrdle praktikas  
 
 **Te saate valmis starter kood - fookus on deployment'il ja praktilisel võrdlusel!**
