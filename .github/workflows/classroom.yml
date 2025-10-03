@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: 'pip'
+          cache: "pip"
 
       - name: Install Python dependencies
         run: |
@@ -28,8 +28,9 @@ jobs:
       - name: Setup Node.js for markdown tools
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          # Do not enable npm cache because repo has no lockfile and it fails the job
+          # cache: 'npm'
 
       - name: Install Node.js tools
         run: |
@@ -45,25 +46,25 @@ jobs:
       - name: Check Markdown Files
         run: |
           echo "🔍 Checking markdown files..."
-          
+
           # Check for broken internal links
           echo "Checking internal links..."
           find docs/ -name "*.md" -print0 | xargs -0 -I {} markdown-link-check {} --config .github/markdown-link-check.json || true
-          
+
           # Basic markdown linting
           echo "Linting markdown files..."
           markdownlint-cli2 "docs/**/*.md" || true
-          
+
           echo "✅ Markdown validation completed"
 
       - name: Check Documentation Structure
         run: |
           echo "🔍 Checking documentation structure..."
-          
+
           # Check if all required directories exist
           required_dirs=("docs/ansible_basics" "docs/docker_fundamentals" "docs/terraform_basics")
           missing_dirs=()
-          
+
           for dir in "${required_dirs[@]}"; do
             if [ -d "$dir" ]; then
               echo "✅ Found $dir"
@@ -72,11 +73,11 @@ jobs:
               missing_dirs+=("$dir")
             fi
           done
-          
+
           # Check if all modules have required files
           modules=("ansible_basics" "ansible_advanced" "ansible_roles" "docker_fundamentals" "docker_orchestration" "terraform_basics" "kubernetes_overview" "ci_cd_advanced")
           missing_files=()
-          
+
           for module in "${modules[@]}"; do
             if [ -d "docs/$module" ]; then
               for file in lecture.md lab.md homework.md; do
@@ -89,7 +90,7 @@ jobs:
               done
             fi
           done
-          
+
           # Summary
           if [ ${#missing_dirs[@]} -eq 0 ] && [ ${#missing_files[@]} -eq 0 ]; then
             echo "✅ Documentation structure check completed successfully"
@@ -100,13 +101,13 @@ jobs:
       - name: Validate Course Configuration Files
         run: |
           echo "🔍 Checking configuration files..."
-          
+
           # Check if example configs are valid YAML
           find . -name "*.yml" -o -name "*.yaml" | grep -E "(docker-compose|ansible)" | head -10 | while read file; do
             echo "Checking YAML syntax: $file"
             python -c "import yaml; yaml.safe_load(open('$file'))" || echo "⚠️  YAML syntax issue in $file"
           done
-          
+
           echo "✅ Configuration validation completed"
 
       - name: Generate Validation Report
@@ -122,7 +123,7 @@ jobs:
           echo "### 📚 Course Modules Status:" >> $GITHUB_STEP_SUMMARY
           echo "| Module | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|--------|" >> $GITHUB_STEP_SUMMARY
-          
+
           modules=("ansible_basics" "ansible_advanced" "ansible_roles" "docker_fundamentals" "docker_orchestration" "terraform_basics" "kubernetes_overview" "ci_cd_advanced")
           for module in "${modules[@]}"; do
             if [ -d "docs/$module" ]; then
@@ -131,7 +132,7 @@ jobs:
               echo "| $module | ⚠️ Missing |" >> $GITHUB_STEP_SUMMARY
             fi
           done
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🎓 Educational Features:" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ GitHub Classroom integration" >> $GITHUB_STEP_SUMMARY
@@ -139,6 +140,6 @@ jobs:
           echo "- ✅ Automated testing workflows" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Beautiful Material theme" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Estonian language support" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🚀 **Site URL:** https://mtalvik.github.io/automation" >> $GITHUB_STEP_SUMMARY
