@@ -1,18 +1,36 @@
 # Ansible Alused
 
+!!! tip "Navigeerimine"
+    Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
+
 ## 1. Ansible Arhitektuur ja Põhimõtted
 
 ### 1.1 Sissejuhatus automatiseerimisse
 
+!!! quote "Infrastructure as Code"
+    "Skaleeruva infrastruktuuri võti on selle käsitlemine koodina - versioonihalduses, testitud ja automatiseeritud."
+
 Süsteemiadministreerimine traditsioonilistel meetoditel tekitab skaleerumisel märkimisväärseid väljakutseid. Suurtes infrastruktuurides, kus hallatakse kümneid või sadu servereid, muutub käsitsi konfiguratsioonide haldamine aeganõudvaks ja vigadele vastuvõtlikuks.
 
-Ansible on open-source automatiseerimisplatvorm, mis lahendab süsteemihalduse, rakenduste juurutamise ja konfiguratsioonide haldamise ülesandeid. Ansible'i peamised eelised on agentless arhitektuur, deklaratiivne süntaks ja idempotentsed operatsioonid.
+!!! info "Mis on Ansible?"
+    **Ansible** on open-source automatiseerimisplatvorm, mis lahendab:
+    
+    - ✅ Süsteemihalduse
+    - ✅ Rakenduste juurutamise  
+    - ✅ Konfiguratsioonide haldamise ülesanded
+    
+    **Peamised eelised:**
+    
+    - 🚀 **Agentless arhitektuur** - pole vaja agente
+    - 📝 **Deklaratiivne süntaks** - kirjelda lõpptulemust
+    - 🔄 **Idempotentsed operatsioonid** - ohutud korduvkäivitused
 
 ### 1.2 Ansible arhitektuur
 
 #### 1.2.1 Agentless lähenemine
 
-Ansible kasutab agentless arhitektuuri, mis eristab seda paljudest konkureerivtest lahendustest. See tähendab, et hallatavates süsteemides ei ole vaja installida ja hooldada täiendavat tarkvara.
+!!! success "Agent pole vajalik!"
+    Erinevalt Puppetist või Chefist ei nõua Ansible hallatavates sõlmedes tarkvara installeerimist - ainult SSH ja Python!
 
 ```mermaid
 graph TB
@@ -46,10 +64,10 @@ graph TB
     style DB2 fill:#cc99ff
 ```
 
-**Nõuded hallatavates süsteemides:**
-- SSH server aktiivsena
-- Python interpreter (versioon 2.7 või 3.5+)
-- Vajalikud süsteemi õigused operatsioonide sooritamiseks
+??? info "Nõuded hallatavates süsteemides"
+    - SSH server aktiivsena
+    - Python interpreter (versioon 2.7 või 3.5+)
+    - Vajalikud süsteemi õigused operatsioonide sooritamiseks
 
 #### 1.2.2 Põhikomponendid
 
