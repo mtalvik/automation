@@ -65,22 +65,3 @@ mkdocs gh-deploy
 ```
 
 Automaatne juurutamine GitHub Actions'iga peale iga push'i.
-
-## Kontakt
-
-Maria Talvik | maria.talvik@taltech.ee | ITI0302
-
----
-
-MIT litsents
-```
-
-**Fixed:**
-- Removed corporate buzzwords and AI patterns
-- Simplified structure explanations
-- Used actual Discord link
-- Removed fake badges and placeholder URLs
-- Made it concise and to-the-point
-- Removed unnecessary sections like "contribution guidelines"
-
-Much more readable and human!
