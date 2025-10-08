@@ -78,7 +78,7 @@ services:
 web:                              # Taane puudub
     image:nginx                   # Tühik puudub kooloni järel
 	ports:                        # TAB märk (keelatud!)
-```
+```bash
 
 Compose faili põhistruktuur algab versiooni deklaratsiooniga. Versioon 3.8 on laialt toetatud ja sisaldab kõiki kaasaegseid funktsioone. Seejärel järgneb services sektsioon, kus defineeritakse kõik rakenduse komponendid.
 
@@ -112,7 +112,7 @@ services:
     image: nginx:alpine
     ports:
       - "8080:80"              # HOST:CONTAINER
-```
+```bash
 
 Standardsed teenused nagu PostgreSQL, Redis või Nginx kasutavad tavaliselt valmis image'eid. Need on hoolikalt testitud, optimeeritud ja regulaarselt uuendatud. Oma rakenduse komponendid nõuavad tavaliselt kohalikku ehitamist Dockerfile'i põhjal.
 
@@ -138,7 +138,7 @@ services:
       
       # Keerukas arvutatud väärtus
       - DATABASE_URL=postgres://user:${DB_PASSWORD}@database:5432/${DB_NAME}
-```
+```text
 
 Lihtsaim viis on määrata muutujad otse compose failis, kuid see pole soovitatav tundlike andmete jaoks. Turvalisem on kasutada .env faile, kus tundlikud seadistused hoitakse eraldi failides, mis ei lähe versioonikontrolli.
 
@@ -152,7 +152,7 @@ NODE_ENV=development
 # Database seadistused
 POSTGRES_DB=myapp_dev
 POSTGRES_USER=developer
-```
+```text
 
 ```yaml
 # docker-compose.yml - kasutab .env faili
@@ -168,7 +168,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-```
+```bash
 
 Environment variables võimaldavad sama compose faili kasutada erinevates keskkondades, muutes ainult .env faili sisu. See järgib "konfigureeri environment'i kaudu" põhimõtet, mis on DevOps maailmas laialdaselt tunnustatud.
 
@@ -198,7 +198,7 @@ services:
 
   cache:
     image: redis:alpine        # Käivitub paralleelselt database'iga
-```
+```text
 
 Siiski on oluline mõista, et depends_on tagab ainult container'ite käivitamise järjekorra, mitte teenuste valmiduse ootamist. PostgreSQL container võib käivitada, kuid andmebaas ise võib veel initsialiseerumise protsessis olla. Täiustatud stsenaariumides kasutatakse health check'e, mis kontrollivad teenuse tegelikku valmidust.
 
@@ -218,7 +218,7 @@ services:
       timeout: 5s                # 5 sekundi timeout
       retries: 5                 # Max 5 katset
       start_period: 30s          # Anna 30s käivitumiseks
-```
+```text
 
 ## Andmete säilitamine ja volume'id
 
@@ -243,7 +243,7 @@ services:
 volumes:
   postgres_data:                 # Docker haldab automaatselt
   redis_data:
-```
+```bash
 
 Docker pakub mitut tüüpi volume'e, igaüks oma kasutusjuhtudega. Named volume'id on Docker'i hallatavad ja optimeeritud, bind mount'id ühendavad otse host süsteemi kaustadega. Valik sõltub sellest, kas tegu on production andmetega või development töövoogudega.
 
@@ -278,7 +278,7 @@ services:
       # Live reload - kood muutub, container näeb kohe
       - ./backend/src:/app/src:ro
       - ./backend/app.py:/app/app.py:ro
-```
+```bash
 
 Bind mount'ide kasutamisel tuleb olla ettevaatlik lubadega ja turvalisusega. Read-only mount'id (:ro) on turvalisemad, kui container ei vaja sinna kirjutamist. Production keskkonnas tuleks bind mount'e vältida, sest need loovad sõltuvuse host süsteemi struktuurist.
 
@@ -302,7 +302,7 @@ user-management/
 │   └── app.py
 └── database/
     └── init.sql
-```
+```bash
 
 ### Backend implementatsioon
 
@@ -358,7 +358,7 @@ def get_users():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-```
+```bash
 
 ### Docker Compose konfiguratsioon
 
@@ -422,7 +422,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
-```
+```text
 
 ### Environment konfiguratsioon
 
@@ -432,7 +432,7 @@ DB_NAME=userdb
 DB_USER=postgres
 DB_PASSWORD=secret123
 WEB_PORT=8080
-```
+```text
 
 ```env
 # .env.example - template Git'i jaoks
@@ -440,7 +440,7 @@ DB_NAME=userdb
 DB_USER=postgres
 DB_PASSWORD=change_this_password
 WEB_PORT=8080
-```
+```text
 
 ### Käivitamine ja testimine
 
@@ -463,7 +463,7 @@ docker-compose logs backend
 # Testi rakendust
 curl http://localhost:8080/api/health
 curl http://localhost:8080/api/users
-```
+```bash
 
 ## Andmete säilitamine ja volume'id
 

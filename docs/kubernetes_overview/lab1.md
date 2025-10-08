@@ -25,7 +25,7 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 # Kontrollige installatsiooni
 minikube version
-```
+```text
 
 ### 1.2 Klastri Käivitamine
 
@@ -36,7 +36,7 @@ minikube start
 # Kontrollige, et kõik töötab
 kubectl cluster-info
 kubectl get nodes
-```
+```bash
 
 Peaksite nägema ühte node'i "Ready" staatuses. See on teie kohalik Kubernetes klaster.
 
@@ -61,7 +61,7 @@ kubectl get pods
 
 # Vaadake detailset infot
 kubectl describe pod nginx-pod
-```
+```text
 
 ### 2.2 Pod'iga Suhtlemine
 
@@ -79,14 +79,14 @@ exit
 # Testiga kohalikult (avahe uus terminal)
 kubectl port-forward nginx-pod 8080:80
 # Avage brauseris: http://localhost:8080
-```
+```text
 
 **Selgitus:** Port forwarding suunab teie arvuti pordi 8080 pod'i porti 80. Nii saate pod'i testida nagu see oleks teie arvutis.
 
 ```bash
 # Kustutage pod
 kubectl delete pod nginx-pod
-```
+```text
 
 **Kontrollpunkt:** Saite luua pod'i, testida seda ja kustutada.
 
@@ -120,7 +120,7 @@ spec:
         image: nginx:1.20
         ports:
         - containerPort: 80
-```
+```text
 
 ```bash
 # Looge deployment
@@ -135,7 +135,7 @@ kubectl get pods
 # Vaadake, mis juhtub kui pod'i kustutada
 kubectl delete pod <nginx-pod-name>
 kubectl get pods
-```
+```text
 
 **Märkate:** Uus pod tekib automaatselt! Deployment taastas soovitud oleku.
 
@@ -153,7 +153,7 @@ kubectl scale deployment nginx-deployment --replicas=2
 
 # Vaadake, kuidas pod'id kustutatakse
 kubectl get pods
-```
+```text
 
 **Kontrollpunkt:** Mõistate, kuidas Deployment hoiab soovitud arvu pod'e töös.
 
@@ -181,7 +181,7 @@ spec:
   - port: 80
     targetPort: 80
   type: NodePort  # Võimaldab välisest ligipääsu
-```
+```text
 
 ```bash
 # Looge service
@@ -197,14 +197,14 @@ kubectl run test-pod --image=busybox --rm -it --restart=Never -- sh
 nslookup nginx-service
 wget -qO- nginx-service
 exit
-```
+```text
 
 ### 4.2 Väline Ligipääs
 
 ```bash
 # Avage service väljastpoolt
 minikube service nginx-service
-```
+```text
 
 See peaks avama brauseri nginx'i lehega.
 
@@ -227,7 +227,7 @@ kubectl create configmap app-config \
 
 # Vaadake ConfigMap'i
 kubectl get configmap app-config -o yaml
-```
+```text
 
 ### 5.2 ConfigMap'i Kasutamine
 
@@ -254,7 +254,7 @@ spec:
         configMapKeyRef:
           name: app-config
           key: api.timeout
-```
+```text
 
 ```bash
 # Deploy'ige pod
@@ -262,7 +262,7 @@ kubectl apply -f config-pod.yaml
 
 # Vaadake tulemust
 kubectl logs config-test-pod
-```
+```text
 
 **Kontrollpunkt:** Pod kasutab ConfigMap'i väärtuseid keskkonnamuutujatena.
 
@@ -279,7 +279,7 @@ kubectl delete pod config-test-pod
 
 # Peatage Minikube
 minikube stop
-```
+```bash
 
 ---
 

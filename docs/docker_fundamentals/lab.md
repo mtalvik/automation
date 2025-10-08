@@ -1,16 +1,15 @@
 # Docker Fundamentals Lab: Esimesed Sammud
 
+Täna õpite Docker'i alused **praktikas**. Keskendume ainult Docker'ile - see on teie esimene kord!
+
 !!! tip "Navigeerimine"
     Kasuta paremal olevat sisukorda kiireks navigeerimiseks ↗️
-## Eesmärk: Docker alused käed-küljes
-
-Täna õpite Docker'i alused **praktikas**. Keskendume ainult Docker'ile - see on teie esimene kord!
 
 ---
 
-## Lab'i eesmärgid
+## Õpiväljundid
 
-**Pärast seda lab'i oskate:**
+Pärast seda lab'i oskate:
 - **Mõista, miks Docker on kiire** (kogesite ise)
 - **Ehitada lihtsat rakendust** (käed-küljes)
 - **Kasutada põhilisi Docker käske** (praktiliselt)
@@ -31,7 +30,7 @@ docker run hello-world
 # 2. Loob container
 # 3. Käivitab rakenduse
 # 4. Näitab tulemust
-```
+```bash
 
 **Mida juhtus?**
 - Docker otsis "hello-world" image'i
@@ -51,7 +50,7 @@ time docker run hello-world
 # Märkige erinevus!
 # Esimene: ~_____ sekundit
 # Teine: ~_____ sekundit
-```
+```text
 
 ### 1.3: Põhikäsud
 
@@ -64,7 +63,7 @@ docker ps -a
 
 # Palju ruumi Docker kasutab?
 docker system df
-```
+```bash
 
 **Küsimus:** Miks "hello-world" kestab ainult hetke?  
 **Vastus:** Container käivitab programmi ja lõpetab - nagu tavaline programm!
@@ -84,7 +83,7 @@ docker run -d --name my-web -p 8080:80 nginx
 # --name = anname nimeks "my-web"
 # -p 8080:80 = host port 8080 → container port 80
 # nginx = image nimi
-```
+```text
 
 ### 2.2: Testimine
 
@@ -96,8 +95,8 @@ docker ps
 curl http://localhost:8080
 # VÕI avage brauser: http://localhost:8080
 
-# Kas näete Nginx welcome lehte? ✅/❌
-```
+## Kontrollige Nginx welcome lehte
+```text
 
 ### 2.3: Container'i uurimine
 
@@ -114,7 +113,7 @@ cat /usr/share/nginx/html/index.html
 
 # Väljuge
 exit
-```
+```text
 
 ### 2.4: Cleanup
 
@@ -125,7 +124,7 @@ docker rm my-web
 
 # Kontrollige
 docker ps -a
-```
+```text
 
 ---
 
@@ -135,7 +134,7 @@ docker ps -a
 
 ```bash
 mkdir ~/my-first-docker-app && cd ~/my-first-docker-app
-```
+```text
 
 ### 3.2: HTML rakenduse loomine
 
@@ -176,7 +175,7 @@ mkdir ~/my-first-docker-app && cd ~/my-first-docker-app
     </div>
 </body>
 </html>
-```
+```text
 
 ### 3.3: Dockerfile loomine
 
@@ -192,7 +191,7 @@ COPY index.html /usr/share/nginx/html/
 EXPOSE 80
 
 # Nginx käivitub automaatselt
-```
+```text
 
 ### 3.4: Image ehitamine
 
@@ -203,8 +202,8 @@ docker build -t my-app .
 # Kontrollige
 docker images | grep my-app
 
-# Kas ehitamine õnnestus? ✅/❌
-```
+## Kontrollige ehitamise tulemust
+```text
 
 ### 3.5: Rakenduse käivitamine
 
@@ -216,8 +215,8 @@ docker run -d --name my-first-app -p 8080:80 my-app
 curl http://localhost:8080
 # VÕI brauser: http://localhost:8080
 
-# Kas näete oma lehte? ✅/❌
-```
+## Kontrollige rakenduse töötamist
+```text
 
 ---
 
@@ -235,7 +234,7 @@ curl http://localhost:8080
 // Lisa existing script'i lõppu
 document.getElementById('date').innerText = new Date().toLocaleDateString();
 </script>
-```
+```text
 
 ### 4.2: Uue versiooni ehitamine
 
@@ -252,8 +251,8 @@ docker run -d --name my-app-v2 -p 8080:80 my-app:v2
 
 # Test muudatusi
 curl http://localhost:8080
-# Kas näete "Version: 2.0"? ✅/❌
-```
+## Kontrollige versiooni uuendust
+```text
 
 ### 4.3: Image'ide võrdlus
 
@@ -263,7 +262,7 @@ docker images | grep my-app
 
 # Mitu image't teil on? _______
 # Miks mõlemad on olemas? _______
-```
+```text
 
 ---
 
@@ -276,7 +275,7 @@ docker images | grep my-app
 FROM nginx:alpine
 COPY index.html /wrong/location/
 EXPOSE 80
-```
+```text
 
 **Proovige seda:**
 ```bash
@@ -288,8 +287,8 @@ docker run -d --name broken -p 8081:80 broken-app
 
 # Test
 curl http://localhost:8081
-# Kas töötab? ✅/❌
-```
+## Kontrollige töötamist
+```text
 
 ### 5.2: Probleemi diagnoosimine
 
@@ -302,13 +301,13 @@ docker exec -it broken sh
 
 # Container'i sees uurige:
 ls /usr/share/nginx/html/
-# Kas index.html on seal? ✅/❌
+## Kontrollige faili olemasolu
 
 ls /wrong/location/
-# Kas index.html on siin? ✅/❌
+## Kontrollige faili asukohta
 
 exit
-```
+```text
 
 **Küsimus:** Miks ei tööta?  
 **Vastus:** _______________________
@@ -323,8 +322,8 @@ docker run -d --name fixed -p 8081:80 fixed-app
 
 # Test
 curl http://localhost:8081
-# Nüüd töötab? ✅/❌
-```
+## Kontrollige paranduse tulemust
+```text
 
 ---
 
@@ -343,7 +342,7 @@ docker ps
 # Testid
 curl http://localhost:8081  # v1
 curl http://localhost:8082  # v2
-```
+```text
 
 ### 6.2: Container'ite jälgimine
 
@@ -355,7 +354,7 @@ docker stats
 docker stats app-v1 --no-stream
 
 # Märkige RAM kasutus: _____ MB
-```
+```text
 
 ### 6.3: Lõplik cleanup
 
@@ -369,7 +368,7 @@ docker ps -a
 
 # Kustutage kasutamata image'id (valikuline)
 docker image prune
-```
+```text
 
 ---
 
@@ -392,8 +391,8 @@ docker exec data-test sh -c 'echo "<h1>Persistent Data Test</h1>" > /usr/share/n
 
 # Test
 curl http://localhost:8083
-# Kas näete uut sisu? ✅/❌
-```
+## Kontrollige uue sisu kuvamist
+```text
 
 ### 7.2: Container restart test
 
@@ -409,8 +408,8 @@ docker run -d --name data-test-2 \
 
 # Test
 curl http://localhost:8083
-# Kas andmed on alles? ✅/❌
-```
+## Kontrollige andmete säilimist
+```bash
 
 **Küsimus:** Miks andmed jäid alles?  
 **Vastus:** _______________________
@@ -446,27 +445,30 @@ curl http://localhost:8083
 
 ---
 
-## Boonusülesanne (kui aega jääb)
+## Boonusülesanne
 
-### Podman alternatiiv
+### Podman kui Docker'i alternatiiv
 
-Kui soovite proovida Docker'i alternatiivi:
+Podman on Docker'i ühilduv alternatiiv, mis ei vaja daemon'i ja töötab rootless režiimis.
 
+**Installeerimine:**
 ```bash
-# Installige Podman
 sudo apt update && sudo apt install -y podman
+```text
 
-# Proovige samu käske
-podman run hello-world
-podman run -d --name podman-web -p 8090:80 nginx
+**Käskude võrdlus:**
+```bash
+# Docker vs Podman
+docker run hello-world    # vs podman run hello-world
+docker ps                 # vs podman ps
+docker images             # vs podman images
+```bash
 
-# Võrrelge Docker'iga
-docker ps
-podman ps
-
-# Cleanup
-podman stop podman-web && podman rm podman-web
-```
+**Eelised:**
+- Ei vaja daemon'i (daemonless)
+- Rootless töörežiim
+- Docker Compose ühilduvus
+- Kubernetes ühilduvus
 
 **Peamised erinevused:**
 - Podman = daemon'ita (rootless)

@@ -25,7 +25,7 @@ kubectl get secret database-secret -o yaml
 
 # Dekodeerige base64 väärtus
 echo "cG9zdGdyZXM=" | base64 -d
-```
+```text
 
 ### 1.2 Security Context ja Pod Turvalisus
 
@@ -85,7 +85,7 @@ spec:
     secret:
       secretName: database-secret
       defaultMode: 0400  # Read-only owner'ile
-```
+```text
 
 ```bash
 # Deploy'ige turvaline pod
@@ -104,7 +104,7 @@ whoami                      # Peaks näitama user 1000
 ps aux                      # Vaadake protsessi omanik
 
 exit
-```
+```text
 
 **Kontrollpunkt:** Pod töötab mitteroot kasutajana ja read-only failisüsteemiga.
 
@@ -198,7 +198,7 @@ spec:
   - port: 80
     targetPort: 8080
   type: NodePort
-```
+```text
 
 ```bash
 # Deploy'ige rakendus
@@ -209,7 +209,7 @@ kubectl get pods -l app=webapp -w
 
 # Vaadake probe'ide tulemusi
 kubectl describe pod -l app=webapp
-```
+```text
 
 ### 2.2 Health Check'ide Testimine
 
@@ -225,7 +225,7 @@ kubectl get pods -l app=webapp -w
 
 # Vaadake event'e
 kubectl get events --sort-by=.metadata.creationTimestamp
-```
+```text
 
 **Kontrollpunkt:** Liveness probe tuvastab "katkise" konteiner'i ja restardib selle.
 
@@ -248,7 +248,7 @@ spec:
     rollingUpdate:
       maxUnavailable: 1      # Max 1 pod võib olla kättesaamatu
       maxSurge: 1           # Max 1 lisa pod saab olla ajutiselt
-```
+```text
 
 ```bash
 # Uuendage deployment'i
@@ -268,7 +268,7 @@ kubectl rollout undo deployment/webapp-with-health
 
 # Kontrollige rollback'i tulemust
 kubectl rollout status deployment/webapp-with-health
-```
+```text
 
 ### 3.2 Update Strategy Testimine
 
@@ -284,7 +284,7 @@ done
 
 # Teises terminalis tehke update
 kubectl set image deployment/webapp-with-health webapp=hashicorp/http-echo:0.2.3
-```
+```text
 
 Peaksite märkama, et teenus jääb kättesaadavaks update'i ajal.
 
@@ -398,7 +398,7 @@ spec:
   ports:
   - port: 5432
     targetPort: 5432
-```
+```text
 
 ```bash
 # Deploy'ige PostgreSQL koos persistent storage'iga
@@ -421,7 +421,7 @@ kubectl get pods -l app=postgres
 
 # Kontrollige andmeid pärast pod'i taaskäivitumist
 kubectl exec -it deployment/postgres-db -- psql -U postgres -d myapp -c "SELECT * FROM test;"
-```
+```text
 
 **Kontrollpunkt:** Andmed säilivad pod'i taaskäivitamise järel.
 
@@ -506,7 +506,7 @@ spec:
   ports:
   - port: 3000
     targetPort: 3000
-```
+```text
 
 ### 5.2 Frontend koos Custom Configuration
 
@@ -562,7 +562,7 @@ data:
             <p>Frontend → Backend API → PostgreSQL Database</p>
             
             <div class="status success">
-                <strong>Frontend Status:</strong> ✅ Running
+                <strong>Frontend Status:</strong>  Running
             </div>
             
             <button onclick="testBackend()">Test Backend API</button>
@@ -586,11 +586,11 @@ data:
                     const data = await response.text();
                     const json = JSON.parse(data);
                     showResult(`
-                        <h3>✅ Backend API Response</h3>
+                        <h3> Backend API Response</h3>
                         <pre>${JSON.stringify(json, null, 2)}</pre>
                     `);
                 } catch (error) {
-                    showResult(`<h3>❌ Backend Error</h3><p>${error.message}</p>`, true);
+                    showResult(`<h3> Backend Error</h3><p>${error.message}</p>`, true);
                 }
             }
 
@@ -598,7 +598,7 @@ data:
                 // Simuleerime database testi
                 showResult(`
                     <h3>🗄️ Database Status</h3>
-                    <p>PostgreSQL: ✅ Connected</p>
+                    <p>PostgreSQL:  Connected</p>
                     <p>Database: myapp</p>
                     <p>Tables: test (1 record)</p>
                 `);
@@ -615,9 +615,9 @@ data:
                         const data = await response.text();
                         const json = JSON.parse(data);
                         const duration = Date.now() - start;
-                        results.push(`Request ${i}: ✅ ${duration}ms (Pod: ${json.pod})`);
+                        results.push(`Request ${i}:  ${duration}ms (Pod: ${json.pod})`);
                     } catch (error) {
-                        results.push(`Request ${i}: ❌ ${error.message}`);
+                        results.push(`Request ${i}:  ${error.message}`);
                     }
                 }
                 
@@ -687,7 +687,7 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-```
+```text
 
 ### 5.3 Rakenduse Deploy ja Testimine
 
@@ -706,7 +706,7 @@ kubectl get endpoints
 
 # Avage rakendus
 minikube service frontend-service
-```
+```text
 
 Peaksite nägema täisfunktsionaalset web rakendust, mis suhtleb backend API'ga.
 
@@ -731,7 +731,7 @@ kubectl describe pod -l app=frontend
 
 # Kontrollige service'ite endpoint'e
 kubectl get endpoints --all-namespaces
-```
+```text
 
 ### 6.2 Network Troubleshooting
 
@@ -752,7 +752,7 @@ nc -zv postgres-service 5432
 traceroute backend-api-service
 
 exit
-```
+```text
 
 ---
 
@@ -772,7 +772,7 @@ kubectl get all
 
 # Peatage Minikube
 minikube stop
-```
+```text
 
 ---
 

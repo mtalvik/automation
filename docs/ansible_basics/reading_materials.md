@@ -30,7 +30,7 @@ graph TD
         H
         I
     end
-```
+```bash
 
 Traditsiooniline agent-põhine lähenemine nõuab iga hallatava süsteemi jaoks spetsiaalse tarkvara installimist. Puppet agent, Chef client, Salt minion - kõik need peavad töötama taustal, tarbima ressursse ja olema pidevalt ajakohased. Ansible'i SSH-põhine kommunikatsioon kasutab aga infrastruktuuri, mis juba eksisteerib igas Unix-põhises süsteemis.
 
@@ -48,32 +48,26 @@ SSH-protokoll pole juhuslik valik. See on kõige laialdasemalt kasutatav ja häs
 ## Playbook'i täitmise tsükkel
 
 ```mermaid
-sequenceDiagram
-    participant User
-    participant Ansible
-    participant SSH
-    participant Target
+graph TD
+    A[User: ansible-playbook site.yml] --> B[Ansible: Parse YAML]
+    B --> C[Ansible: Build task list]
+    C --> D[For each host]
+    D --> E[SSH: Establish connection]
+    E --> F[For each task]
+    F --> G[Transfer module]
+    G --> H[Execute module]
+    H --> I[Return results]
+    I --> J[Check idempotency]
+    J --> K{More tasks?}
+    K -->|Yes| F
+    K -->|No| L[Close connection]
+    L --> M{More hosts?}
+    M -->|Yes| D
+    M -->|No| N[Report results]
     
-    User->>Ansible: ansible-playbook site.yml
-    Ansible->>Ansible: Parse YAML
-    Ansible->>Ansible: Build task list
-    
-    loop For each host
-        Ansible->>SSH: Establish connection
-        SSH->>Target: Connect
-        
-        loop For each task
-            Ansible->>Target: Transfer module
-            Target->>Target: Execute module
-            Target->>Ansible: Return results
-            Ansible->>Ansible: Check idempotency
-        end
-        
-        SSH->>SSH: Close connection
-    end
-    
-    Ansible->>User: Report results
-```
+    style A fill:#e1f5fe
+    style N fill:#c8e6c9
+```bash
 
 Arhitektuuri teine oluline aspekt on push vs pull mudel. Puppet ja Chef kasutavad pull mudelit - agendid küsivad regulaarselt serverilt, kas on midagi uut teha. Ansible kasutab push mudelit - käivitad playbook'i siis, kui tahad muudatust. See annab täpse kontrolli selle üle, millal ja kuidas muudatused rakendatakse.
 
@@ -106,7 +100,7 @@ graph LR
     G --> J[Module: apt]
     H --> K[Module: template]
     I --> L[Module: service]
-```
+```bash
 
 YAML'i range taandrimise süsteem pole bürokraatia - see on funktsioon. Taandrimine määrab andmete hierarhia ja seeläbi ka Ansible'i käitumise. Vale taandrimine võib tähendada, et task käivitatakse vale host'i vastu või üldse vahele jäetakse.
 
@@ -124,7 +118,7 @@ Ansible'i jõud peitub selle laialdases moodulite kogumikus. Iga moodul pole lih
 | Database | `mysql_user`, `postgresql_db` | Andmebaasi haldus |
 
 ```mermaid
-flowchart TD
+graph TD
     A[Ansible Task] --> B{Check Current State}
     B -->|State OK| C[Skip - No Change]
     B -->|State Different| D[Apply Change]
@@ -135,7 +129,7 @@ flowchart TD
     style C fill:#90EE90
     style F fill:#FFD700
     style G fill:#FF6B6B
-```
+```bash
 
 Idempotentsus on Ansible'i südames. See tähendab, et sama playbook'i korduvad käivitamised ei muuda süsteemi olukorda, kui soovitud olek on juba saavutatud. See pole automaatne - iga moodul peab seda toetama oma loogikaga.
 
@@ -173,7 +167,7 @@ graph TD
     style B fill:#FF6B6B
     style C fill:#FFD700
     style D fill:#90EE90
-```
+```bash
 
 Grupi muutujad (`group_vars`) võimaldavad defineerida konfiguratsiooni, mis rakendub kõigile grupi liikmetele. Host muutujad (`host_vars`) alistavad grupi muutujad konkreetse hosti jaoks. See hierarhia loob paindliku süsteemi, kus saate määrata üldseid reegleid ja teha erandeid vajadusel.
 

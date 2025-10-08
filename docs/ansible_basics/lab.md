@@ -32,7 +32,7 @@ sudo apt install ansible -y
 
 # Kontrolli installatsiooni
 ansible --version
-```
+```text
 
 **macOS (Homebrew):**
 ```bash
@@ -44,13 +44,13 @@ brew install ansible
 
 # Kontrolli
 ansible --version
-```
+```text
 
 **Windows (WSL):**
 ```bash
 # Windows'is kasutage Windows Subsystem for Linux
 # Seejärel järgige Ubuntu juhendeid
-```
+```bash
 
 ### 1.2 SSH võtmete seadistamine
 
@@ -66,7 +66,7 @@ ssh-keygen -t rsa -b 4096 -C "teie.email@example.com"
 
 # Vajutage Enter kõikidele küsimustele (kasutab default asukohti)
 # Võite lisada parooli või jätta tühjaks
-```
+```text
 
 **SSH võtme kopeerimine test serverisse:**
 ```bash
@@ -75,13 +75,13 @@ ssh-copy-id kasutaja@test-server.local
 
 # Või käsitsi
 cat ~/.ssh/id_rsa.pub | ssh kasutaja@test-server.local "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-```
+```text
 
 **Testide ühendust:**
 ```bash
 # Peaks ühenduma ilma parooli küsimata
 ssh kasutaja@test-server.local
-```
+```bash
 
 ### 1.3 Esimene inventory fail - Serverite "telefoniraamat"
 
@@ -94,27 +94,27 @@ ssh kasutaja@test-server.local
 ```bash
 mkdir ~/ansible-praktikum
 cd ~/ansible-praktikum
-```
+```text
 
 **Nüüd loome inventory faili sammhaaval:**
 
 #### 1.3.1 Looge tühi fail
 ```bash
 touch inventory.ini
-```
+```text
 
 #### 1.3.2 Avage fail tekstiredaktoris
 ```bash
 nano inventory.ini
 # või
 code inventory.ini
-```
+```text
 
 #### 1.3.3 Lisage esimene server (localhost testimiseks)
 ```ini
 [test]
 localhost ansible_connection=local
-```
+```bash
 
 **Selgitus:**
 - `[test]` = grupi nimi (sulgudes)
@@ -126,7 +126,7 @@ localhost ansible_connection=local
 [practice]
 # Kommentaar: Siia saate hiljem lisada tegelikke servereid
 # Näide: server1.example.com ansible_user=ubuntu
-```
+```text
 
 #### 1.3.5 Salvestage fail (Ctrl+X, siis Y, siis Enter nano's)
 
@@ -136,12 +136,12 @@ localhost ansible_connection=local
 ansible -i inventory.ini --list-hosts all
 
 # Peaks näitama: localhost
-```
+```text
 
 **Testide ühendust:**
 ```bash
 ansible -i inventory.ini test -m ping
-```
+```text
 
 **Mõtelge:** Miks kasutame `test` mitte `localhost`? (Vastus: test on grupi nimi!)
 
@@ -155,7 +155,7 @@ ansible -i inventory.ini test -m ping
 ```bash
 # Kontrollige kõiki servereid
 ansible -i inventory.ini all -m ping
-```
+```text
 
 **Süsteemi info:**
 ```bash
@@ -164,7 +164,7 @@ ansible -i inventory.ini all -m setup -a "filter=ansible_distribution*"
 
 # Vaata mälu ja CPU
 ansible -i inventory.ini all -m setup -a "filter=ansible_memtotal_mb,ansible_processor_count"
-```
+```text
 
 **Failide haldamine:**
 ```bash
@@ -176,7 +176,7 @@ ansible -i inventory.ini all -m copy -a "content='Ansible test' dest=/tmp/ansibl
 
 # Kontrolli faili olemasolu
 ansible -i inventory.ini all -m command -a "ls -la /tmp/ansible-test/"
-```
+```text
 
 **Pakettide haldamine:**
 ```bash
@@ -185,7 +185,7 @@ ansible -i inventory.ini all -m package -a "name=htop state=present" --become
 
 # Kontrolli installatsiooni
 ansible -i inventory.ini all -m command -a "which htop"
-```
+```bash
 
 ---
 
@@ -204,20 +204,20 @@ ansible -i inventory.ini all -m command -a "which htop"
 ```bash
 touch test.yml
 nano test.yml  # või code test.yml
-```
+```text
 
 #### 3.1.2 Alustage YAML dokumendiga
 ```yaml
 ---
 # YAML alustab alati kolme kriipsuga
 # Hashtag (#) on kommentaar
-```
+```text
 
 #### 3.1.3 Lisage lihtne väärtus
 ```yaml
 nimi: "Minu Ansible Test"
 versioon: 1.0
-```
+```text
 **Märkus:** Jutumärgid on vabatahtlikud, aga hea praktika tekstile
 
 #### 3.1.4 Lisage loend (list)
@@ -229,7 +229,7 @@ serverid:
   - nimi: "test2"
     ip: "192.168.1.11"
     roll: "andmebaas"
-```
+```text
 **Tähelepanu:** 
 - Kriips (-) tähistab loendi elementi
 - Taandrimine peab olema täpne (kasutage 2 tühikut)
@@ -241,7 +241,7 @@ seadistused:
   http_port: 80
   https_port: 443
   debug: true
-```
+```text
 
 #### 3.1.6 Salvestage fail
 
@@ -252,7 +252,7 @@ python3 -c "import yaml; print(yaml.safe_load(open('test.yml')))"
 
 # Ansible abil
 ansible-playbook --syntax-check test.yml
-```
+```bash
 
 **Harjutus:** Muutke `debug: true` väärtuseks `false` ja kontrollige uuesti!
 
@@ -269,7 +269,7 @@ ansible-playbook --syntax-check test.yml
 ```bash
 touch mu-esimene-playbook.yml
 nano mu-esimene-playbook.yml
-```
+```text
 
 #### 3.2.2 Alustage YAML ja Play definitsiooniga
 ```yaml
@@ -277,7 +277,7 @@ nano mu-esimene-playbook.yml
 - name: "Minu esimene Ansible playbook"
   hosts: all
   gather_facts: yes
-```
+```text
 **Selgitus:**
 - `name:` = playbook'i kirjeldus
 - `hosts: all` = käivita kõikidele serveritele inventory's
@@ -286,14 +286,14 @@ nano mu-esimene-playbook.yml
 #### 3.2.3 Lisage tasks sektsioon
 ```yaml
   tasks:
-```
+```text
 
 #### 3.2.4 Esimene task - lihtne tervitus
 ```yaml
     - name: "Tervita maailma"
       debug:
         msg: "Tere! Ansible töötab {{ inventory_hostname }} serveris!"
-```
+```text
 **Märkuseid:**
 - `debug` = moodul sõnumite väljastamiseks
 - `{{ inventory_hostname }}` = muutuja (server nimi)
@@ -303,7 +303,7 @@ nano mu-esimene-playbook.yml
     - name: "Näita süsteemi infot"
       debug:
         msg: "Server töötab {{ ansible_distribution }} {{ ansible_distribution_version }}"
-```
+```text
 
 #### 3.2.6 Kolmas task - loo kaust
 ```yaml
@@ -312,7 +312,7 @@ nano mu-esimene-playbook.yml
         path: /tmp/ansible-praktikum
         state: directory
         mode: '0755'
-```
+```text
 **Selgitus:**
 - `file` = moodul failide/kaustade haldamiseks
 - `state: directory` = veendu, et see on kaust
@@ -328,7 +328,7 @@ nano mu-esimene-playbook.yml
           Ansible playbook käivitatud: {{ ansible_date_time.iso8601 }}
           Serveri nimi: {{ inventory_hostname }}
           IP aadress: {{ ansible_default_ipv4.address | default('ei tuvastatud') }}
-```
+```text
 **Märkuseid:**
 - `content: |` = mitme-realine tekst
 - `{{ ansible_date_time.iso8601 }}` = praegune kuupäev
@@ -338,7 +338,7 @@ nano mu-esimene-playbook.yml
     - name: "Kuva faili sisu"
       command: cat /tmp/ansible-praktikum/info.txt
       register: faili_sisu
-```
+```text
 **Selgitus:**
 - `command` = käivita shell käsk
 - `register` = salvesta väljund muutujasse
@@ -348,7 +348,7 @@ nano mu-esimene-playbook.yml
     - name: "Näita, mis failis on"
       debug:
         msg: "{{ faili_sisu.stdout_lines }}"
-```
+```bash
 
 #### 3.2.10 Salvestage fail
 
@@ -387,7 +387,7 @@ nano mu-esimene-playbook.yml
 ```bash
 touch playbook-muutujatega.yml
 nano playbook-muutujatega.yml
-```
+```text
 
 #### 3.3.2 Play definitsioon muutujatega
 ```yaml
@@ -400,7 +400,7 @@ nano playbook-muutujatega.yml
     portnumber: 8080
     
   tasks:
-```
+```text
 
 #### 3.3.3 Task 1 - Dünaamiline kausta nimi
 ```yaml
@@ -410,7 +410,7 @@ nano playbook-muutujatega.yml
         state: directory
         mode: '0755'
       become: yes
-```
+```text
 **Selgitused:**
 - `{{ rakenduse_nimi }}` = kasuta muutujat
 - `| lower` = muuda väikesteks tähtedeks
@@ -429,7 +429,7 @@ nano playbook-muutujatega.yml
           PORT={{ portnumber }}
           INSTALLED_ON={{ ansible_date_time.iso8601 }}
       become: yes
-```
+```text
 
 #### 3.3.5 Task 3 - Kuva tulemus
 ```yaml
@@ -441,12 +441,12 @@ nano playbook-muutujatega.yml
     - name: "Näita konfiguratsiooni"
       debug:
         msg: "{{ config_sisu.stdout_lines }}"
-```
+```text
 
 #### 3.3.6 Käivita ja eksperimenteerige
 ```bash
 ansible-playbook -i inventory.ini playbook-muutujatega.yml
-```
+```text
 
 **Harjutus:**
 1. Muutke `rakenduse_nimi` muutujat
@@ -472,7 +472,7 @@ ansible-playbook -i inventory.ini playbook-muutujatega.yml
 ```bash
 touch nginx-setup.yml
 nano nginx-setup.yml
-```
+```text
 
 #### 4.1.2 Play definitsioon muutujatega
 ```yaml
@@ -485,7 +485,7 @@ nano nginx-setup.yml
     site_name: "Minu Test Sait"
     
   tasks:
-```
+```text
 **Märkuseid:**
 - `become: yes` = kasuta sudo õiguseid kõikides tasks'ides
 - `vars:` = playbook'i muutujad
@@ -496,7 +496,7 @@ nano nginx-setup.yml
       package:
         update_cache: yes
       when: ansible_os_family == "Debian"
-```
+```text
 **Selgitus:** `when:` = conditional - käivita ainult Debian/Ubuntu's
 
 #### 4.1.4 Task 2 - Nginx installimine
@@ -505,7 +505,7 @@ nano nginx-setup.yml
       package:
         name: nginx
         state: present
-```
+```text
 
 #### 4.1.5 Task 3 - Veebi kausta loomine
 ```yaml
@@ -517,7 +517,7 @@ nano nginx-setup.yml
         group: www-data
         mode: '0755'
       when: ansible_os_family == "Debian"
-```
+```text
 **Märkuseid:**
 - `{{ web_root }}` = kasutab muutujat
 - `owner/group: www-data` = nginx kasutaja
@@ -557,7 +557,7 @@ nano nginx-setup.yml
           </body>
           </html>
       when: ansible_os_family == "Debian"
-```
+```text
 
 #### 4.1.7 Task 5 - Nginx käivitamine
 ```yaml
@@ -566,7 +566,7 @@ nano nginx-setup.yml
         name: nginx
         state: started
         enabled: yes
-```
+```text
 **Selgitus:**
 - `state: started` = veendu, et teenus töötab
 - `enabled: yes` = käivita automaatselt boot'imisel
@@ -592,7 +592,7 @@ nano nginx-setup.yml
     - name: "Näita veebiserveri vastust"
       debug:
         msg: "Veebiserver töötab! HTTP kood: {{ web_test.status | default('Ei saanud ühendust') }}"
-```
+```bash
 **Märkuseid:**
 - `uri` moodul = HTTP päringute tegemiseks
 - `failed_when: false` = ära lõpeta vea korral
@@ -659,14 +659,14 @@ nano nginx-setup.yml
 ```bash
 touch ansible.cfg
 nano ansible.cfg
-```
+```text
 
 #### 5.1.2 Lisage põhiseadistused
 ```ini
 [defaults]
 # Inventory faili asukoht (nüüd ei pea -i iga kord kirjutama)
 inventory = inventory.ini
-```
+```text
 
 #### 5.1.3 SSH seadistused (et vältida vigu)
 ```ini
@@ -674,7 +674,7 @@ inventory = inventory.ini
 host_key_checking = False
 remote_user = kasutaja
 private_key_file = ~/.ssh/id_rsa
-```
+```text
 **Selgitus:**
 - `host_key_checking = False` = ei küsi SSH fingerprinte
 - `remote_user` = default kasutajanimi serverites
@@ -684,7 +684,7 @@ private_key_file = ~/.ssh/id_rsa
 # Väljundi seadistused
 stdout_callback = yaml
 pipelining = True
-```
+```text
 **Miks:** YAML väljund on inimesele loetavam
 
 #### 5.1.5 Performance seadistused
@@ -694,7 +694,7 @@ forks = 10
 
 # Logimise seadistused  
 log_path = ./ansible.log
-```
+```text
 
 #### 5.1.6 SSH optimeeringud (täiendav sektsioon)
 ```ini
@@ -703,13 +703,13 @@ log_path = ./ansible.log
 ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null
 timeout = 30
 retries = 3
-```
+```text
 
 #### 5.1.7 Salvestage ja testiga
 ```bash
 # Nüüd saate käivitada ilma -i liputa!
 ansible all -m ping
-```
+```text
 
 **Teste konfiguratsiooni:**
 ```bash
@@ -718,7 +718,7 @@ ansible all -m ping
 
 # Logi kontrollimise
 tail -f ansible.log
-```
+```text
 
 ---
 
@@ -735,7 +735,7 @@ ssh -v kasutaja@target-host
 ssh-add ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
-```
+```text
 
 **Sudo õiguste probleemid:**
 ```bash
@@ -744,7 +744,7 @@ ansible all -m command -a "whoami" --become
 
 # Sudo parooli küsimine
 ansible all -m command -a "whoami" --become --ask-become-pass
-```
+```bash
 
 **Python teegi probleemid:**
 ```bash
@@ -753,7 +753,7 @@ ansible all -m setup -a "filter=ansible_python*"
 
 # Määra Python'i asukoht
 ansible all -m ping -e ansible_python_interpreter=/usr/bin/python3
-```
+```bash
 
 ### 6.2 Debugimise playbook - Õpime tõrkeid leidma
 
@@ -768,7 +768,7 @@ ansible all -m ping -e ansible_python_interpreter=/usr/bin/python3
 ```bash
 touch debug-playbook.yml
 nano debug-playbook.yml
-```
+```text
 
 #### 6.2.2 Play definitsioon
 ```yaml
@@ -778,14 +778,14 @@ nano debug-playbook.yml
   gather_facts: yes
   
   tasks:
-```
+```text
 
 #### 6.2.3 Task 1 - Näita süsteemi muutujaid
 ```yaml
     - name: "Näita operatsioonisüsteemi"
       debug:
         msg: "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
-```
+```text
 
 #### 6.2.4 Task 2 - Kontrolli kasutajat
 ```yaml
@@ -796,7 +796,7 @@ nano debug-playbook.yml
     - name: "Näita kasutaja infot"
       debug:
         msg: "SSH kasutaja: {{ current_user.stdout }}, Ansible kasutaja: {{ ansible_user_id }}"
-```
+```text
 **Selgitus:** `register` salvestab käsu väljundi muutujasse
 
 #### 6.2.5 Task 3 - Kontrolli sudo
@@ -806,7 +806,7 @@ nano debug-playbook.yml
       become: yes
       register: sudo_user
       failed_when: false
-```
+```text
 **Märkus:** `failed_when: false` = ära lõpeta vea korral
 
 #### 6.2.6 Task 4 - Näita sudo tulemust
@@ -814,19 +814,19 @@ nano debug-playbook.yml
     - name: "Näita sudo tulemust"
       debug:
         msg: "Sudo kasutaja: {{ sudo_user.stdout | default('Sudo ei toimi') }}"
-```
+```bash
 
 #### 6.2.7 Task 5 - Kontrolli Python'i
 ```yaml
     - name: "Kontrolli Python'i"
       debug:
         msg: "Python: {{ ansible_python_interpreter | default(ansible_python.executable) }}"
-```
+```text
 
 #### 6.2.8 Käivita ja analüüsi
 ```bash
 ansible-playbook -i inventory.ini debug-playbook.yml -v
-```
+```bash
 **Märkus:** `-v` flag annab rohkem detaile
 
 ---
@@ -940,7 +940,7 @@ Kontrollige, et järgmised asjad toimivad:
         dest: "/var/www/{{ app_name }}"
         version: "{{ 'main' if environment == 'production' else 'develop' }}"
       when: deployment_enabled | default(false)
-```
+```text
 
 ### 9.2 Error Handling ja Performance
 
@@ -975,7 +975,7 @@ Kontrollige, et järgmised asjad toimivad:
           file:
             path: "/tmp/app.tar.gz"
             state: absent
-```
+```text
 
 ### 9.3 Custom Modules ja Advanced Features
 
@@ -994,7 +994,7 @@ EOF
 
 # Use in playbook
 ansible-playbook -i inventory advanced.yml
-```
+```bash
 
 ### 9.4 Ansible Vault ja Security
 
@@ -1009,6 +1009,6 @@ ansible-playbook site.yml --ask-vault-pass
 # Vault in CI/CD
 echo "vault_password" > .vault_pass
 ansible-playbook site.yml --vault-password-file .vault_pass
-```
+```bash
 
 **🎉 Hästi tehtud!** Te olete nüüd võimelised automatiseerima nii põhilisi kui ka keerukamaid serverihalduse ülesandeid Ansible'iga!

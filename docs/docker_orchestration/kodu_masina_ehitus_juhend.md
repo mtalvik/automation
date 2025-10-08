@@ -49,15 +49,15 @@ ping google.com
 
 # Host'ist ühenda VM'iga
 ssh ubuntu@VM_IP_ADDRESS
-```
+```text
 
 ### VirtualBox Network (Täpsemad seaded)
 
 | Network Mode | Host Access | Internet | VM-VM | Sobib |
 |--------------|-------------|----------|-------|-------|
-| **NAT** | Port forward | ✅ | ❌ | Lihtne setup |
-| **Bridged** | Direct IP | ✅ | ✅ | Production-like |
-| **Host-Only** | Direct IP | ❌ | ✅ | Isolated dev |
+| **NAT** | Port forward |  |  | Lihtne setup |
+| **Bridged** | Direct IP |  |  | Production-like |
+| **Host-Only** | Direct IP |  |  | Isolated dev |
 
 **Soovitatav setup - Bridged:**
 ```bash
@@ -68,7 +68,7 @@ ssh ubuntu@VM_IP_ADDRESS
 
 # VM käivitamise järel:
 ip addr show  # Näed VM IP aadressi
-```
+```text
 
 ---
 
@@ -88,7 +88,7 @@ ip addr show  # Näed VM IP aadressi
 - Auto Rename Tag
 - Bracket Pair Colorizer
 - Material Icon Theme
-```
+```text
 
 ### 2. SSH Connection Setup
 
@@ -103,7 +103,7 @@ multipass transfer ~/.ssh/id_ed25519.pub dev-lab:/home/ubuntu/.ssh/authorized_ke
 
 # VirtualBox (pärast bridged network setup):
 ssh-copy-id ubuntu@VM_IP_ADDRESS
-```
+```text
 
 **SSH Config (～/.ssh/config):**
 ```bash
@@ -112,7 +112,7 @@ Host dev-lab
     User ubuntu
     IdentityFile ~/.ssh/id_ed25519
     Port 22
-```
+```text
 
 ### 3. VSCode Remote Connection
 
@@ -122,7 +122,7 @@ Host dev-lab
 # 3. Vali "dev-lab" või lisa uus host
 # 4. Sisesta SSH command: ssh ubuntu@VM_IP_ADDRESS
 # 5. VSCode avaneb connected mode's
-```
+```text
 
 **Test connection:**
 ```bash
@@ -130,7 +130,7 @@ Host dev-lab
 docker --version
 kubectl version --client
 git --version
-```
+```text
 
 ## Süsteeminõuded
 
@@ -148,7 +148,7 @@ git --version
 # Windows/macOS/Linux
 multipass launch --name dev-lab --memory 8G --disk 50G --cpus 4
 multipass shell dev-lab
-```
+```text
 
 ### Variant B: VirtualBox
 ```bash
@@ -157,13 +157,13 @@ multipass shell dev-lab
 # 2. Create VM: 8GB RAM, 4 CPU, 50GB disk  
 # 3. Install Ubuntu
 # 4. SSH into VM
-```
+```text
 
 ### Variant C: WSL2 (ainult Windows)
 ```bash
 wsl --install -d Ubuntu
 # Restart required, then open Ubuntu terminal
-```
+```text
 
 ---
 
@@ -184,7 +184,7 @@ wsl --install -d Ubuntu
 
 # 4. Install VSCode
 # Download from: https://code.visualstudio.com/
-```
+```text
 
 **Windows PowerShell setup:**
 ```powershell
@@ -193,7 +193,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 # Install Chocolatey (optional)
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-```
+```text
 
 ### macOS Setup {#macos-setup}
 
@@ -210,13 +210,13 @@ brew install --cask docker
 
 # 4. Install VSCode
 brew install --cask visual-studio-code
-```
+```text
 
 **Apple Silicon specific:**
 ```bash
 # For Apple Silicon Macs, use ARM64 images
 multipass launch --name dev-lab --memory 8G --disk 50G --cpus 4 --cloud-init cloud-config.yaml
-```
+```text
 
 ### Linux Setup {#linux-setup}
 
@@ -234,7 +234,7 @@ sudo usermod -aG docker $USER
 
 # 4. Install VSCode
 sudo snap install code --classic
-```
+```text
 
 **CentOS/RHEL/Fedora:**
 ```bash
@@ -249,7 +249,7 @@ sudo usermod -aG docker $USER
 
 # 3. Install VSCode
 sudo dnf install code
-```
+```text
 
 ---
 
@@ -279,7 +279,7 @@ sudo install kubectl /usr/local/bin/kubectl
 
 # Start Minikube
 minikube start --driver=docker --memory=4096 --cpus=2
-```
+```bash
 
 ---
 
@@ -295,7 +295,7 @@ ssh-keygen -t ed25519 -C "sinu.email@example.com"
 cat ~/.ssh/id_ed25519.pub
 
 # Copy output and add to GitHub Settings > SSH Keys
-```
+```text
 
 ---
 
@@ -310,7 +310,7 @@ kubectl get nodes
 
 # Test Git
 git clone https://github.com/your-username/your-repo.git
-```
+```text
 
 ---
 
@@ -328,7 +328,7 @@ cd ~/projects
 git clone <repository>
 cd <project>
 # Edit files, commit, push
-```
+```bash
 
 ---
 
@@ -338,13 +338,13 @@ cd <project>
 ```bash
 sudo usermod -aG docker $USER
 newgrp docker
-```
+```text
 
 **Minikube ei käivitu:**
 ```bash
 minikube delete
 minikube start --driver=docker
-```
+```text
 
 **VM aeglane:**
 - Suurendage RAM vähemalt 8GB-le

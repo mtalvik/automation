@@ -42,7 +42,7 @@ docker --version        # 20.10+
 python3 --version       # 3.9+
 ansible --version       # 2.10+
 terraform --version     # 1.0+
-```
+```bash
 
 **Vajalikud kontod:**
 - GitLab konto (tasuta)
@@ -62,7 +62,7 @@ cd techshop-automation
 # Loo Terraform kaust
 mkdir -p terraform/templates
 cd terraform
-```
+```bash
 
 ### 1.2 Terraform konfiguratsioon
 
@@ -91,7 +91,7 @@ variable "region" {
   type        = string
   default     = "local"
 }
-```
+```text
 
 **`main.tf`:**
 ```hcl
@@ -151,7 +151,7 @@ resource "null_resource" "local_setup" {
     command = "echo 'Infrastructure ready for ${var.project_name}'"
   }
 }
-```
+```bash
 
 **`templates/docker-compose.yml.tpl`:**
 ```yaml
@@ -190,7 +190,7 @@ services:
 networks:
   ${project_name}-network:
     driver: bridge
-```
+```text
 
 **`templates/nginx.conf.tpl`:**
 ```nginx
@@ -215,7 +215,7 @@ server {
         access_log off;
     }
 }
-```
+```text
 
 **`outputs.tf`:**
 ```hcl
@@ -238,7 +238,7 @@ output "config_file" {
   description = "Configuration file path"
   value       = local_file.project_config.filename
 }
-```
+```text
 
 ### 1.3 Deploy infrastruktuur
 
@@ -254,7 +254,7 @@ terraform apply -auto-approve
 
 # Salvesta väljundid
 terraform output -json > outputs.json
-```
+```bash
 
 ---
 
@@ -269,7 +269,7 @@ cd ..
 # Loo Ansible struktuur
 mkdir -p ansible/roles/webserver/{tasks,handlers,templates,defaults}
 cd ansible
-```
+```text
 
 ### 2.2 Inventory konfiguratsioon
 
@@ -290,7 +290,7 @@ all:
         app_name: techshop
         app_port: 5000
         docker_network: techshop-network
-```
+```text
 
 ### 2.3 Webserver role
 
@@ -302,7 +302,7 @@ app_port: 5000
 app_user: appuser
 app_dir: /opt/{{ app_name }}
 docker_compose_version: "2.21.0"
-```
+```text
 
 **`roles/webserver/tasks/main.yml`:**
 ```yaml
@@ -367,7 +367,7 @@ docker_compose_version: "2.21.0"
     src: "../nginx/nginx.conf"
     dest: "{{ app_dir }}/nginx/nginx.conf"
     mode: '0644'
-```
+```text
 
 **`roles/webserver/handlers/main.yml`:**
 ```yaml
@@ -382,7 +382,7 @@ docker_compose_version: "2.21.0"
   docker_container:
     name: techshop-nginx
     restart: yes
-```
+```text
 
 ### 2.4 Main playbook
 
@@ -409,7 +409,7 @@ docker_compose_version: "2.21.0"
     - name: Display Docker version
       debug:
         msg: "Docker version: {{ docker_version.stdout }}"
-```
+```bash
 
 ### 2.5 Käivita Ansible
 
@@ -422,7 +422,7 @@ ansible-playbook -i inventory.yml playbook.yml
 
 # Kontrolli tulemust
 ansible all -i inventory.yml -m ping
-```
+```bash
 
 ---
 
@@ -437,7 +437,7 @@ cd ..
 # Loo rakenduse kaust
 mkdir -p app/tests
 cd app
-```
+```text
 
 ### 3.2 Flask rakendus
 
@@ -593,7 +593,7 @@ def internal_error(error):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
-```
+```text
 
 **`requirements.txt`:**
 ```
@@ -602,7 +602,7 @@ gunicorn==21.2.0
 psutil==5.9.5
 requests==2.31.0
 pytest==7.4.2
-```
+```text
 
 ### 3.3 Dockerfile
 
@@ -646,7 +646,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Run application
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "30", "app:app"]
-```
+```text
 
 ### 3.4 Local testing
 
@@ -671,7 +671,7 @@ curl -X POST http://localhost:5000/orders \
 # Cleanup
 docker stop techshop-test
 docker rm techshop-test
-```
+```bash
 
 ---
 
@@ -721,7 +721,7 @@ git commit -m "Initial commit: TechShop automation project"
 # Add remote (replace with your URL)
 git remote add origin https://gitlab.com/your-username/techshop-automation.git
 git push -u origin main
-```
+```text
 
 ### 4.2 GitLab CI pipeline
 
@@ -858,7 +858,7 @@ deploy:production:
   when: manual
   only:
     - main
-```
+```text
 
 ### 4.3 GitLab configuration
 
@@ -870,7 +870,7 @@ deploy:production:
 CI_REGISTRY_USER: your-gitlab-username
 CI_REGISTRY_PASSWORD: your-gitlab-token
 DOCKER_HOST: tcp://docker:2375
-```
+```bash
 
 ---
 
@@ -926,7 +926,7 @@ volumes:
 networks:
   monitoring:
     driver: bridge
-```
+```text
 
 **`monitoring/prometheus.yml`:**
 ```yaml
@@ -947,7 +947,7 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets: ['host.docker.internal:5000']
-```
+```text
 
 ### 5.2 Application metrics
 
@@ -969,7 +969,7 @@ def metrics_prometheus():
     
     # Return metrics
     return generate_latest(), 200, {'Content-Type': 'text/plain; charset=utf-8'}
-```
+```text
 
 ---
 
@@ -986,7 +986,7 @@ Complete DevOps automation project demonstrating modern CI/CD practices.
 
 ## Architecture
 
-```
+```bash
 ┌─────────────┐     ┌──────────────┐     ┌──────────────┐
 │   GitLab    │────▶│   CI/CD      │────▶│  Deployment  │
 │   Repo      │     │   Pipeline   │     │  Environment │
@@ -1014,7 +1014,7 @@ docker run -p 5000:5000 techshop:latest
 
 # Test
 curl http://localhost:5000/health
-```
+```bash
 
 ### Production Deployment
 1. Push code to GitLab
@@ -1069,7 +1069,7 @@ docker run -p 5000:5000 techshop:latest
 
 # Test
 curl http://localhost:5000/health
-```
+```bash
 
 #### Production Deployment
 1. Push code to GitLab
@@ -1086,7 +1086,7 @@ curl http://localhost:5000/health
 sudo systemctl status docker
 # Restart if needed
 sudo systemctl restart docker
-```
+```text
 
 **Application won't start:**
 ```bash
@@ -1094,7 +1094,7 @@ sudo systemctl restart docker
 docker logs <container-name>
 # Check port availability
 netstat -tulpn | grep 5000
-```
+```bash
 
 **Pipeline fails:**
 - Check GitLab CI/CD variables

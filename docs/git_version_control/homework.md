@@ -14,26 +14,16 @@ Looge lihtne projekt, mis demonstreerib kõiki Git'i ja GitHub'i peamisi oskusi.
 ## Oluline: Õige Git Flow
 
 ```mermaid
-gitgraph
-    commit id: "Initial"
+graph TD
+    A[Initial] --> B[Setup]
+    B --> C[Add script]
+    C --> D[Add docs]
+    D --> E[Feature merged]
+    E --> F[Release v1.0]
     
-    branch develop
-    checkout develop
-    commit id: "Setup"
-    
-    branch feature/system-info
-    checkout feature/system-info
-    commit id: "Add script"
-    commit id: "Add docs"
-    
-    checkout develop
-    merge feature/system-info
-    commit id: "Feature merged"
-    
-    checkout main
-    merge develop
-    commit id: "Release v1.0"
-```
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+```bash
 
 **ALATI järgige:** feature → develop → main
 
@@ -62,7 +52,7 @@ Kloonige repositoorium oma arvutisse:
 ```bash
 git clone https://github.com/TEIE-KASUTAJANIMI/its-git-demo.git
 cd its-git-demo
-```
+```text
 
 ### 1.3 Põhifailide Loomine
 
@@ -72,7 +62,7 @@ Muutke README.md faili ja lisage lõppu:
 
 ## Projekti eesmärk
 See projekt demonstreerib Git'i ja GitHub'i oskusi.
-```
+```text
 
 Muutke .gitignore faili - lisage lõppu:
 
@@ -80,7 +70,7 @@ Muutke .gitignore faili - lisage lõppu:
 *.log
 *.tmp
 .env
-```
+```text
 
 Tehke esimene commit:
 
@@ -88,7 +78,7 @@ Tehke esimene commit:
 git add .
 git commit -m "docs: update README and gitignore"
 git push origin main
-```
+```text
 
 **Kontrollpunkt:** GitHub'is peaks näha teie commit'i.
 
@@ -102,13 +92,13 @@ Looge develop branch main'ist:
 
 ```bash
 git checkout -b develop
-```
+```text
 
 Push'ige develop branch GitHub'i:
 
 ```bash
 git push origin develop
-```
+```text
 
 ### 2.2 Feature Branch Loomine
 
@@ -116,7 +106,7 @@ Looge feature branch develop'ist:
 
 ```bash
 git checkout -b feature/system-info
-```
+```text
 
 **Kontrollpunkt:** Teil peaks olema 3 branch'i: main, develop, feature/system-info.
 
@@ -130,7 +120,7 @@ Looge fail nimega `system_info.sh`:
 
 ```bash
 touch system_info.sh
-```
+```text
 
 Avage fail tekstiredaktoris ja sisestage:
 
@@ -149,7 +139,7 @@ echo "=== Memory Info ==="
 free -h 2>/dev/null || echo "Memory info not available"
 echo ""
 echo "Script completed successfully!"
-```
+```text
 
 Salvestage fail.
 
@@ -157,13 +147,13 @@ Tehke script käivitatavaks:
 
 ```bash
 chmod +x system_info.sh
-```
+```text
 
 Testige script'i:
 
 ```bash
 ./system_info.sh
-```
+```text
 
 ### 3.2 Dokumentatsiooni Loomine
 
@@ -171,7 +161,7 @@ Looge fail nimega `USAGE.md`:
 
 ```bash
 touch USAGE.md
-```
+```text
 
 Avage fail ja sisestage:
 
@@ -186,7 +176,7 @@ Shows basic system information.
 ### Usage
 ```bash
 ./system_info.sh
-```
+```text
 
 ### Output
 Script displays:
@@ -209,13 +199,13 @@ Looge kataloogid:
 
 ```bash
 mkdir -p .github/workflows
-```
+```text
 
 Looge fail `.github/workflows/test.yml`:
 
 ```bash
 touch .github/workflows/test.yml
-```
+```text
 
 Avage fail ja sisestage:
 
@@ -231,7 +221,7 @@ jobs:
         bash -n system_info.sh
         chmod +x system_info.sh
         ./system_info.sh
-```
+```text
 
 Salvestage fail.
 
@@ -241,25 +231,25 @@ Lisage kõik failid:
 
 ```bash
 git add .
-```
+```text
 
 Kontrollige olukorda:
 
 ```bash
 git status
-```
+```text
 
 Tehke commit:
 
 ```bash
 git commit -m "feat: add system info script and documentation"
-```
+```text
 
 Push'ige feature branch:
 
 ```bash
 git push origin feature/system-info
-```
+```yaml
 
 **Kontrollpunkt:** GitHub'is peaks näha teie feature branch'i.
 
@@ -308,7 +298,7 @@ git checkout develop
 git pull origin develop
 git branch -d feature/system-info
 git push origin --delete feature/system-info
-```
+```bash
 
 ### 4.4 GitHub Actions Kontrollimine
 
@@ -326,7 +316,7 @@ Develop branch'is:
 
 ```bash
 git checkout develop
-```
+```text
 
 Avage `README.md` ja lisage lõppu:
 
@@ -334,19 +324,19 @@ Avage `README.md` ja lisage lõppu:
 
 ## Status
 Development version - active work in progress.
-```
+```text
 
 Commit'ige:
 
 ```bash
 git commit -am "docs: update status in develop"
-```
+```text
 
 Main branch'is:
 
 ```bash
 git checkout main
-```
+```text
 
 Avage `README.md` ja lisage sama koha lähedale:
 
@@ -354,19 +344,19 @@ Avage `README.md` ja lisage sama koha lähedale:
 
 ## Status
 Stable release version.
-```
+```text
 
 Commit'ige:
 
 ```bash
 git commit -am "docs: update status in main"
-```
+```text
 
 Proovige merge'ida develop → main:
 
 ```bash
 git merge develop
-```
+```bash
 
 Git teeb konflikti! Avage `README.md` ja lahendage konflikt:
 
@@ -380,7 +370,7 @@ Lõpetage merge:
 ```bash
 git add README.md
 git commit
-```
+```text
 
 ### 5.2 Tagged Release Loomine
 
@@ -388,13 +378,13 @@ Tag'ige praegune versioon:
 
 ```bash
 git tag v1.0.0
-```
+```text
 
 Push'ige tag:
 
 ```bash
 git push origin v1.0.0
-```
+```text
 
 GitHub'is looge Release:
 
@@ -416,7 +406,7 @@ Minge develop branch'ile:
 
 ```bash
 git checkout develop
-```
+```text
 
 Avage `README.md` ja asendage kogu sisu:
 
@@ -425,7 +415,7 @@ Avage `README.md` ja asendage kogu sisu:
 
 Lihtne projekt Git ja GitHub oskuste demonstreerimiseks.
 
-## Eesmärk
+## Projekti eesmärgid
 See projekt näitab:
 - Git branching ja merging
 - GitHub collaboration
@@ -433,12 +423,12 @@ See projekt näitab:
 - Dokumentatsiooni haldus
 
 ## Git Oskused
-- ✅ Repository seadistamine
-- ✅ Feature branch workflow
-- ✅ Merge conflict lahendamine
-- ✅ Pull Request'id
-- ✅ GitHub Actions
-- ✅ Tagged release'id
+- Repository seadistamine
+- Feature branch workflow
+- Merge conflict lahendamine
+- Pull Request'id
+- GitHub Actions
+- Tagged release'id
 
 ## Failid
 - `system_info.sh` - Süsteemi info script
@@ -448,7 +438,7 @@ See projekt näitab:
 ## Kasutamine
 ```bash
 ./system_info.sh
-```
+```bash
 
 See on õppeprojekt Git workflow demonstreerimiseks.
 ```
@@ -457,7 +447,7 @@ Commit'ige:
 
 ```bash
 git commit -am "docs: update project README"
-```
+```text
 
 ### 6.2 Lõplik Release
 
@@ -466,13 +456,13 @@ Merge develop → main:
 ```bash
 git checkout main
 git merge develop
-```
+```text
 
 Tag'ige uus versioon:
 
 ```bash
 git tag v1.1.0
-```
+```text
 
 Push'ige kõik:
 
@@ -480,7 +470,7 @@ Push'ige kõik:
 git push origin main
 git push origin develop
 git push origin v1.1.0
-```
+```bash
 
 GitHub'is looge v1.1.0 release.
 
@@ -493,10 +483,10 @@ GitHub'is looge v1.1.0 release.
 `https://github.com/TEIE-KASUTAJANIMI/its-git-demo`
 
 **Repository peab sisaldama:**
-- ✅ Vähemalt 10 commit'i
-- ✅ Mitut branch'i (main, develop, feature)
-- ✅ Issues ja Pull Request'id
-- ✅ Töötavat GitHub Actions workflow'd
-- ✅ Vähemalt 2 tagged release'i
-- ✅ Merge conflict'i lahendamist commit'ides
-- ✅ Kvaliteetseid commit sõnumeid
+- Vähemalt 10 commit'i
+- Mitut branch'i (main, develop, feature)
+- Issues ja Pull Request'id
+- Töötavat GitHub Actions workflow'd
+- Vähemalt 2 tagged release'i
+- Merge conflict'i lahendamist commit'ides
+- Kvaliteetseid commit sõnumeid

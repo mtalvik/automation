@@ -4,6 +4,10 @@ hide:
   - toc
 ---
 
+# IT automatiseerimine
+
+Õpime praktiliselt automatiseerima servereid ja rakendusi – Git'ist Kubernetes'eni.
+
 <div class="hero-section">
   <div class="hero-content">
     <h1>IT automatiseerimine</h1>
@@ -36,5 +40,4 @@ Vaja: Ubuntu, Git, Docker, VS Code. Kõik GitHub'is.
 
 ## Abi
 
-[Discord](https://discord.gg/gFMNPcrpy5)
 [Discord](https://discord.gg/gFMNPcrpy5)

@@ -33,7 +33,7 @@ terraform-modules-homework/
         ├── main.tf
         ├── variables.tf
         └── outputs.tf
-```
+```text
 
 ### 1.2 Mooduli muutujad
 
@@ -71,7 +71,7 @@ variable "include_docker" {
   type        = bool
   default     = false
 }
-```
+```text
 
 ---
 
@@ -186,7 +186,7 @@ resource "local_file" "start_script" {
   filename = "${local.project_full_name}/scripts/start.sh"
   file_permission = "0755"
 }
-```
+```text
 
 ### 2.2 Mooduli väljundid
 
@@ -217,7 +217,7 @@ output "created_files" {
     "${local.project_full_name}/scripts/start.sh"
   ], var.include_docker ? ["${local.project_full_name}/Dockerfile"] : [])
 }
-```
+```text
 
 ---
 
@@ -238,7 +238,7 @@ variable "teams" {
     }))
   }))
 }
-```
+```text
 
 ### 3.2 Peamine konfiguratsioon
 
@@ -299,7 +299,7 @@ resource "local_file" "summary" {
   
   filename = "projects-summary.json"
 }
-```
+```text
 
 ### 3.3 Väljundid
 
@@ -334,7 +334,7 @@ output "summary" {
     ])
   }
 }
-```
+```bash
 
 ---
 
@@ -386,7 +386,7 @@ teams = {
     ]
   }
 }
-```
+```text
 
 ### 4.2 Käivitamine
 
@@ -404,7 +404,7 @@ terraform apply
 terraform output
 ls -la
 cat projects-summary.json
-```
+```text
 
 ### 4.3 Testimine
 
@@ -412,13 +412,13 @@ cat projects-summary.json
 ```bash
 chmod +x frontend-dashboard/scripts/start.sh
 ./frontend-dashboard/scripts/start.sh
-```
+```text
 
 2. Vaadake loodud konfiguratsioonifaile:
 ```bash
 cat frontend-dashboard/config/project.json
 cat backend-api/README.md
-```
+```bash
 
 3. Muutke `terraform.tfvars` - lisage uus projekt või muutke environment. Rakendage muudatused.
 

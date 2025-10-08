@@ -39,7 +39,7 @@ Looge kohalik infrastruktuur Terraform'i abil. See on nagu "digitaalse maja ehit
 - **Skaleeritav** - saate hiljem liikuda pilve
 
 **🔗 Infrastruktuuri komponendid:**
-```
+```text
 Kohalik Infrastruktuur:
 ├── Projektifailid
 ├── Konfiguratsioonid (JSON/YAML)
@@ -75,7 +75,7 @@ graph TB
     Code --> Files
     Code --> Config
     Code --> Scripts
-```
+```text
 
 ---
 
@@ -92,14 +92,14 @@ terraform-basics-homework/
 ├── outputs.tf       # Väljundid
 ├── terraform.tfvars # Muutujate väärtused
 └── README.md        # Projekti kirjeldus
-```
+```text
 
 **Või kasutage valmis näidet:**
 
 ```bash
 # Kopeerige valmis struktuur
 cp -r teacher_repo/terraform-basics-starter/templates/* .
-```
+```text
 
 ### Ülesanne 2.1: Providers konfiguratsioon
 
@@ -124,7 +124,7 @@ terraform {
 
 # Local provider - töötab kohalikus failisüsteemis
 # Ei vajageid lisaseadeid
-```
+```bash
 
 **Märkus state haldamise kohta:**
 
@@ -154,7 +154,7 @@ terraform {
 
 # Local provider - töötab kohalikus failisüsteemis
 # Random provider - genereerib juhuslikke väärtusi
-```
+```bash
 
 **Miks see vajalik on?**
 - `terraform` blokk ütleb Terraform'ile: "Hei, ma tahan kasutada kohalikke teenuseid"
@@ -184,7 +184,7 @@ resource "local_directory" "config" {
 resource "local_directory" "scripts" {
   path = "${local_directory.project_root.path}/scripts"
 }
-```
+```bash
 
 **Miks see vajalik on?**
 - Ilma kaustateta ei saa organiseerida faile
@@ -212,7 +212,7 @@ resource "local_file" "project_config" {
   })
   filename = "${local_directory.config.path}/project.json"
 }
-```
+```bash
 
 **Miks see vajalik on?**
 - Konfiguratsioonifailid hoiavad projekti seadeid
@@ -242,7 +242,7 @@ resource "local_file" "startup_script" {
   filename = "${local_directory.scripts.path}/startup.sh"
   file_permission = "0755"  # Täitmisõigus
 }
-```
+```text
 
 **Miks see vajalik on?**
 - Skriptid automatiseerivad korduvaid ülesandeid
@@ -278,7 +278,7 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
-```
+```text
 
 **Miks see vajalik on?**
 - Ilma marsruutimistabelita ei tea serverid, kuhu liiklus saata
@@ -331,7 +331,7 @@ resource "aws_security_group" "web" {
     Name = "${var.project_name}-web-sg"
   }
 }
-```
+```text
 
 **Miks see vajalik on?**
 - Ilma Security Group'ita on serverid avatud kõigile
@@ -372,7 +372,7 @@ resource "aws_instance" "web" {
     Name = "${var.project_name}-web-server"
   }
 }
-```
+```text
 
 **Miks see vajalik on?**
 - See on meie web server - siin jookseb veebileht
@@ -400,7 +400,7 @@ data "aws_ami" "ubuntu" {
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 }
-```
+```text
 
 **Miks see vajalik on?**
 - `data` blokk ei loo uut ressurssi, vaid otsib olemasolevat
@@ -426,7 +426,7 @@ resource "aws_vpc" "main" {
     Name = "${var.project_name}-vpc"
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - Loob privaatse võrgu AWS's
@@ -449,7 +449,7 @@ resource "aws_subnet" "public" {
     Name = "${var.project_name}-public-subnet"
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - Loob alamvõrgu VPC sees
@@ -469,7 +469,7 @@ resource "aws_internet_gateway" "main" {
     Name = "${var.project_name}-igw"
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - Loob "värava" internetti
@@ -499,7 +499,7 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
-```
+```text
 
 **Mida see teeb?**
 - `route` ütleb: "kõik liiklus (0.0.0.0/0) läheb internetti"
@@ -546,7 +546,7 @@ resource "aws_security_group" "web" {
     Name = "${var.project_name}-web-sg"
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - `ingress` = sissetulev liiklus (kellele lubame pääseda)
@@ -581,7 +581,7 @@ resource "aws_instance" "web" {
     Name = "${var.project_name}-web-server"
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - `ami` = operatsioonisüsteemi pilt (Ubuntu)
@@ -604,7 +604,7 @@ data "aws_ami" "ubuntu" {
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 }
-```
+```text
 
 **Mida see teeb?**
 - `data` blokk otsib olemasolevat ressurssi (ei loo uut)
@@ -647,7 +647,7 @@ variable "file_count" {
     error_message = "Failide arv peab olema vahemikus 1-20."
   }
 }
-```
+```text
 
 **Miks see vajalik on?**
 - `variables` võimaldavad meil muuta väärtusi ilma koodi muutmata
@@ -687,7 +687,7 @@ output "project_summary" {
   description = "Projekti kokkuvõte"
   value = "Projekt '${var.project_name}' keskkond '${var.environment}' loodud ${timestamp()}"
 }
-```
+```bash
 
 **Miks see vajalik on?**
 - `outputs` näitavad meile olulisi infosid pärast `terraform apply`
@@ -708,7 +708,7 @@ output "project_summary" {
 aws_region   = "us-east-1"
 project_name = "terraform-basics-homework"
 instance_type = "t3.micro"
-```
+```bash
 
 **Miks see vajalik on?**
 - `terraform.tfvars` fail määrab muutujate väärtused
@@ -727,7 +727,7 @@ instance_type = "t3.micro"
 ```bash
 # Samm 1: Initsialiseerige Terraform
 terraform init
-```
+```bash
 
 **Mida see teeb?**
 - Allalaadib AWS provider'i
@@ -736,7 +736,7 @@ terraform init
 ```bash
 # Samm 2: Vaadake, mida luuakse
 terraform plan
-```
+```bash
 
 **Mida see teeb?**
 - Näitab, mida Terraform kavatseb luua
@@ -746,7 +746,7 @@ terraform plan
 ```bash
 # Samm 3: Looge infrastruktuur
 terraform apply
-```
+```bash
 
 **Mida see teeb?**
 - Loob kõik ressursid AWS's
@@ -760,12 +760,12 @@ terraform apply
 ```
 web_server_public_ip = "3.123.45.67"
 web_server_url = "http://3.123.45.67"
-```
+```text
 
 **Avage brauser jage aadressile:**
 ```
 http://[web_server_public_ip]
-```
+```hcl
 
 **Mida peaksite nägema?**
 - Nginx tervitusleht: "Welcome to nginx!"
@@ -809,7 +809,7 @@ output "db_port" {
   description = "Port of the RDS instance"
   value       = aws_db_instance.main.port
 }
-```
+```bash
 
 ---
 
@@ -868,13 +868,13 @@ output "db_port" {
 aws_region   = "eu-west-1"  # Muutke us-east-1 asemel
 project_name = "terraform-basics-homework"
 instance_type = "t3.micro"
-```
+```text
 
 2. **Käivitage uuesti:**
 ```bash
 terraform plan
 terraform apply
-```
+```bash
 
 **Mida peaksite nägema?**
 - Terraform ütleb: "aws_vpc.main: Destroying" ja "aws_vpc.main: Creating"
@@ -895,13 +895,13 @@ terraform apply
 aws_region   = "eu-west-1"
 project_name = "terraform-basics-homework"
 instance_type = "t3.small"  # Muutke t3.micro asemel
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
 terraform apply
-```
+```bash
 
 **Mida peaksite nägema?**
 - Terraform ütleb: "aws_instance.web: Modifying"
@@ -927,13 +927,13 @@ ingress {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 }
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
 terraform apply
-```
+```bash
 
 **Mida peaksite nägema?**
 - Terraform ütleb: "aws_security_group.web: Modifying"
@@ -973,13 +973,13 @@ cat > /var/www/html/index.html << 'HTML'
 </html>
 HTML
 EOF
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
 terraform apply
-```
+```bash
 
 **Mida peaksite nägema?**
 - Terraform ütleb: "aws_instance.web: Modifying"
@@ -1001,12 +1001,12 @@ terraform apply
 aws_region   = "invalid-region"  # Vale regioon
 project_name = "terraform-basics-homework"
 instance_type = "t3.micro"
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
-```
+```bash
 
 **Mida peaksite nägema?**
 - Error: "Invalid region"
@@ -1025,12 +1025,12 @@ terraform plan
 aws_region   = "eu-west-1"
 project_name = "terraform-basics-homework"
 instance_type = "invalid-type"  # Vale tüüp
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
-```
+```bash
 
 **Mida peaksite nägema?**
 - Error: "Invalid instance type"
@@ -1047,12 +1047,12 @@ terraform plan
 1. **Muutke `main.tf` faili VPC CIDR:**
 ```hcl
 cidr_block = "256.256.256.256/16"  # Vale CIDR
-```
+```text
 
 2. **Käivitage:**
 ```bash
 terraform plan
-```
+```bash
 
 **Mida peaksite nägema?**
 - Error: "Invalid CIDR block"
@@ -1071,7 +1071,7 @@ terraform plan
 1. **Avage brauser jage aadressile:**
 ```
 http://[web_server_public_ip]
-```
+```text
 
 2. **Vaadake, et näete oma custom veebilehte**
 
@@ -1083,7 +1083,7 @@ http://[web_server_public_ip]
 
 ```bash
 terraform destroy
-```
+```text
 
 **Miks see oluline on?**
 - AWS võtab raha iga tunni eest
@@ -1130,7 +1130,7 @@ output "bucket_name" {
   description = "Name of the S3 bucket"
   value       = aws_s3_bucket.main.bucket
 }
-```
+```text
 
 ---
 
@@ -1198,7 +1198,7 @@ module "storage" {
 resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
-```
+```text
 
 **Looge `environments/dev/variables.tf`:**
 
@@ -1226,7 +1226,7 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
-```
+```bash
 
 **Looge `environments/dev/terraform.tfvars`:**
 
@@ -1235,7 +1235,7 @@ aws_region   = "us-west-2"
 environment  = "dev"
 project_name = "terraform-basics-homework"
 db_password  = "dev_password_123"
-```
+```text
 
 ### Ülesanne 2.1: Staging environment
 
@@ -1299,7 +1299,7 @@ module "storage" {
 resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
-```
+```bash
 
 **Looge `environments/staging/terraform.tfvars`:**
 
@@ -1308,7 +1308,7 @@ aws_region   = "us-west-2"
 environment  = "staging"
 project_name = "terraform-basics-homework"
 db_password  = "staging_password_456"
-```
+```text
 
 ### Ülesanne 3.1: Production environment
 
@@ -1375,7 +1375,7 @@ module "storage" {
 resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
-```
+```bash
 
 **Looge `environments/prod/terraform.tfvars`:**
 
@@ -1384,7 +1384,7 @@ aws_region   = "us-west-2"
 environment  = "prod"
 project_name = "terraform-basics-homework"
 db_password  = "prod_password_789"
-```
+```text
 
 ---
 
@@ -1404,7 +1404,7 @@ terraform plan
 
 # Apply the configuration
 terraform apply
-```
+```text
 
 ### Ülesanne 2.1: Staging keskkonna juurutamine
 
@@ -1420,7 +1420,7 @@ terraform plan
 
 # Apply the configuration
 terraform apply
-```
+```text
 
 ### Ülesanne 3.1: Production keskkonna juurutamine
 
@@ -1436,7 +1436,7 @@ terraform plan
 
 # Apply the configuration
 terraform apply
-```
+```text
 
 ### Ülesanne 4.1: Tulemuste kontrollimine
 
@@ -1454,7 +1454,7 @@ terraform output
 # Check production environment
 cd ../prod
 terraform output
-```
+```text
 
 **Testige web rakendusi:**
 
@@ -1464,7 +1464,7 @@ terraform output instance_public_ips
 
 # Test web application
 curl http://<public-ip>
-```
+```text
 
 ---
 
@@ -1534,7 +1534,7 @@ Infrastruktuur sisaldab:
 Kõikide ressursside kustutamiseks:
 ```bash
 terraform destroy
-```
+```text
 
 ## Projekti struktuur
 
@@ -1544,7 +1544,7 @@ terraform-basics-homework/
 ├── modules/              # Taaskasutatavad Terraform moodulid
 ├── shared/               # Jagatud provider konfiguratsioon
 └── README.md            # See fail
-```
+```text
 
 ## Turvalisuse märkused
 
@@ -1574,7 +1574,7 @@ terraform destroy
 # Destroy development environment
 cd ../dev
 terraform destroy
-```
+```bash
 
 ---
 

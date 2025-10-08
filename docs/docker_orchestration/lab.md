@@ -27,7 +27,7 @@ mkdir docker-compose-lab
 cd docker-compose-lab
 mkdir backend
 mkdir frontend
-```
+```text
 
 Sinu projekt peaks välja nägema nii:
 ```
@@ -35,7 +35,7 @@ docker-compose-lab/
 ├── backend/
 ├── frontend/
 └── docker-compose.yml (loome hiljem)
-```
+```bash
 
 Igal teenus (backend, frontend) on oma failid ja seadistused. See hoiab projekti korrastatuna.
 
@@ -73,7 +73,7 @@ def info():
 # Käivitab serveri kõigil IP-del (vajalik Docker'is)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-```
+```text
 
 Container'is peab rakendus kuulama kõiki võrguliidesesid (`host='0.0.0.0'`), et välispoolt oleks ligipääsetav.
 
@@ -83,7 +83,7 @@ Loo fail `backend/requirements.txt`:
 
 ```
 Flask==2.3.3
-```
+```bash
 
 Docker peab teadma, milliseid Python pakette installida. See fail loetleb kõik vajalikud sõltuvused.
 
@@ -112,7 +112,7 @@ EXPOSE 5000
 
 # Määrame, mis käsk käivitub container'i käivitamisel
 CMD ["python", "app.py"]
-```
+```bash
 
 Docker'i layer caching toimib nii, et kui kopeerime `requirements.txt` eraldi, siis koodi muutmisel ei pea sõltuvusi uuesti installima.
 
@@ -176,7 +176,7 @@ Loo fail `frontend/index.html`:
     </script>
 </body>
 </html>
-```
+```bash
 
 Fetch() on moodne viis API-ga suhtlemiseks ilma lehe uuesti laadimata.
 
@@ -203,7 +203,7 @@ services:  # Määrame kõik teenused
     build: ./backend            # Ehitame oma image Dockerfile'ist
     ports:
       - "5000:5000"            # API kättesaadav port 5000 kaudu
-```
+```bash
 
 See fail kirjeldab kogu rakenduse arhitektuuri - millised teenused, kuidas nad omavahel suhtlevad, millised pordid.
 
@@ -217,7 +217,7 @@ See fail kirjeldab kogu rakenduse arhitektuuri - millised teenused, kuidas nad o
 
 ```bash
 docker-compose up --build
-```
+```text
 
 `--build` ehitab image'd uuesti enne käivitamist. Vajalik, kui Dockerfile või kood on muutunud.
 
@@ -225,7 +225,7 @@ Sa näed logisid mõlemast teenusest. Oota, kuni näed:
 ```
 backend_1   |  * Running on all addresses (0.0.0.0)
 frontend_1  | ... nginx started
-```
+```bash
 
 ### 5.2 Rakenduse testimine
 
@@ -241,7 +241,7 @@ Vajuta `Ctrl+C` terminalis või käivita:
 
 ```bash
 docker-compose down
-```
+```text
 
 ---
 
@@ -300,7 +300,7 @@ def db_status():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-```
+```text
 
 ### 6.2 Sõltuvuste uuendamine
 
@@ -309,7 +309,7 @@ Uuenda `backend/requirements.txt`:
 ```
 Flask==2.3.3
 psycopg2-binary==2.9.7   # PostgreSQL driver Python'i jaoks
-```
+```bash
 
 `psycopg2-binary` on PostgreSQL adapter Python'i jaoks, mis võimaldab andmebaasiga suhelda.
 
@@ -327,7 +327,7 @@ POSTGRES_PASSWORD=supersecretpassword123
 
 # Rakenduse seadistused
 APP_ENV=development
-```
+```bash
 
 `.env` fail hoiab tundlikud andmed eraldi koodist. See on standardne viis konfiguratsioonide haldamiseks.
 
@@ -374,7 +374,7 @@ services:
 
 volumes:
   postgres_data:                # Named volume andmete jaoks
-```
+```bash
 
 Docker Compose loeb automaatselt `.env` faili ja asendab `${MUUTUJA}` väärtused.
 
@@ -386,7 +386,7 @@ Docker Compose loeb automaatselt `.env` faili ja asendab `${MUUTUJA}` väärtuse
 
 ```bash
 docker-compose up --build
-```
+```text
 
 Nüüd käivitub kolm teenust: frontend, backend ja andmebaas.
 
@@ -399,7 +399,7 @@ Ava `http://localhost:5000/api/db-status` otse brauseris - peaksid nägema:
   "database": "connected",
   "timestamp": "2025-01-15T10:30:00"
 }
-```
+```text
 
 ### 7.3 Frontend'i uuendamine andmebaasi testimiseks
 
@@ -420,7 +420,7 @@ function testDatabase() {
         });
 }
 </script>
-```
+```bash
 
 ---
 
@@ -449,14 +449,14 @@ docker-compose down
 
 # Eemalda ka volume'id
 docker-compose down -v
-```
+```text
 
 ### 8.2 Container'ite probleemide lahendamine
 
 **Kontrolli, kas container'id töötavad:**
 ```bash
 docker-compose ps
-```
+```text
 
 Peaksid nägema:
 ```
@@ -464,22 +464,22 @@ Name               State           Ports
 backend_1          Up              0.0.0.0:5000->5000/tcp
 db_1              Up              5432/tcp
 frontend_1        Up              0.0.0.0:8080->80/tcp
-```
+```text
 
 **Kontrolli container'i logisid:**
 ```bash
 docker-compose logs backend
-```
+```text
 
 **Ligipääs container'i shell'ile:**
 ```bash
 docker-compose exec backend bash
-```
+```text
 
 **Testi võrguühendust:**
 ```bash
 docker-compose exec backend ping db
-```
+```bash
 
 ### 8.3 Levinud probleemid
 
@@ -507,7 +507,7 @@ docker-compose exec backend ping db
 ```bash
 # Lisa .gitignore faili
 echo ".env" >> .gitignore
-```
+```text
 
 Loo eraldi `.env.example` fail:
 
@@ -519,7 +519,7 @@ POSTGRES_PASSWORD=your_secure_password_here
 
 # Rakenduse seadistused
 APP_ENV=production
-```
+```bash
 
 Production keskkonnas kasuta tugevaid salasõnu ja eraldi `.env` faili.
 
@@ -547,7 +547,7 @@ Lisa health check'id teenustele:
       timeout: 10s
       retries: 3
     # ... ülejäänud konfiguratsioon
-```
+```bash
 ---
 
 ## Lisaressursid ja abi

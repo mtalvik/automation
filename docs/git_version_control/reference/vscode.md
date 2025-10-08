@@ -39,18 +39,18 @@
 ### Windows
 ```powershell
 winget install Microsoft.VisualStudioCode
-```
+```text
 Või lae alla: https://code.visualstudio.com
 
 ### macOS
 ```bash
 brew install --cask visual-studio-code
-```
+```text
 
 ### Linux (Ubuntu/Debian)
 ```bash
 sudo snap install code --classic
-```
+```bash
 
 ### Vajalikud Laiendused
 
@@ -97,10 +97,10 @@ Ava VS Code → Vajuta `Ctrl+Shift+X` → Paigalda järgmised:
 
 ### SSH Seadistamine
 
-### SSH võtme loomine:
+#### SSH võtme loomine:
 ```bash
 ssh-keygen -t rsa -b 4096 -C "sinu.email@example.com"
-```
+```yaml
 
 ### VS Code SSH config:
 Vajuta `F1` → `Remote-SSH: Open Configuration File`
@@ -112,7 +112,7 @@ Host serverinimi
     User kasutajanimi
     Port 22
     IdentityFile ~/.ssh/id_rsa
-```
+```text
 
 ### Põhiseadistused
 
@@ -127,7 +127,7 @@ Ava Settings (`Ctrl+,`) ja lisa:
     "editor.insertSpaces": true,
     "yaml.format.enable": true
 }
-```
+```bash
 
 ### Virtuaalmasinad ja Ühendused
 
@@ -146,7 +146,7 @@ Ava Settings (`Ctrl+,`) ja lisa:
 wsl --install Ubuntu
 # Taaskäivita arvuti
 # WSL2 käivitub automaatselt VS Code-s Remote Explorer-is
-```
+```text
 
 ### Multipass Ühendus
 ```bash
@@ -161,7 +161,7 @@ Host multipass-dev
     HostName [IP multipass info käsust]
     User ubuntu
     IdentityFile ~/.ssh/id_rsa
-```
+```bash
 
 ### VirtualBox Ühendus
 1. Loo Ubuntu VM VirtualBox-is
@@ -191,7 +191,7 @@ Remote masinas on **eraldi extension store**:
 ```
 Ctrl+Shift+` - Uus terminal
 Ctrl+` - Terminali näitamine/peitmine
-```
+```text
 
 ### Terminal Tüübid
 | Kiirklahv | Terminal tüüp |
@@ -217,5 +217,5 @@ server:
   settings:
     debug: true
     timeout: 30
-```
+```text
 3. Salvesta (`Ctrl+S`) - Prettier peaks formateerima

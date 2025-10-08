@@ -15,9 +15,9 @@ Süsteemiadministreerimine traditsioonilistel meetoditel tekitab skaleerumisel m
 !!! info "Mis on Ansible?"
     **Ansible** on open-source automatiseerimisplatvorm, mis lahendab:
     
-    - ✅ Süsteemihalduse
-    - ✅ Rakenduste juurutamise  
-    - ✅ Konfiguratsioonide haldamise ülesanded
+    -  Süsteemihalduse
+    -  Rakenduste juurutamise  
+    -  Konfiguratsioonide haldamise ülesanded
     
     **Peamised eelised:**
     
@@ -62,7 +62,7 @@ graph TB
     style Web2 fill:#ffcc99
     style DB1 fill:#cc99ff
     style DB2 fill:#cc99ff
-```
+```bash
 
 ??? info "Nõuded hallatavates süsteemides"
     - SSH server aktiivsena
@@ -95,7 +95,7 @@ db2.example.com
 [production:children]
 webservers
 databases
-```
+```bash
 
 **Modules**
 Moodulid on abstraktsed ühikud, mis kapseldavad konkreetseid funktsionaalsusi. Ansible sisaldab üle 3000 mooduli, mis katavad süsteemihalduse, võrgukonfiguratsiooni, pilveplatformide ja rakenduste haldamise vajadused.
@@ -105,7 +105,7 @@ Moodulid on abstraktsed ühikud, mis kapseldavad konkreetseid funktsionaalsusi. 
 Ansible'i täitmistsükkel koosneb järgmistest sammudest:
 
 ```mermaid
-flowchart TD
+graph TD
     A[Inventory lugemine] --> B[SSH ühendused]
     B --> C[Mooduli koodi edastamine]
     C --> D[Operatsioonide täitmine]
@@ -118,7 +118,7 @@ flowchart TD
     style D fill:#ff9999
     style E fill:#cc99ff
     style F fill:#ffff99
-```
+```bash
 
 1. **Inventory lugemine** - süsteemide nimekirja laadimine
 2. **SSH ühenduste loomine** - paralleelsed ühendused sihtmärkidega
@@ -137,7 +137,7 @@ ansible all -m package -a "name=nginx state=present"
 
 # Teine käivitamine - nginx on juba olemas, muudatusi ei tehta
 ansible all -m package -a "name=nginx state=present"
-```
+```bash
 
 Idempotency eelised:
 - **Turvalisus** - operatsioonide korduvkäivitamine ei tekita kahjulikke kõrvalmõjusid
@@ -178,7 +178,7 @@ echo "target_host ansible_user=user" > inventory
 
 # Ühenduvuse testimine
 ansible -i inventory target_host -m ping
-```
+```text
 
 Oodatav väljund:
 ```json
@@ -189,7 +189,7 @@ target_host | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
-```
+```bash
 
 ## 5. SSH ja Inventory konfigureerimine
 
@@ -207,7 +207,7 @@ ssh-keygen -t ed25519 -C "ansible-automation" -f ~/.ssh/ansible_ed25519
 
 # RSA võtme genereerimine (vajadusel)
 ssh-keygen -t rsa -b 4096 -C "ansible-automation" -f ~/.ssh/ansible_rsa
-```
+```text
 
 **Parameetrite selgitus:**
 - `-t` - krüptograafilise algoritmi määramine
@@ -228,7 +228,7 @@ ssh-add ~/.ssh/ansible_ed25519
 
 # Agendis olevate võtmete kontroll
 ssh-add -l
-```
+```text
 
 Automaatse agendi käivitamise seadistamine shell'i konfiguratsioonis:
 
@@ -238,7 +238,7 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/ansible_ed25519 2>/dev/null
 fi
-```
+```text
 
 #### 5.1.3 Avalike võtmete levitamine
 
@@ -256,7 +256,7 @@ cat ~/.ssh/ansible_ed25519.pub | ssh kasutaja@sihtserver \
 for server in server1 server2 server3; do
     ssh-copy-id -i ~/.ssh/ansible_ed25519.pub kasutaja@$server
 done
-```
+```text
 
 ### 5.2 Inventory struktuur ja formaat
 
@@ -294,7 +294,7 @@ nginx_user=www-data
 [dbservers:vars]
 db_port=3306
 db_user=admin
-```
+```text
 
 #### 5.2.2 YAML formaat
 
@@ -331,7 +331,7 @@ all:
       children:
         webservers:
         dbservers:
-```
+```text
 
 #### 5.2.3 Dünaamiline inventory
 
@@ -367,7 +367,7 @@ def get_inventory():
 
 if __name__ == '__main__':
     print(json.dumps(get_inventory(), indent=2))
-```
+```bash
 
 ## 6. Ansible konfigureerimine
 
@@ -409,7 +409,7 @@ become = True
 become_method = sudo
 become_user = root
 become_ask_pass = False
-```
+```bash
 
 ### 6.2 Konfiguratsiooni prioriteet
 
@@ -428,7 +428,7 @@ ansible-config view
 
 # Kõikide parameetrite dump
 ansible-config dump
-```
+```bash
 
 ### 6.3 Host patterns ja sihtmärkide valimine
 
@@ -455,7 +455,7 @@ ansible ~web.* -m ping
 
 # Vahemiku määramine
 ansible web[1:3] -m ping
-```
+```text
 
 ## 7. Ühenduse diagnostika
 
@@ -470,7 +470,7 @@ ansible all -m command -a "whoami" -vvv
 
 # Süsteemi faktide kogumine
 ansible all -m setup --tree /tmp/facts
-```
+```text
 
 ### 7.2 Tüüpilised probleemid ja lahendused
 
@@ -482,7 +482,7 @@ chmod 644 ~/.ssh/ansible_ed25519.pub
 
 # SSH agendi kontroll
 ssh-add -l
-```
+```text
 
 **Host key verification:**
 ```bash
@@ -491,7 +491,7 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 # Täielik keelamine
 echo "host_key_checking = False" >> ansible.cfg
-```
+```text
 
 **Õiguste probleemid:**
 ```bash
@@ -500,7 +500,7 @@ ansible all -m command -a "sudo whoami"
 
 # Sudoers faili kontroll
 ansible all -m shell -a "sudo -l"
-```
+```text
 
 ## 8. Inventory best practices
 
@@ -521,7 +521,7 @@ inventory/
 │       └── db1.example.com.yml
 ├── staging/
 └── development/
-```
+```bash
 
 ### 8.2 Muutujate hierarhia
 
@@ -551,7 +551,33 @@ ansible-vault edit group_vars/all/vault.yml
 
 # Vault parooliga käivitamine
 ansible-playbook --ask-vault-pass site.yml
-```
+```bash
+
+### 8.4 Kiirkokkuvõte: praktikareeglid
+
+**Muutujate hierarhia (praktikas):**
+
+- `group_vars/all/` – ühised seaded (nt WordPress versioon, timezone)
+- `group_vars/production/` – tootmine (SSL sisse, debug välja)
+- `group_vars/development/` – arendus (SSL välja, debug sisse)
+
+**Template'id teevad dünaamikat:**
+
+- Nginx konfiguratsioon kohandub keskkonnale
+- WordPress `wp-config.php` kasutab õigeid paroole igas keskkonnas
+- PHP seaded skaleeruvad vastavalt serveri RAM-ile
+
+**Handler'id (kontrollitud taaskäivitused):**
+
+- Nginx reload, kui konfiguratsioon muutub
+- PHP-FPM restart, kui versioon/konfiguratsioon muutub
+- Käivitatakse koondatult play lõpus (üks kord per handler)
+
+**Vault (tundliku info kaitse):**
+
+- Krüpteeri DB paroolid iga keskkonna jaoks
+- Krüpteeri WordPress security keys
+- Krüpteeri SSL privaatvõtmed
 
 ## 9. Ad-hoc käskude kasutamine
 
@@ -580,7 +606,7 @@ Ad-hoc käskude põhiline formaat:
 
 ```bash
 ansible <target> -m <module> -a "<arguments>" [options]
-```
+```bash
 
 **Komponendid:**
 - `<target>` - inventory pattern või grupi nimi
@@ -613,7 +639,7 @@ ansible web1.example.com -m ping
 #     "changed": false,
 #     "ping": "pong"
 # }
-```
+```text
 
 #### 9.2.2 command vs shell moodulid
 
@@ -631,7 +657,7 @@ ansible all -m command -a "df -h"
 
 # Shell operaatorid EI tööta
 ansible all -m command -a "ps aux | grep nginx"  # EBAÕNNESTUB
-```
+```text
 
 **shell moodul** - võimaldab shell'i funktsionaalsust, kuid suurema turvariski hinnaga:
 
@@ -647,7 +673,7 @@ ansible all -m shell -a "kill $(pgrep -f nginx)"
 
 # Failide ümbersuunamine
 ansible all -m shell -a "dmesg | tail -20 > /tmp/kernel.log"
-```
+```text
 
 #### 9.2.3 package - Tarkvarahaldus
 
@@ -665,7 +691,7 @@ ansible webservers -m package -a "name=apache2 state=absent" --become
 
 # Pakettide cache uuendamine (Debian/Ubuntu)
 ansible ubuntu_hosts -m package -a "update_cache=yes" --become
-```
+```text
 
 Spetsiifilised pakettide haldurid:
 
@@ -678,7 +704,7 @@ ansible centos_hosts -m yum -a "name=nginx state=present" --become
 
 # DNF (Fedora, RHEL 8+)
 ansible fedora_hosts -m dnf -a "name=nginx state=present" --become
-```
+```text
 
 #### 9.2.4 service - Teenuste haldamine
 
@@ -699,7 +725,7 @@ ansible webservers -m service -a "name=nginx enabled=yes" --become
 
 # Kombineeritud operatsioon
 ansible webservers -m service -a "name=nginx state=started enabled=yes" --become
-```
+```text
 
 #### 9.2.5 file - Failisüsteemi operatsioonid
 
@@ -723,7 +749,7 @@ ansible all -m file -a "path=/tmp/tempfile state=absent"
 
 # Rekursiivne õiguste määramine
 ansible all -m file -a "path=/var/www state=directory owner=www-data group=www-data recurse=yes" --become
-```
+```text
 
 #### 9.2.6 copy - Failide edastamine
 
@@ -741,7 +767,7 @@ ansible all -m copy -a "content='server_tokens off;' dest=/etc/nginx/conf.d/secu
 
 # Õigustega kopeerimine
 ansible all -m copy -a "src=script.sh dest=/usr/local/bin/script.sh mode=0755 owner=root" --become
-```
+```text
 
 ### 9.3 Süsteemi diagnostika
 
@@ -767,7 +793,7 @@ ansible all -m setup -a "filter=ansible_mounts"
 
 # Kõik faktid (mahukad andmed)
 ansible all -m setup --tree /tmp/facts/
-```
+```text
 
 #### 9.3.2 Performance monitoring
 
@@ -794,7 +820,7 @@ ansible all -m shell -a "iostat -x 1 1"
 
 # Network statistika
 ansible all -m shell -a "ss -tuln"
-```
+```text
 
 #### 9.3.3 Logide analüüs
 
@@ -815,7 +841,7 @@ ansible all -m shell -a "dmesg | tail -20"
 
 # Faili-põhised logid
 ansible webservers -m shell -a "tail -20 /var/log/nginx/error.log"
-```
+```text
 
 ### 9.4 Täpsemad operatsioonid
 
@@ -830,7 +856,7 @@ ansible all -m user -a "name=appuser groups=sudo,www-data append=yes" --become
 
 # SSH võtme lisamine
 ansible all -m authorized_key -a "user=appuser key='{{ lookup('file', '~/.ssh/id_rsa.pub') }}'" --become
-```
+```text
 
 #### 9.4.2 Võrgu diagnostika
 
@@ -846,7 +872,7 @@ ansible all -m shell -a "netstat -tlnp"
 
 # Aktiivsed ühendused
 ansible all -m shell -a "ss -tupln"
-```
+```text
 
 ### 9.5 Käsurea lipud ja optioonid
 
@@ -861,7 +887,7 @@ ansible all -m command -a "whoami" --become-user=postgres --become
 
 # Sudo meetodi määramine
 ansible all -m command -a "id" --become-method=su --become
-```
+```text
 
 #### 9.5.2 Paralleelsuse kontroll
 
@@ -871,7 +897,7 @@ ansible all -m ping --forks=1
 
 # Suurem paralleelsus
 ansible all -m setup --forks=20
-```
+```text
 
 #### 9.5.3 Sihtmärkide piiramine
 
@@ -887,7 +913,7 @@ ansible webservers:&production -m service -a "name=nginx state=restarted" --beco
 
 # Hosti limiteerimine
 ansible all --limit web1.example.com,web2.example.com -m ping
-```
+```text
 
 #### 9.5.4 Kuiva käivitamise režiim
 
@@ -897,7 +923,7 @@ ansible all -m package -a "name=nginx state=present" --check
 
 # Muudatuste kuvamine
 ansible all -m copy -a "src=test.conf dest=/etc/test.conf" --check --diff
-```
+```text
 
 ### 9.6 Batch operatsioonid
 
@@ -912,7 +938,7 @@ ansible webservers -m service -a "name=nginx state=stopped" --become
 ansible webservers -m command -a "sleep 5"
 ansible webservers -m service -a "name=nginx state=started" --become
 ansible webservers -m shell -a "curl -I http://localhost" 
-```
+```text
 
 #### 9.6.2 Informatsioon kogumise skript
 
@@ -927,7 +953,7 @@ echo "=== Memory Usage ===" >> audit.log
 ansible all -m shell -a "free -h" >> audit.log
 echo "=== Running Services ===" >> audit.log
 ansible all -m shell -a "systemctl list-units --type=service --state=running --no-pager" >> audit.log
-```
+```bash
 
 ## 10. YAML süntaks ja Playbook'ide alused
 
@@ -948,7 +974,7 @@ application:
   configuration:
     debug: false
     max_connections: 1000
-```
+```text
 
 **JSON ekvivalent:**
 ```json
@@ -963,7 +989,7 @@ application:
     }
   }
 }
-```
+```text
 
 **XML ekvivalent:**
 ```xml
@@ -979,7 +1005,7 @@ application:
     <max_connections>1000</max_connections>
   </configuration>
 </application>
-```
+```text
 
 ### 10.2 YAML süntaksi reeglid
 
@@ -1001,7 +1027,7 @@ child1: value1          # Vale tase
   child2: value2
     nested_parent:      # Inconsistent indentation
   nested_child: value   # Vale tase
-```
+```text
 
 #### 10.2.2 Andmetüübid
 
@@ -1013,7 +1039,7 @@ float_value: 3.14159
 boolean_true: true
 boolean_false: false
 null_value: null
-```
+```text
 
 **Loendid (Arrays):**
 ```yaml
@@ -1032,7 +1058,7 @@ servers:
     ip: 192.168.1.10
   - name: web2
     ip: 192.168.1.11
-```
+```text
 
 **Võtme-väärtuse paarid (Dictionaries):**
 ```yaml
@@ -1043,7 +1069,7 @@ server_config:
   allowed_ips:
     - 192.168.1.0/24
     - 10.0.0.0/8
-```
+```text
 
 #### 10.2.3 Mitme rea stringid
 
@@ -1053,7 +1079,7 @@ description: |
   See on pikk kirjeldus,
   mis sisaldab mitut rida
   ja säilitab kõik reavahetused.
-```
+```text
 
 **Folded style (>) - ühendab ridadeks:**
 ```yaml
@@ -1061,7 +1087,7 @@ summary: >
   See tekst kirjutatakse
   mitmel real, aga tulemuseks
   on üks pikk rida.
-```
+```text
 
 ### 10.3 Playbook'ide struktuur
 
@@ -1093,7 +1119,7 @@ Playbook koosneb ühest või mitmest "play'st", mis on suunatud konkreetsetele h
       package:
         name: mysql-server
         state: present
-```
+```text
 
 #### 10.3.2 Play komponendid
 
@@ -1105,7 +1131,7 @@ hosts: webservers            # Konkreetne grupp
 hosts: web*.example.com      # Pattern matching
 hosts: webservers:dbservers  # Mitme grupi kombinatsioon
 hosts: all:!production       # Välistamisega
-```
+```text
 
 **Variables** - muutujate defineerimine play tasemel:
 
@@ -1120,7 +1146,7 @@ vars:
   app_config:
     debug: false
     timeout: 30
-```
+```text
 
 **Tasks** - ülesannete loend, mis täidetakse järjekorras:
 
@@ -1132,7 +1158,7 @@ tasks:
       parameter2: value2
     when: condition
     tags: [tag1, tag2]
-```
+```text
 
 ### 10.4 Muutujate kasutamine
 
@@ -1163,7 +1189,7 @@ YAML-is kasutatakse Jinja2 template süntaksit muutujate asendamiseks:
           port={{ app_port }}
           debug=false
         dest: "{{ config_path }}/app.conf"
-```
+```bash
 
 #### 10.4.2 Muutujate allikad
 
@@ -1188,7 +1214,7 @@ ssl_certificate: "/etc/ssl/certs/{{ ansible_fqdn }}.crt"
 # host_vars/web1.example.com.yml  
 nginx_port: 8080
 custom_config: true
-```
+```text
 
 ### 10.5 Handlers süsteem
 
@@ -1223,7 +1249,7 @@ Handlers on erikülesanded, mis käivitatakse ainult notification'i peale ja all
     - name: reload systemd
       systemd:
         daemon_reload: yes
-```
+```text
 
 Handler'i käitumise reeglid:
 - Käivitatakse ainult notification'i korral
@@ -1364,7 +1390,7 @@ Kompleksne playbook veebiserveri infrastruktuuri seadistamiseks:
         url: "http://{{ ansible_default_ipv4.address }}"
         method: GET
         status_code: 200
-```
+```text
 
 ## 12. Playbook'i käivitamine ja debugimine
 
@@ -1385,7 +1411,7 @@ ansible-playbook --check site.yml
 
 # Muudatuste kuvamine
 ansible-playbook --check --diff site.yml
-```
+```text
 
 ### 12.2 Selektiivne käivitamine
 
@@ -1401,7 +1427,7 @@ ansible-playbook --tags "database" site.yml
 
 # Tagide välistamine
 ansible-playbook --skip-tags "testing" site.yml
-```
+```text
 
 ### 12.3 Debugimine ja verbose väljund
 
@@ -1417,7 +1443,7 @@ ansible-playbook -vvv site.yml
 
 # SSH debugging
 ansible-playbook -vvvv site.yml
-```
+```text
 
 ## 13. Best practices
 
@@ -1465,7 +1491,7 @@ ansible-playbook -vvvv site.yml
       uri:
         url: "http://localhost"
         status_code: 200
-```
+```text
 
 ### 13.2 Vigade käsitlemise strateegiad
 
@@ -1489,7 +1515,7 @@ tasks:
     retries: 3
     delay: 10
     until: result.status == 200
-```
+```bash
 
 ## Kokkuvõte
 

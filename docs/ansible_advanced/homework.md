@@ -47,7 +47,7 @@ git remote add origin https://github.com/[your-username]/ansible-advanced-homewo
 # Ansible struktuuri loomine
 mkdir group_vars
 touch ansible.cfg inventory.yml site.yml README.md
-```
+```bash
 
 ### 2.2 Automatiseerimise konfiguratsiooni loomine
 
@@ -56,7 +56,7 @@ touch ansible.cfg inventory.yml site.yml README.md
 [defaults]
 inventory = inventory.yml
 host_key_checking = False
-```
+```text
 
 **Fail: `inventory.yml`:**
 ```yaml
@@ -68,7 +68,7 @@ all:
   vars:
     server_name: "my-web-server"
     admin_email: "admin@example.com"
-```
+```text
 
 ### 2.3 Esimene commit (ainult automatiseerimisfailid)
 
@@ -76,7 +76,7 @@ all:
 # Lisa loodud automatiseerimisfailid
 git add ansible.cfg inventory.yml templates/ static/
 git commit -m "Loodud Ansible konfiguratsioon + lisatud veebi varad"
-```
+```text
 
 ---
 
@@ -88,7 +88,7 @@ git commit -m "Loodud Ansible konfiguratsioon + lisatud veebi varad"
 # Krüptitud vault faili loomine
 ansible-vault create group_vars/vault.yml
 # Parooli küsimisel kasuta: vault123
-```
+```text
 
 ### 3.2 Salajaste andmete lisamine vault'i (KIRJUTA NEED!)
 
@@ -99,7 +99,7 @@ vault_admin_password: "admin_secret_456"
 vault_website_title: "Minu Turvaline Veebiserver"
 vault_api_key: "api-key-12345-secret"
 vault_student_name: "Sinu Nimi Siin"
-```
+```text
 
 ### 3.3 Vault'i operatsioonide testimine
 
@@ -114,14 +114,14 @@ ansible-vault view group_vars/vault.yml
 
 # Redigeeri vault faili vajadusel
 ansible-vault edit group_vars/vault.yml
-```
+```text
 
 ### 3.4 Vault'i loomise commit
 
 ```bash
 git add group_vars/vault.yml
 git commit -m "Loodud krüptitud vault salajaste andmetega"
-```
+```text
 
 ---
 
@@ -185,7 +185,7 @@ git commit -m "Loodud krüptitud vault salajaste andmetega"
       service:
         name: "{{ service_name }}"
         state: restarted
-```
+```text
 
 ### 4.2 Playbook'i testimine
 
@@ -199,7 +199,7 @@ ansible-playbook --check site.yml --ask-vault-pass
 
 # Juurutamine päriselt
 ansible-playbook site.yml --ask-vault-pass
-```
+```text
 
 ### 4.3 Juurutamise kontrollimine
 
@@ -216,14 +216,14 @@ cat /var/www/html/server-info.txt
 
 # Ava brauseris
 echo "Ava brauser: http://localhost"
-```
+```text
 
 ### 4.4 Playbook'i loomise commit
 
 ```bash
 git add site.yml
 git commit -m "Loodud täielik playbook vault'i ja mallidega"
-```
+```text
 
 ---
 
@@ -244,7 +244,7 @@ ansible-playbook site.yml --ask-vault-pass
 
 # Kontrolli muudatust brauseris
 curl http://localhost | grep "Minu Uuendatud Sait"
-```
+```text
 
 ### 5.2 Käsitleja funktsionaalsuse testimine
 
@@ -258,7 +258,7 @@ ansible-playbook site.yml --ask-vault-pass -v
 
 # Kontrolli Apache taaskäivitumist
 sudo systemctl status apache2 | grep "Active since"
-```
+```text
 
 ### 5.3 Playbook'i funktsioonide testimine
 
@@ -271,7 +271,7 @@ ansible-playbook site.yml --ask-vault-pass --check
 
 # Käivita täiendava üksikasjalikkusega
 ansible-playbook site.yml --ask-vault-pass -vv
-```
+```text
 
 ### 5.4 Operatsionaalse testimise commit
 
@@ -279,7 +279,7 @@ ansible-playbook site.yml --ask-vault-pass -vv
 git add .
 git commit -m "Testitud vault'i operatsioone ja käsitleja funktsionaalsust"
 git push origin main
-```
+```text
 
 ---
 
@@ -304,7 +304,7 @@ git clone [repository-url]
 cd ansible-advanced-homework
 ansible-playbook site.yml --ask-vault-pass
 # Vault parool: vault123
-```
+```bash
 
 ## Töötavad tulemused
 - Veebiserver: http://localhost
@@ -352,7 +352,7 @@ mv screenshots/ docs/evidence/
 git add docs/
 git commit -m "Kodutöö organiseeritud õigesse struktuuri"
 git push origin main
-```
+```text
 
 ---
 
@@ -377,7 +377,7 @@ ansible-advanced-homework/
 │       │   └── apache-status.png
 │       └── deployment-log.txt
 └── .gitignore
-```
+```text
 
 ### Esitamise meetod:
 1. **GitHub hoidla link** esitatud kursuse süsteemis

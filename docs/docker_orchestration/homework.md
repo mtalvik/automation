@@ -48,7 +48,7 @@ Rakendus peab koosnema **neljast teenusest:**
 
 ### Näidis arhitektuur
 
-```
+```bash
 Kasutaja → Nginx (Frontend) → Python/Node (Backend) → PostgreSQL
                                      ↓
                                   Redis Cache
@@ -94,14 +94,14 @@ services:
 
 volumes:
   postgres_data:
-```
+```text
 
 #### .env faili näide
 ```env
 DB_PASSWORD=mySecurePassword123
 WEB_PORT=8080
 API_PORT=5000
-```
+```bash
 
 #### Python backend näide (backend/app.py)
 ```python
@@ -134,7 +134,7 @@ def get_users():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-```
+```text
 
 #### Dockerfile näide (backend/Dockerfile)
 ```dockerfile
@@ -148,13 +148,13 @@ RUN pip install -r requirements.txt
 COPY app.py .
 
 CMD ["python", "app.py"]
-```
+```text
 
 #### requirements.txt näide
 ```
 Flask==2.3.3
 psycopg2-binary==2.9.7
-```
+```text
 
 #### HTML frontend näide (frontend/index.html)
 ```html
@@ -178,7 +178,7 @@ psycopg2-binary==2.9.7
     </script>
 </body>
 </html>
-```
+```text
 
 #### SQL init script näide (database/init.sql)
 ```sql
@@ -191,7 +191,7 @@ CREATE TABLE users (
 INSERT INTO users (name, email) VALUES 
 ('John Doe', 'john@example.com'),
 ('Jane Smith', 'jane@example.com');
-```
+```bash
 
 ### Esitamine
 
@@ -208,7 +208,7 @@ git clone [your-repo]
 cd [repo-name]
 cp .env.example .env
 docker-compose up -d
-```
+```bash
 
 ### Näited ja vihje'd
 
@@ -246,7 +246,7 @@ services:
 
 volumes:
   postgres_data:
-```
+```text
 
 #### Backend starter (app.py)
 ```python
@@ -269,7 +269,7 @@ def get_users():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-```
+```text
 
 #### Frontend starter (index.html)
 ```html
@@ -296,7 +296,7 @@ if __name__ == '__main__':
     </script>
 </body>
 </html>
-```
+```text
 
 #### Database setup (init.sql)
 ```sql
@@ -310,7 +310,7 @@ INSERT INTO users (name, email) VALUES
 ('Test User', 'test@example.com');
 
 -- TODO: lisa rohkem test andmeid
-```
+```bash
 
 #### Vihje'd:
 - Alustage PostgreSQL ja lihtsa API'ga

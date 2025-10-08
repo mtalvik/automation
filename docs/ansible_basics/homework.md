@@ -22,7 +22,7 @@ See kodutöö ei anna valmis koodi - see annab probleemid lahendamiseks! Kasutag
 **Mida vaja teha:**
 Looge järgmine kataloogide ja failide struktuur (kasutage `mkdir` ja `touch` käske):
 
-```
+```bash
 ansible-lamp/
 ├── inventory/
 │   └── hosts.yml
@@ -112,7 +112,7 @@ ansible-lamp/
       service:
         name: apache2
         state: restarted
-```
+```bash
 
 **Ülesanne:** 
 1. Kopeerige see kood faili `lamp-stack.yml`
@@ -155,7 +155,7 @@ ansible-lamp/
 **Kontroll:** 
 ```bash
 mysql -u [teie_kasutaja] -p [teie_andmebaas] -e "SELECT 'Success!' as test;"
-```
+```text
 
 🔍 **Debugimise küsimus:** Kui MySQL ühendus ei tööta, kuidas te viga otsite?
 
@@ -195,7 +195,7 @@ try {
 
 // TODO: lisage phpinfo() kutse
 ?>
-```
+```bash
 
 **Ülesanne:**
 1. Asendage kõik `{{ ??? }}` õigete muutujatega
@@ -279,7 +279,7 @@ try {
   delay: 10
   register: http_test
   failed_when: http_test.status != 200
-```
+```text
 
 🤔 **Mõelge:** Millal kasutada `ignore_errors: yes` ja millal mitte?
 
@@ -315,21 +315,21 @@ try {
 ```
 TASK [Install PHP] ****
 fatal: [localhost]: FAILED! => {"msg": "No package matching 'php' found"}
-```
+```text
 **Küsimus:** Mis probleem? Kuidas parandada?
 
 **Viga 2:**
 ```
 TASK [Test MySQL connection] ****
 fatal: [localhost]: FAILED! => {"msg": "unable to connect to database"}
-```
+```text
 **Küsimus:** Võimalikud põhjused? Kuidas debugida?
 
 **Viga 3:**
 ```
 TASK [Generate index.html] ****
 fatal: [localhost]: FAILED! => {"msg": "template not found"}
-```
+```text
 **Küsimus:** Mida kontrollida?
 
 **Ülesanne:** Kirjutage README.md'sse troubleshooting sektsioon nende vigade jaoks!
@@ -351,7 +351,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 6. **Troubleshooting** - levinud probleemid ja lahendused
 7. **Projekti struktuur** - failide selgitus
 
-✅ **Test:** Andke README.md kolleegile - kas ta saab projekti käivitada?
+ **Test:** Andke README.md kolleegile - kas ta saab projekti käivitada?
 
 ### 8.2 Koodikommentaarid
 
@@ -372,7 +372,7 @@ fatal: [localhost]: FAILED! => {"msg": "template not found"}
 - name: "Seadista MySQL root parool (esimene kord)"
   mysql_user:
     # ... resto kood
-```
+```bash
 
 ---
 

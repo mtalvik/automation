@@ -36,7 +36,7 @@ Märgi ära kõik tehnoloogiad, mida kasutasid:
 - [ ] **Muud:** [Nimeta täiendavad tööriistad]
 
 ## Projekti Struktuur
-```
+```bash
 projekt/
 ├── README.md
 ├── docker/
@@ -91,7 +91,7 @@ projekt/
 - **Nimi:** [Sinu nimi]
 - **Kursus:** Automatiseerimine
 - **Aasta:** 2025
-```
+```text
 
 ---
 
@@ -114,7 +114,7 @@ git commit -m "Algne projekti import"
 
 # 5. Push'i GitHubi
 git push origin main
-```
+```text
 
 ### Vajalikud Failid
 
@@ -145,7 +145,7 @@ git push origin main
 # OS
 .DS_Store
 Thumbs.db
-```
+```bash
 
 ---
 
@@ -258,7 +258,7 @@ Thumbs.db
 - **Docker** - rakenduste pakendamine
 - **Ansible** - serverite konfigureerimine  
 - **Terraform** - infrastruktuuri kood
-- ✅ **CI/CD** - automaatne testimine ja rakendamine
+- **CI/CD** - automaatne testimine ja rakendamine
 
 ### Su Järgmised Võimalused
 - **Jätka õppimist** - tehnoloogiad arenevad kiiresti

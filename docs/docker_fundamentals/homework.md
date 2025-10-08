@@ -38,7 +38,7 @@ cd docker-dashboard-starter
 # Loo oma branch
 git checkout -b homework-TEIE-NIMI
 # Näiteks: git checkout -b homework-maria-talvik
-```
+```bash
 
 **Mida me saime?**
 - Valmis HTML dashboard
@@ -58,7 +58,7 @@ ls -la
 # docker-compose.yml - Multi-container setup
 # nginx.conf - Web server config
 # README.md - Dokumentatsioon
-```
+```text
 
 ### 2.3: Testage starter rakendust
 
@@ -71,7 +71,7 @@ open index.html
 # - Süsteemi oleku info
 # - Container runtime: "Unknown" 
 # - Interactive buttons töötavad
-```
+```bash
 
 ---
 
@@ -82,7 +82,7 @@ open index.html
 **Vaadake olemas olevat `Dockerfile` faili:**
 ```bash
 cat Dockerfile
-```
+```text
 
 **Dockerfile sisu ja selgitus:**
 ```dockerfile
@@ -90,7 +90,7 @@ FROM nginx:alpine              # Kasutame nginx web server'it
 COPY index.html /usr/share/nginx/html/   # Kopeerime HTML faili
 COPY nginx.conf /etc/nginx/conf.d/default.conf  # Custom config
 EXPOSE 80                      # Container port 80
-```
+```bash
 
 ### 3.2: Testige Docker build
 
@@ -100,7 +100,7 @@ docker build -t my-dashboard .
 
 # Kontrollige, et image on loodud
 docker images | grep my-dashboard
-```
+```text
 
 ### 3.3: Esimene commit
 
@@ -111,7 +111,7 @@ git commit -m "Alustasin kodutööd: kontrollisin starter failid ja Docker build
 
 # Push oma branch GitHub'i
 git push origin homework-TEIE-NIMI
-```
+```bash
 
 ---
 
@@ -128,7 +128,7 @@ docker ps
 
 # Testidige brauseris
 echo "Avage brauser: http://localhost:8080"
-```
+```text
 
 ### 4.2: Podman deployment
 
@@ -144,7 +144,7 @@ podman ps
 
 # Testidige brauseris
 echo "Avage brauser: http://localhost:8081"
-```
+```bash
 
 ### 4.3: Docker-compose kasutamine
 
@@ -158,7 +158,7 @@ services:
     ports:
       - "8080:80"
     container_name: compose-dashboard
-```
+```bash
 
 **Käivitage docker-compose'iga:**
 ```bash
@@ -169,14 +169,14 @@ docker-compose up -d
 docker-compose ps
 
 # Testidige: http://localhost:8080
-```
+```text
 
 ### 4.4: Commit deployment'i
 
 ```bash
 git add docker-compose.yml
 git commit -m "Docker ja Podman deployment töötab - mõlemad testitud"
-```
+```text
 
 ---
 
@@ -196,7 +196,7 @@ docker exec -it my-docker-app sh
 
 # Container'ist väljumine
 exit
-```
+```text
 
 ### 5.2: Container'ite peatamine ja cleanup
 
@@ -209,7 +209,7 @@ docker rm my-docker-app
 
 # Või mõlemat korraga
 docker rm -f my-docker-app
-```
+```bash
 
 ### 5.3: Docker-compose haldamine
 
@@ -225,7 +225,7 @@ docker-compose down
 
 # Käivitage uuesti
 docker-compose up -d
-```
+```text
 
 ### 5.4: Ressursside puhastamine
 
@@ -235,7 +235,7 @@ docker stats
 
 # Puhastage unused resources
 docker system prune -f
-```
+```text
 
 ---
 
@@ -257,20 +257,20 @@ System Status Dashboard on veebirakendus, mis näitab container informatsiooni.
 docker build -t dashboard .
 docker run -d -p 8080:80 dashboard
 # Avage: http://localhost:8080
-```
+```text
 
 ### Podman'iga:
 ```bash
 podman build -t dashboard .
 podman run -d -p 8081:80 dashboard  
 # Avage: http://localhost:8081
-```
+```bash
 
 ### Docker-compose'iga:
 ```bash
 docker-compose up -d
 # Avage: http://localhost:8080
-```
+```text
 
 ## Mida ma õppisin
 - [Teie kogemus 1]
@@ -304,7 +304,7 @@ git commit -m "Kodutöö valmis: Docker ja Podman deployment testitud"
 
 # Push final version
 git push origin homework-TEIE-NIMI
-```
+```text
 
 ### 7.2: Pull Request loomine
 
@@ -325,7 +325,7 @@ docker-fundamentals-homework/
 ├── Dockerfile                   # Container definitsioon
 ├── docker-compose.yml           # Multi-container setup
 └── screenshots/ (valikuline)    # Töötavate container'ite pildid
-```
+```bash
 
 ### Esitamine:
 1. **GitHub Pull Request link** esitage õppetoolis
@@ -333,8 +333,8 @@ docker-fundamentals-homework/
 3. **Töötav demonstratsioon** - õpetaja saab testida
 
 ### Hindamiskriteeriumid:
-- ✅ Töötav Docker deployment
-- ✅ Töötav Podman deployment  
-- ✅ docker-compose setup
-- ✅ Selge dokumentatsioon
-- ✅ Git commit history näitab progressi
+- Töötav Docker deployment
+- Töötav Podman deployment  
+- docker-compose setup
+- Selge dokumentatsioon
+- Git commit history näitab progressi

@@ -8,17 +8,21 @@
 Git ei tekkinud vaakumis - see lahendas reaalseid probleeme, millega silmitsi seisis Linux kerneli arendustiim 2005. aastal. Linus Torvalds oli aastatega kasutanud erinevaid versioonikontrolli lahendusi, kuid ükski ei vastanud kerneli arenduse kõrgetele nõudmistele. BitKeeper, mida nad kasutasid, muutus äkitselt tasuliseks ning alternatiivid nagu CVS ja Subversion olid liiga aeglased ja tsentraliseeritud.
 
 ```mermaid
-timeline
+gantt
     title Git'i ajalugu
-    2000 : BitKeeper kasutamine
-         : Linux kernel arendus
-    2005 : BitKeeper'i litsents muutub
-         : Linus alustab Git'i loomist
-         : Esimene Git'i versioon 2 nädalaga
-    2008 : GitHub'i käivitamine
-    2010 : Git muutub populaarseks
-    2020 : Git on de facto standard
-```
+    dateFormat YYYY
+    section BitKeeper ajastu
+    BitKeeper kasutamine    :done, bk1, 2000, 2005
+    Linux kernel arendus   :done, bk2, 2000, 2005
+    section Git'i sünd
+    BitKeeper'i litsents muutub :done, git1, 2005, 2005
+    Linus alustab Git'i loomist :done, git2, 2005, 2005
+    Esimene Git'i versioon 2 nädalaga :done, git3, 2005, 2005
+    section Moderne ajastu
+    GitHub'i käivitamine   :done, gh1, 2008, 2008
+    Git muutub populaarseks :done, git4, 2010, 2010
+    Git on de facto standard :done, git5, 2020, 2020
+```text
 
 Giti loomise ajendiks oli vajadus kiire, hajutatud versioonikontrolli järele, mis suudaks käsitleda tuhandeid arendajaid üle maailma. Torvalds lõi Giti kahe nädalaga, keskendudes kolmele põhiprintsiibile: kiirus, lihtne disain ja tugev mittelineaarse arenduse tugi. Need põhimõtted on siiani Giti südames.
 
@@ -49,7 +53,7 @@ graph TB
         R1 <--> R2
         R2 <--> R3
     end
-```
+```bash
 
 #### Giti sisemused
 
@@ -71,7 +75,7 @@ graph TD
         T --> ST
         ST --> B3
     end
-```
+```bash
 
 Git kasutab nelja põhilist objekti tüüpi. Blob'id sisaldavad failide sisu, puud (trees) kirjeldavad kataloogi struktuuri, commit'id salvestavad hetktõmmised koos metaandmetega ning tag'id märgistavad olulisi versioonipunkte. Need objektid moodustavad suunatud atsüklilise graafi, mis esitab projekti ajalugu.
 
@@ -89,76 +93,44 @@ graph LR
     LR -->|git push| RR
     RR -->|git pull| WD
     LR -->|git checkout| WD
-```
+```bash
 
 #### Hargnemisstrateegia
 
 Erinevad tiimid kasutavad erinevaid hargnemisstrateegiaid sõltuvalt oma vajadustest. Git Flow on struktureeritud lähenemine, mis kasutab mitut püsivat haru: master (või main) stabiilsete versioonide jaoks, develop jooksvaks arendustööks, feature harusid uute funktsioonide jaoks ning release ja hotfix harusid spetsiifiliste ülesannete täitmiseks.
 
 ```mermaid
-gitgraph
-    commit id: "Initial"
-    branch develop
-    checkout develop
-    commit id: "Dev work"
+graph TD
+    A[Initial] --> B[Dev work]
+    B --> C[Add login]
+    C --> D[Fix login]
+    D --> E[Integration]
+    E --> F[Prepare release]
+    F --> G[v1.0 Release]
+    G --> H[Fix critical bug]
+    H --> I[v1.0.1 Release]
     
-    branch feature/login
-    checkout feature/login
-    commit id: "Add login"
-    commit id: "Fix login"
-    
-    checkout develop
-    merge feature/login
-    commit id: "Integration"
-    
-    branch release/v1.0
-    checkout release/v1.0
-    commit id: "Prepare release"
-    
-    checkout main
-    merge release/v1.0
-    commit id: "v1.0" tag: "v1.0"
-    
-    checkout develop
-    merge release/v1.0
-    
-    checkout main
-    branch hotfix/critical-bug
-    commit id: "Fix critical bug"
-    
-    checkout main
-    merge hotfix/critical-bug
-    commit id: "v1.0.1" tag: "v1.0.1"
-    
-    checkout develop
-    merge hotfix/critical-bug
-```
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style I fill:#c8e6c9
+```text
 
 GitHub Flow on lihtsam alternatiiv, mis sobib paremini pideva integratsiooni keskkonnas. Selles mudelis on ainult üks main haru, millest luuakse feature harud. Iga feature haru merge'itakse tagasi main'i pärast code review'd.
 
 ```mermaid
-gitgraph
-    commit id: "Initial"
-    commit id: "Feature 1"
+graph TD
+    A[Initial] --> B[Feature 1]
+    B --> C[Start component]
+    C --> D[Add tests]
+    D --> E[Finalize]
+    E --> F[Deploy]
+    F --> G[Fix bug]
+    G --> H[Deploy fix]
     
-    branch feature/new-component
-    checkout feature/new-component
-    commit id: "Start component"
-    commit id: "Add tests"
-    commit id: "Finalize"
-    
-    checkout main
-    merge feature/new-component
-    commit id: "Deploy"
-    
-    branch feature/bug-fix
-    checkout feature/bug-fix
-    commit id: "Fix bug"
-    
-    checkout main
-    merge feature/bug-fix
-    commit id: "Deploy fix"
-```
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+    style H fill:#c8e6c9
+```bash
 
 ## Lugemisküsimused
 

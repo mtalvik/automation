@@ -23,7 +23,7 @@ Looge uus kaust ja failid:
 mkdir minu-terraform-projekt
 cd minu-terraform-projekt
 touch main.tf variables.tf outputs.tf terraform.tfvars
-```
+```text
 
 ### 1.2 Põhikonfiguratsioon
 
@@ -43,7 +43,7 @@ resource "local_file" "tervitus" {
   content  = "Tere! See on minu esimene Terraform fail."
   filename = "tervitus.txt"
 }
-```
+```bash
 
 **Ülesanded:**
 1. Jooksutage `terraform init`
@@ -73,7 +73,7 @@ variable "arv" {
     error_message = "Arv peab olema 1-5 vahel."
   }
 }
-```
+```bash
 
 ### 2.2 Väärtuste Määramine
 
@@ -82,7 +82,7 @@ Kirjutage `terraform.tfvars` faili:
 ```hcl
 nimi = "Teie-Nimi"
 arv  = 3
-```
+```text
 
 ### 2.3 Muutujate Kasutamine
 
@@ -106,7 +106,7 @@ resource "local_file" "info" {
   EOF
   filename = "${var.nimi}_info.txt"
 }
-```
+```bash
 
 **Ülesanded:**
 1. Rakendage muudatused
@@ -133,7 +133,7 @@ resource "local_file" "failid" {
   
   filename = "${var.nimi}_fail_${count.index + 1}.txt"
 }
-```
+```text
 
 ### 3.2 Kokkuvõte
 
@@ -150,7 +150,7 @@ resource "local_file" "kokkuvote" {
   
   filename = "${var.nimi}_kokkuvote.json"
 }
-```
+```text
 
 **Ülesanded:**
 1. Selgitage, mis on `count.index`
@@ -177,7 +177,7 @@ output "tervitus_sisu" {
   description = "Tervituse faili sisu"
   value = local_file.info.content
 }
-```
+```bash
 
 **Ülesanded:**
 1. Jooksutage `terraform output`

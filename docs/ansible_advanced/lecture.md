@@ -40,7 +40,7 @@ graph TD
     style F fill:#cc99ff
     style G fill:#ff99cc
     style H fill:#99ffcc
-```
+```text
 
 **Prioriteedi järjekord (kõrgeim esimesena):**
 1. **Command line** (`-e`, `--extra-vars`)
@@ -68,7 +68,7 @@ server_port: 8080
   tasks:
     - debug:
         msg: "Port will be: {{ server_port }}"  # Tulemus: 3000
-```
+```bash
 
 🤔 **Realiteedikontroll:** Kui teil on 100 serverit ja igal on erinev konfiguratsioon, kuidas te seda ilma muutujate hierarhiata hallaksite?
 
@@ -84,7 +84,7 @@ Ansible kogub automaatselt süsteemi infot:
       - "Memory: {{ ansible_memtotal_mb }}MB"
       - "CPU cores: {{ ansible_processor_vcpus }}"
       - "IP: {{ ansible_default_ipv4.address }}"
-```
+```text
 
 ### 1.3 Registered variables
 
@@ -100,7 +100,7 @@ Salvestage käsu tulemusi:
   debug:
     msg: "Apache on {{ apache_status.stdout }}"
   when: apache_status.rc == 0
-```
+```text
 
 ---
 
@@ -116,7 +116,7 @@ Jinja2 võimaldab luua dünaamilisi faile:
   template:
     src: app.conf.j2
     dest: /etc/app/config.conf
-```
+```text
 
 **Template fail (`templates/app.conf.j2`):**
 ```ini
@@ -133,7 +133,7 @@ cache_enabled = true
 log_level = DEBUG
 cache_enabled = false
 {% endif %}
-```
+```text
 
 **Küsimus:** Miks on kasulik kasutada `{{ ansible_managed }}` kommentaari template'i alguses?
 
@@ -150,7 +150,7 @@ package_manager = unknown
 
 # Inline conditionals
 service_port = {{ 443 if ssl_enabled else 80 }}
-```
+```text
 
 🤔 **Mõelge:** Kuidas aitavad conditionals hallata erinevaid operatsioonisüsteeme ühes template'is?
 
@@ -174,7 +174,7 @@ service_port = {{ 443 if ssl_enabled else 80 }}
 CREATE USER '{{ user.name }}'@'{{ user.host }}' IDENTIFIED BY '{{ user.password }}';
 GRANT {{ user.privileges | join(', ') }} ON {{ user.database }}.* TO '{{ user.name }}'@'{{ user.host }}';
 {% endfor %}
-```
+```text
 
 📊 **Võrdlus:** Võrrelge template'i kasutamist staatilise konfiguratsiooniga. Millised on eelised ja puudused?
 
@@ -195,7 +195,7 @@ first_server = {{ groups['webservers'] | first }}
 
 # JSON/YAML
 config = {{ app_config | to_nice_json }}
-```
+```text
 
 **Praktiline nipp:** Kasutage `| default()` filter'it vaikeväärtuste määramiseks template'ites.
 
@@ -236,7 +236,7 @@ handlers:
 
   - name: "enable site"
     command: "a2ensite {{ site_name }}"
-```
+```text
 
 🤔 **Mõelge:** Miks kasutada `reload` mitte `restart`? Millal on vahe oluline?
 
@@ -269,7 +269,7 @@ handlers:
       name: apache2
       state: restarted
     listen: "restart web services"
-```
+```bash
 
 **Küsimus:** Mis järjekorras käivituvad handler'id ja miks see on oluline?
 
@@ -298,7 +298,7 @@ ansible-vault encrypt plaintext.yml
 
 # Dekrüpteeri fail
 ansible-vault decrypt secrets.yml
-```
+```text
 
 **Näide vault failis:**
 ```yaml
@@ -309,7 +309,7 @@ vault_ssl_private_key: |
   -----BEGIN PRIVATE KEY-----
   [private key content]
   -----END PRIVATE KEY-----
-```
+```text
 
 🔐 **Turvanipp:** Vault'i parool peaks olema vähemalt 12 tähemärki ja sisaldama erinevaid sümboleid.
 
@@ -324,7 +324,7 @@ vault_app_secret_key: "prod_app_key_123456"
 mysql_root_password: "{{ vault_mysql_root_password }}"
 app_secret_key: "{{ vault_app_secret_key }}"
 environment: "production"
-```
+```text
 
 **Playbook käivitamine:**
 ```bash
@@ -334,7 +334,7 @@ ansible-playbook site.yml --ask-vault-pass
 # Kasuta parool faili
 echo "mypassword" > .vault_pass
 ansible-playbook site.yml --vault-password-file .vault_pass
-```
+```text
 
 🤔 **Mõelge:** Kuidas saaksite organisatsioonis turvaliselt jagada vault paroole?
 
@@ -347,7 +347,7 @@ ansible-vault create --vault-id dev@prompt development-secrets.yml
 
 # Käivitamine
 ansible-playbook site.yml --vault-id prod@prompt --vault-id dev@prompt
-```
+```text
 
 ### 4.4 Vault parooli haldamine
 
@@ -355,7 +355,7 @@ ansible-playbook site.yml --vault-id prod@prompt --vault-id dev@prompt
 ```bash
 export ANSIBLE_VAULT_PASSWORD=mypassword
 ansible-playbook site.yml
-```
+```text
 
 **Script'iga:**
 ```bash
@@ -365,7 +365,7 @@ echo "my_secret_password"
 
 chmod +x vault_pass.sh
 ansible-playbook site.yml --vault-password-file vault_pass.sh
-```
+```text
 
 💭 **Küsimus:** Mis probleeme võib tekkida vault paroolide haldamisel meeskonnatöös?
 
@@ -377,7 +377,7 @@ ansible-vault rekey secrets.yml
 
 # Muuda spetsiifilise vault'i parooli
 ansible-vault rekey --vault-id old@prompt --new-vault-id new@prompt secrets.yml
-```
+```text
 
 **Praktiline nipp:** Regulaarselt muutke vault paroole ja dokumenteerige rotatsiooni protseduuri.
 
@@ -395,7 +395,7 @@ group_vars/
 └── development/
     ├── vars.yml
     └── vault.yml
-```
+```text
 
 🤔 **Mõelge:** Kuidas organiseerida vault faile nii, et oleks selge, millised andmed on krüpteeritud ja millised mitte?
 
@@ -409,7 +409,7 @@ ansible-vault rekey --new-vault-password-file new_password production-secrets.ym
 # 2. Uuenda CI/CD süsteemid uue parooliga
 # 3. Teavita meeskonda muudatusest
 # 4. Eemalda vana parool kõigist süsteemidest
-```
+```bash
 
 ---
 

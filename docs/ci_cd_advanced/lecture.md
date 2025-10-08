@@ -65,7 +65,7 @@ git push origin feature/user-authentication
 
 # Loo merge request kvaliteedi väravatega
 # Automaatsed testid, turvaskaneerimised, koodikontroll kohustuslik
-```
+```text
 
 ### Kvaliteedi Väravad
 
@@ -271,7 +271,7 @@ monitor:health:
     - if: '$CI_COMMIT_BRANCH == "main"'
   needs:
     - deploy:staging  # EDASIJÕUDNUD: Ootab staging deploy'i lõppu
-```
+```text
 
 > **Allikas**: [GitLab CI/CD Advanced Configuration](https://www.heyvaldemar.com/mastering-gitlab-ci-cd-with-advanced-configuration-techniques/)
 
@@ -298,7 +298,7 @@ include:
 
 variables:
   GLOBAL_VAR: "shared-value"  # Globaalsed muutujad kõigile job'idele
-```
+```text
 
 #### 2. **Dünaamilised Muutujad ja Tingimuslik Loogika**
 
@@ -322,7 +322,7 @@ deploy:
   script:
     - echo "Deploying to $ENVIRONMENT at $DEPLOY_URL"
     - ./scripts/deploy.sh $ENVIRONMENT
-```
+```text
 
 #### 3. **Edasijõudnud Caching Strateegiad**
 
@@ -351,7 +351,7 @@ test:unit:
     paths:
       - test-results/        # Test tulemused
     policy: pull             # Ainult laeb cache'i, ei salvesta
-```
+```bash
 
 > **Allikas**: [Advanced CI/CD Pipeline Configuration Strategies](https://dev.to/gauri1504/advanced-cicd-pipeline-configuration-strategies-4mjh)
 
@@ -405,7 +405,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
 CMD ["npm", "start"]
-```
+```bash
 
 **Miks mitmeetapiline build on parem?**
 - **Väiksem image**: Ainult runtime failid, mitte build tööriistad
@@ -441,7 +441,7 @@ security:docker:
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock 
         securecodewarrior/docker-security-scan:latest 
         $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-```
+```bash
 
 **Miks kasutada mitut turvaskaneerimise tööriista?**
 - **Trivy**: Leiab teadaolevad haavatavused (CVE)
@@ -534,7 +534,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
-```
+```bash
 
 **Miks see on ettevõtte-tasemel?**
 - **Oleku haldus**: Remote state + lukustamine = meeskonna töö
@@ -549,7 +549,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
 ## Edasijõudnud CI/CD Pipeline Voo
 
 ```mermaid
-flowchart TD
+graph TD
     A[Koodi Commit] --> B[Valideerimine]
     B --> C[Turvaskaneerimine]
     C --> D[Unit Testid]
@@ -589,7 +589,7 @@ flowchart TD
     
     P --> W[Deploy Õnnestus]
     Q --> X[Production Valmis]
-```
+```text
 
 > **Allikas**: [CI/CD Pipeline Design Patterns](https://www.heyvaldemar.com/mastering-gitlab-ci-cd-with-advanced-configuration-techniques/)
 
@@ -618,7 +618,7 @@ deploy:production:
   only:
     variables:
       - $CI_COMMIT_TAG
-```
+```text
 
 ### Turvaskaneerimise Pipeline
 
@@ -649,7 +649,7 @@ security:comprehensive:
       - security-reports/
     expire_in: 1 week
   allow_failure: false
-```
+```text
 
 > **Allikas**: [Security-First CI/CD Practices](https://www.heyvaldemar.com/mastering-gitlab-ci-cd-with-advanced-configuration-techniques/)
 
@@ -688,7 +688,7 @@ build:optimized:
         --target production
         -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
         .
-```
+```text
 
 ### Edasijõudnud Caching Strateegiad
 
@@ -715,7 +715,7 @@ test:unit:
       - test-results/
       - coverage/
     policy: pull
-```
+```text
 
 > **Allikas**: [Pipeline Performance Optimization](https://dev.to/gauri1504/advanced-cicd-pipeline-configuration-strategies-4mjh)
 
@@ -747,7 +747,7 @@ monitor:deployment:
     - if: '$CI_COMMIT_BRANCH == "main"'
   needs:
     - deploy:staging
-```
+```text
 
 ### Prometheus ja Grafana Integratsioon
 
@@ -761,7 +761,7 @@ collect:metrics:
     - curl -X POST http://prometheus:9090/-/reload
   variables:
     PROMETHEUS_URL: "http://prometheus:9090"
-```
+```bash
 
 > **Allikas**: [DevOps Monitoring Best Practices](https://www.heyvaldemar.com/mastering-gitlab-ci-cd-with-advanced-configuration-techniques/)
 
@@ -860,7 +860,7 @@ branching_strategy:
     - sast
     - secrets_scan
   conventional_commits: true  # feat:, fix: → automaatne versioneerimine
-```
+```text
 
 **2. Supply Chain Turvalisus (CI-sse sisse ehitatud)**
 
@@ -884,7 +884,7 @@ security_pipeline:
   provenance:
     tool: "SLSA_attestation"
     store_with: "image"
-```
+```text
 
 **3. Efemeersed Preview Keskkonnad**
 
@@ -901,7 +901,7 @@ preview_environments:
   data:
     seed_with: "masked_test_data"
     disable: "external_callbacks"
-```
+```text
 
 **4. GitOps CD (Deklaratiivne, Audititav)**
 
@@ -918,7 +918,7 @@ gitops_setup:
     drift_detection: "alerts_enabled"
   
   rollback: "git_revert"
-```
+```text
 
 **5. Progressiivne Tarnimine (Argo Rollouts)**
 
@@ -946,7 +946,7 @@ progressive_delivery:
     
     auto_rollback:
       trigger: "error_rate >1% for 2 consecutive intervals"
-```
+```text
 
 **6. Post-Deploy Kvaliteedi Väravad**
 
@@ -965,7 +965,7 @@ post_deploy_quality:
     tool: "k6"
     schedule: "off_peak"
     compare_to: "SLO_budgets"
-```
+```text
 
 **7. Governance ja Policy-as-Code**
 
@@ -982,7 +982,7 @@ governance:
   infrastructure:
     tool: "Terraform"
     cost_analysis: "Infracost_comments_on_MR"
-```
+```text
 
 **8. Observability Esikohal (OTel + SLOs)**
 
@@ -1001,7 +1001,7 @@ observability:
   release_dashboards:
     show: "canary_vs_stable_metrics"
     display: "rollout_step_aca_score"
-```
+```text
 
 **9. Resilientsus ja Andmete Turvalisus**
 
@@ -1020,7 +1020,7 @@ resilience:
     schedule: "nightly_smoke_non_prod"
     tests: ["pod_kill", "node_drain"]
     verify: "self_heal_works"
-```
+```text
 
 **10. Saladuste ja Juurdepääsu Haldus**
 
@@ -1031,7 +1031,7 @@ secrets_management:
   external_secrets: "AWS_Secrets_Manager_HashiCorp_Vault"
   csi_driver: "secrets_to_pods"
   rotation: "no_long_lived_tokens_in_CI"
-```
+```text
 
 #### **Konkreetne Roll-Forward/Rollback Loogika**
 
@@ -1051,7 +1051,7 @@ promotion_logic:
   freeze:
     trigger: "auto_change_freeze_on_incident_SEV-2+"
     until: "postmortem_actions_merged"
-```
+```text
 
 #### **Tüüpilised Probleemid ja Lahendused**
 
@@ -1090,7 +1090,7 @@ sprint_4:
   tasks:
     - "Signed images, resources"
     - "Preview envs on PRs"
-```
+```text
 
 #### **Mõõdetavad Näitajad (Exec Dashboard)**
 
@@ -1153,7 +1153,7 @@ techshop-enterprise-devops/
 │   ├── runbooks/
 │   └── troubleshooting/
 └── README.md
-```
+```bash
 
 ### Põhilised Automatiseerimise Oskused
 

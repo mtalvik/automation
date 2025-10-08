@@ -12,7 +12,7 @@
 Teie ülesanne on luua Kubernetes deployment lihtsa e-commerce rakenduse jaoks nimega "BookStore". Fork'ige antud repositoorium, parandage vigased failid ja lisage puuduvad komponendid.
 
 ### Arhitektuur
-```
+```text
 Internet → Frontend (nginx) → Backend API → PostgreSQL Database
 ```
 
@@ -34,9 +34,9 @@ metadata:
 type: Opaque
 data:
   username: YWRtaW4=
-  password: ""           # ❌ PUUDU: lisa base64 encoded "mypassword123"
-  database: ""           # ❌ PUUDU: lisa base64 encoded "bookstore"
-```
+  password: ""           #  PUUDU: lisa base64 encoded "mypassword123"
+  database: ""           #  PUUDU: lisa base64 encoded "bookstore"
+```text
 
 ### 📁 `/database/postgres-deployment.yaml`
 ```yaml
@@ -50,7 +50,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres      # ❌ VIGA: ei vasta metadata labels'iga
+      app: postgres      #  VIGA: ei vasta metadata labels'iga
   template:
     metadata:
       labels:
@@ -61,9 +61,9 @@ spec:
         image: postgres:13-alpine
         ports:
         - containerPort: 5432
-        # ❌ PUUDUVAD: environment variables Secret'ist
-        # ❌ PUUDUVAD: resource limits
-```
+        #  PUUDUVAD: environment variables Secret'ist
+        #  PUUDUVAD: resource limits
+```text
 
 ### 📁 `/backend/backend-config.yaml`
 ```yaml
@@ -72,11 +72,11 @@ kind: ConfigMap
 metadata:
   name: backend-config
 data:
-  NODE_ENV: "development"     # ❌ VALE: peaks olema "production"
-  PORT: "8080"               # ❌ VALE: peaks olema "3000"
-  DATABASE_HOST: "localhost" # ❌ VALE: peaks olema Kubernetes service nimi
-  API_ENDPOINT: "/health"    # ✅ ÕKE
-```
+  NODE_ENV: "development"     #  VALE: peaks olema "production"
+  PORT: "8080"               #  VALE: peaks olema "3000"
+  DATABASE_HOST: "localhost" #  VALE: peaks olema Kubernetes service nimi
+  API_ENDPOINT: "/health"    #  ÕKE
+```text
 
 ### 📁 `/backend/backend-deployment.yaml`
 ```yaml
@@ -102,10 +102,10 @@ spec:
         - -listen=:3000
         ports:
         - containerPort: 3000
-        # ❌ PUUDUVAD: ConfigMap environment variables
-        # ❌ PUUDUVAD: health checks (liveness/readiness probes)
-        # ❌ PUUDUVAD: resource requests/limits
-```
+        #  PUUDUVAD: ConfigMap environment variables
+        #  PUUDUVAD: health checks (liveness/readiness probes)
+        #  PUUDUVAD: resource requests/limits
+```text
 
 ### 📁 `/frontend/frontend-service.yaml`
 ```yaml
@@ -114,13 +114,13 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: ClusterIP          # ❌ VIGA: peaks olema NodePort või LoadBalancer
+  type: ClusterIP          #  VIGA: peaks olema NodePort või LoadBalancer
   selector:
     app: frontend
   ports:
   - port: 80
-    targetPort: 8080       # ❌ VIGA: nginx kuulab port 80
-```
+    targetPort: 8080       #  VIGA: nginx kuulab port 80
+```text
 
 ### 📁 `/frontend/nginx-config.yaml`
 ```yaml
@@ -137,11 +137,11 @@ data:
             index index.html;
         }
         location /api/ {
-            proxy_pass http://backend-service:8080/;  # ❌ VIGA: vale port
+            proxy_pass http://backend-service:8080/;  #  VIGA: vale port
         }
     }
-  # ❌ PUUDU: index.html sisu
-```
+  #  PUUDU: index.html sisu
+```text
 
 ### 📁 `/README.md` (Mittetäielik)
 ```markdown
@@ -153,9 +153,9 @@ Simple e-commerce app on Kubernetes
 ## How to run
 ```bash
 kubectl apply -f .
-```
+```bash
 
-# ❌ PUUDUVAD:
+#  PUUDUVAD:
 # - Detailed setup instructions
 # - Prerequisites
 # - Troubleshooting
@@ -171,7 +171,7 @@ kubectl apply -f .
 # Fork GitHub'is, seejärel:
 git clone https://github.com/YOUR-USERNAME/bookstore-k8s-starter
 cd bookstore-k8s-starter
-```
+```bash
 
 ### 2. Parandage Vigased Failid
 
@@ -231,7 +231,7 @@ kubectl apply -f frontend/
 # Kontrolli
 kubectl get all
 minikube service frontend-service
-```
+```text
 
 ---
 
@@ -244,7 +244,7 @@ echo -n "mypassword123" | base64
 
 echo -n "bookstore" | base64  
 # Väljund: Ym9va3N0b3Jl
-```
+```text
 
 ### Environment Variables Example
 ```yaml
@@ -254,7 +254,7 @@ env:
     secretKeyRef:
       name: postgres-secret
       key: username
-```
+```text
 
 ### Health Probe Example
 ```yaml
@@ -264,7 +264,7 @@ livenessProbe:
     port: 3000
   initialDelaySeconds: 30
   periodSeconds: 10
-```
+```text
 
 ### Resource Limits Example
 ```yaml
@@ -275,7 +275,7 @@ resources:
   limits:
     memory: "256Mi"
     cpu: "200m"
-```
+```bash
 
 ---
 
@@ -289,7 +289,7 @@ git commit -m "Fix Kubernetes deployments and add missing files"
 git push origin main
 
 # Saatke mulle repo link
-```
+```bash
 
 **Esitamisviis:** Saatke email'iga oma GitHub repo link koos lühikese kirjeldusega, mida muutsite.
 
@@ -336,6 +336,6 @@ kubectl get pods
 kubectl describe pod <pod-name>
 kubectl logs <pod-name>
 kubectl get services
-```
+```text
 
 **Edu tööga!** Push'ige oma töö GitHub'i ja saatke link 📧

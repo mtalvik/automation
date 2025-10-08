@@ -35,7 +35,7 @@ docker run -d postgres
 
 # Üks API server
 docker run -d myapi
-```
+```text
 
 Kõik töötab. Aga mis juhtub kell kolm öösel, kui teie API server kukub? Keegi ei märka enne hommikut. Kasutajad on pahased. Müük langeb.
 
@@ -57,7 +57,7 @@ graph TD
     
     style A fill:#ffcccc
     style F fill:#ccffcc
-```
+```text
 
 Nüüd küsimus: mis on Container Orchestration? Keegi oskab vastata?
 
@@ -91,7 +91,7 @@ graph TB
     style ETCD fill:#fff3e0
     style SCHED fill:#e8f5e8
     style CM fill:#fce4ec
-```
+```text
 
 Mõelge sellele nagu ettevõtte juhatusele:
 - **API Server** on nagu sekretär - kõik päringud lähevad tema kaudu
@@ -130,7 +130,7 @@ graph TB
     style KUBELET fill:#e3f2fd
     style PROXY fill:#f3e5f5
     style RUNTIME fill:#e8f5e8
-```
+```text
 
 - **kubelet** on nagu vahetuse juhataja tehases - täidab control plane'i korraldusi
 - **kube-proxy** on nagu postkäitja - toimetab sõnumeid õigesse kohta
@@ -161,7 +161,7 @@ graph LR
     
     style NET fill:#e1f5fe
     style VOL fill:#fff3e0
-```
+```yaml
 
 Miks pole nimi "Container"? Sest pod võib sisaldada mitut konteinerit! Mõelge sellele nagu korterile - tavaliselt elab seal üks perekond, aga võib olla ka kaks.
 
@@ -183,7 +183,7 @@ spec:
     image: nginx:1.20
     ports:
     - containerPort: 80
-```
+```text
 
 Aga oodate! Ärge kirjutage üksikuid pod'e käsitsi. Miks? Sest kui pod sureb, see ei tule tagasi. Teil on vaja midagi, mis hoolitseb pod'ide eest.
 
@@ -205,7 +205,7 @@ graph TD
     style RS fill:#fff3e0
     style DEAD fill:#ffebee
     style NEW fill:#e8f5e8
-```
+```text
 
 Deployment on nutikas:
 - Kui pod kukub, loob kohe uue
@@ -230,23 +230,22 @@ spec:
       containers:
       - name: nginx
         image: nginx:1.20
-```
+```text
 
 Näeme ka rolling update'i toimumist:
 
 ```mermaid
-sequenceDiagram
-    participant Dev as Arendaja
-    participant Deploy as Deployment
-    participant Old as Vanad Pod'id
-    participant New as Uued Pod'id
+graph TD
+    A[Arendaja: Uuenda nginx:1.21-le] --> B[Deployment: Loo 1 uus pod]
+    B --> C[Uus pod: Olen valmis!]
+    C --> D[Deployment: Kustuta 1 vana pod]
+    D --> E{Kõik uuendatud?}
+    E -->|Ei| B
+    E -->|Jah| F[Uuendamine lõpetatud]
     
-    Dev->>Deploy: "Uuenda nginx:1.21-le"
-    Deploy->>New: Loo 1 uus pod
-    New->>Deploy: "Olen valmis!"
-    Deploy->>Old: Kustuta 1 vana pod
-    Note over Deploy: Korda kuni kõik uuendatud
-```
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+```text
 
 ### Service - Stabiilne Sissepääs
 
@@ -277,7 +276,7 @@ graph TB
     
     style SVC1 fill:#e3f2fd
     style SVC2 fill:#fff3e0
-```
+```text
 
 Service teeb kaht asja:
 1. Annab stabiilse IP aadressi
@@ -312,7 +311,7 @@ graph TB
     style FE_SVC fill:#e3f2fd
     style BE_SVC fill:#fff3e0
     style DB_SVC fill:#e8f5e8
-```
+```text
 
 Alustame backend'ist:
 
@@ -340,7 +339,7 @@ spec:
         env:
         - name: DATABASE_URL
           value: "postgresql://postgres:5432/mydb"
-```
+```text
 
 Kuidas backend leiab andmebaasi? DNS-i kaudu! Kubernetes loob automaatselt DNS kirje `postgres-service` nimega.
 
@@ -368,7 +367,7 @@ graph TB
     
     style CM fill:#e8f5e8
     style SECRET fill:#ffebee
-```
+```text
 
 ConfigMap avalikele seadistustele:
 
@@ -381,7 +380,7 @@ data:
   database.host: "postgres-service"
   database.port: "5432"
   api.timeout: "30"
-```
+```text
 
 Secret saladuste jaoks:
 
@@ -394,7 +393,7 @@ type: Opaque
 data:
   username: cG9zdGdyZXM=  # "postgres" base64 kodeeringus
   password: bXlwYXNzd29yZA==  # "mypassword" base64 kodeeringus
-```
+```text
 
 ## 6. Monitoring ja Probleemide Lahendamine
 
@@ -418,7 +417,7 @@ graph TD
     style PROBLEM fill:#ffebee
     style LOGS fill:#e8f5e8
     style APP_LOGS fill:#e8f5e8
-```
+```text
 
 Põhilised debug käsud:
 
@@ -438,7 +437,7 @@ kubectl exec -it <pod-name> -- /bin/bash
 # Vaata service'eid
 kubectl get services
 kubectl get endpoints
-```
+```text
 
 ## 7. Millal Kasutada Kubernetes'i?
 
@@ -461,7 +460,7 @@ graph LR
     
     style SIMPLE fill:#fff3e0
     style KUBERNETES fill:#e8f5e8
-```
+```bash
 
 **Kubernetes sobib kui:**
 - Teil on rohkem kui 10-20 konteinerit

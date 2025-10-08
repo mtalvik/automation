@@ -31,7 +31,7 @@ Pärast laborit oskate:
 ```bash
 mkdir -p ~/ansible-advanced
 cd ~/ansible-advanced
-```
+```text
 
 #### 1.1.2 Looge kõik vajalikud kaustad
 ```bash
@@ -43,12 +43,12 @@ mkdir -p group_vars/{all,webservers,dbservers}
 
 # Host-spetsiifilised muutujad
 mkdir -p host_vars/{web1,web2,db1}
-```
+```text
 
 #### 1.1.3 Kontrollige struktuuri
 ```bash
 tree .  # või ls -la kui tree ei ole installitud
-```
+```text
 
 **Peaks näitama:**
 ```
@@ -66,7 +66,7 @@ tree .  # või ls -la kui tree ei ole installitud
 ├── playbooks/
 ├── roles/
 └── templates/
-```
+```text
 
 ### 1.2 Inventory seadistamine - Serverite hierarhia
 
@@ -81,7 +81,7 @@ tree .  # või ls -la kui tree ei ole installitud
 ```bash
 touch inventory/hosts.yml
 nano inventory/hosts.yml
-```
+```text
 
 #### 1.2.2 Lisage server gruppid
 ```yaml
@@ -99,7 +99,7 @@ all:
           ansible_connection: local
           server_id: 2
           server_role: secondary
-```
+```text
 
 #### 1.2.3 Lisage group variables
 ```yaml
@@ -107,7 +107,7 @@ all:
         http_port: 80
         https_port: 443
         web_root: "/var/www/html"
-```
+```text
 
 #### 1.2.4 Lisage database serverid
 ```yaml
@@ -121,7 +121,7 @@ all:
       vars:
         mysql_port: 3306
         mysql_data_dir: "/var/lib/mysql"
-```
+```text
 
 #### 1.2.5 Lisage keskkonna grupid
 ```yaml
@@ -142,7 +142,7 @@ all:
         app_env: "production"
         debug_mode: false
         ssl_enabled: true
-```
+```text
 
 **Mõelge:** Miks on kasulik grupeerida servereid nii rolli kui keskkonna järgi?
 
@@ -154,7 +154,7 @@ all:
 ```bash
 touch group_vars/all/vars.yml
 nano group_vars/all/vars.yml
-```
+```text
 
 ```yaml
 # Kõikidele serveritele ühised seadistused
@@ -170,13 +170,13 @@ mysql_package: "{% if ansible_os_family == 'Debian' %}mysql-server{% else %}mari
 backup_enabled: "{{ app_env == 'production' }}"
 monitoring_enabled: "{{ app_env == 'production' }}"
 log_level: "{% if debug_mode %}DEBUG{% else %}INFO{% endif %}"
-```
+```text
 
 #### 1.3.2 Webserverite muutujad (group_vars/webservers/vars.yml)
 ```bash
 touch group_vars/webservers/vars.yml
 nano group_vars/webservers/vars.yml
-```
+```text
 
 ```yaml
 # Apache/Nginx seadistused
@@ -197,13 +197,13 @@ virtual_hosts:
   - name: "api.{{ app_name }}.local"
     document_root: "{{ web_root }}/api"
     ssl_enabled: "{{ ssl_enabled }}"
-```
+```text
 
 #### 1.3.3 Database serverite muutujad (group_vars/dbservers/vars.yml)
 ```bash
 touch group_vars/dbservers/vars.yml
 nano group_vars/dbservers/vars.yml
-```
+```text
 
 ```yaml
 # MySQL konfigureerimine
@@ -225,7 +225,7 @@ mysql_users:
     host: "localhost"
     priv: "{{ app_name }}_{{ app_env }}.*:ALL"
     # Parool tuleb vault'ist
-```
+```text
 
 **Märkused:**
 - Kasutame Jinja2 loogikat dünaamilisteks väärtusteks
@@ -249,7 +249,7 @@ mysql_users:
 ```bash
 touch templates/apache_vhost.conf.j2
 nano templates/apache_vhost.conf.j2
-```
+```text
 
 #### 2.1.2 Alustage põhistruktuuriga
 ```apache
@@ -260,7 +260,7 @@ nano templates/apache_vhost.conf.j2
 <VirtualHost *:{{ http_port }}>
     ServerName {{ item.name }}
     DocumentRoot {{ item.document_root }}
-```
+```text
 
 #### 2.1.3 Lisage conditionals
 ```apache
@@ -273,7 +273,7 @@ nano templates/apache_vhost.conf.j2
     
     ErrorLog ${APACHE_LOG_DIR}/{{ item.name }}_error.log
     CustomLog ${APACHE_LOG_DIR}/{{ item.name }}_access.log combined
-```
+```text
 
 #### 2.1.4 Lisage keskkonna-spetsiifilised seadistused
 ```apache
@@ -290,7 +290,7 @@ nano templates/apache_vhost.conf.j2
         {% endif %}
     </Directory>
 </VirtualHost>
-```
+```text
 
 #### 2.1.5 Lisage SSL support (conditional)
 ```apache
@@ -309,7 +309,7 @@ nano templates/apache_vhost.conf.j2
     SSLCertificateKeyFile {{ ssl_key_path | default('/etc/ssl/private/server.key') }}
 </VirtualHost>
 {% endif %}
-```
+```text
 
 **🤔 Analüüs:** Kuidas template aitab hallata erinevaid keskkondi (dev vs prod)?
 
@@ -321,7 +321,7 @@ nano templates/apache_vhost.conf.j2
 ```bash
 touch templates/mysql.cnf.j2
 nano templates/mysql.cnf.j2
-```
+```text
 
 #### 2.2.2 Lisage dünaamiline konfiguratsioon
 ```ini
@@ -357,7 +357,7 @@ slow_query_log = 1
 slow_query_log_file = /var/log/mysql/slow.log
 long_query_time = 1
 {% endif %}
-```
+```text
 
 ### 2.3 PHP konfiguratsioon template
 
@@ -367,7 +367,7 @@ long_query_time = 1
 ```bash
 touch templates/php-fpm.conf.j2
 nano templates/php-fpm.conf.j2
-```
+```text
 
 #### 2.3.2 Lisage dünaamilised seadistused
 ```ini
@@ -405,7 +405,7 @@ php_admin_value[error_reporting] = E_ALL
 php_admin_flag[display_errors] = off
 php_admin_value[error_reporting] = E_ERROR
 {% endif %}
-```
+```text
 
 ---
 
@@ -419,7 +419,7 @@ php_admin_value[error_reporting] = E_ERROR
 ```bash
 touch playbooks/site.yml
 nano playbooks/site.yml
-```
+```text
 
 #### 3.1.2 Lisage playbook struktuur
 ```yaml
@@ -434,7 +434,7 @@ nano playbooks/site.yml
       package:
         update_cache: yes
       when: ansible_os_family == "Debian"
-```
+```text
 
 #### 3.1.3 Lisage Apache seadistamine handlers'itega
 ```yaml
@@ -472,7 +472,7 @@ nano playbooks/site.yml
       loop: "{{ virtual_hosts }}"
       notify: "reload apache"
       when: virtual_hosts is defined
-```
+```text
 
 #### 3.1.4 Lisage handlers sektsioon
 ```yaml
@@ -496,7 +496,7 @@ nano playbooks/site.yml
       service:
         name: "{{ apache_package }}"
         state: restarted
-```
+```text
 
 **💭 Mõelge:** Miks kasutame `reload` mitte `restart`? Mis vahe on?
 
@@ -507,17 +507,17 @@ nano playbooks/site.yml
 #### 3.2.1 Syntax check
 ```bash
 ansible-playbook --syntax-check playbooks/site.yml
-```
+```text
 
 #### 3.2.2 Kuiv käivitus
 ```bash
 ansible-playbook --check -i inventory/hosts.yml playbooks/site.yml
-```
+```text
 
 #### 3.2.3 Template'i testimine
 ```bash
 ansible-playbook -i inventory/hosts.yml playbooks/site.yml --tags "config" -v
-```
+```bash
 
 ---
 
@@ -530,7 +530,7 @@ ansible-playbook -i inventory/hosts.yml playbooks/site.yml --tags "config" -v
 #### 4.1.1 Looge vault fail group_vars jaoks
 ```bash
 ansible-vault create group_vars/all/vault.yml
-```
+```text
 
 #### 4.1.2 Lisage tundlikud andmed
 ```yaml
@@ -548,12 +548,12 @@ vault_monitoring_token: "monitoring_token_here"
 
 # Admin passwords
 vault_admin_password: "AdminSecurePass789!"
-```
+```text
 
 #### 4.1.3 Looge production-spetsiifiline vault
 ```bash
 ansible-vault create group_vars/production/vault.yml
-```
+```text
 
 ```yaml
 # Production SSL certificates
@@ -570,7 +570,7 @@ vault_ssl_key_content: |
 # Production database settings
 vault_production_db_host: "prod-db.company.com"
 vault_production_db_password: "ProdDbPass123!"
-```
+```text
 
 ### 4.2 Vault muutujate kasutamine
 
@@ -579,7 +579,7 @@ vault_production_db_password: "ProdDbPass123!"
 #### 4.2.1 Uuendage group_vars/all/vars.yml
 ```bash
 nano group_vars/all/vars.yml
-```
+```text
 
 ```yaml
 # Lisage vault viited
@@ -588,12 +588,12 @@ mysql_app_password: "{{ vault_mysql_app_password }}"
 ssl_cert_path: "{{ vault_ssl_cert_path }}"
 ssl_key_path: "{{ vault_ssl_key_path }}"
 admin_password: "{{ vault_admin_password }}"
-```
+```text
 
 #### 4.2.2 Uuendage MySQL template'i
 ```bash
 nano templates/mysql.cnf.j2
-```
+```text
 
 ```ini
 # Lisage vault-põhised seadistused
@@ -603,7 +603,7 @@ ssl-ca={{ vault_ssl_cert_path }}
 ssl-cert={{ vault_ssl_cert_path }}
 ssl-key={{ vault_ssl_key_path }}
 {% endif %}
-```
+```text
 
 ### 4.3 Vault käsitsikasutatavus
 
@@ -612,24 +612,24 @@ ssl-key={{ vault_ssl_key_path }}
 #### 4.3.1 Vaata vault faili
 ```bash
 ansible-vault view group_vars/all/vault.yml
-```
+```text
 
 #### 4.3.2 Muuda vault faili
 ```bash
 ansible-vault edit group_vars/production/vault.yml
-```
+```text
 
 #### 4.3.3 Käivita playbook vault'iga
 ```bash
 ansible-playbook -i inventory/hosts.yml playbooks/site.yml --ask-vault-pass
-```
+```text
 
 #### 4.3.4 Või kasuta vault password faili
 ```bash
 echo "your_vault_password" > .vault_pass
 chmod 600 .vault_pass
 ansible-playbook -i inventory/hosts.yml playbooks/site.yml --vault-password-file .vault_pass
-```
+```bash
 
 **🔐 Turvalisus:** Ära iial commiti `.vault_pass` faili Git'i!
 

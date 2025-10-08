@@ -230,7 +230,7 @@ Kaasaegse DevOps automatiseerimise praktikad ja tööriistad. Kursus katab versi
 ## Failide Organisatsioon
 
 ### Standardne Mooduli Struktuur:
-```
+```text
 moodul_nimi/
 ├── lecture.md              # Põhiline loengumaterjal
 ├── lab.md                  # Praktilised harjutused ja laborid
@@ -241,7 +241,7 @@ moodul_nimi/
 ### Erisused:
 
 **Docker (kaheks jaotatud):**
-```
+```bash
 docker_fundamentals/
 ├── lecture1.md             # Docker alused - osa 1
 ├── lecture2.md             # Docker alused - osa 2
@@ -250,7 +250,7 @@ docker_fundamentals/
 ```
 
 **Terraform (kaks kodutööd):**
-```
+```bash
 terraform_basics/
 ├── lecture.md              # Terraform loeng
 ├── lab.md                  # Praktilised harjutused  
@@ -260,7 +260,7 @@ terraform_basics/
 ```
 
 **Kubernetes + CI/CD (kaks laborit):**
-```
+```text
 kubernetes_overview/
 ├── lecture.md              # Kubernetes + CI/CD ülevaade
 ├── lab1.md                 # Kubernetes labor - põhialused
@@ -299,22 +299,22 @@ kubernetes_overview/
 ## Kursuse Tulemusnäitajad
 
 ### Tehnilised Oskused:
-- ✅ **Git workflow** meeskonnatöös
-- ✅ **Ansible automation** server konfiguratsioonideks
-- ✅ **Docker containerization** rakenduste jaoks
-- ✅ **Infrastructure as Code** Terraform'iga
-- ✅ **CI/CD pipeline'id** automaatseks deployment'iks
-- ✅ **Kubernetes basics** orkestratsiooniks
+- **Git workflow** meeskonnatöös
+- **Ansible automation** server konfiguratsioonideks
+- **Docker containerization** rakenduste jaoks
+- **Infrastructure as Code** Terraform'iga
+- **CI/CD pipeline'id** automaatseks deployment'iks
+- **Kubernetes basics** orkestratsiooniks
 
 ### Praktiline Kogemus:
-- ✅ **Multi-tier rakenduste** deployment
-- ✅ **Turvalisuse parimad praktikad** 
-- ✅ **Monitoring ja logging** seadistamine
-- ✅ **Troubleshooting** ja veakäsitlus
-- ✅ **Dokumenteerimine** ja knowledge sharing
+- **Multi-tier rakenduste** deployment
+- **Turvalisuse parimad praktikad** 
+- **Monitoring ja logging** seadistamine
+- **Troubleshooting** ja veakäsitlus
+- **Dokumenteerimine** ja knowledge sharing
 
 ### Karjääri Ettevalmistus:
-- ✅ **DevOps Engineer** positsioonideks
-- ✅ **Cloud Infrastructure** rollideks  
-- ✅ **Site Reliability Engineer** (SRE) oskusteks
-- ✅ **Automation Specialist** töödeks
+- **DevOps Engineer** positsioonideks
+- **Cloud Infrastructure** rollideks  
+- **Site Reliability Engineer** (SRE) oskusteks
+- **Automation Specialist** töödeks

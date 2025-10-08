@@ -40,7 +40,7 @@ graph TB
     
     style F fill:#ffcccc
     style J fill:#ccffcc
-```
+```bash
 
 **Infrastructure as Code muudab mängu:**
 - Kirjutate koodi, mis kirjeldab soovitud infrastruktuuri
@@ -101,7 +101,7 @@ graph LR
     style B fill:#fff3e0
     style C fill:#e8f5e8
     style D fill:#fce4ec
-```
+```bash
 
 **1. Write** - kirjutate HCL konfiguratsioonifailid
 **2. Plan** - Terraform näitab, mida kavatseb teha
@@ -125,7 +125,7 @@ resource "local_file" "example" {
   content  = "Hello, Terraform!"
   filename = "hello.txt"
 }
-```
+```bash
 
 See loob kohaliku faili nimega "hello.txt" sisuga "Hello, Terraform!".
 
@@ -146,7 +146,7 @@ variable "environment" {
     error_message = "Environment must be dev, staging, or prod."
   }
 }
-```
+```text
 
 **Output Block - väljundid:**
 
@@ -155,7 +155,7 @@ output "file_path" {
   description = "Path to the created file"
   value       = local_file.example.filename
 }
-```
+```text
 
 **Data Source - andmete lugemine:**
 
@@ -169,7 +169,7 @@ resource "local_file" "processed" {
   content  = "Processed: ${data.local_file.config.content}"
   filename = "processed.txt"
 }
-```
+```text
 
 ### Andmetüübid ja Funktsioonid
 
@@ -208,7 +208,7 @@ variable "tags" {
     Project     = "web-app"
   }
 }
-```
+```text
 
 **Funktsioonid ja avaldised:**
 
@@ -226,7 +226,7 @@ locals {
     ports = var.allowed_ports
   })
 }
-```
+```bash
 
 ---
 
@@ -247,7 +247,7 @@ terraform {
     }
   }
 }
-```
+```text
 
 ### Local Provider Näited
 
@@ -260,7 +260,7 @@ resource "local_file" "web_config" {
   content  = "Server configuration for web application"
   filename = "${path.module}/config/web.conf"
 }
-```
+```text
 
 **Kataloogi loomine:**
 
@@ -269,7 +269,7 @@ resource "local_file" "logs_dir" {
   content  = ""
   filename = "${path.module}/logs/.gitkeep"
 }
-```
+```text
 
 **Konfiguratsioonifaili loomine JSON'iga:**
 
@@ -291,7 +291,7 @@ resource "local_file" "app_config" {
   })
   filename = "${path.module}/config/app.json"
 }
-```
+```text
 
 **Template'ide kasutamine:**
 
@@ -304,7 +304,7 @@ resource "local_file" "nginx_config" {
   })
   filename = "${path.module}/config/nginx.conf"
 }
-```
+```text
 
 ### Ressursside Sõltuvused
 
@@ -325,7 +325,7 @@ resource "local_file" "app_config" {
   })
   filename = "${path.module}/config/app.conf"
 }
-```
+```text
 
 **Explicit sõltuvused:**
 
@@ -339,7 +339,7 @@ resource "local_file" "readme" {
     local_file.database_config
   ]
 }
-```
+```text
 
 ### Lifecycle Rules
 
@@ -354,7 +354,7 @@ resource "local_file" "important_config" {
     create_before_destroy = true
   }
 }
-```
+```bash
 
 ---
 
@@ -380,7 +380,7 @@ graph TB
     
     style H fill:#fff3e0
     style G fill:#e8f5e8
-```
+```text
 
 **State fail sisaldab:**
 - Ressursside ID-d ja metaandmeid
@@ -411,7 +411,7 @@ graph TB
     }
   ]
 }
-```
+```text
 
 ### State'i Parimad Praktikad
 
@@ -425,7 +425,7 @@ terraform {
     region = "us-west-2"
   }
 }
-```
+```text
 
 **2. State Locking:**
 
@@ -438,7 +438,7 @@ terraform {
     dynamodb_table = "terraform-locks"
   }
 }
-```
+```text
 
 **3. Sensitive andmete käsitlemine:**
 
@@ -453,7 +453,7 @@ output "database_password" {
   value     = var.database_password
   sensitive = true
 }
-```
+```text
 
 ### State'i Haldamise Käsud
 
@@ -473,7 +473,7 @@ terraform import local_file.example hello.txt
 
 # State'i värskendamine
 terraform refresh
-```
+```text
 
 ---
 
@@ -577,7 +577,7 @@ output "config_files" {
     local_file.docker_compose.filename
   ]
 }
-```
+```text
 
 **Template failid:**
 
@@ -603,7 +603,7 @@ services:
       - POSTGRES_PASSWORD=development_password
     ports:
       - "5432:5432"
-```
+```text
 
 ### For_each ja Count kasutamine
 
@@ -649,7 +649,7 @@ resource "local_file" "debug_config" {
   content  = "Debug configuration for development"
   filename = "${path.module}/debug.conf"
 }
-```
+```bash
 
 ---
 
@@ -679,7 +679,7 @@ terraform destroy
 # State'i haldamine
 terraform state list
 terraform state show resource_name
-```
+```bash
 
 ### Terraform Workflow Näide
 
@@ -722,7 +722,7 @@ cat hello.txt
 
 # 8. Kustuta ressursid
 terraform destroy
-```
+```bash
 
 ---
 

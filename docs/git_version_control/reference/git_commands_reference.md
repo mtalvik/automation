@@ -10,13 +10,13 @@
 git config --global user.name "Teie Nimi"
 git config --global user.email "teie.email@example.com"
 git config --list
-```
+```text
 
 ### Repository Loomine
 ```bash
 git init                    # Uue repo loomine
 git clone URL               # Olemasoleva repo kopeerimine
-```
+```text
 
 ### Põhiline Töövoog
 ```bash
@@ -25,7 +25,7 @@ git add .                   # Lisa kõik muudatused
 git commit -m "Sõnum"       # Salvesta muudatused
 git push origin main        # Saada muudatused
 git pull origin main        # Võta uusimad muudatused
-```
+```text
 
 ## Info ja Ajalugu
 
@@ -37,7 +37,7 @@ git diff HEAD~1             # Viimase commit'iga võrdlus
 git show                    # Viimane commit
 git show commit-hash        # Konkreetne commit
 git show --stat             # Statistika koos
-```
+```text
 
 ### Ajaloo Vaatamine
 ```bash
@@ -45,7 +45,7 @@ git log --oneline          # Kompaktne vaade
 git log --graph            # Visuaalne harudemudel  
 git log --author="Nimi"    # Konkreetse autori commit'id
 git blame fail.txt         # Kes millise rea muutis
-```
+```text
 
 ## 🌿 Harude (Branches) Haldamine
 
@@ -59,14 +59,14 @@ git checkout -b funktsioon-login  # Loo ja vaheta haru
 git checkout main          # Vaheta main harule
 git switch -c funktsioon-login  # Uuem süntaks
 git switch main            # Uuem süntaks
-```
+```text
 
 ### Harude Ühendamine
 ```bash
 git merge branch-nimi       # Ühenda haru
 git merge --no-ff branch-nimi  # Merge ilma fast-forward'ta
 git merge --abort          # Katkesta merge
-```
+```text
 
 ### Rebase
 ```bash
@@ -75,7 +75,7 @@ git rebase -i origin/main   # Interaktiivne rebase
 git rebase -i HEAD~3        # Viimased 3 commit'i
 git rebase --abort          # Katkesta rebase
 git rebase --continue       # Jätka pärast konfliktide lahendamist
-```
+```text
 
 ## 🌐 Kaugrepositooriumid (Remote)
 
@@ -87,7 +87,7 @@ git remote add origin URL  # Lisa remote
 git remote rename origin upstream  # Nimetage remote ümber
 git remote remove old-remote      # Eemalda remote
 git remote set-url origin uus-url # Muuda URL'i
-```
+```text
 
 ### Fetch ja Pull
 ```bash
@@ -97,7 +97,7 @@ git fetch --all            # Kõigi remote'ide info
 git pull origin main       # Fetch + merge
 git pull --rebase origin main  # Rebase pull
 git pull --ff-only origin main # Ainult fast-forward
-```
+```text
 
 ### Push
 ```bash
@@ -105,7 +105,7 @@ git push origin main       # Saada muudatused
 git push -u origin main    # Esimene kord (tracking)
 git push origin funktsioon-login  # Uue haru saatmine
 git push origin --delete funktsioon-login  # Haru kustutamine
-```
+```text
 
 ## Failide Haldamine
 
@@ -116,7 +116,7 @@ git add .                  # Lisa kõik muudatused
 git rm failinimi.txt       # Kustuta fail Git'ist ja süsteemist
 git rm --cached failinimi.txt  # Kustuta ainult Git'ist
 git mv vana.txt uus.txt    # Nimetage fail ümber
-```
+```text
 
 ### Muudatuste Tagasivõtmine
 ```bash
@@ -124,7 +124,7 @@ git checkout -- failinimi.txt  # Taasta fail viimase commit'i olekusse
 git checkout -- .              # Taasta kõik failid
 git reset HEAD failinimi.txt   # Eemalda fail staging'ust
 git reset HEAD                 # Eemalda kõik failid staging'ust
-```
+```text
 
 ## Commit'ide Haldamine
 
@@ -133,7 +133,7 @@ git reset HEAD                 # Eemalda kõik failid staging'ust
 git commit --amend -m "Uus sõnum"  # Muuda viimast commit'i
 git commit --amend --no-edit       # Lisa faile viimase commit'i
 git commit -am "Sõnum"             # Lisa ja commit kõik muudetud failid
-```
+```text
 
 ### Commit'ide Tagasivõtmine
 ```bash
@@ -142,7 +142,7 @@ git revert commit1..commit2 # Mitme commit'i tagasivõtmine
 git reset --soft HEAD~1     # Jätab muudatused staging'u
 git reset --mixed HEAD~1    # Jätab muudatused töökausta
 git reset --hard HEAD~1     # Kustutab muudatused täielikult
-```
+```text
 
 ### Commit'ide Identifitseerimine
 ```bash
@@ -153,7 +153,7 @@ git show branch-name^       # Eelmine commit
 git show branch-name~3      # Kolm commit'i tagasi
 git show a1b2c3d            # Lühike hash
 git show v1.0.0             # Tag
-```
+```text
 
 ## 📦 Ajutine Salvestamine (Stash)
 
@@ -164,7 +164,7 @@ git stash list             # Vaata stash'e
 git stash apply stash@{0}  # Taasta konkreetne stash
 git stash drop stash@{0}   # Kustuta stash
 git stash clear            # Kustuta kõik stash'ed
-```
+```text
 
 ## Otsimine ja Filtreerimine
 
@@ -175,7 +175,7 @@ git log --since="2023-01-01"  # Filtreeri kuupäeva järgi
 git log --until="2023-12-31"  # Filtreeri kuupäeva järgi
 git log --author="Nimi"    # Filtreeri autori järgi
 git log --oneline -10      # Viimased 10 commit'i
-```
+```text
 
 ## 🏷 Tag'id
 
@@ -186,7 +186,7 @@ git tag -l                 # Vaata tag'e
 git show v1.0.0            # Vaata tag'i info
 git push origin v1.0.0     # Saada tag
 git push origin --tags     # Saada kõik tag'id
-```
+```text
 
 ## Konfliktide Lahendamine
 
@@ -195,7 +195,7 @@ git status                 # Näitab konfliktilisi faile
 git diff                   # Näitab konfliktide detaile
 git mergetool              # Avab graafilise lahendaja
 git add konfliktne-fail.txt # Pärast konfliktide lahendamist
-```
+```text
 
 ## Alias'id ja Konfiguratsioon
 
@@ -209,7 +209,7 @@ git config --global alias.ci commit
 git config --global alias.unstage 'reset HEAD --'
 git config --global alias.last 'log -1 HEAD'
 git config --global alias.visual '!gitk'
-```
+```text
 
 ### Kasutamine
 ```bash
@@ -218,7 +218,7 @@ git co main               # git checkout main
 git br                    # git branch
 git ci -m "sõnum"        # git commit -m "sõnum"
 git unstage fail.txt     # git reset HEAD -- fail.txt
-```
+```bash
 
 ## 🚨 Hoiatused ja Nõuanded
 

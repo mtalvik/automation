@@ -36,7 +36,7 @@ vagrant ssh
 # Hävitage ja alustage uuest
 vagrant destroy -f
 vagrant up
-```
+```text
 
 ## Vagrant Project Setup
 
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
     ansible.inventory_path = "inventory/vagrant"
   end
 end
-```
+```text
 
 ### Multi-VM Setup:
 ```ruby
@@ -84,17 +84,17 @@ Vagrant.configure("2") do |config|
     puppet.vm.hostname = "puppet-test"
   end
 end
-```
+```text
 
 ## Vagrant Lifecycle
 
 ```mermaid
-flowchart TD
-    A[📝 vagrant init<br/>Loo Vagrantfile] --> B[✅ vagrant validate<br/>Kontrolli konfiguratsiooni]
-    B --> C[🚀 vagrant up<br/>Käivita VM]
-    C --> D[🔗 vagrant ssh<br/>Ühenda VM'iga]
-    D --> E[⏸ vagrant halt<br/>Peata VM]
-    E --> F[🔄 vagrant reload<br/>Restart VM]
+graph TD
+    A["📝 vagrant init<br/>Loo Vagrantfile"] --> B[" vagrant validate<br/>Kontrolli konfiguratsiooni"]
+    B --> C["🚀 vagrant up<br/>Käivita VM"]
+    C --> D["🔗 vagrant ssh<br/>Ühenda VM'iga"]
+    D --> E["⏸ vagrant halt<br/>Peata VM"]
+    E --> F["🔄 vagrant reload<br/>Restart VM"]
     F --> G[🗑 vagrant destroy<br/>Kustuta VM]
     
     style A fill:#99ccff
@@ -104,7 +104,7 @@ flowchart TD
     style E fill:#cc99ff
     style F fill:#ffff99
     style G fill:#ff99cc
-```
+```text
 
 ```bash
 # Projekt setup
@@ -122,7 +122,7 @@ vagrant destroy            # Kustuta VM
 vagrant snapshot save clean    # Salvesta snapshot
 vagrant snapshot restore clean # Taasta snapshot
 vagrant status                 # Vaata VM olekut
-```
+```bash
 
 ## Vagrant + Ansible Integration
 
@@ -134,7 +134,7 @@ config.vm.provision "ansible" do |ansible|
   ansible.limit = "all"
   ansible.verbose = "v"
 end
-```
+```text
 
 **Manual provisioning:**
 ```bash
@@ -142,7 +142,7 @@ end
 vagrant up --no-provision
 vagrant ssh
 # VM sees: install Ansible, run playbooks
-```
+```text
 
 ## Demo: Quick Vagrant Test
 
@@ -163,7 +163,7 @@ exit
 
 # Cleanup
 vagrant destroy -f
-```
+```bash
 
 **💡 Protip:** Vagrant'iga saate testida sama playbook'i erinevatel OS'idel!
 
@@ -209,7 +209,7 @@ Enamik algajaid hakkab kirjutama üht suurt playbook'i:
     # 30 task'i SSL jaoks
     # 50 task'i security jaoks
     # ja nii edasi...
-```
+```bash
 
 **See on kohutav lahendus!** Miks?
 
@@ -258,7 +258,7 @@ Mõelge LEGO peale:
     - common      # SAMA common role taas!
     - prometheus  # Ainult monitoring
     - grafana     # Ainult dashboardid
-```
+```text
 
 **Vaadake, mis toimus:**
 - `common` role kasutatakse **kolmes erinevas kohas**
@@ -286,7 +286,7 @@ nginx-role/
 │   └── startup.sh
 └── tests/                 # "Kontrollid" - kas maja püsib püsti
     └── test.yml
-```
+```text
 
 ### Iga kausta eesmärk:
 
@@ -343,7 +343,7 @@ Vaatame, kuidas lihtsaim nginx role välja näeks:
     name: nginx
     state: started
     enabled: yes
-```
+```text
 
 **`defaults/main.yml` - vaikimisi seaded:**
 ```yaml
@@ -352,7 +352,7 @@ nginx_port: 80              # Enamik tahab port 80
 nginx_user: www-data        # Ubuntu standard user
 nginx_worker_processes: 2   # Mõistlik algus
 nginx_max_connections: 1024 # Piisav väikesele saidile
-```
+```text
 
 **`templates/nginx.conf.j2` - konfiguratsioon:**
 ```nginx
@@ -371,7 +371,7 @@ http {
         index index.html;
     }
 }
-```
+```text
 
 **`handlers/main.yml` - reaktsioonid:**
 ```yaml
@@ -380,7 +380,7 @@ http {
   service:
     name: nginx
     state: restarted
-```
+```bash
 
 **Näete, kui lihtne see on?** Iga fail teeb ühte asja ja need töötavad koos!
 
@@ -405,7 +405,7 @@ Kõrgemad kirjutavad üle madalamad:
 10. Host vars
 11. Group vars  
 12. Role defaults                 ← KÕIGE NÕRGEM (soovitus)
-```
+```text
 
 ### Praktiline näide hierarhiast:
 
@@ -423,7 +423,7 @@ nginx_port: 8080
 
 # Käsureal (kõige tugevam)
 ansible-playbook site.yml -e nginx_port=3000
-```
+```text
 
 **Tulemus:** nginx kuulab port **3000**!
 
@@ -447,7 +447,7 @@ ansible-playbook site.yml -e nginx_port=3000
     - nginx
     - php
     - mysql-client
-```
+```text
 
 #### Muutujatega kasutamine:
 ```yaml
@@ -460,7 +460,7 @@ ansible-playbook site.yml -e nginx_port=3000
         nginx_port: 8080
         nginx_ssl_enabled: true
         nginx_worker_processes: 4
-```
+```text
 
 #### Conditional role'id:
 ```yaml
@@ -475,7 +475,7 @@ ansible-playbook site.yml -e nginx_port=3000
       when: "'dbservers' in group_names"
     - role: monitoring
       when: app_env == "production"
-```
+```text
 
 ---
 
@@ -492,7 +492,7 @@ Nüüd kui teate, mis on role, õpime, kuidas teha neid **õigesti**. Ma olen n�
 
 See on kõige olulisem reegel. Iga role peaks tegema täpselt ühte asja ja tegema seda hästi.
 
-### Hea lähenemine ✅
+### Hea lähenemine 
 ```
 roles/
 ├── nginx/         # AINULT veebiserver
@@ -501,14 +501,14 @@ roles/
 ├── ssl/           # AINULT SSL sertifikaadid
 ├── backup/        # AINULT varundamine
 └── monitoring/    # AINULT jälgimine
-```
+```text
 
-### Halb lähenemine ❌
+### Halb lähenemine 
 ```
 roles/
 └── web-stack/     # Teeb KÕIKE korraga:
                    # nginx + mysql + php + ssl + backup + monitoring
-```
+```text
 
 **Miks see halb?**
 - Kui MySQL vajab parandust, peate puutuma nginx'iga
@@ -548,7 +548,7 @@ webserver_worker_processes: 2         # Mõistlik algus
 webserver_modules:
   - rewrite    # URL rewriting
   - ssl        # HTTPS support
-```
+```text
 
 ### Eksperdi võimalused
 ```yaml
@@ -579,7 +579,7 @@ webserver_modules:
           proxy_pass http://backend;
           proxy_set_header Host $host;
       }
-```
+```text
 
 **Võtmepunktid:**
 - **Defaults** peavad olema turvalised ja mõistlikud
@@ -605,7 +605,7 @@ webserver-role/
     ├── main.yml           # Peamine loogika
     ├── install-Debian.yml # Debian installeerimise viis
     └── install-RedHat.yml # RedHat installeerimise viis
-```
+```text
 
 ### Smart approach - OS detection:
 
@@ -624,7 +624,7 @@ webserver-role/
 
 - name: "Configure webserver (universal)"
   include_tasks: configure.yml
-```
+```text
 
 **`vars/Debian.yml` (Ubuntu/Debian):**
 ```yaml
@@ -635,7 +635,7 @@ webserver_config_path: "/etc/nginx"
 webserver_user: "www-data"        # Debian kasutab www-data
 webserver_group: "www-data"
 webserver_log_path: "/var/log/nginx"
-```
+```text
 
 **`vars/RedHat.yml` (CentOS/RHEL):**
 ```yaml
@@ -646,7 +646,7 @@ webserver_config_path: "/etc/nginx"
 webserver_user: "nginx"           # RedHat kasutab nginx
 webserver_group: "nginx"
 webserver_log_path: "/var/log/nginx"
-```
+```text
 
 **Miks see on kasulik?**
 - Role töötab automaatselt erinevates OS'ides
@@ -709,7 +709,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
       ERROR: Worker processes arv peab olema 1 kuni {{ ansible_processor_vcpus * 2 }}
       (max 2x CPU core'ide arv)
       Current value: {{ webserver_worker_processes }}
-```
+```text
 
 ### Süsteemi nõuete kontroll
 
@@ -736,7 +736,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
     home: "/var/lib/{{ webserver_user }}"
     createhome: no
   when: user_check is failed
-```
+```text
 
 ---
 
@@ -774,7 +774,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 - name: "Run post-installation tests"
   include_tasks: test.yml
   when: webserver_run_tests | default(true)
-```
+```text
 
 ### Miks see on hea?
 1. **Selge ülevaade** - näete kohe, mis toimub
@@ -789,7 +789,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 - name: "Generate SSL certificate for {{ webserver_domain }}"
 - name: "Configure Nginx virtual host for {{ item.domain }}"
 - name: "Restart Nginx service if configuration changed"
-```
+```text
 
 **Halvad nimed:**
 ```yaml
@@ -797,7 +797,7 @@ Ma olen näinud tudengeid, kes unustavad valideerimise. Tulemus on segadus ja cr
 - name: "config"
 - name: "setup stuff"
 - name: "do things"
-```
+```text
 
 ---
 
@@ -840,7 +840,7 @@ dependencies:
           password: "{{ wordpress_db_password }}"
           priv: "{{ wordpress_db_name }}.*:ALL"
     when: wordpress_manage_database | default(true)
-```
+```bash
 
 **Mis toimub:**
 1. Kui kutsute `wordpress` role'i, käivitatakse automaatselt kõik dependencies
@@ -884,7 +884,7 @@ firefox https://galaxy.ansible.com/
 # Käsurealt (kiire)
 ansible-galaxy search nginx
 ansible-galaxy search --author geerlingguy
-```
+```text
 
 ### Installimine
 ```bash
@@ -896,7 +896,7 @@ ansible-galaxy install geerlingguy.nginx,2.8.0
 
 # GitHubist otse
 ansible-galaxy install git+https://github.com/geerlingguy/ansible-role-nginx.git
-```
+```text
 
 ### Requirements fail (professional way)
 ```yaml
@@ -916,12 +916,12 @@ ansible-galaxy install git+https://github.com/geerlingguy/ansible-role-nginx.git
   scm: git
   version: main
   name: mycompany.custom
-```
+```text
 
 ```bash
 # Installige kõik korraga
 ansible-galaxy install -r requirements.yml
-```
+```bash
 
 ---
 
@@ -939,7 +939,7 @@ ansible-galaxy install -r requirements.yml
 - name: geerlingguy.certbot    # Let's Encrypt SSL
 - name: geerlingguy.firewall   # UFW firewall
 - name: geerlingguy.jenkins    # Jenkins CI/CD
-```
+```text
 
 ### Täielik LAMP stack näide
 ```yaml
@@ -973,7 +973,7 @@ ansible-galaxy install -r requirements.yml
     - geerlingguy.mysql
     - geerlingguy.php
     - geerlingguy.certbot    # Automaatne HTTPS!
-```
+```text
 
 ---
 
@@ -986,7 +986,7 @@ ansible-galaxy install -r requirements.yml
   version: "3.1.4"          # Täpne versioon
 - name: geerlingguy.mysql  
   version: ">=4.0.0,<5.0.0" # Versioonivahemik
-```
+```text
 
 #### Role'ide uuendamine
 ```bash
@@ -998,7 +998,7 @@ ansible-galaxy install -r requirements.yml --force
 
 # Uuendage ainult ühte
 ansible-galaxy install geerlingguy.nginx --force
-```
+```text
 
 #### Role'ide kasutamine koos
 ```yaml
@@ -1010,7 +1010,7 @@ ansible-galaxy install geerlingguy.nginx --force
     - geerlingguy.certbot    # Galaxy'st  
     - my-custom-app          # Oma role
     - company.monitoring     # Firma role
-```
+```bash
 
 ---
 
@@ -1051,14 +1051,14 @@ Teie arvuti → SSH → Serverid
      ↓
    Te kontrollite
    Push mudel
-```
+```text
 
 **Puppet (Agent-based - Pull mudel):**
 ```
 Puppet Master ← Agents küsivad ise (iga 30 min)
      ↓              ↓
   Manifest'id    Puppet Agent'id
-```
+```bash
 
 **Praktiline erinevus:**
 - **Ansible:** Te käivitate käsu → asjad juhtuvad kohe
@@ -1078,7 +1078,7 @@ Puppet Master ← Agents küsivad ise (iga 30 min)
     name: apache2
     state: started
     enabled: yes
-```
+```text
 
 **Puppet - DSL (uus keel):**
 ```puppet
@@ -1091,7 +1091,7 @@ service { 'apache2':
   enable  => true,
   require => Package['apache2'],
 }
-```
+```bash
 
 **Õppimiskõver:**
 - **Ansible:** Kui oskate YAML'i, oskate Ansible'i (1-2 nädalat)
@@ -1134,7 +1134,7 @@ service { 'apache2':
         name: nginx
         state: started
         enabled: yes
-```
+```text
 
 ### Puppet lahendus:
 ```puppet
@@ -1170,7 +1170,7 @@ class webserver (
     require => File['/etc/nginx/nginx.conf'],
   }
 }
-```
+```text
 
 **Puppet templates (ERB):**
 ```erb
@@ -1187,7 +1187,7 @@ server {
     gzip_types text/plain application/json;
     <% end -%>
 }
-```
+```bash
 
 **Mis erinevust märkate?**
 - Ansible: käsk-käsult, loogiline järjekord
@@ -1199,19 +1199,19 @@ server {
 
 ### Ansible on parem kui:
 
-**✅ Väiksemad keskkonnad** (< 500 serverit)
+** Väiksemad keskkonnad** (< 500 serverit)
 > SSH connection'id ei skaleeeru hästi suurte arvudega
 
-**✅ DevOps meeskonnad**  
+** DevOps meeskonnad**  
 > YAML on tuttav, hea CI/CD integratsioon
 
-**✅ Kiire arendus ja deployment**
+** Kiire arendus ja deployment**
 > Ei vaja agent'ide seadistamist, kohe valmis
 
-**✅ Multi-cloud keskkonnad**
+** Multi-cloud keskkonnad**
 > SSH töötab kõikjal, erinevates keskkondades
 
-**✅ Container orchestration**
+** Container orchestration**
 > Hea integratsioon Docker/Kubernetes'iga
 
 **Näited:**
@@ -1222,19 +1222,19 @@ server {
 
 ### Puppet on parem kui:
 
-**✅ Suuremad keskkonnad** (1000+ serverit)
+** Suuremad keskkonnad** (1000+ serverit)
 > Agent'id töötavad paralleelselt, Master koordineerib
 
-**✅ Enterprise compliance nõuded**
+** Enterprise compliance nõuded**
 > 24/7 monitoring, automatic configuration drift detection
 
-**✅ Traditional IT meeskonnad**
+** Traditional IT meeskonnad**
 > Rohkem infrastructure-focused, vähem development
 
-**✅ Long-term infrastructure management**
+** Long-term infrastructure management**
 > Agent'id jälgivad ja parandavad konfiguratsiooni pidevalt
 
-**✅ Regulatory compliance**
+** Regulatory compliance**
 > SOX, HIPAA, PCI DSS - built-in auditing ja reporting
 
 **Näited:**
@@ -1252,7 +1252,7 @@ server {
 ```bash
 # 1000 serveriga SSH võib olla aeglane
 ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
-```
+```text
 
 **Probleemid suurtes keskkondades:**
 - SSH connection pool täis
@@ -1264,7 +1264,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 # 10,000+ serverit ei ole probleem
 # Iga agent pull'ib iseseisvalt
 # Master delegeerib tööd
-```
+```bash
 
 **Miks see töötab paremini:**
 - Hajutatud arhitektuur
@@ -1281,7 +1281,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 2. 2 nädalat hiljem → keegi muudab midagi käsitsi  
 3. Ansible ei tea sellest midagi
 4. Järgmine deployment → parandab tagasi
-```
+```text
 
 **Plussid:** Lihtne, ei vaja agente  
 **Miinused:** Ei jälgi drift'i, võimalikud security augud
@@ -1293,7 +1293,7 @@ ansible-playbook -f 50 playbook.yml  # Max 50 paralleelset
 3. Parandab automaatselt drift'i
 4. Reporteerib kõik muudatused PuppetDB'sse
 5. Saate alert'e kui keegi konfiguratsiooni muudab
-```
+```bash
 
 **Plussid:** Pidev compliance, drift detection  
 **Miinused:** Keerulisem setup, vajab agente
@@ -1340,7 +1340,7 @@ Paljud organisatsioonid kasutavad **mõlemat**:
 # Puppet ongoing configuration management
 # Agents pull konfiguratsiooni iga 30 minuti tagant
 # Hoiab compliance ja drift prevention
-```
+```bash
 
 **Reaalne näide: Netflix**
 - **Ansible:** Initial server provisioning, application deployment
@@ -1370,11 +1370,11 @@ Paljud organisatsioonid kasutavad **mõlemat**:
 
 Role'id lahendavad suured probleemid:
 
-✅ **Korduvkasutatavus** - sama role mitmes projektis  
-✅ **Testitavus** - iga role eraldi testida  
-✅ **Loetavus** - selge struktuur  
-✅ **Meeskonnatöö** - lihtne jagada  
-✅ **Hooldatavus** - muudatused isoleeritud  
+ **Korduvkasutatavus** - sama role mitmes projektis  
+ **Testitavus** - iga role eraldi testida  
+ **Loetavus** - selge struktuur  
+ **Meeskonnatöö** - lihtne jagada  
+ **Hooldatavus** - muudatused isoleeritud  
 
 Mõlemad tööriistad on head, aga erinevatel juhtudel:
 

@@ -65,7 +65,7 @@ git checkout -b homework-[your-name]
 # Kontrolli starter struktuuri
 ls -la
 # Peaksite nägema: ansible/, puppet/, docs/, README.md
-```
+```bash
 
 ### 3.2 Kontrolli starter faile
 
@@ -86,7 +86,7 @@ ls -la
 # - roles/ (nginx, postgresql)
 # - site.yml (peamine playbook)
 # - requirements.md (mis vaja lisada)
-```
+```text
 
 **Puppet struktuur:**
 ```bash
@@ -97,7 +97,7 @@ ls -la
 # - modules/ (nginx, postgresql)
 # - hiera/ (andmed)
 # - requirements.md (mis vaja lisada)
-```
+```bash
 
 **Miks see struktuur on oluline?**
 - **Ansible:** Playbook → Roles → Tasks
@@ -118,7 +118,7 @@ vagrant up ansible-vm
 
 # Ühenda VM'iga
 vagrant ssh ansible-vm
-```
+```text
 
 **Miks kasutame Vagrant'i?**
 - **Isolatsioon:** Ei mõjuta teie põhisüsteemi
@@ -139,7 +139,7 @@ cd ../ansible/
 
 # Vaata requirements.md faili, mis täpselt vaja
 cat requirements.md
-```
+```text
 
 **Mida peate lisama SSL jaoks:**
 
@@ -156,7 +156,7 @@ cat requirements.md
   command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/C=EE/ST=Tallinn/L=Tallinn/O=Test/CN=localhost"
   args:
     creates: /etc/nginx/ssl/nginx.crt
-```
+```text
 
 #### 4.2.2 Nginx SSL konfiguratsioon
 ```nginx
@@ -179,7 +179,7 @@ server {
         index index.html;
     }
 }
-```
+```text
 
 **Miks SSL on oluline?**
 - **Turvalisus:** Krüptitud ühendused
@@ -209,7 +209,7 @@ server {
       <p>This is site 1 content</p>
     dest: /var/www/site1/index.html
     mode: '0644'
-```
+```text
 
 **Miks virtual hosts on olulised?**
 - **Ressursi säästmine:** Üks server, mitut rakendust
@@ -230,7 +230,7 @@ curl -k https://localhost  # SSL peaks töötama!
 # Testi virtual hoste
 curl -k https://localhost/site1
 curl -k https://localhost/site2
-```
+```text
 
 **Miks testimine on oluline?**
 - **Veakontroll:** Veenduge, et kõik töötab
@@ -244,7 +244,7 @@ curl -k https://localhost/site2
 # Kui kõik töötab
 git add .
 git commit -m "Lisasin SSL ja virtual hosts Ansible'ile - töötab"
-```
+```text
 
 ---
 
@@ -257,7 +257,7 @@ git commit -m "Lisasin SSL ja virtual hosts Ansible'ile - töötab"
 vagrant destroy ansible-vm
 vagrant up puppet-vm
 vagrant ssh puppet-vm
-```
+```text
 
 **Miks eraldi VM?**
 - **Puhas keskkond:** Ei mõjuta eelmist tööd
@@ -279,7 +279,7 @@ cd ../puppet/
 
 # Vaata requirements.md - mis pead täpselt tegema
 cat ../requirements.md
-```
+```text
 
 **Puppet SSL konfiguratsioon:**
 
@@ -299,7 +299,7 @@ class nginx::ssl {
     require => File['/etc/nginx/ssl'],
   }
 }
-```
+```text
 
 #### 5.2.2 Nginx SSL konfiguratsioon
 ```puppet
@@ -322,7 +322,7 @@ server {
         index index.html;
     }
 }
-```
+```bash
 
 **Miks Puppet süntaks on erinev?**
 - **Ruby põhine:** Puppet kasutab Ruby süntaksit
@@ -354,7 +354,7 @@ class monitoring::health {
     minute  => '*/5',
   }
 }
-```
+```text
 
 **Miks monitoring on oluline?**
 - **Probleemide avastamine:** Varane hoiatamine
@@ -374,7 +374,7 @@ curl -k https://localhost  # SSL peaks töötama!
 
 # Testi monitoring
 sudo /usr/local/bin/health-check.sh
-```
+```text
 
 ### 5.5 Commit Puppet töö
 
@@ -382,7 +382,7 @@ sudo /usr/local/bin/health-check.sh
 # Kui sama tulemus mis Ansible'iga
 git add .
 git commit -m "Lisasin samad asjad Puppet'iga - sama tulemus"
-```
+```text
 
 ---
 
@@ -400,7 +400,7 @@ curl -k https://localhost  # Kas mõlemad töötavad?
 git add .
 git commit -m "Mõlemad deploymentid töötavad - Ansible ja Puppet"
 git push origin homework-[your-name]
-```
+```bash
 
 ### 6.2 Lühike võrdlus
 
@@ -452,7 +452,7 @@ Ma eelistaks **[Ansible/Puppet]** sest [2-3 lauset põhjendust].
 
 ---
 Tehtud [kuupäev] - mõlemad deploymentid töötavad!
-```
+```text
 
 ### 7.2 Lõplik push ja esitamine
 
@@ -466,7 +466,7 @@ git push origin homework-[your-name]
 
 # Kontrolli, et kõik on GitHub'is
 echo "Kontrolli: https://github.com/[your-username]/ansible-puppet-comparison"
-```
+```yaml
 
 ---
 

@@ -35,7 +35,7 @@ Unified diff koosneb mitmest erinevast osast, millest igaüks kannab spetsiifili
 +    return cleaned.lower()
      
  def validate_input(input_str):
-```
+```text
 
 **Struktuuri komponendid:**
 
@@ -71,7 +71,7 @@ def validate_username(username):
     if not username.isalnum():
         return False
     return True
-```
+```text
 
 **Täiustatud versioon:**
 ```python
@@ -87,7 +87,7 @@ def validate_username(username):
     if username[0].isdigit():
         return False
     return True
-```
+```text
 
 **Unified diff:**
 ```diff
@@ -106,7 +106,7 @@ def validate_username(username):
 +    if username[0].isdigit():
 +        return False
      return True
-```
+```text
 
 **Analüüs:**
 Diff näitab kolme olulist täiustust: tüübi kontroll, pikkuse ülempiiri kontroll ja numbriga algavate kasutajanimede keelamine. Muudatused on loogiliselt järjestatud ja ei mõjuta olemasolevat loogikat.
@@ -141,7 +141,7 @@ class DataManager:
     def set_value(self, key, value):
         self.data[key] = value
         self.save_data()
-```
+```text
 
 **Refaktoreeritud versioon koos error handling'u ja logging'iga:**
 
@@ -197,7 +197,7 @@ class DataManager:
          self.data[key] = value
 +        self.logger.debug(f"Updated {key}: {old_value} -> {value}")
          self.save_data()
-```
+```text
 
 **Analüüsi sammud:**
 
@@ -222,7 +222,7 @@ def calculate_total(items):
         total += item.price * (1 - item.discount)
     return total
 >>>>>>> feature/discount-calculation
-```
+```bash
 
 See näitab konflikti, kus üks branch kasutab lihtsat `sum()` funktsiooni, teine arvestab allahindlustega.
 
@@ -234,7 +234,7 @@ See näitab konflikti, kus üks branch kasutab lihtsat `sum()` funktsiooni, tein
 
 ```bash
 git diff
-```
+```text
 
 See käsk näitab muudatusi, mis on tehtud töökataloogi failides, kuid pole veel staging area'sse lisatud:
 
@@ -253,7 +253,7 @@ index 1a2b3c4..5d6e7f8 100644
      
      app = create_application(config)
      return app.run()
-```
+```text
 
 ### 3.2 Staging Area vs Viimane Commit
 
@@ -261,7 +261,7 @@ index 1a2b3c4..5d6e7f8 100644
 git diff --staged
 # või
 git diff --cached
-```
+```text
 
 Näitab, millised muudatused on staging area's ja lähevad järgmisse commit'i:
 
@@ -275,7 +275,7 @@ index abcd123..efgh456 100644
  sqlalchemy==1.4.41
  pytest==7.1.3
 +black==22.8.0
-```
+```text
 
 ### 3.3 Commit'ide Võrdlus
 
@@ -288,7 +288,7 @@ git diff abc123..def456
 
 # Branch'ide võrdlus
 git diff main..feature/new-api
-```
+```text
 
 Näide branch'ide võrdlusest:
 
@@ -313,7 +313,7 @@ index 1234567..890abcd 100644
  @app.route('/api/health')
  def health_check():
      return jsonify({'status': 'healthy'})
-```
+```text
 
 ---
 
@@ -363,7 +363,7 @@ Code review käigus diff analüüsimisel keskenduge järgmistele aspektidele:
  from pathlib import Path
 -from typing import List
 +from typing import List, Dict, Optional
-```
+```text
 
 Selline muster näitab tavaliselt funktsionaalsuse laiendamist.
 
@@ -378,7 +378,7 @@ Selline muster näitab tavaliselt funktsionaalsuse laiendamist.
 +    'cache_timeout': 300,
 +    'api_rate_limit': 1000
  }
-```
+```text
 
 ### 5.3 Error Handling Täiustamine
 
@@ -395,7 +395,7 @@ Selline muster näitab tavaliselt funktsionaalsuse laiendamist.
 +    except PermissionError:
 +        logger.error(f"Permission denied for {filename}")
 +        raise
-```
+```text
 
 ---
 
@@ -434,7 +434,7 @@ Analüüsige järgmist diff'i:
 
 +def power(base, exponent):
 +    return math.pow(base, exponent)
-```
+```text
 
 **Analüüsi küsimused:**
 
@@ -457,7 +457,7 @@ def send_notification(user, message):
     if user.notification_preferences.sms:
         sms_service.send(user.phone, message)
 >>>>>>> feature/multi-channel-notifications
-```
+```bash
 
 Analüüsige konflikti ja kirjeldage, kuidas seda lahendada.
 
@@ -491,7 +491,7 @@ git diff -w
 
 # Show function context
 git diff --function-context
-```
+```bash
 
 ### 7.3 Custom Diff Drivers
 
@@ -501,7 +501,7 @@ Git võimaldab seadistada erinevaid diff driver'eid konkreetsete failitüüpide 
 # .gitattributes failis
 *.py diff=python
 *.md diff=markdown
-```
+```text
 
 ---
 

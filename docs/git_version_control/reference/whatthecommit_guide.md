@@ -15,13 +15,13 @@ Kasuta seda ainult **kohalikes projektides**, muidu keegi vaatab su Git-ajalugu 
 
 ```bash
 alias gitcommit='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
-```
+```text
 
 **Või kui sa tahad teha seda "nagu proff":**
 
 ```bash
 git config --global alias.commit-fun '!f() { git commit -m "$(curl -s https://whatthecommit.com/index.txt)"; }; f'
-```
+```text
 
 ## 🎮 Kuidas see töötab? Ei tööta, see *toimib*… umbes.
 
@@ -30,7 +30,7 @@ $ git add .
 $ gitcommit
 [main a1b2c3d] i have no idea what i’m doing
  1 file changed, 1 panic attack triggered
-```
+```bash
 
 ## Mõned pärlid masinast, kes mõistab su hingevalu
 
@@ -44,6 +44,6 @@ $ gitcommit
 ---
 
 See tööriist sobib hästi:
-✅ Prototüüpideks
-✅ Kodukoodiks
-✅ Identiteedikriisideks
+ Prototüüpideks
+ Kodukoodiks
+ Identiteedikriisideks

@@ -69,7 +69,7 @@ Kõigepealt uuenda pakettide nimistut ja installi vajalikud eeldused:
 ```bash
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
-```
+```bash
 
 Lisa Docker'i ametlik GPG võti ja repositoorium:
 
@@ -77,27 +77,27 @@ Lisa Docker'i ametlik GPG võti ja repositoorium:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
+```bash
 
 Nüüd saad installida Docker'i:
 
 ```bash
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
-```
+```bash
 
 Käivita Docker'i teenus ja seadista see automaatselt käivituma:
 
 ```bash
 sudo systemctl start docker
 sudo systemctl enable docker
-```
+```bash
 
 Viimane samm on lisada oma kasutaja docker gruppi, et sa ei peaks pidevalt sudo kasutama:
 
 ```bash
 sudo usermod -aG docker $USER
-```
+```bash
 
 Pärast seda pead välja logima ja tagasi sisse logima, või käivitama `newgrp docker` käsu.
 
@@ -106,7 +106,7 @@ Testi installatsiooni:
 ```bash
 docker --version
 docker run hello-world
-```
+```bash
 
 Viimane käsk laadib väikese testi image'i ja käivitab selle. Kui näed tervitussõnumit, on Docker edukalt installitud.
 
@@ -122,21 +122,21 @@ Image'ide allalaadimine käib `pull` käsuga:
 docker pull nginx             # Viimane versioon
 docker pull nginx:1.21        # Konkreetne versioon
 docker pull ubuntu:20.04      # Erinevad operatsioonisüsteemid
-```
+```text
 
 Lokaalse image'ide vaatamiseks kasuta:
 
 ```bash
 docker images                 # Kõik lokaalsed image'id
 docker search mysql           # Otsi Docker Hub'ist
-```
+```text
 
 Kasutamata image'ide kustutamiseks:
 
 ```bash
 docker rmi nginx              # Kustuta konkreetne image
 docker image prune            # Kustuta kõik kasutamata image'id
-```
+```text
 
 ### Konteinerite käivitamine
 
@@ -144,7 +144,7 @@ Lihtsaim viis konteineri käivitamiseks:
 
 ```bash
 docker run nginx
-```
+```text
 
 See käsk laadib nginx image'i (kui see veel masinas pole), loob sellest konteineri ja käivitab selle. Probleem on see, et käsk blokeerib terminali.
 
@@ -154,19 +154,19 @@ Praktilisemad variandid:
 docker run -d nginx                 # Käivita taustaal (detached)
 docker run --name my-web nginx     # Anna konteinerile nimi
 docker run -p 8080:80 nginx        # Ühenda port 8080 konteineri port 80-ga
-```
+```text
 
 Interaktiivse konteineri jaoks, näiteks kui tahad Ubuntu'ga katsetada:
 
 ```bash
 docker run -it ubuntu bash         # Interaktiivne terminal
-```
+```text
 
 Käivitatud konteineris käsu jooksutamiseks:
 
 ```bash
 docker exec -it container_name bash # Ühenda käivitatud konteinerisse
-```
+```text
 
 ### Konteinerite jälgimine ja haldamine
 
@@ -175,14 +175,14 @@ Vaata, millised konteinerid töötavad:
 ```bash
 docker ps                     # Töötavad konteinerid
 docker ps -a                  # Kõik konteinerid (ka peatatud)
-```
+```text
 
 Konteineri logide vaatamiseks:
 
 ```bash
 docker logs container_name    # Näita loge
 docker logs -f container_name # Jälgi loge reaalajas
-```
+```text
 
 Konteineri elutsükli haldamine:
 
@@ -191,7 +191,7 @@ docker start container_name   # Käivita peatatud konteiner
 docker stop container_name    # Peata konteiner
 docker restart container_name # Taaskäivita
 docker rm container_name      # Kustuta konteiner
-```
+```text
 
 ### Praktiline näide
 
@@ -210,7 +210,7 @@ docker logs my-web
 # Peata ja kustuta
 docker stop my-web
 docker rm my-web
-```
+```bash
 
 ## Dockerfile - rakenda konteineri retsept
 
@@ -224,19 +224,19 @@ Dockerfile on tekstifail, mis sisaldab juhiseid Docker'ile, kuidas ehitada image
 FROM nginx:alpine           # Väike ja kiire
 FROM python:3.9             # Python runtime
 FROM node:16                # Node.js runtime
-```
+```text
 
 Tootmises kasuta alati konkreetseid versioone:
 
 ```dockerfile
 FROM node:16.14.2-alpine    # Täpne versioon, mitte "latest"
-```
+```text
 
 **WORKDIR** määrab töökatalogi konteineris:
 
 ```dockerfile
 WORKDIR /app                # Kõik järgnevad käsud tehakse siin
-```
+```text
 
 **COPY** kopeerib faile host süsteemist konteinerisse:
 
@@ -244,21 +244,21 @@ WORKDIR /app                # Kõik järgnevad käsud tehakse siin
 COPY app.py /app/           # Üks fail
 COPY src/ /app/src/         # Terve kaust
 COPY . /app/                # Kõik praegusest kaustast
-```
+```text
 
 **RUN** käivitab käsu image'i ehitamise ajal:
 
 ```dockerfile
 RUN apt-get update && apt-get install -y curl
 RUN pip install -r requirements.txt
-```
+```text
 
 **CMD** määrab vaikimisi käsu, mis käivitatakse konteineri käivitamisel:
 
 ```dockerfile
 CMD ["python", "app.py"]
 CMD ["nginx", "-g", "daemon off;"]
-```
+```bash
 
 ### Praktiline näide: Python rakendus
 
@@ -276,13 +276,13 @@ def hello():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-```
+```text
 
 Loo fail `requirements.txt`:
 
 ```
 Flask==2.3.2
-```
+```text
 
 Loo `Dockerfile`:
 
@@ -300,7 +300,7 @@ COPY app.py .
 
 EXPOSE 5000
 CMD ["python", "app.py"]
-```
+```text
 
 Ehita ja käivita:
 
@@ -313,7 +313,7 @@ docker run -d --name flask-app -p 5000:5000 my-python-app
 
 # Testi
 curl http://localhost:5000
-```
+```text
 
 ### .dockerignore fail
 
@@ -326,7 +326,7 @@ __pycache__
 README.md
 .env
 node_modules
-```
+```bash
 
 ## Andmete säilitamine volume'idega
 
@@ -349,7 +349,7 @@ docker run -d \
 # Volume info
 docker volume ls
 docker volume inspect mydata
-```
+```text
 
 ### Bind mount'id
 
@@ -365,7 +365,7 @@ docker run -d \
 # Muudatused host'is on kohe nähtavad konteineris
 echo "<h1>Tere!</h1>" > /home/kasutaja/veebisait/index.html
 curl http://localhost  # Uus sisu on kohe nähtav
-```
+```bash
 
 ## Dockerfile'i optimeerimine
 
@@ -381,7 +381,7 @@ COPY . /app/          # Kogu kood kopeeritakse kohe
 WORKDIR /app
 RUN npm install      # Sõltuvused installib uuesti iga koodimuudatuse puhul
 CMD ["npm", "start"]
-```
+```text
 
 Optimeeritud versioon:
 
@@ -396,7 +396,7 @@ RUN npm install
 # Kopeeri lähtekood alles pärast sõltuvuste installimist
 COPY . .
 CMD ["npm", "start"]
-```
+```bash
 
 ### RUN käskude optimeerimine
 
@@ -406,7 +406,7 @@ Docker loob iga RUN käsu jaoks eraldi kihi. Vale lähenemine:
 RUN apt-get update
 RUN apt-get install -y curl
 RUN apt-get clean
-```
+```text
 
 Õige lähenemine:
 
@@ -415,7 +415,7 @@ RUN apt-get update && \
     apt-get install -y curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-```
+```text
 
 ### CMD ja ENTRYPOINT erinevus
 
@@ -423,20 +423,20 @@ CMD määrab vaikimisi käsu, mida saab käivitamisel üle kirjutada:
 
 ```dockerfile
 CMD ["python", "app.py"]
-```
+```text
 
 ENTRYPOINT määrab käsu, mis käivitatakse alati:
 
 ```dockerfile
 ENTRYPOINT ["python", "app.py"]
-```
+```text
 
 Parim praktika on kasutada neid koos:
 
 ```dockerfile
 ENTRYPOINT ["python", "app.py"]
 CMD ["--help"]
-```
+```text
 
 ## Mitmestaadilised ehitused
 
@@ -454,7 +454,7 @@ RUN npm install        # Kaasa arvatud arendussõltuvused!
 COPY . .
 RUN npm run build
 CMD ["npm", "start"]
-```
+```text
 
 Mitmestaadilise ehitusega:
 
@@ -474,7 +474,7 @@ COPY package*.json ./
 RUN npm install --only=production
 COPY --from=builder /app/dist ./dist
 CMD ["npm", "start"]
-```
+```text
 
 Tulemus on 80% väiksem image.
 
@@ -494,7 +494,7 @@ FROM scratch  # Täiesti tühi image!
 COPY --from=builder /app/app /app
 EXPOSE 8080
 CMD ["/app"]
-```
+```bash
 
 Lõpptulemus: ainult 5MB suurune image!
 
@@ -517,7 +517,7 @@ USER appuser
 
 # Kopeeri failid õige omanikuga
 COPY --chown=appuser:appuser . .
-```
+```text
 
 ### Minimalistlik lähenemine
 
@@ -525,14 +525,14 @@ Alpine Linux on populaarne valik:
 
 ```dockerfile
 FROM python:3.9-alpine  # ~50MB vs python:3.9 ~900MB
-```
+```text
 
 ### Tervisecontrollid
 
 ```dockerfile
 HEALTHCHECK --interval=30s --timeout=10s \
     CMD curl -f http://localhost:5000/health || exit 1
-```
+```bash
 
 ## Docker'i võrgustik
 
@@ -549,7 +549,7 @@ docker exec web1 ping 172.17.0.3
 
 # Ei tööta
 docker exec web1 ping web2
-```
+```text
 
 ### Kohandatud võrgud
 
@@ -565,7 +565,7 @@ docker run -d --name api --network myapp-network python:3.9
 
 # Nüüd töötab nimede lahendamine
 docker exec web ping api          # Töötab!
-```
+```text
 
 ### Kolmekihiline rakendus
 
@@ -591,7 +591,7 @@ docker run -d --name web \
   --network frontend \
   -p 80:80 \
   nginx
-```
+```bash
 
 ## Podman kui Docker'i alternatiiv
 
@@ -605,7 +605,7 @@ Docker töötab klient-server mudelis:
 Sa → Docker klient → Docker daemon → Konteiner
                            ↑
                     Alati töötab kui root
-```
+```text
 
 Podman'is pole daemon'it:
 
@@ -613,7 +613,7 @@ Podman'is pole daemon'it:
 Sa → Podman → Konteiner
        ↑
    Otsene käivitamine
-```
+```bash
 
 ### Peamised erinevused
 
@@ -632,13 +632,13 @@ docker pull nginx       →    podman pull nginx
 docker run -d nginx     →    podman run -d nginx
 docker ps               →    podman ps
 docker logs name        →    podman logs name
-```
+```text
 
 Saad isegi teha alias'e:
 
 ```bash
 alias docker=podman
-```
+```text
 
 ## Levinumad vead
 
@@ -651,7 +651,7 @@ RUN apt-get install -y curl
 
 # Õige
 RUN apt-get update && apt-get install -y curl
-```
+```text
 
 ### Root kasutaja probleem
 
@@ -667,7 +667,7 @@ RUN useradd -m appuser
 USER appuser
 COPY app /app
 CMD ["/app"]
-```
+```text
 
 ### Liiga suured image'id
 
@@ -677,7 +677,7 @@ FROM ubuntu:latest  # ~72MB + kõik tööriistad
 
 # Õige
 FROM python:3.9-alpine  # ~45MB + Python juba sees
-```
+```text
 
 ## Praktiline näide: optimeeritud Flask rakendus
 
@@ -687,7 +687,7 @@ Vaatame, kuidas kõik põhimõtted töötavad koos:
 ```
 Flask==2.3.2
 gunicorn==21.2.0
-```
+```text
 
 **app.py:**
 ```python
@@ -707,7 +707,7 @@ def health():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-```
+```text
 
 **Optimeeritud Dockerfile:**
 ```dockerfile
@@ -740,7 +740,7 @@ HEALTHCHECK --interval=30s --timeout=10s \
 
 EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-```
+```text
 
 **Ehitamine ja käivitamine:**
 ```bash
@@ -762,7 +762,7 @@ docker run -d \
 # Testi
 curl http://localhost:5000
 curl http://localhost:5000/health
-```
+```bash
 
 ## Tootmiskeskkonna põhimõtted
 

@@ -48,7 +48,7 @@ graph TD
     D --> D1[- Vigaderohke]
     D --> D2[- Aeganõudev]
     D --> D3[- Pole jälgitav]
-```
+```text
 
 ---
 
@@ -67,7 +67,7 @@ Patch failid kasutavad unified diff formaati. Iga patch koosneb kolmest osast:
 +    result = a + b
 +    print(f"Sum: {result}")
 +    return result
-```
+```text
 
 **Struktuuri seletus:**
 - `---` rida näitab originaalfaili
@@ -89,7 +89,7 @@ Unified diff sisaldab konteksti ridu (tavaliselt 3 enne ja pärast muudatust), m
 -    return data.strip()
 +    cleaned = data.strip()
 +    return cleaned.lower()
-```
+```text
 
 ---
 
@@ -102,7 +102,7 @@ Looge testkeskond:
 ```bash
 mkdir patch-practice
 cd patch-practice
-```
+```text
 
 Looge fail `calculator.py`:
 
@@ -115,7 +115,7 @@ def subtract(a, b):
 
 if __name__ == "__main__":
     print("Calculator ready")
-```
+```text
 
 Looge patch fail `calculator.patch`:
 
@@ -138,19 +138,19 @@ Looge patch fail `calculator.patch`:
  if __name__ == "__main__":
 -    print("Calculator ready")
 +    print("Enhanced calculator ready")
-```
+```text
 
 Rakendage patch:
 
 ```bash
 patch calculator.py < calculator.patch
-```
+```text
 
 Kontrollige tulemust:
 
 ```bash
 cat calculator.py
-```
+```bash
 
 ### 2.2 Git Apply Käsk
 
@@ -160,7 +160,7 @@ Git projektides on `git apply` eelistatud meetod:
 git init
 git add calculator.py
 git commit -m "Initial calculator"
-```
+```text
 
 Looge uus patch `feature.patch`:
 
@@ -177,13 +177,13 @@ Looge uus patch `feature.patch`:
 +
  if __name__ == "__main__":
      print("Enhanced calculator ready")
-```
+```bash
 
 Rakendage Git'iga:
 
 ```bash
 git apply feature.patch
-```
+```bash
 
 Erinevus `patch` ja `git apply` vahel:
 - `git apply` kontrollib faili olemasolu Git'i index'is
@@ -208,7 +208,7 @@ def fahrenheit_to_celsius(fahrenheit):
 # Test
 print(f"0°C = {celsius_to_fahrenheit(0)}°F")
 print(f"32°F = {fahrenheit_to_celsius(32)}°C")
-```
+```text
 
 Looge patch `temperature_fix.patch`:
 
@@ -231,14 +231,14 @@ Looge patch `temperature_fix.patch`:
 -print(f"32°F = {fahrenheit_to_celsius(32)}°C")
 +print(f"0°C = {celsius_to_fahrenheit(0):.1f}°F")
 +print(f"32°F = {fahrenheit_to_celsius(32):.1f}°C")
-```
+```text
 
 Rakendage patch ja testige:
 
 ```bash
 patch temperature.py < temperature_fix.patch
 python3 temperature.py
-```
+```text
 
 ### 3.2 Keerukas Muudatus Mitmes Kohas
 
@@ -257,7 +257,7 @@ class DataProcessor:
     
     def process(self):
         return [item.upper() for item in self.data]
-```
+```text
 
 Looge patch `data_processor_enhancement.patch`:
 
@@ -289,13 +289,13 @@ Looge patch `data_processor_enhancement.patch`:
 +        processed = [item.upper() if isinstance(item, str) else str(item).upper() 
 +                    for item in self.data]
 +        return processed
-```
+```text
 
 Rakendage ja kontrollige:
 
 ```bash
 patch data_processor.py < data_processor_enhancement.patch
-```
+```text
 
 ---
 
@@ -307,7 +307,7 @@ Looge kaks faili versiooni ja genereerige patch:
 
 ```bash
 cp calculator.py calculator_original.py
-```
+```text
 
 Muutke `calculator.py` (lisage kommentaarid):
 
@@ -322,13 +322,13 @@ def subtract(a, b):
 
 if __name__ == "__main__":
     print("Calculator v2.0 ready")
-```
+```text
 
 Genereerige patch:
 
 ```bash
 diff -u calculator_original.py calculator.py > my_changes.patch
-```
+```bash
 
 ### 4.2 Git Diff
 
@@ -343,7 +343,7 @@ git diff > working_changes.patch
 
 # Konkreetne commit vs teine
 git diff HEAD~1 HEAD > commit_diff.patch
-```
+```text
 
 ---
 
@@ -355,7 +355,7 @@ Enne patch'i rakendamist testige seda:
 
 ```bash
 git apply --check my_changes.patch
-```
+```text
 
 Kui väljund on tühi, on patch rakendatav.
 
@@ -365,13 +365,13 @@ Kui patch osaliselt ebaõnnestub:
 
 ```bash
 patch --verbose calculator.py < problematic.patch
-```
+```text
 
 Vaadake `.rej` faile (reject files):
 
 ```bash
 cat calculator.py.rej
-```
+```bash
 
 ### 5.3 Whitespace Probleemid
 
@@ -379,7 +379,7 @@ Git on tundlik whitespace'i suhtes:
 
 ```bash
 git apply --ignore-whitespace problematic.patch
-```
+```text
 
 ---
 
@@ -391,7 +391,7 @@ Patch'i tagasivõtmine:
 
 ```bash
 patch -R calculator.py < calculator.patch
-```
+```text
 
 ### 6.2 Dry Run
 
@@ -399,7 +399,7 @@ Katsetamine ilma muudatusi tegemata:
 
 ```bash
 patch --dry-run calculator.py < calculator.patch
-```
+```text
 
 ### 6.3 Directory Patch'id
 
@@ -407,7 +407,7 @@ Mitme faili muutmine korraga:
 
 ```bash
 patch -p1 < multi_file_changes.patch
-```
+```bash
 
 ---
 

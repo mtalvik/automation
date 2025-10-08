@@ -114,6 +114,8 @@ nav:
     - Praktikum: ansible_basics/lab.md
     - Kodutöö: ansible_basics/homework.md
     - Lugemismaterjalid: ansible_basics/reading_materials.md
+    - Lisamaterjalid: ansible_basics/resources.md
+    - Arenduskeskkond (Vagrant): ansible_basics/setup.md
   - Edasijõudnud:
     - Teooria: ansible_advanced/lecture.md
     - Praktikum: ansible_advanced/lab.md
@@ -130,6 +132,11 @@ nav:
     - HW1 - Põhitõed: terraform_basics/homework1.md
     - HW2 - Moodulid: terraform_basics/homework2.md
     - AWS Backup (boonus): terraform_basics/homework_aws_backup.md
+  - Lisamaterjalid:
+    - Workspaces: terraform_basics/workspaces.md
+    - Backend Configuration: terraform_basics/backend.md
+    - Modules: terraform_basics/modules.md
+    - Tööriistad: terraform_basics/tools.md
 
 - CI/CD + Kubernetes:
   - CI/CD Teooria: ci_cd_advanced/lecture.md

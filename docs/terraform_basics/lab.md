@@ -16,24 +16,24 @@ Valige oma operatsioonisüsteem ja installige Terraform:
 **macOS:**
 ```bash
 brew install terraform
-```
+```text
 
 **Linux (Ubuntu/Debian):**
 ```bash
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update && sudo apt install terraform
-```
+```text
 
 **Windows:**
 ```powershell
 choco install terraform
-```
+```text
 
 **Kontrollige installatsiooni:**
 ```bash
 terraform version
-```
+```text
 
 ### 1.2 Projekti Struktuuri Loomine
 
@@ -41,7 +41,7 @@ terraform version
 mkdir terraform-lab
 cd terraform-lab
 mkdir -p {config,scripts,templates}
-```
+```bash
 
 **Kontrollpunkt:** `terraform version` näitab versiooni numbrit.
 
@@ -74,28 +74,28 @@ resource "local_file" "config_dir" {
   content  = ""
   filename = "${path.module}/config/.gitkeep"
 }
-```
+```bash
 
 ### 2.2 Terraform Workflow
 
 **1. Projekti initsialiseerimine:**
 ```bash
 terraform init
-```
+```bash
 
 Terraform laadib alla vajalikud provider'id ja seadistab töökeskkonna.
 
 **2. Muudatuste planeerimine:**
 ```bash
 terraform plan
-```
+```bash
 
 Terraform näitab, mida kavatseb teha. Lugege väljund läbi ja veenduge, et see vastab ootustele.
 
 **3. Muudatuste rakendamine:**
 ```bash
 terraform apply
-```
+```bash
 
 Terraform küsib kinnitust. Sisestage `yes` jätkamiseks.
 
@@ -109,7 +109,7 @@ cat welcome.txt
 # Vaadake Terraform state'i
 terraform show
 terraform state list
-```
+```bash
 
 **Kontrollpunkt:** Kaust sisaldab faile `welcome.txt`, `terraform.tfstate` ja `.terraform` kataloogi.
 
@@ -155,7 +155,7 @@ variable "enable_backup" {
   type        = bool
   default     = false
 }
-```
+```text
 
 ### 3.2 Väljundite Defineerimine
 
@@ -181,7 +181,7 @@ output "config_summary" {
   description = "Konfiguratsiooni kokkuvõte"
   value       = "Projekt '${var.project_name}' ${var.environment} keskkonnas, ${var.file_count} faili loodud"
 }
-```
+```text
 
 ### 3.3 Main.tf Uuendamine
 
@@ -245,7 +245,7 @@ resource "local_file" "backup_config" {
   content  = "Backup configuration for ${var.project_name}"
   filename = "${path.module}/config/backup.conf"
 }
-```
+```text
 
 ### 3.4 Template Faili Loomine
 
@@ -267,7 +267,7 @@ Terraform on Infrastructure as Code tööriist.
 --------------------------------------------------
 Terraform Lab - IT-süsteemide automatiseerimine
 ==================================================
-```
+```text
 
 ### 3.5 Uue Konfiguratsiooni Rakendamine
 
@@ -283,7 +283,7 @@ terraform output
 
 # Vaata konkreetset väljundit
 terraform output project_info
-```
+```text
 
 **Kontrollpunkt:** Näete loodud faile ja väljundeid, mis kasutavad muutujaid.
 
@@ -312,7 +312,7 @@ resource "local_file" "summary" {
   
   filename = "${path.module}/project_summary.txt"
 }
-```
+```text
 
 Looge fail `templates/summary.txt`:
 
@@ -327,7 +327,7 @@ Konfiguratsiooni sisu:
 ${config_content}
 
 Kokkuvõte genereeritud: ${timestamp()}
-```
+```text
 
 ### 4.2 For_each Kasutamine
 
@@ -365,7 +365,7 @@ resource "local_file" "service_configs" {
   
   filename = "${path.module}/config/${each.key}-service.conf"
 }
-```
+```text
 
 Looge fail `templates/service.conf`:
 
@@ -385,7 +385,7 @@ timeout = 5s
 
 [logging]
 level = ${environment == "prod" ? "info" : "debug"}
-```
+```text
 
 ### 4.3 Lifecycle Rules
 
@@ -406,7 +406,7 @@ resource "local_file" "important_data" {
     ignore_changes  = [content]
   }
 }
-```
+```text
 
 ### 4.4 Muudatuste Rakendamine
 
@@ -417,7 +417,7 @@ terraform apply
 # Kontrollige loodud faile
 ls -la config/
 cat project_summary.txt
-```
+```bash
 
 **Kontrollpunkt:** Näete erinevat tüüpi konfiguratsioone ja template'e.
 
@@ -435,7 +435,7 @@ project_name = "my-terraform-project"
 environment  = "dev"
 file_count   = 2
 enable_backup = false
-```
+```text
 
 **`prod.tfvars`:**
 ```hcl
@@ -443,7 +443,7 @@ project_name = "my-terraform-project"
 environment  = "prod"
 file_count   = 5
 enable_backup = true
-```
+```text
 
 ### 5.2 Erinevate Keskkondade Testimine
 
@@ -460,7 +460,7 @@ terraform destroy
 # Testi production konfiguratsiooni
 terraform plan -var-file="prod.tfvars"
 terraform apply -var-file="prod.tfvars"
-```
+```text
 
 ### 5.3 Workspace'ide Kasutamine
 
@@ -479,7 +479,7 @@ terraform apply -var-file="prod.tfvars"
 
 # Vaata workspace'e
 terraform workspace list
-```
+```text
 
 **Kontrollpunkt:** Erinevates workspace'ides on erinevad failid ja konfiguratsioonid.
 
@@ -504,7 +504,7 @@ terraform state rm local_file.backup_config[0]
 
 # Impordi olemasolev fail state'i
 terraform import local_file.imported_file welcome.txt
-```
+```text
 
 ### 6.2 Tõrkeotsing
 
@@ -518,7 +518,7 @@ terraform validate
 
 # Formateeri kood
 terraform fmt
-```
+```text
 
 **Logide vaatamine:**
 ```bash
@@ -527,7 +527,7 @@ TF_LOG=DEBUG terraform apply
 
 # Salvestage logid faili
 TF_LOG=INFO TF_LOG_PATH=terraform.log terraform apply
-```
+```text
 
 ### 6.3 State'i Backup ja Taastamine
 
@@ -537,7 +537,7 @@ cp terraform.tfstate terraform.tfstate.backup
 
 # Kui state on katki, taasta varukoopia
 cp terraform.tfstate.backup terraform.tfstate
-```
+```text
 
 **Kontrollpunkt:** Oskate hallata state'i ja lahendada tavalisi probleeme.
 
@@ -562,7 +562,7 @@ terraform destroy
 terraform workspace select default
 terraform workspace delete development
 terraform workspace delete production
-```
+```text
 
 ### 7.2 Projekti Puhastamine
 
@@ -571,7 +571,7 @@ terraform workspace delete production
 rm -f *.txt *.json
 rm -rf config/ .terraform/
 rm -f terraform.tfstate*
-```
+```bash
 
 ---
 
