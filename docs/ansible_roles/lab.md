@@ -21,7 +21,7 @@ ansible-galaxy init nginx-custom
 
 # Liikuge role kausta
 cd nginx-custom
-```text
+```
 
 **Checkpoint:** `ls -la` peaks näitama 8 kausta/faili
 
@@ -41,7 +41,7 @@ cd nginx-custom
 **Test:**
 ```bash
 ansible -m debug -a "var=nginx_port" localhost -e "@defaults/main.yml"
-```text
+```
 
 ---
 
@@ -59,12 +59,12 @@ ansible -m debug -a "var=nginx_port" localhost -e "@defaults/main.yml"
 ```yaml
 ---
 - include_tasks: install.yml
-```text
+```
 
 **Test:**
 ```bash
 ansible-playbook --syntax-check tasks/main.yml
-```text
+```
 
 ---
 
@@ -89,7 +89,7 @@ events {
 http {
     # Teie kood siia
 }
-```text
+```
 
 **Fail:** `tasks/configure.yml`
 ```yaml
@@ -100,7 +100,7 @@ http {
     dest: /etc/nginx/nginx.conf
     backup: yes
   notify: restart nginx
-```text
+```
 
 **Test:** Template peab genereeruma ilma vigadeta
 
@@ -130,7 +130,7 @@ server {
     
     # Lisa SSL kui item.ssl == true
 }
-```text
+```
 
 **Fail:** `tasks/vhosts.yml`
 
@@ -147,7 +147,7 @@ nginx_vhosts: []
 #   - name: example.com
 #     port: 80
 #     root: /var/www/example
-```text
+```
 
 ---
 
@@ -166,7 +166,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/ssl/private/nginx.key \
   -out /etc/ssl/certs/nginx.crt \
   -subj "/C=EE/ST=Harjumaa/L=Tallinn/O=School/CN=localhost"
-```text
+```
 
 ---
 
@@ -183,13 +183,13 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   when: nginx_ssl_enabled | default(false)
 - include_tasks: vhosts.yml
   when: nginx_vhosts | length > 0
-```text
+```
 
 **Test:** Käivitage 2x järjest, teine kord ei tohi midagi muuta
 ```bash
 ansible-playbook test.yml
 ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
-```bash
+```
 
 ---
 
@@ -219,14 +219,14 @@ ansible-playbook test.yml  # Kõik peab olema "ok", mitte "changed"
       uri:
         url: "http://localhost:8080"
       ignore_errors: yes
-```text
+```
 
 **Lõpptest:**
 ```bash
 ansible-playbook test.yml --ask-become-pass
 sudo systemctl status nginx
 curl http://localhost:8080
-```text
+```
 
 ---
 
@@ -254,12 +254,12 @@ curl http://localhost:8080
 ```bash
 sudo nginx -t  # Kontrolli konfiguratsiooni
 sudo journalctl -u nginx  # Vaata logisid
-```text
+```
 
 **Template ei genereeru:**
 ```bash
 ansible -m template -a "src=nginx.conf.j2 dest=/tmp/test.conf" localhost
-```bash
+```
 
 **Handler ei käivitu:**
 - Kontrollige, kas task muutis midagi (changed: true)
